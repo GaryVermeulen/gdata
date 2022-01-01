@@ -1,0 +1,28 @@
+cat, N, true cat, feline mammal usually having thick soft fur and no ability to roar
+man, N, adult male, an adult person who is male as opposed to a woman
+dog, N, domestic dog, a member of the genus Canis probably descended from the common wolf that has been domesticated by man since prehistoric times
+telescope, N, scope, a magnifier of images of distant objects
+park, N, parkland, a large area of land preserved in its natural state as public property
+John, NP, name, name for a male
+Mary, NP, name, name for a female
+Bob, NP, name, name for a male
+Pookie, NP, name, name for a pet
+saw, V, see, perceive by sight or have the power to perceive by sight
+ate, V, eat, take in solid food
+walked, V, walk, use one's feet to advance or advance by steps
+ran, V, run, move fast by using one's feet
+in, P
+on, P
+by, P
+with, P
+a, Det
+an, Det
+the, Det
+my, Det
+Pete, NP
+Jane, NP
+Sam, NP
+duck, N
+fly, V
+at, P
+some, Det

@@ -1,0 +1,50 @@
+(S
+  (NP Mary)
+  (VP
+    (V saw)
+    (NP (Det a) (N dog) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V saw)
+    (NP (Det a) (N dog))
+    (PP (P in) (NP (Det the) (N park)))))
+(S
+  (NP Pookie)
+  (VP (V saw) (NP John) (PP (P in) (NP (Det the) (N park)))))
+(S
+  (NP Bob)
+  (VP
+    (V ate)
+    (NP (Det a) (N dog) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Bob)
+  (VP
+    (V ate)
+    (NP (Det a) (N dog))
+    (PP (P in) (NP (Det the) (N park)))))
+(S
+  (NP John)
+  (VP (V ate) (NP Bob) (PP (P in) (NP (Det the) (N telescope)))))
+(S
+  (NP (Det a) (N dog))
+  (VP
+    (V saw)
+    (NP (Det a) (N cat) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP (Det a) (N dog))
+  (VP
+    (V saw)
+    (NP (Det a) (N cat))
+    (PP (P in) (NP (Det the) (N park)))))
+(S
+  (NP Pookie)
+  (VP
+    (V ate)
+    (NP (Det a) (N man) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Pookie)
+  (VP
+    (V ate)
+    (NP (Det a) (N man))
+    (PP (P in) (NP (Det the) (N park)))))
