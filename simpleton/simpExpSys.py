@@ -5,7 +5,8 @@
 
     For POC/testing
 
-    MOD1: Save all variables and rules for later use.
+    MOD1: Save all variables and rules via List for later reuse via Load.
+          Added Help and changed Exit.
 
     Usage Instructions:
 
@@ -26,7 +27,7 @@
 		Lists the values of all root and learned variables, and
 		lists all of the current rules and learned rules in the
 		system.
-		MOD: Save all variables and rules to files.
+		MOD1: Save all variables and rules to files.
 		
 	5. Learn
 	
@@ -44,7 +45,15 @@
 		or false given the current rules and variable values held by the
 		system.
 
-		
+	8. Exit
+	
+                Exits program.
+
+        9. Load
+
+                Loads any saved vaiables and rules from files--overwrites all variables and
+                rules in memory, so maybe use List before Load. 
+
 	Key:
 	
 	-R = root variable
@@ -63,11 +72,14 @@ usage = """\
     List 
     Learn 
     Query Expression 
-    Why Expression \
+    Why Expression
+    Exit
+    Load \
 """
 
-outFile = "simpOut.txt"
-outFileMode = "w"
+fVars = "simpVars.txt"
+fRules = "simpRules.txt"
+fMode = "w"
 
 from collections import OrderedDict
 
@@ -396,6 +408,7 @@ if __name__ == "__main__":
         why = False
         myHelp = False
         myExit = False
+        load_file = False
         index = None
 
         user_input = input("Enter command or Help: ").split('"')
@@ -435,6 +448,8 @@ if __name__ == "__main__":
                 learn = True
             if args[0] == 'Help':
                 myHelp = True
+            if args[0] == 'Load':
+                load_file = True
 
         if len(args) == 2:
             if args[0] == 'Query':
@@ -445,17 +460,15 @@ if __name__ == "__main__":
 
         if not teach_var:
 
-#            print('>')
             for i in range(len(args)):
-#                print(str(i) + ' : ' + str(args[i]))
+
                 if args[i] == '=':
                     set_root = True
                     index = i
                 if args[i] == '->':
                     teach_rule = True
                     index = i
-                    print('teach_rule set true')
-#            print('<')
+#                    print('teach_rule set true')
 
         if teach_var:
 
@@ -502,37 +515,57 @@ if __name__ == "__main__":
             if valid_rule(antecedent, consequent, var_list):
                 rule_list.append(Rule(antecedent, consequent))
             else:
+                print("Invalid rule use form: A&B -> C")
                 continue
 
         elif list_knowledge:
 
-            f = open(outFile, outFileMode)
+            fMode = 'w'
 
+            fv = open(fVars, fMode)
+
+            print("\nWriting len(var_list) vars to file: " + str(len(var_list)))
+            for var in var_list:
+                print("var_list[var]: " + var + " ; value: " + var_list[var].get_value() + " ; truth: " + str(var_list[var].get_truth()) + " ; root: " + str(var_list[var].get_root()))
+                fv.write(str(var) + ";" + str(var_list[var].get_value()) + ";" + str(var_list[var].get_truth()) + ";" + str(var_list[var].get_root()) +"\n")
+
+            fv.close()
+
+            fr = open(fRules, fMode)
+
+            print("Writing len(rule_list) rules to file: " + str(len(rule_list)))
+            for rule in rule_list:
+                print("rule: antecedent: " + rule.get_antecedent() + " ; consequent: " + rule.get_consequent())
+                fr.write(str(rule.get_antecedent()) + ";" + str(rule.get_consequent()) + "\n")    
+
+            fr.close()
+            
             print("\nRoot Variables:")
-            f.write("Root Variables:\n")
+#            f.write("Root Variables:\n")
             for key in var_list:
                 if var_list[key].get_root():
                     print("\t" + key + " = " + '"' + var_list[key].get_value() + '"')
-                    f.write("\t" + key + " = " + '"' + var_list[key].get_value() + '"\n')
+#                    f.write("\t" + key + " = " + '"' + var_list[key].get_value() + '"\n')
             print("\nLearned Variables:")
-            f.write("Learned Variables:\n")
+#            f.write("Learned Variables:\n")
             for key in var_list:
                 if not var_list[key].get_root():
                     print("\t" + key + " = " + '"' + var_list[key].get_value() + '"')
-                    f.write("\t" + key + " = " + '"' + var_list[key].get_value() + '"\n')
+#                    f.write("\t" + key + " = " + '"' + var_list[key].get_value() + '"\n')
             print("\nFacts:")
-            f.write("Facts:\n")
+#            f.write("Facts:\n")
             for key in var_list:
                 if var_list[key].get_truth():
                     print("\t" + key)
-                    f.write("\t" + key + "\n")
+#                    f.write("\t" + key + "\n")
+
             print("\nRules:")
-            f.write("Rules:\n")
+#            f.write("Rules:\n")
             for rule in rule_list:
                 print("\t" + rule.__str__())
-                f.write("\t" + rule.__str__() + "\n")
+#                f.write("\t" + rule.__str__() + "\n")
                 
-            f.close()
+#            f.close()
             
         elif learn:
 
@@ -602,9 +635,56 @@ if __name__ == "__main__":
                 logic.pop()        
 
         elif myHelp:
+            
             print('Valid Commands Are:\n' + usage)
+
+        elif load_file:
+
+            fMode = 'r'
+            
+            rule_list.clear()
+            var_list.clear()
+
+            fv = open(fVars, fMode)
+
+            for v in fv:
+                v = v.strip('\n')
+                v = v.split(';')
+
+                var_list[v[0]] = Variable(v[1], v[2], v[3])
+
+            fv.close()
+
+            fr = open(fRules, fMode)
+
+            for r in fr:
+                r = r.strip('\n')
+                r = r.split(';')
+
+                antecedent = r[0]
+                consequent = r[1]
+                
+                rule_list.append(Rule(antecedent, consequent))
+
+            fr.close()
             
         else:
             print("\nUnknown Command.")
 
-        print()
+        print("\n.\n")
+    #
+        print('len(args): ' + str(len(args)))
+        for arg in args:
+            print('args[arg]: ' + str(arg))
+    
+        print("len(var_list): " + str(len(var_list)))
+        for var in var_list:
+            print("var_list[var]: " + var + " ; value: " + var_list[var].get_value() + " ; truth: " + str(var_list[var].get_truth()) + " ; root: " + str(var_list[var].get_root()))
+            print("> " + var_list[var].__str__() + " <\n")
+
+        print("len(rule_list): " + str(len(rule_list)))
+        for rule in rule_list:
+            print("rule_list[rule]: " + rule.__str__())
+
+    print("--------------------\n")
+    
