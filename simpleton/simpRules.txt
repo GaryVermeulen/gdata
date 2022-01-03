@@ -1,4 +1,11 @@
-A&B;C
-A|B;D
-C&D;E
-D|E;F
+Bob;isMan
+Mary;isFemale
+isMan;!isFemale
+isFemale;!isMan
+isMan|isFemale;isHuman
+Pookie;isCat
+isCat;!isHuman
+
+
+
+

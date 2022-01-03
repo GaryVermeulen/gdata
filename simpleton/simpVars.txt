@@ -1,6 +1,9 @@
-A;aaa;True;True
-B;bbb;False;True
-C;ccc;False;False
-D;ddd;False;False
-E;e;False;False
-F;f;False;False
+Bob;bob man;False;False
+Mary;mary female;False;false
+isHuman;Distinguished from animals;False;False
+isMan;Human male;False;False
+isFemale;Human female;False;False
+isAnimal;A living thing not a human being or plant;False;False
+isCat;Small feline pet;False;False
+isDog;Canine pet;False;False
+isTool;Instrument implement or utensil;False;False
