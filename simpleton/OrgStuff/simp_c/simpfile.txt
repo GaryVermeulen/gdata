@@ -1,9 +1,0 @@
-apple[n]{the round fruit of a tree of the rose family, which typically has thin red or green skin and crisp flesh}
-cat[n]{a small domesticated carnivorous mammal with soft fur, a short snout, and retractable claws}
-bat[n]{an implement with a handle and a solid surface, usually of wood, used for hitting the ball in games such as baseball, cricket, and table tennis}
-bat[n]{a mainly nocturnal mammal capable of sustained flight, with membranous wings that extend between the fingers and connecting the forelimbs to the body and the hindlimbs to the tail}
-bat[n]{DEROGATORY a woman regarded as unattractive or unpleasant}
-fun[n]{enjoyment, amusement, or lighthearted pleasure}
-fun[adj]{amusing, entertaining, or enjoyable}
-fun[v]{joke or tease}
-run[v]{move at a speed faster than a walk, never having both or all the feet on the ground at the same time}
