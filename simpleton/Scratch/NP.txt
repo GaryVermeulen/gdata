@@ -1,0 +1,1 @@
+NP -> "John" | "Mary" | "Bob" | "Pookie" | Det N | Det N PP 

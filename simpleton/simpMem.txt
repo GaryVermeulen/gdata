@@ -1,0 +1,377 @@
+Input: Mary walked the cat in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('cat', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Mary walked the cat in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('cat', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Mary walked the cat in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('cat', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Mary walked the cat in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('cat', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Mary walked the cat in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('cat', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Mary walked the cat in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('cat', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Mary walked the cat in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('cat', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Mary walked the cat in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('cat', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Mary walked the cat in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('cat', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Mary walked the cat in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('cat', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Mary walked the cat in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('cat', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Mary walked the cat in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('cat', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Mary walked the cat in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('cat', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Mary walked the cat in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('cat', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Mary walked the cat in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('cat', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Mary walked the cat in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('cat', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Mary walked the cat in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('cat', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Mary walked the duck in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N duck) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N duck))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('duck', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Mary walked the dog in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N dog) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N dog))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('dog', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Mary walked the dog in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N dog) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N dog))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('dog', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Mary walked the cat in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('cat', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Mary walked the dog in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N dog) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N dog))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('dog', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Mary walked the cat in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('cat', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Bob walked the duck in the park - produced:
+(S
+  (NP Bob)
+  (VP
+    (V walked)
+    (NP (Det the) (N duck) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Bob)
+  (VP
+    (V walked)
+    (NP (Det the) (N duck))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Bob', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('duck', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Bob walked the duck in the park - produced:
+(S
+  (NP Bob)
+  (VP
+    (V walked)
+    (NP (Det the) (N duck) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Bob)
+  (VP
+    (V walked)
+    (NP (Det the) (N duck))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Bob', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('duck', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Pookie walked the cat in the park - produced:
+(S
+  (NP Pookie)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Pookie)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Pookie', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('cat', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Bob walked the dog in the park - produced:
+(S
+  (NP Bob)
+  (VP
+    (V walked)
+    (NP (Det the) (N dog) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Bob)
+  (VP
+    (V walked)
+    (NP (Det the) (N dog))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Bob', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('dog', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Mary walked the cat in the park - produced:
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Mary)
+  (VP
+    (V walked)
+    (NP (Det the) (N cat))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Mary', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('cat', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+Input: Bob walked the dog in the park - produced:
+(S
+  (NP Bob)
+  (VP
+    (V walked)
+    (NP (Det the) (N dog) (PP (P in) (NP (Det the) (N park))))))
+(S
+  (NP Bob)
+  (VP
+    (V walked)
+    (NP (Det the) (N dog))
+    (PP (P in) (NP (Det the) (N park)))))
+Simple tokenizer: [('Bob', 'NNP'), ('walked', 'VBD'), ('the', 'DT'), ('dog', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
