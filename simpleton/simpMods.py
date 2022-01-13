@@ -64,6 +64,11 @@ fCFGmode = 'w'
 fLex = 'simpLex.txt'
 fLmode = 'r'
 
+#
+# KB
+#
+fKB = 'simpKB.txt'
+
 lex = []
 rules = []
 
@@ -211,14 +216,11 @@ def chkGrammar(s):
 # end chkGrammar(s)
 
 ###
-# For now checking input sentence aginst simpLex.txt
+# For now checking input sentence aginst simpKB.txt & simpLex.txt
 # Not using grammar or retCode from chkGrammar
 #
 def analyzeInput(inSent):
 
-    fKB = 'simpKB.txt'
-    fMode = 'r'
-    f = open(fKB, fMode)
     KB = {}
     sTagged = []
     
@@ -234,6 +236,8 @@ def analyzeInput(inSent):
         while (line := fin.readline().rstrip()):
             lex.append(line)
 
+    fin.close()
+    
 #    print('>' + str(lex) + '<')
 
     wordcount = 0
@@ -257,6 +261,8 @@ def analyzeInput(inSent):
             
     print('--Input sentenace tagged: ' + str(sT))
 
+    fMode = 'r'
+    f = open(fKB, fMode)
 
     for line in f:
         line = line.strip('\n')
@@ -283,15 +289,15 @@ def analyzeInput(inSent):
     conclusion = []
     
     for k in keyFigures:
-        print(k)
+#        print(k)
         kS = k.split(':')
-        print(kS)
-        print(kS[0])
-        print(kS[1])
+#        print(kS)
+#        print(kS[0])
+#        print(kS[1])
 
         for w in inSent:
             if w in kS[1]:
-                print('  w: ' + str(w) + ' found in kS[1]: ' + str(kS[1]))
+#                print('  w: ' + str(w) + ' found in kS[1]: ' + str(kS[1]))
                 conclusion.append(str(kS[0] + ' : ' + w))
 
     print('Conclusion: ' + str(conclusion))
