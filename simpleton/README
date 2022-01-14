@@ -6,7 +6,8 @@ neither efficient nor eloquent.
 It is an exploration and an exercise to start an AI 
 model small with very little data (currently 28 words),
 and to develop learning algorithms that are not based 
-on using predictive techniques on a large lexicon or corpus.
+on using predictive techniques upon a large lexicon or 
+corpus.
 
 The idea is from the understanding that a child does not 
 read million-word corpora to understand 
