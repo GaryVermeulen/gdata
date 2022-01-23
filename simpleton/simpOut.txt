@@ -1,0 +1,9 @@
+Root Variables:
+	A = "a"
+	B = "b"
+Learned Variables:
+	C = "cc"
+Facts:
+	A
+Rules:
+	A&B -> C

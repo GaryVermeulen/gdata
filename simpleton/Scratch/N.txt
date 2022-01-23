@@ -1,0 +1,1 @@
+N -> "man" | "dog" | "cat" | "telescope" | "park"

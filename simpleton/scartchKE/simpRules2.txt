@@ -1,0 +1,3 @@
+(isMan&isFemale)|(isMan|isFemale);isHuman
+(isCat&isDog)|(isCat|isDog);isAnimal
+(isCat&isDog)|(isCat|isDog);!isTool
