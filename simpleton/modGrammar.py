@@ -19,11 +19,11 @@ def addWord(nw):
         return
     
     f = open(fLex, fLmode)
-    f.write('\n' + str(nw) + ', ' + str(response))
+    f.write('\n' + str(nw) + ',' + str(response))
     f.close()
 
-    print(str(nw) + ', ' + str(response) + ' added to lexicon')
-    
+    print(str(nw) + ',' + str(response) + ' added to lexicon')
+  
     return
 
 # addWord('some')

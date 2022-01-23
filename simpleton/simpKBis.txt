@@ -1,0 +1,13 @@
+Bob:man
+John:man
+Pookie:cat
+Pete:man
+Sam:man
+Mary:
+Jane:
+cat:
+man:
+dog:
+telescope:
+park:
+bus:

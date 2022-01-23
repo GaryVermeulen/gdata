@@ -2,6 +2,9 @@
 
 # Knowledge base is a list of propositional atomic sentences (identified by a string)
 KB = ["looks","swims","quacks"]
+
+## KB = ["barks"] 
+
 # Rules are the other part of the KB that contain implications. Antecedents must be conjunctive only, and the 
 # consequent must be a single atomic sentence (for the algorithm in this lab).
 # Example:
