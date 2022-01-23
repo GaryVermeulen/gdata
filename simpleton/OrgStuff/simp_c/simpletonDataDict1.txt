@@ -1,6 +1,0 @@
-# Simpleton data dictionary rev 0
-#
-# word[class]{def}
-#
-
-apple[n]{the round fruit of a tree of the rose family, which typically has thin red or green skin and crisp flesh}
