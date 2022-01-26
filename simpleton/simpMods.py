@@ -7,7 +7,7 @@
  Input:  simpLex.txt
  Input format: 'word', 'N, V, P, or Det', 'optional short description'
  
- Output: simp.cfg
+ File: simp.cfg
  Output foramt: S -> NP VP
                 VP -> V NP | V NP PP
                 PP -> P NP
@@ -16,9 +16,7 @@
                 V -> "saw" | "ate" | "walked"
                 P -> "in" | "on" | "by" | "with"
                 Det -> "a" | "an" | "the" | "my"
- Modified for my wild plans to take over the world
-     Step one add new words to the CFG
-     Step two add/modify the CFG to handle more complex sentences
+
  Symbol    Meaning 	            Example
  ------    ------                  ----------------
  S 	   sentence                the man walked
@@ -28,7 +26,23 @@
  Det 	   determiner              the
  N 	   noun                    dog
  V 	   verb                    walked
- P 	   preposition             in
+ P 	   preposition             in                
+
+ File: simp3.cfg
+ Output foramt: S -> NP VP | VP | AUX NP VP
+                NP -> ProN | PropN | Det Nom
+                Nom -> N Nom | N
+                ProN -> "me" | "I" | "you" | "it"
+                PropN -> "John" | "Mary" | "Bob" | "Pookie" | "Pete" | "Jane" | "Sam"
+                N -> "cat" | "man" | "dog" | "telescope" | "park" | "duck" | "bus"
+                VP -> V | V NP | V NP PP | V PP
+                V -> "saw" | "ate" | "walked" | "ran" | "fly"
+                PP -> Prep NP
+                Prep -> "in" | "on" | "by" | "with" | "at"
+                Det -> "a" | "an" | "the" | "my" | "some"
+                AUX -> "can" | "could" | "might" | "will"
+                
+ 
 """
 
 
@@ -49,7 +63,8 @@ import re
 
 # CFG file
 #
-fCFG = 'simp.cfg'
+##fCFG = 'simp.cfg'
+fCFG = 'simp3.cfg'
 fCFGmode = 'w'
 
 #
@@ -100,7 +115,7 @@ def getNames():
 
             line = line.split(",")
 
-            if line[1] == "NP":
+            if line[1] == "PropN":
                 names.append(line)
                        
     fin.close()
@@ -285,12 +300,12 @@ def getSentence():
 ###
 def chkGrammar(s):       
 
-    simpleGrammar = nltk.data.load('file:/home/gary/src/simpleton/simp2.cfg')
+    simpleGrammar = nltk.data.load('file:/home/gary/src/simpleton/simp3.cfg')
 
     fm = '/home/gary/src/simpleton/simpMem.txt'
     fmMode = 'a'
 
-    rd_parser = nltk.RecursiveDescentParser(simpleGrammar)
+    rd_parser = nltk.RecursiveDescentParser(simpleGrammar) # , trace=2)
     treesFound = []
 
     slist = s.split()
