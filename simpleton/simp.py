@@ -5,6 +5,8 @@
 
 from dataclasses import dataclass
 import simpMods as sm
+import nltk
+from nltk import word_tokenize
 
 @dataclass
 class NP:
@@ -87,14 +89,7 @@ for noun in lexNouns:
 for o in myNouns:
     print(o.name, o.isA, o.canDo, sep=' ')
 
-# Build grammar
-#
-#r = input("Build CFG <y/n>?: ")
-#if r == 'y' or r == 'Y':
-#    simpMods.buildCFG()
-#    print('New CFG built...')
-#else:
-#    print('Skipped CFG build...')
+
 
 loop = True
 
@@ -104,64 +99,54 @@ while loop:
     #
     s = sm.getSentence()
 
-    # Simple tokenizer
-    #tok_s = word_tokenize(s)
+    if len(s) > 0:
 
-    # Parse input per grammar
-    #
-    retCode = sm.chkGrammar(s)
+        # Check with simple tokenizer
+        tok_s = word_tokenize(s)
+        pos_s = nltk.pos_tag(tok_s)
+        print('Simple tokenizer:')
+        print(pos_s)
 
-    # retCode will be either:
-    # 1)
-    #  retType: <class 'list'>
-    #  [Tree('S', [Tree('NP', ['Mary']), Tree('VP', [Tree('V', ['walked']), Tree('NP', ['Pookie']), Tree('PP', [Tree('P', ['in']), Tree('NP', [Tree('Det', ['the']), Tree('N', ['park'])])])])])]
-    # 2)
-    #  retType: <class 'ValueError'>
-    #  Grammar does not cover some of the input words: "'Harry'".
-    # 3)
-    #  retType: <class 'int'>
-    #  0
+        # Parse input per grammar
+        #
+        retCode = sm.chkGrammar(s)
 
-    if retCode == 0:
-        print('-->>Unable to find any productions in existing grammar')
+        # retCode will be either:
+        # 1)
+        #  retType: <class 'list'>
+        #  [Tree('S', [Tree('NP', ['Mary']), Tree('VP', [Tree('V', ['walked']), Tree('NP', ['Pookie']), Tree('PP', [Tree('P', ['in']), Tree('NP', [Tree('Det', ['the']), Tree('N', ['park'])])])])])]
+        # 2)
+        #  retType: <class 'ValueError'>
+        #  Grammar does not cover some of the input words: "'Harry'".
+        # 3)
+        #  retType: <class 'int'>
+        #  0
+
+        if retCode == 0:
+            print('-->>Unable to find any productions in existing grammar')
     
-    elif isinstance(retCode, ValueError):
-        print('-->>retCode returned a ValueError' + str(ValueError))
-#        print('ValueError: {0}'.format(retCode))
-        if sm.myErrHandler(retCode):
-            sm.learningMode(retCode)
+        elif isinstance(retCode, ValueError):
+            print('-->>retCode returned a ValueError' + str(ValueError))
+
+            if sm.myErrHandler(retCode):
+                sm.learningMode(retCode)
     
-    elif isinstance(retCode, list):
-        print('-->>Input is grammatically correct per CFG')
-        print('-->>Searching for relationships and/or meaning...')
-        sm.searchMeaning(s, myNames, myNouns)
-    else:
-        print('-->>Something unexpected happened')
+        elif isinstance(retCode, list):
+            print('-->>Input is grammatically correct per CFG')
+            print('-->>Searching for relationships and/or meaning...')
+            sm.searchMeaning(s, myNames, myNouns)
+        else:
+            print('-->>Something unexpected happened')
         
-
-#        for x in retCode:
-#            print(type(x))
-#            print(x)
-#
-#        simpMods.getNodes(retCode)       
-    
-##    else:
-##        print('-->>Something unexpected happened')
-
-#    print('Checking for basic infrence(s) on raw input: ')
-#    print('>' + str(s) + '<')
-#
-##    simpMods.analyzeInput(s)
-
-    
-
-
-    r = input("Conitune <y/n>?: ")
-    if r == 'y' or r == 'Y':
-        loop = True
     else:
-        print('Exiting...')
         loop = False
+        
+#    r = input("Conitune <y/n>?: ")
+#    if r == 'y' or r == 'Y':
+#        loop = True
+#    else:
+#        print('Exiting...')
+#        loop = False
     
 print('End Simple-Ton.')
 

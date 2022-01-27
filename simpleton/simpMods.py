@@ -300,7 +300,8 @@ def getSentence():
 ###
 def chkGrammar(s):       
 
-    simpleGrammar = nltk.data.load('file:/home/gary/src/simpleton/simp3.cfg')
+##    simpleGrammar = nltk.data.load('file:/home/gary/src/simpleton/simp3.cfg')
+    simpleGrammar = nltk.data.load('file:/home/gary/src/simpleton/simpPTPoS.cfg')
 
     fm = '/home/gary/src/simpleton/simpMem.txt'
     fmMode = 'a'
@@ -621,19 +622,18 @@ def addWord(nw):
         print('Quiting or invalid entry...')
         return
     
-    f = open(fLex, fLmode)
-#    f.write('\n' + str(nw) + ',' + str(response))
-    f.write(str(nw) + ',' + str(response))
-    f.close()
+##    f = open(fLex, fLmode)
+##    f.write(str(nw) + ',' + str(response))
+##    f.close()
 
     print(str(nw) + ',' + str(response) + ' added to lexicon')
     print("Rebuilding CFG & KBs...")
 
-    buildCFG()
+#    buildCFG()
 
     print('CFG rebuilt.')
 
-    buildKBs(nw, response)
+#    buildKBs(nw, response)
 
     print('End addWord.')
       
