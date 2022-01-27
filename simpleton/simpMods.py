@@ -64,14 +64,13 @@ import re
 # CFG file
 #
 ##fCFG = 'simp.cfg'
-fCFG = 'simp3.cfg'
-fCFGmode = 'w'
+##fCFG = 'simp3.cfg'
+fCFG = '/home/gary/src/simpleton/simpPTPoS.cfg'
 
 #
 # Lexicon
 #
 fLex = 'simpLex.txt'
-fLmode = 'r'
 
 #
 # KBs
@@ -83,13 +82,11 @@ fRMode = 'r'
 fWMode = 'w'
 fAMode = 'a'
 
-lex = []
-rules = []
-names = []
-
 
 ###
 def getNouns():
+
+    nouns = []
 
     with open(fLex, fRMode) as fin:
         
@@ -97,30 +94,34 @@ def getNouns():
 
             line = line.split(",")
 
-            if line[1] == "N":
-                lex.append(line)
+            if line[1] == "NN":
+                nouns.append(line)
                        
     fin.close()
 
-    return lex
+    print(nouns)
+    return(nouns)
 
 # getNouns
 
 ###
 def getNames():
 
+    names = []
+
     with open(fLex, fRMode) as fin:
         
         while (line := fin.readline().rstrip()):
 
             line = line.split(",")
 
-            if line[1] == "PropN":
+            if line[1] == "NNP":
                 names.append(line)
                        
     fin.close()
-
-    return names
+    print(names)
+    
+    return(names)
 
 # End getNames()
 
@@ -144,6 +145,7 @@ def getIsA():
 
 ###
 def getCanDo():
+    
     canDoList = []
     
     with open(fKBcan, fRMode) as fcan:
@@ -163,6 +165,7 @@ def getCanDo():
 def buildCFG():
     
     lex = []
+    rules = []
 
     with open(fLex, fRMode) as fin:
         
@@ -298,10 +301,11 @@ def getSentence():
 # end getSentence()
 
 ###
-def chkGrammar(s):       
+def chkGrammar(s):
 
 ##    simpleGrammar = nltk.data.load('file:/home/gary/src/simpleton/simp3.cfg')
-    simpleGrammar = nltk.data.load('file:/home/gary/src/simpleton/simpPTPoS.cfg')
+##    simpleGrammar = nltk.data.load('file:/home/gary/src/simpleton/simpPTPoS.cfg')
+    simpleGrammar = nltk.data.load('file:' + str(fCFG))
 
     fm = '/home/gary/src/simpleton/simpMem.txt'
     fmMode = 'a'
@@ -356,6 +360,7 @@ def chkGrammar(s):
 #
 def analyzeInput(inSent):
 
+    lex = []
     KBcan = {}
     KBis = {}
     sTagged = []
@@ -604,8 +609,6 @@ def searchMeaning(s, names, nouns):
 
 ###
 def addWord(nw):
-    
-    fLmode = 'a'
 
     validInput = ["NP", "N", "V", "P", "Det"]
     
@@ -622,7 +625,7 @@ def addWord(nw):
         print('Quiting or invalid entry...')
         return
     
-##    f = open(fLex, fLmode)
+##    f = open(fLex, fAMode)
 ##    f.write(str(nw) + ',' + str(response))
 ##    f.close()
 

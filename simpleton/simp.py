@@ -66,10 +66,10 @@ for name in lexNames:
 
 print("----------------------")
 
-for obj in myNames:
-    print(obj.name, obj.gender, obj.isA, obj.canDo, sep=' : ')
-
-print("----------------------")
+#for obj in myNames:
+#    print(obj.name, obj.gender, obj.isA, obj.canDo, sep=' : ')
+#
+#print("----------------------")
 
 # Build a list of noun (N) objects with attributes from KBs
 for noun in lexNouns:
@@ -141,12 +141,6 @@ while loop:
     else:
         loop = False
         
-#    r = input("Conitune <y/n>?: ")
-#    if r == 'y' or r == 'Y':
-#        loop = True
-#    else:
-#        print('Exiting...')
-#        loop = False
     
 print('End Simple-Ton.')
 
