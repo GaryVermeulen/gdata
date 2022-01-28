@@ -49,6 +49,7 @@
 import nltk
 from nltk import word_tokenize
 from nltk.corpus import wordnet as wn
+from nltk import pos_tag
 import re
 
 # Our own module
@@ -78,29 +79,27 @@ fLex = 'simpLex.txt'
 fKBcan = 'simpKBcan.txt'
 fKBis = 'simpKBis.txt'
 
-fRMode = 'r'
-fWMode = 'w'
-fAMode = 'a'
-
 
 ###
 def getNouns():
 
     nouns = []
 
-    with open(fLex, fRMode) as fin:
+    with open(fCFG, 'r') as fin:
         
         while (line := fin.readline().rstrip()):
 
-            line = line.split(",")
+            line = line.replace("-", '')
+            line = line.replace(" ", '')
 
-            if line[1] == "NN":
-                nouns.append(line)
+            line = line.split(">")
+
+            if line[0] == 'NN':
+                s = line[1].split('|')
                        
     fin.close()
 
-    print(nouns)
-    return(nouns)
+    return(s)
 
 # getNouns
 
@@ -109,19 +108,21 @@ def getNames():
 
     names = []
 
-    with open(fLex, fRMode) as fin:
+    with open(fCFG, 'r') as fin:
         
         while (line := fin.readline().rstrip()):
 
-            line = line.split(",")
+            line = line.replace("-", '')
+            line = line.replace(" ", '')
 
-            if line[1] == "NNP":
-                names.append(line)
+            line = line.split(">")
+
+            if line[0] == 'NNP':
+                s = line[1].split('|')
                        
     fin.close()
-    print(names)
     
-    return(names)
+    return(s)
 
 # End getNames()
 
@@ -130,7 +131,7 @@ def getIsA():
 
     isAList = []
     
-    with open(fKBis, fRMode) as fis:
+    with open(fKBis, 'r') as fis:
         
         while (line := fis.readline().rstrip()):
             
@@ -148,7 +149,7 @@ def getCanDo():
     
     canDoList = []
     
-    with open(fKBcan, fRMode) as fcan:
+    with open(fKBcan, 'r') as fcan:
         
         while (line := fcan.readline().rstrip()):
             
@@ -164,74 +165,74 @@ def getCanDo():
 ###
 def buildCFG():
     
-    lex = []
-    rules = []
-
-    with open(fLex, fRMode) as fin:
-        
-        while (line := fin.readline().rstrip()):
-            
-            lex.append(line)
-
-    fin.close()
-
-    fout = open(fCFG, fWMode)
-
-    # Currently only adding words
-    #
-    S = 'S -> NP VP'
-    VP = 'VP -> V NP | V NP PP'
-    PP = 'PP -> P NP'
-    NP = ''
-    N = ''
-    V = ''
-    P = ''
-    Det = ''
-
-    for l in lex:
-        ll = l.split(',')
-        
-        if ll[1] == 'NP':
-            if len(NP) == 0:
-                NP = 'NP -> ' + '\"' + str(ll[0]) + '\"'
-            else:
-                NP = NP + ' | \"' + str(ll[0]) + '\"'
-        elif ll[1] == 'N':
-            if len(N) == 0:
-                N = 'N -> ' + '\"' + str(ll[0]) + '\"'
-            else:
-                N = N + ' | \"' + str(ll[0]) + '\"'
-        elif ll[1] == 'V':
-            if len(V) == 0:
-                V = 'V -> ' + '\"' + str(ll[0]) + '\"'
-            else:
-                V = V + ' | \"' + str(ll[0]) + '\"'
-        elif ll[1] == 'P':
-            if len(P) == 0:
-                P = 'P -> ' + '\"' + str(ll[0]) + '\"'
-            else:
-                P = P + ' | \"' + str(ll[0]) + '\"'
-        elif ll[1] == 'Det':
-            if len(Det) == 0:
-                Det = 'Det -> ' + '\"' + str(ll[0]) + '\"'
-            else:
-                Det = Det + ' | \"' + str(ll[0]) + '\"'
-        
-        
-    rules.append(S)
-    rules.append(VP)
-    rules.append(PP)
-    rules.append(NP + ' | Det N | Det N PP')
-    rules.append(N)
-    rules.append(V)
-    rules.append(P)
-    rules.append(Det)
-    
-    for r in rules:
-        fout.write(r + '\n')
-        
-    fout.close()
-    
+#    lex = []
+#    rules = []
+#
+#    with open(fLex, 'r') as fin:
+#        
+#        while (line := fin.readline().rstrip()):
+#            
+#            lex.append(line)
+#
+#    fin.close()
+#
+#    fout = open(fCFG, 'w')
+#
+#    # Currently only adding words
+#    #
+#    S = 'S -> NP VP'
+#    VP = 'VP -> V NP | V NP PP'
+#    PP = 'PP -> P NP'
+#    NP = ''
+#    N = ''
+#    V = ''
+#    P = ''
+#    Det = ''
+#
+#    for l in lex:
+#        ll = l.split(',')
+#        
+#        if ll[1] == 'NP':
+#            if len(NP) == 0:
+#                NP = 'NP -> ' + '\"' + str(ll[0]) + '\"'
+#            else:
+#                NP = NP + ' | \"' + str(ll[0]) + '\"'
+#        elif ll[1] == 'N':
+#            if len(N) == 0:
+#                N = 'N -> ' + '\"' + str(ll[0]) + '\"'
+#            else:
+#                N = N + ' | \"' + str(ll[0]) + '\"'
+#        elif ll[1] == 'V':
+#            if len(V) == 0:
+#                V = 'V -> ' + '\"' + str(ll[0]) + '\"'
+#            else:
+#                V = V + ' | \"' + str(ll[0]) + '\"'
+#        elif ll[1] == 'P':
+#            if len(P) == 0:
+#                P = 'P -> ' + '\"' + str(ll[0]) + '\"'
+#            else:
+#                P = P + ' | \"' + str(ll[0]) + '\"'
+#        elif ll[1] == 'Det':
+#            if len(Det) == 0:
+#                Det = 'Det -> ' + '\"' + str(ll[0]) + '\"'
+#            else:
+#                Det = Det + ' | \"' + str(ll[0]) + '\"'
+#        
+#        
+#    rules.append(S)
+#    rules.append(VP)
+#    rules.append(PP)
+#    rules.append(NP + ' | Det N | Det N PP')
+#    rules.append(N)
+#    rules.append(V)
+#    rules.append(P)
+#    rules.append(Det)
+#    
+#    for r in rules:
+#        fout.write(r + '\n')
+#        
+#    fout.close()
+#    
     print('End buildCFG')
     return
 
@@ -354,126 +355,6 @@ def chkGrammar(s):
 
 # end chkGrammar(s)
 
-###
-# For now checking input sentence aginst simpKB.txt & simpLex.txt
-# Not using grammar or retCode from chkGrammar
-#
-def analyzeInput(inSent):
-
-    lex = []
-    KBcan = {}
-    KBis = {}
-    sTagged = []
-    
-    print('Analyzining input for infernces...')
-
-#    print('--Input given: ' + str(i))
-
-    inSent = inSent.split(' ')
-
-#    print('--Split Input: ' + str(inSent))   
-
-    with open(fLex, fRMode) as fin:
-        while (line := fin.readline().rstrip()):
-            lex.append(line)
-
-    fin.close()
-    
-#    print('>' + str(lex) + '<')
-
-    wordcount = 0
-    lexcount = 0
-
-    for word in inSent:
-        wordcount = wordcount + 1
-        for l in lex:
-            lexcount = lexcount + 1
-            l = l.split(',')
-            if word in l:
-#                print('Found: ' + str(word) + ' wordcount: ' + str(wordcount) + ' In: ' + str(l) + ' lexcount: ' + str(lexcount))
-                sTagged.append(str(l))
-
-#    print('sTagged: ' + str(sTagged))
-
-    sT =[]
-    for i in sTagged:
-        if i not in sT:
-            sT.append(i)
-            
-    print('--Input sentenace tagged: ' + str(sT))
-
-#   KBcan
-#
-##    fMode = 'r'
-    f = open(fKBcan, fRMode)
-
-    for line in f:
-        line = line.strip('\n')
-        key, value = line.split(':')
-        KBcan[key] = value
-#        print(line)
-
-    f.close()
-
-    keyFigures = []
-
-    for key, value in KBcan.items():
-        if key in inSent:
-#            print('key: ' + str(key) + ' in inSent: ' + str(inSent))
-            print('--' + str(key) + ' can: ' + str(value))
-            keyFigures.append(str(key) + ':' + str(value))
-
-#    print('--Key Figures of input sentance: ')
-#    print('--: ' + str(keyFigures))
-
-
-
-# KBis
-#
-    fMode = 'r'
-    f = open(fKBis, fMode)
-
-    for line in f:
-        line = line.strip('\n')
-        key, value = line.split(':')
-        KBis[key] = value
-#        print(line)
-
-    f.close()
-    
-    keyFiguresIs = []
-
-    for key, value in KBis.items():
-        if key in inSent:
-#            print('key: ' + str(key) + ' in inSent: ' + str(inSent))
-            print('--' + str(key) + ' is: ' + str(value))
-            keyFiguresIs.append(str(key) + ':' + str(value))
-
-#    print('--The Key Figures of input sentance are: ')
-#    print('--: ' + str(keyFiguresIs))
-
-
-    
-
-    conclusion = []
-    
-    for k in keyFigures:
-#        print(k)
-        kS = k.split(':')
-#        print(kS)
-#        print(kS[0])
-#        print(kS[1])
-
-        for w in inSent:
-            if w in kS[1]:
-#                print('  w: ' + str(w) + ' found in kS[1]: ' + str(kS[1]))
-                conclusion.append(str(kS[0] + ' : ' + w))
-
-    print('Conclusion: ' + str(conclusion))
-    
-    return 
-
-# end analyzeInput(i)
 
 ###
 def myErrHandler(err):
@@ -518,6 +399,7 @@ def getNodes(parent):
 
 # end getNodes(parent)
 
+
 ###
 def searchMeaning(s, names, nouns):
 
@@ -527,7 +409,7 @@ def searchMeaning(s, names, nouns):
     matchedCanDo = []
 
     s = s.split(' ')
-    print(s)
+    print('Input s: ' + str(s))
 #    print(len(nouns))
 
     # Build lists of names and nouns within input sentense
@@ -539,7 +421,9 @@ def searchMeaning(s, names, nouns):
         for noun in nouns:
             if w == noun.name:
                 sNouns.append(noun)
-    print("Found " + str(len(sNames)) + " name nouns (NP).")
+                
+    print("Found " + str(len(sNames)) + " name nouns (NNP).")
+    print("Found " + str(len(sNouns)) + " nouns (NN).")
     print("----------------------")
 
     # Of the names found in the input sentense
@@ -600,9 +484,12 @@ def searchMeaning(s, names, nouns):
             
         else:
             print(" Obj canDos: " + str(n.canDo))
-        
-    for d in matchedCanDo:
-        print("matchedCanDo: " + str(d))
+
+    if len(matchedCanDo) > 0:
+        for d in matchedCanDo:
+            print("matchedCanDo: " + str(d))
+    else:
+        print("No relationships found.")
 
     return s
 # End searchMeaning(s)
@@ -610,31 +497,54 @@ def searchMeaning(s, names, nouns):
 ###
 def addWord(nw):
 
-    validInput = ["NP", "N", "V", "P", "Det"]
+    lines = []
+
+    nw = nw.replace(",", '')
+
+    print(len(nw))
+    print('>' + str(nw) + '<')
+    print(nw)
+    print(type(nw))
+
+#    tok_nw = word_tokenize(nw)
+    pos_nw = pos_tag(nw.split())
+    print(pos_nw)
+
+    for w in pos_nw:
+        print(w)
+
+    with open(fCFG, 'r') as fin:        
+        while (line := fin.readline().rstrip()):        
+            lines.append(line)
+    fin.close()
+
+    for l in lines:
+        print(l)
+
+        l = l.replace("-", '')
+        l = l.replace(" ", '')
+        l = l.split(">")
+
+        print(l)
+
+        for w in pos_nw:
+            if l[0] == w[1]:
+                print('== l[0]: ' + str(l[0]))
+                print('   l[1]: ' + str(l[1]))
+                print('== w[1]: ' + str(w[1]))
+                print('   w[0]: ' + str(w[0]))
+
+        
+
     
 
-    print('   Adding ' + nw + ' to lexicon')
-    print('   Valid Tags: NP (names)')
-    print('               N (nouns)')
-    print('               V (verbs)' )
-    print('               P (preposition: in, on, with)')
-    print('               Det (determiner: a, an, the)')
-    response = input('Please enter a tag for > ' + nw + ' < from the above tags: <Q/q to Quit> ')
 
-    if (response == 'Q') or (response == 'q') or (response not in validInput):
-        print('Quiting or invalid entry...')
-        return
-    
 ##    f = open(fLex, fAMode)
 ##    f.write(str(nw) + ',' + str(response))
 ##    f.close()
 
-    print(str(nw) + ',' + str(response) + ' added to lexicon')
-    print("Rebuilding CFG & KBs...")
-
-#    buildCFG()
-
-    print('CFG rebuilt.')
+#    print(str(nw) + ',' + str(response) + ' added to lexicon')
+#    print("Rebuilding CFG & KBs...")
 
 #    buildKBs(nw, response)
 
@@ -655,18 +565,20 @@ def learningMode(nW):
     missingWord = re.search('\'(.*)\'', str(nW))    
     nW = missingWord.group(1)
     nW = nW.replace("'", '')
-    nWs = nW.split(',')
+#    nWs = nW.split(',')
 
-    print('Found ' + str(len(nWs)) + ' unkown word(s)...')
-    res = input('[M]anual add, [A]uto-add, or [E]xit <M/A/E>?')
-    if res in 'Mm':
-        print('Manual add')
-        for w in nWs:
-            addWord(w)
-    elif res in 'Aa':
-        print('Auto-add')
-    else:
-        print('Else Exit')
+    print('Found ' + str(len(nW)) + ' unkown word(s)...')
+    addWord(nW)
+#    res = input('[M]anual add, [A]uto-add, or [E]xit <M/A/E>?')
+#    if res in 'Mm':
+#        print('Manual add')
+#        for w in nWs:
+#            w = w.strip()
+#            addWord(w)
+#    elif res in 'Aa':
+#        print('Auto-add')
+#    else:
+#        print('Else Exit')
 
     
 

@@ -11,3 +11,4 @@ dog:
 telescope:
 park:
 bus:
+duck:

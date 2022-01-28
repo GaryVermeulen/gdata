@@ -20,17 +20,21 @@ def getNouns():
 
             print(line)
 
-            if line[0] == 'NN':
-                nouns.append(line)
+            if line[0] == 'NNP':
+                s = line[1].split('|')
+#                nouns.append(s)
                        
     fin.close()
 
-    print(nouns)
-    return(nouns)
+    print('s:' + str(s))
 
-myNouns = []
+    
+    return(s)
+
+#myNouns = []
 
 myNouns = getNouns()
 
 print(myNouns)
+print(len(myNouns))
 

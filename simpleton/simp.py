@@ -33,12 +33,12 @@ print("Simple-Ton, A ton of simple things to do.")
 print("Reading data, one moment please...")
 
 # Build a list of nouns (N) from lex
-lexNouns = sm.getNouns()
-print(str(len(lexNouns)) + " Nouns (N) read.")
+cfgNouns = sm.getNouns()
+print(str(len(cfgNouns)) + " Nouns (NN) read.")
 
 # Build a list of names (NP) from lex
-lexNames = sm.getNames()
-print(str(len(lexNames)) + " Nouns (NP) read.")
+cfgNames = sm.getNames()
+print(str(len(cfgNames)) + " Proper Nouns (NP) read.")
 
 # Build an isA list from KB
 isA = sm.getIsA()
@@ -49,47 +49,52 @@ canDo = sm.getCanDo()
 print(str(len(canDo)) + " canDo relations read.")
 
 # Build a list of name (NP) objects with attributes from KBs
-for name in lexNames:
+for name in cfgNames:
     name_isA = "DK"
+    name = name.replace('"', '')    
     for x in isA:
-        if x[0] == name[0]:
+        if x[0] == name:
             if x[1] != '':
                 name_isA = x[1]
 
     name_canDo = "DK"
     for x in canDo:
-        if x[0] == name[0]:
-            if x[1] != '':
+        if x[0] == name:
+            if x[0] != '':
                 name_canDo = x[1]
     
-    myNames.append(NP(name[0],"DK",name_isA,name_canDo))
+    myNames.append(NP(name,"DK",name_isA,name_canDo))
 
 print("----------------------")
 
-#for obj in myNames:
-#    print(obj.name, obj.gender, obj.isA, obj.canDo, sep=' : ')
-#
-#print("----------------------")
+for obj in myNames:
+    print(obj.name, obj.gender, obj.isA, obj.canDo, sep=' : ')
+
+print("----------------------")
 
 # Build a list of noun (N) objects with attributes from KBs
-for noun in lexNouns:
+for noun in cfgNouns:
     noun_isA = "DK"
+    noun = noun.replace('"', '')
+    
+#    print(noun)
     for x in isA:
-        if x[0] == noun[0]:
-            if x[1] != '':
+        if x[0] == noun:
+            if x[0] != '':
                 noun_isA = x[1]
 
     noun_canDo = "DK"
     for x in canDo:
-        if x[0] == noun[0]:
-            if x[1] != '':
+        if x[0] == noun:
+            if x[0] != '':
                 noun_canDo = x[1]
-    myNouns.append(Nouns(noun[0],noun_isA,noun_canDo))
+                
+    myNouns.append(Nouns(noun,noun_isA,noun_canDo))
 
 for o in myNouns:
     print(o.name, o.isA, o.canDo, sep=' ')
 
-
+print("----------------------")
 
 loop = True
 
@@ -124,6 +129,7 @@ while loop:
 
         if retCode == 0:
             print('-->>Unable to find any productions in existing grammar')
+            sm.searchMeaning(s, myNames, myNouns)
     
         elif isinstance(retCode, ValueError):
             print('-->>retCode returned a ValueError' + str(ValueError))
