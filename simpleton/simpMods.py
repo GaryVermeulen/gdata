@@ -497,22 +497,45 @@ def searchMeaning(s, names, nouns):
 ###
 def addWord(nw):
 
+    tag_not_found = []
+    word_added = []
     lines = []
+    idx = 0
+
+    print('Entering addWord...')
 
     nw = nw.replace(",", '')
 
-    print(len(nw))
-    print('>' + str(nw) + '<')
-    print(nw)
-    print(type(nw))
+#    print(len(nw))
+#    print('>' + str(nw) + '<')
+#    print(nw)
+#    print(type(nw))
 
-#    tok_nw = word_tokenize(nw)
-    pos_nw = pos_tag(nw.split())
-    print(pos_nw)
+    tok_nw = word_tokenize(nw)
+    pos_nw = pos_tag(tok_nw)
+#    print(pos_nw)
 
+    print('NLTK tagged input as:')
     for w in pos_nw:
         print(w)
+#        print(type(w))
+        
+        response = input('Is the above tag correct <Yy>?')
 
+        if response not in 'Yy':
+            c_tag = input('Enter corrrect tag: ')
+            w0 = w[0]
+            new_w = (w0, c_tag)
+            pos_nw[idx] = new_w
+            print('You have entered: ' + str(new_w))
+#            print(type(w))
+
+        idx = idx + 1
+        
+    print(pos_nw)
+
+    # Reading CFG
+    #
     with open(fCFG, 'r') as fin:        
         while (line := fin.readline().rstrip()):        
             lines.append(line)
@@ -527,17 +550,28 @@ def addWord(nw):
 
         print(l)
 
+
         for w in pos_nw:
+            print(w)
             if l[0] == w[1]:
                 print('== l[0]: ' + str(l[0]))
                 print('   l[1]: ' + str(l[1]))
                 print('== w[1]: ' + str(w[1]))
                 print('   w[0]: ' + str(w[0]))
 
-        
+                # Does the new word exist? If not add it...
+                #
+                
+                word_added.append(w)
 
-    
-
+            else:
+                if w not in tag_not_found:
+                    tag_not_found.append(w)
+                
+   
+    if len(tag_not_found) > 0:
+        for t in tag_not_found:
+            print('-- Tag not in CFG: ' + str(t))
 
 ##    f = open(fLex, fAMode)
 ##    f.write(str(nw) + ',' + str(response))
@@ -565,10 +599,9 @@ def learningMode(nW):
     missingWord = re.search('\'(.*)\'', str(nW))    
     nW = missingWord.group(1)
     nW = nW.replace("'", '')
-#    nWs = nW.split(',')
 
-    print('Found ' + str(len(nW)) + ' unkown word(s)...')
     addWord(nW)
+    
 #    res = input('[M]anual add, [A]uto-add, or [E]xit <M/A/E>?')
 #    if res in 'Mm':
 #        print('Manual add')
