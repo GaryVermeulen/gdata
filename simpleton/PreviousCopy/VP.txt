@@ -1,1 +1,0 @@
-VP -> V NP | V NP PP

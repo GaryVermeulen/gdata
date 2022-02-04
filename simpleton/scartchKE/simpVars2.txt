@@ -1,7 +1,0 @@
-isHuman;Distinguished from animals;False;False
-isMan;Human male;True;True
-isFemale;Human female;True;True
-isAnimal;A living thing not a human being or plant;False;False
-isCat;Small feline pet;True;True
-isDog;Canine pet;True;True
-isTool;Instrument implement or utensil;False;False
