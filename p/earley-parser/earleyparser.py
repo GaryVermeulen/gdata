@@ -362,6 +362,8 @@ def main():
 
         args = parser.parse_args()
 
+        print('args: ' + str(args))
+
         grammar = Grammar.load_grammar(args.grammar_file)
 
         def run_parse(sentence):
@@ -373,6 +375,8 @@ def main():
                 try:
                         ##sentence = raw_input()
                         sentence = input()
+
+                        print('RAW INPUT: ' + sentence)
 
                         # Strip the sentence of any puncutation.
                         stripped_sentence = sentence

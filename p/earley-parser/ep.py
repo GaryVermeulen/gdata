@@ -66,6 +66,8 @@ class Grammar(object):
                 Loads the grammar from file (from the )
                 """
 
+                CFGor = '|'
+
                 grammar = Grammar()
                 
                 with open(fpath) as f:
@@ -75,15 +77,17 @@ class Grammar(object):
                                 if len(line) == 0:
                                         continue
 
+                                if line == '#':
+                                        continue
+
                                 entries = line.split('->')
                                 lhs = entries[0].strip()
-                                char = '|'
-                                if len(entries) > 2 and char in entries[1]:
+
+                                if CFGor in entries[1]:
                                         for rhs in entries[1].split('|'):
                                                 grammar.add(Rule(lhs, rhs.strip().split()))
-                                elif len(entries) == 2:
-                                        rhs = entries[1]
-                                        grammar.add(Rule(lhs, rhs.strip().split()))
+                                else:
+                                        grammar.add(Rule(lhs, entries[1].strip().split()))
 
                 return grammar
 
@@ -272,7 +276,8 @@ class EarleyParse(object):
                 """
 
                 for rule in self.grammar[state.next()]:
-                        self.chart[pos].add(EarleyState(rule, dot=0, sent_pos=state.chart_pos, chart_pos=state.chart_pos))
+                        self.chart[pos].add(EarleyState(rule, dot=0,
+                                sent_pos=state.chart_pos, chart_pos=state.chart_pos))
 
         def scanner(self, state, pos):
                 """
@@ -283,7 +288,9 @@ class EarleyParse(object):
                         word = self.words[state.chart_pos]
 
                         if any((word in r) for r in self.grammar[state.next()]):
-                                self.chart[pos + 1].add(EarleyState(Rule(state.next(), [word]), dot=1, sent_pos=state.chart_pos, chart_pos=(state.chart_pos + 1)))
+                                self.chart[pos + 1].add(EarleyState(Rule(state.next(), [word]),
+                                        dot=1, sent_pos=state.chart_pos,
+                                        chart_pos=(state.chart_pos + 1)))
 
         def completer(self, state, pos):
                 """
@@ -293,8 +300,7 @@ class EarleyParse(object):
                 for prev_state in self.chart[state.sent_pos]:
                         if prev_state.next() == state.rule.lhs:
                                 self.chart[pos].add(EarleyState(prev_state.rule,
-                                        dot=(prev_state.dot + 1),
-                                        sent_pos=prev_state.sent_pos,
+                                        dot=(prev_state.dot + 1), sent_pos=prev_state.sent_pos,
                                         chart_pos=pos,
                                         back_pointers=(prev_state.back_pointers + [state])))
 
@@ -342,18 +348,13 @@ class EarleyParse(object):
                         return Tree(state.rule.lhs,
                                 [get_helper(s) for s in state.back_pointers])
 
-                print("self.chart len: " + str(len(self.chart)))
-                
-                #for state in self.chart[-1]:
-                for state in self.chart:
-                        print('state: ' + str(state))
-                        
-                        #if state.is_complete() and state.rule.lhs == 'S' and state.sent_pos == 0 and state.chart_pos == len(self.words):
-                        #        return get_helper(state)
-                        #return get_helper(state)
-                        
-                return ## None
-                
+                for state in self.chart[-1]:
+                        if state.is_complete() and state.rule.lhs == 'S' and \
+                                state.sent_pos == 0 and state.chart_pos == len(self.words):
+                                return get_helper(state)
+
+                return None
+
 
 def main():
         """
@@ -363,17 +364,27 @@ def main():
         parser_description = ("Runs the Earley parser according to a given "
                 "grammar.")
         
-#        parser = argparse.ArgumentParser(description=parser_description)
-#
-#        parser.add_argument('draw', nargs='?', default=False)
-#        parser.add_argument('grammar_file', help="Filepath to grammer file")
-#
-#        args = parser.parse_args()
-#
-#        grammar = Grammar.load_grammar(args.grammar_file)
+        parser = argparse.ArgumentParser(description=parser_description)
 
-        grammar = Grammar.load_grammar('simp2x.cfg')
-        draw = False
+        parser.add_argument('--draw', help="Use the graphic draw")
+        parser.add_argument('--grammar_file', help="Filepath to grammer file")
+
+        args = parser.parse_args()
+
+        if args.draw:
+                print('args.draw: ' + str(args.draw))
+        else:
+                args.draw = True # True or False
+                print('args.draw set to: ' + str(args.draw))
+
+        if args.grammar_file:
+                print('args.grammar_file: ' + str(args.grammar_file))
+        else:
+                args.grammar_file = 'simp2x.cfg'
+                print('args.grammar_file set to: ' + str(args.grammar_file))
+        
+
+        grammar = Grammar.load_grammar(args.grammar_file)
 
         def run_parse(sentence):
                 parse = EarleyParse(sentence, grammar)
@@ -383,9 +394,9 @@ def main():
         while True:
                 try:
                         ##sentence = raw_input()
-                        sentence = input("Enter s short sentence; zero to exit: ")
-                        if sentence == '0' or sentence == '':
-                                sys.exit()
+                        sentence = input()
+
+                        #print('INPUT: ' + sentence)
 
                         # Strip the sentence of any puncutation.
                         stripped_sentence = sentence
@@ -393,21 +404,23 @@ def main():
                                 stripped_sentence = stripped_sentence.replace(p, '')
 
                         parse = run_parse(stripped_sentence)
+
+                        print('parse type is:\n\t' + str(type(parse)))
+                        
                         if parse is None:
-                                print('===> ' + sentence + '\n')
-                                
+                                print('parse returned None for:\n\t' + sentence + '\n')
                         else:
-                                #if args.draw:
-                                if draw:
+                                if args.draw:
                                         parse.draw()
                                 else:
                                         parse.pretty_print()
+
                 except EOFError:
                         sys.exit()
 
-                #if args.draw:
-                if draw:
-                        sys.exit()
+#                if args.draw:       # Possible bug for it doesn't break "while true"
+#                        sys.exit()
+                sys.exit() # Just exit after one run
 
                 
 if __name__ == '__main__':
