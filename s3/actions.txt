@@ -1,0 +1,16 @@
+Simp:compute
+John:see,eat,walk,run
+Mary:see,eat,walk,run
+Bob:see,eat,walk,run
+Pookie:see,eat,walk,run
+Pete:see,eat,walk,run
+Jane:see,eat,walk,run
+Sam:see,eat,walk,run
+cat:see,eat,walk,run
+man:see,eat,walk,run
+dog:see,eat,walk,run
+telescope:
+park:
+duck:see,eat,walk,run,fly
+bus:
+computer:compute

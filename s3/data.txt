@@ -1,0 +1,142 @@
+# word, PoS, Ppt, isA, actions
+Simp; NNP; t; computer; compute
+Bob; NNP; P; man; see,eat,walk,run
+John; NNP; P; man; see,eat,walk,run
+Pookie; NNP; t; cat; see,eat,walk,run
+Pete; NNP; P; man; see,eat,walk,run
+Sam; NNP; P; man; see,eat,walk,run
+Mary; NNP; P; woman; see,eat,walk,run
+Jane; NNP; P; woman; see,eat,walk,run
+#
+self; NN; P; human; see,eat,walk,run
+cat; NN; t; feline; see,eat,walk,run
+man; NN; t; human; see,eat,walk,run
+woman; NN; t; human; see,eat,walk,run
+dog; NN; t; canine; see,eat,walk,run
+telescope; NN; t; instrument; magnify
+bus; NN; t; vehicle; transport
+duck; NN; t; bird; see,eat,walk,run,fly
+park; NN; p; recreation-ground; recreation
+playground; NN; t; park; play
+feline; NN; t; mammal; see,eat,walk,run
+canine; NN; t; mammal; see,eat,walk,run
+human; NN; t; mammal; see,eat,walk,run
+#
+selves; NNS; P; human; see,eat,walk,run
+cats; NNS; t; feline; see,eat,walk,run
+men; NNS; t; human; see,eat,walk,run
+dogs; NNS; t; canine; see,eat,walk,run
+telescopes; NNS; t; instrument; magnify
+parks; NNS; p; recreation-ground; recreation
+buses; NNS; t; vehicle; transport
+ducks; NNS; t; bird; see,eat,walk,run,fly
+women; NNS; t; human; see,eat,walk,run
+playgrounds; NNS; t; park; play
+felines; NNS; t; mammal; see,eat,walk,run
+canines; NNS; t; mammal; see,eat,walk,run
+humans; NNS; t; mammal; see,eat,walk,run
+#
+for; CC; NA; conjunction; NA
+and; CC; NA; conjunction; NA
+not; CC; NA; conjunction; NA
+but; CC; NA; conjunction; NA
+or; CC; NA; conjunction; NA
+yet; CC; NA; conjunction; NA
+so; CC; NA; conjunction; NA
+#
+one; CD; NA; cardinal-digit; NA
+two; CD; NA; cardinal-digit; NA
+three; CD; NA; cardinal-digit; NA
+four; CD; NA; cardinal-digit; NA
+five; CD; NA; cardinal-digit; NA
+#
+a; DT; NA; determiner; NA
+an; DT; NA; determiner; NA
+the; DT; NA; determiner; NA
+my; DT; NA; determiner; NA
+some; DT; NA; determiner; NA
+#
+in; IN; NA; preposition-subordinating conjunction; NA
+on; IN; NA; preposition-subordinating conjunction; NA
+by; IN; NA; preposition-subordinating conjunction; NA
+with; IN; NA; preposition-subordinating conjunction; NA
+at; IN; NA; preposition-subordinating conjunction; NA
+#
+quick; JJ; NA; adjective; NA
+hard; JJ; NA; adjective; NA
+fast; JJ; NA; adjective; NA
+#
+quicker; JJR; NA; comparative-adjective; NA
+harder; JJR; NA; comparative-adjective; NA
+faster; JJR; NA; comparative-adjective; NA
+#
+most; JJS; NA; superlative-adjective; NA
+#
+quickest; JJS; NA; superlative-adjective; NA
+hardest; JJS; NA; superlative-adjective; NA
+fastest; JJS; NA; superlative-adjective; NA
+#
+can; MD; NA; modal; NA
+could; MD; NA; modal; NA
+might; MD; NA; modal; NA
+will; MD; NA; modal; NA
+#
+me; PRP; NA; personal-pronoun; NA
+I; PRP; NA; personal-pronoun; NA
+you; PRP; NA; personal-pronoun; NA
+he; PRP; NA; personal-pronoun; NA
+she; PRP; NA; personal-pronoun; NA
+it; PRP; NA; personal-pronoun; NA
+we; PRP; NA; personal-pronoun; NA
+they; PRP; NA; personal-pronoun; NA
+#
+very; RB; NA; adverb; NA
+#
+more; RBR; NA; comparative-adverb; NA
+#
+to; TO; NA; particle; NA
+#
+compute; VB; NA, verb; NA
+see; VB; NA, verb; NA
+walk; VB; NA, verb; NA
+run; VB; NA, verb; NA
+fly; VB; NA, verb; NA
+eat; VB; NA, verb; NA
+#
+computed; VBD; NA, verb; NA
+saw; VBD; NA, verb; NA
+walked; VBD; NA, verb; NA
+ran; VBD; NA, verb; NA
+flew; VBD; NA, verb; NA
+ate; VBD; NA, verb; NA
+#
+computing; VBG; NA, verb; NA
+seeing; VBG; NA, verb; NA
+walking; VBG; NA, verb; NA
+running; VBG; NA, verb; NA
+flying; VBG; NA, verb; NA
+eating; VBG; NA, verb; NA
+#
+computed; VBN; NA, verb; NA
+seen; VBN; NA, verb; NA
+walked; VBN; NA, verb; NA
+run; VBN; NA, verb; NA
+flown; VBN; NA, verb; NA
+eaten; VBN; NA, verb; NA
+#
+computes; VBZ; NA, verb; NA
+sees; VBZ; NA, verb; NA
+walks; VBZ; NA, verb; NA
+runs; VBZ; NA, verb; NA
+flies; VBZ; NA, verb; NA
+eats; VBZ; NA, verb; NA
+# 
+who; WDT; NA; wh-determiner; NA
+whose; WDT; NA; wh-determiner; NA
+when; WDT; NA; wh-determiner; NA
+where; WDT; NA; wh-determiner; NA
+what; WDT; NA; wh-determiner; NA
+which; WDT; NA; wh-determiner; NA
+how; WDT; NA; wh-determiner; NA
+why; WDT; NA; wh-determiner; NA
+
