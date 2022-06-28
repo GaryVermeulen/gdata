@@ -96,11 +96,13 @@ class Node:
 
     # getVal method to compare the value with nodes
     def getVal(self, lkpval):
-        if lkpval < self.data.name:
+        #if lkpval < self.data.name:
+        if lkpval < self.data[0]:
             if self.left is None:
                 return str(lkpval)+" Not Found"
             return self.left.getVal(lkpval)
-        elif lkpval > self.data.name:
+        #elif lkpval > self.data.name:
+        elif lkpval > self.data[0]:
             if self.right is None:
                 return str(lkpval)+" Not Found"
             return self.right.getVal(lkpval)
@@ -134,170 +136,93 @@ class NN:
 
 
 fCFG = 'simp.cfg'
-fKBcan = 'actions.txt'
-fKBis = 'isA.txt'
+fData = 'data.txt'
 
-myNames = []
-myNouns = []
+myNPPs = []
+myNNs = []
 
-
-def getNouns():
-
-    nouns = []
-
-    with open(fCFG, 'r') as fin:       
-        while (line := fin.readline().rstrip()):
-            line = line.replace('-', '')
-            line = line.replace(' ', '')
-            line = line.replace('"', '')
-            line = line.split(">")
-
-            if line[0] == 'NN':
-                nouns.append(line[1])
-    fin.close()
-    nouns.sort()
-
-    return(nouns)
-
-
-def getNames():
-
-    names = []
-
-    with open(fCFG, 'r') as fin:
-        while (line := fin.readline().rstrip()):
-            line = line.replace('-', '')
-            line = line.replace(' ', '')
-            line = line.replace('"', '')
-            line = line.split(">")
-
-            if line[0] == 'NNP':
-                names.append(line[1])   
-    fin.close()
-    names.sort()
+def getData():
     
-    return(names)
+    with open(fData, 'r') as f:       
+        while (line := f.readline().rstrip()):
+            if '#' not in line:
+                line = line.replace(' ', '')
+                line = line.split(";")
 
-
-def getIsA():
-
-    isAList = []
-    
-    with open(fKBis, 'r') as fis:
-        while (line := fis.readline().rstrip()):
-            line = line.split(":")
-            isAList.append(line)
-    fis.close()
-
-    return(isAList)
-
-
-def getCanDo():
-    
-    canDoList = []
-    
-    with open(fKBcan, 'r') as fcan:
-        while (line := fcan.readline().rstrip()):
-            line = line.split(":")
-            canDoList.append(line)
-    fcan.close()
-
-    return(canDoList)
-
-cfgNames = getNames()
-cfgNouns = getNouns()
-isA      = getIsA()
-canDo    = getCanDo()
-
-for name in cfgNames:
-    name_isA = "UNK"
-    name = name.replace('"', '')    
-    for x in isA:
-        if x[0] == name:
-            if x[1] != '':
-                name_isA = x[1]
-
-    name_canDo = "UNK"
-    for x in canDo:
-        if x[0] == name:
-            if x[0] != '':
-                name_canDo = x[1]
-    
-    myNames.append(NPP(name,"Ppt","UNK",name_isA,name_canDo))
-
-for noun in cfgNouns:
-    noun_isA = "UNK"
-    noun = noun.replace('"', '')
-    
-    for x in isA:
-        if x[0] == noun:
-            if x[0] != '':
-                noun_isA = x[1]
-
-    noun_canDo = "UNK"
-    for x in canDo:
-        if x[0] == noun:
-            if x[0] != '':
-                noun_canDo = x[1]
-                
-    myNouns.append(NN(noun,'Ppt',noun_isA,noun_canDo))
-
-
+                if line[1] == 'NN':
+                    print(line)
+                    myNNs.append(line)
+                elif line[1] == 'NNP':
+                    print(line)
+                    myNPPs.append(line)
+    f.close()
+    myNNs.sort()
+    myNPPs.sort()
 #
+
+getData()
 
 # Determine approx mid of list for a somewhat balanced tree
-myNamesLen = len(myNames)
-rootIndex = int(myNamesLen / 2)
-namesRoot = Node(myNames[rootIndex])
-rootName = myNames[rootIndex].name
+print("i NNs")
+for i in myNNs:
+    print(i)
 
-print("NPP ROOT: " + str(rootName))
+print("i NPPS")
+for i in myNPPs:
+    print(i)
 
-for obj in myNames:
-    if obj.name != rootName:
-        namesRoot.insertObj(obj)
-    print(obj.name, obj.gender, obj.isA, obj.canDo, sep=' : ')
+myNPPsLen = len(myNPPs)
+rootIndex = int(myNPPsLen / 2)
+rootNPPs = Node(myNPPs[rootIndex])
+
+print("NPP ROOT: " + str(rootNPPs))
+
+for obj in myNPPs:
+    if obj != rootNPPs:
+        rootNPPs.insert(obj)
+    print(obj)
 
 print('\n------------ inorder:\n') 
-print(namesRoot.inorderTraversal(namesRoot))
+print(rootNPPs.inorderTraversal(rootNPPs))
 #
 print('\n------------ preorder:\n')
-print(namesRoot.PreorderTraversal(namesRoot))
+print(rootNPPs.PreorderTraversal(rootNPPs))
 #
 print('\n------------ postorder:\n')
-print(namesRoot.PostorderTraversal(namesRoot))
+print(rootNPPs.PostorderTraversal(rootNPPs))
 
 print('\n------------ PrintTree:\n')
-namesRoot.PrintTree()
+rootNPPs.PrintTree()
 
 print("\n========================")
 
 # Determine approx mid of list for a somewhat balanced tree
-myNounsLen = len(myNouns)
-rootIndex = int(myNounsLen / 2)
-nounsRoot = Node(myNouns[rootIndex])
-rootNoun = myNouns[rootIndex].name
+# Update: No longer a sort list, so may have to figure something else
+myNNsLen = len(myNNs)
+rootIndex = int(myNNsLen / 2)
+rootNNs = Node(myNNs[rootIndex])
 
-print("\nNN ROOT: " + str(rootNoun))
+print("\nNN ROOT: " + str(rootNNs))
 
-for o in myNouns:
-    if o.name != rootNoun:
-        nounsRoot.insertObj(o)
-    print(o.name, o.isA, o.canDo, sep=' : ')
+for o in myNNs:
+    if o != rootNNs:
+        rootNNs.insert(o)
+    print(o)
 
 
 print('\n------------ inorder:\n') 
-print(nounsRoot.inorderTraversal(nounsRoot))
+print(rootNNs.inorderTraversal(rootNNs))
 #
 print('\n------------ preorder:\n')
-print(nounsRoot.PreorderTraversal(nounsRoot))
+print(rootNNs.PreorderTraversal(rootNNs))
 #
 print('\n------------ postorder:\n')
-print(nounsRoot.PostorderTraversal(nounsRoot))
+print(rootNNs.PostorderTraversal(rootNNs))
 
 print('\n------------ PrintTree:\n')
-nounsRoot.PrintTree()
+rootNNs.PrintTree()
 
+"""
 # Let's add something new...
 # Going to need to know what it is: NNP, NN, etc...
 objType = 'NN'
@@ -374,7 +299,7 @@ if not exist:
     for l in lines:
         f.write(l + '\n')
     f.close()
-
+"""
 #
 # TO DO:
 #   Add inflections
@@ -388,20 +313,23 @@ rawSentence = ['Mary', 'walk', 'Pookie', 'in', 'the', 'park']
 
 print(rawSentence[0])
 
-ret0 = namesRoot.getVal(rawSentence[0])
+ret0 = rootNPPs.getVal(rawSentence[0])
 print(type(ret0))
 print(ret0)
 print('\n')
 
 print(rawSentence[2])
 
-ret2 = namesRoot.getVal(rawSentence[2])
+ret2 = rootNPPs.getVal(rawSentence[2])
 print(type(ret2))
 print(ret2)
 print('\n')
 
 print(rawSentence[5])
 
-ret5 = nounsRoot.getVal(rawSentence[5])
+ret5 = rootNNs.getVal(rawSentence[5])
 print(type(ret5))
 print(ret5)
+
+
+

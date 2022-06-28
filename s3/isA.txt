@@ -18,4 +18,3 @@ playground:park
 feline:mammal
 canine:mammal
 human:mammal
-
