@@ -158,8 +158,30 @@ def getData():
     f.close()
     myNNs.sort()
     myNPPs.sort()
-#
+    
+# END getData()
 
+
+def getAllData():
+
+    allData = []
+    
+    with open(fData, 'r') as f:       
+        while (line := f.readline().rstrip()):
+            if '#' not in line:
+                line = line.replace(' ', '')
+                line = line.split(";")
+
+                if line[0] != '#':
+                #    print(line)
+                    allData.append(line)
+                
+    f.close()
+    return allData
+
+# END getAllData()
+
+'''
 getData()
 
 # Determine approx mid of list for a somewhat balanced tree
@@ -229,65 +251,50 @@ objType = 'NN'
 name = 'piano'
 isA  = 'UNK'
 canDo = 'UNK'
-
 if objType == "NN":
     myNouns.append(NN(name,'Ppt',isA,canDo))
     i = len(myNouns)
-
     print(i)
-
     nounsRoot.insertObj(myNouns[i-1])
-
 print("\nAfter add:\n")
 print(str(myNouns[i-1]))
 nounsRoot.PrintTree()
-
 # So now we need to save the new info...
 # First save to CFG file
-
 lines = []
-
 # Read existing CFG
 with open(fCFG, 'r') as fin:        
     while (line := fin.readline().rstrip()):        
         lines.append(line)
 fin.close()
-
 print("\n")
 print(len(lines))
 print("\n")
-
 inserted = False
     
 # Search for the end of the given section ex: NN, NNP, DT, etc.
-
 nw = name
 nt = objType
     
 lin_no = 0
 match = False
 exist = False 
-
 for l in lines:
     l = l.replace("-", '')
     l = l.replace(" ", '')
     l = l.replace('"', '')
     l = l.split(">")
-
     if nw in l:
         exist = True
         break
     
     if l[0] == nt:
         match = True
-
     if l[0] == '#' and match:
         lines.insert(lin_no, str(nt) + ' -> "' + str(nw) +'"')
         inserted = True
         break
-
     lin_no += 1
-
 print("\n")
 print(len(lines))
 print("\n")
@@ -305,12 +312,12 @@ if not exist:
 #   Add inflections
 #   Save to actions.txt and isA.txt
 #
-
+'''
 # What kind of knowledge can we glean?
 #
 # Note: walked manually inflected into walk
 rawSentence = ['Mary', 'walk', 'Pookie', 'in', 'the', 'park']
-
+'''
 print(rawSentence[0])
 
 ret0 = rootNPPs.getVal(rawSentence[0])
@@ -330,6 +337,119 @@ print(rawSentence[5])
 ret5 = rootNNs.getVal(rawSentence[5])
 print(type(ret5))
 print(ret5)
+'''
+print('-----------')
 
+sentenceData = []
+bigData = getAllData()
 
+for line in bigData:
+    
+    #print(line)
 
+    res = any(item in rawSentence for item in line)
+
+    if res:
+        sentenceData.append(line)
+    
+for line in sentenceData:
+    print(line)
+    
+print('\n')
+print(rawSentence)
+
+dataSentence = []
+
+for word in rawSentence:
+    for wordData in sentenceData:
+        if word == wordData[0]:
+            dataSentence.append(tuple((word, wordData)))
+
+print('--------')
+for word in dataSentence:
+    print(word)
+
+print('--------')
+
+# wh-determiner
+# Can we determine:
+# who, when, where, what, which, how, why
+#
+
+# WHO
+print('WHO:')
+for who in dataSentence:
+    if 'NNP' in who[1]:
+        print(who[1])
+
+# WHEN
+# Assumptions:
+#   VB  - Implies now
+#   VBD - Implies past tense
+#   VBG - Implies now
+#   VBN - Implies past tense
+#   VBZ - Impiles now
+print('WHEN:')
+for when in dataSentence:
+    if ('VB' or 'VBG' or 'VBZ') in when[1]:
+        print(when[1])
+    
+# WHERE
+print('WHERE:')
+for where in dataSentence:
+    if 'NN' in where[1]:
+        if 'p' in where[1][2]:
+            print(where[1][2])
+            print(where[1])        
+# WHAT
+print('WHAT: TODO')
+# Pronoun:  'What is your name?'
+#           'What we need is commitment'
+# Determiner:   'What time is it?'
+#               'He was robbed of what little money he had'
+# Adverb:   'What does it matter?'
+#           'What about half?'
+
+# WHICH
+print('WHICH: TODO')
+'''
+pronoun · determiner
+determiner: which
+
+    asking for information specifying one or more people or things from a definite set.
+    "which are the best varieties of grapes for long keeping?"
+
+pronoun · determiner
+pronoun: which
+
+    used referring to something previously mentioned when introducing a clause giving further information.
+    "a conference in Vienna which ended on Friday"
+'''
+
+# HOW
+print('HOW: TODO')
+'''
+adverb: how
+
+    1.
+    in what way or manner; by what means.
+    "how does it work?"
+    2.
+    used to ask about the condition or quality of something.
+    "how was your vacation?"
+    used to ask about someone's physical or mental state.
+    "how are the children?"
+    3.
+    used to ask about the extent or degree of something.
+    "how old are you?"
+    used to express a strong feeling such as surprise about the extent of something.
+    "how kind it was of him"
+    4.
+    the way in which; that.
+    "she told us how she had lived out of a suitcase for a week"
+    in any way in which; however.
+    "I'll do business how I like"
+'''
+
+# WHY
+print('WHY: TODO')
