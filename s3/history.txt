@@ -1,0 +1,12 @@
+# Orignal sentence; Valid CFG T/F; Who; When; Where; What; Which; How; Why; Processed time
+[('Mary', 'NNP'), ('saw', 'VBD'), ('Pookie', 'NNP'), ('with', 'IN'), ('a', 'DT'), ('telescope', 'NN')]; True; ['Mary', 'Pookie']; ['saw', 'Implied past']; []; ['saw']; ['WHICH-TODO']; ['saw']; ['WHY-TODO']; 07/03/2022 08:37:20:848445
+[('Mary', 'NNP'), ('walked', 'VBD'), ('Pookie', 'NNP'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]; True; ['Mary', 'Pookie']; ['walked', 'Implied past']; ['park']; ['walked']; ['WHICH-TODO']; ['walked']; ['WHY-TODO']; 07/03/2022 08:38:29:291543
+[('Mary', 'NNP'), ('eats', 'VBZ'), ('telescopes', 'NNS'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]; True; ['Mary']; ['eats', 'Implied present']; ['park']; ['eats']; ['WHICH-TODO']; ['eats']; ['WHY-TODO']; 07/03/2022 08:46:53:176039
+[('ducks', 'NNS'), ('flies', 'VBZ'), ('bus', 'NN'), ('in', 'IN'), ('the', 'DT'), ('telescope', 'NN')]; True; []; ['flies', 'Implied present']; []; ['flies']; ['WHICH-TODO']; ['flies']; ['WHY-TODO']; 07/03/2022 08:55:28:178695
+[('Pookie', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; True; ['Pookie']; ['ate', 'Implied past']; []; ['ate']; ['WHICH-TODO']; ['ate']; ['WHY-TODO']; 07/03/2022 09:01:42:308316
+[('Pookie', 'NNP'), ('ate', 'VBD'), ('in', 'IN'), ('the', 'DT'), ('bus', 'NN')]; True; ['Pookie']; ['ate', 'Implied past']; []; ['ate']; ['WHICH-TODO']; ['ate']; ['WHY-TODO']; 07/03/2022 09:19:29:031955
+[('John', 'NNP')]; True; ['John']; []; []; []; ['WHICH-TODO']; []; ['WHY-TODO']; 07/03/2022 09:24:29:547328
+[('John', 'NNP')]; True; ['John', 'Subject']; []; []; []; ['WHICH-TODO']; []; ['WHY-TODO']; 07/03/2022 10:14:01:032605
+[('Mary', 'NNP'), ('walked', 'VBD'), ('Pookie', 'NNP'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]; True; ['Mary', 'Subject', 'Pookie', 'Object']; ['walked', 'Implied past']; ['park']; ['walked']; ['WHICH-TODO']; ['walked']; ['WHY-TODO']; 07/03/2022 10:14:40:319941
+[('Mary', 'NNP'), ('walked', 'VBD'), ('Pookie', 'NNP'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]; True; ['Mary', 'Subject', 'Pookie', 'Object', 'park', 'Object']; ['walked', 'Implied past']; ['park']; ['walked']; ['WHICH-TODO']; ['walked']; ['WHY-TODO']; 07/03/2022 10:17:50:674957
+[('Mary', 'NNP'), ('saw', 'VBD'), ('Pookie', 'NNP'), ('with', 'IN'), ('a', 'DT'), ('telescope', 'NN')]; True; ['Mary', 'Subject', 'Pookie', 'Object', 'telescope', 'Object']; ['saw', 'Implied past']; []; ['saw']; ['WHICH-TODO']; ['saw']; ['WHY-TODO']; 07/03/2022 10:22:23:827784
