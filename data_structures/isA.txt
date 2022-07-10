@@ -1,0 +1,21 @@
+Simp:computer
+Bob:man
+John:man
+Pookie:cat
+Pete:man
+Sam:man
+Mary:woman
+Jane:woman
+cat:feline
+man:human
+women:human
+dog:canine
+telescope:
+bus:
+duck:bird
+park:recreation ground
+playground:park
+feline:mammal
+canine:mammal
+human:mammal
+
