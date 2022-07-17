@@ -120,7 +120,7 @@ eating; VBG; NA; verb; NA
 computed; VBN; NA; verb; NA
 seen; VBN; NA; verb; NA
 walked; VBN; NA; verb; NA
-run; VBN; NA; verb; NA
+#run; VBN; NA; verb; NA
 flown; VBN; NA; verb; NA
 eaten; VBN; NA; verb; NA
 #

@@ -4,11 +4,12 @@
 #
 #
 
+import sys
+# from dataclasses import dataclass
+import simpStuff as ss
+#import nltk
+#from nltk import word_tokenize
 from datetime import datetime
-from dataclasses import dataclass
-import simpMod as sm
-import nltk
-from nltk import word_tokenize
 
 flog = 'simpLog.txt'
 
@@ -26,7 +27,11 @@ f.write('\n*** START RUN AT: ' + str(st) + ' ***\n')
 
 print("--- Reading data, one moment please ---")
 
-inData = sm.getData()
+# Read lexicon & KB data file
+inData = ss.getData()
+
+# Build CFG file from data and cfg_rules
+ss.buildCFG(inData)
 
 print("----------------------")
 print("--- Reading of data completed ---\n")
@@ -44,7 +49,9 @@ f.write("----------------------\n")
 f.write("--- reading of data completed ---\n")
 f.write("--- end time: " + str(et) + "\n")
 f.write("--- elapsed time: " + str(elpTime) + "\n")
-f.close()
+#f.close()
+
+
 
 loop = True
 
@@ -55,12 +62,70 @@ while loop:
    
     # Get user command input
     #
-    cmd = sm.getInput()
+    cmd = ss.getInput()
 
     sLoopTime = datetime.now()
 
+    slt = sLoopTime.strftime("%m/%d/%Y %H:%M:%S")
+
+    print('---=== START LOOP AT: ' + str(slt) + ' ===')
+    f.write('\n---=== START LOOP AT: ' + str(slt) + ' ===\n')
+
+
     if cmd == 'c' or cmd == 'C': # Chat
         s = input("Enter a short sentence: ")
+        
+        if len(s) > 0: # Now the fun begins
+
+            # Check and correct case for NNPs
+            #print('Correcting case...')
+            ccs = ss.correctCase(s, inData)
+            #print(type(ccs))
+            print(ccs)
+            print('Correcting case completed.')
+
+            # Are all the words in the sentence in our Lex?
+            ret = ss.chkWords(ccs, inData)
+
+            if len(ret) > 0:
+                # We'll do something with missing words later...
+                print(len(ret))
+                print(type(ret))
+                print('chkWords returned: ' + str(ret))
+                continue
+
+            # Parse corrected case sentence (input) per grammar
+            # Draw out the grammar tree?
+            draw = False
+            tree = ss.chkGrammar(ccs, draw)
+
+            #print('chkGrammar returned: ' + str(tree))
+
+            if tree == None:
+                print('CFG parse returned: ' + str(tree))
+            else:
+                print('now do something with parse tree')
+                sStack = ss.getSentStack(tree)
+
+                if len(sStack) > 0:
+                    print('Sentence Stack: ' + str(sStack))
+                    ss.saveStack(sStack)
+                else:
+                    print('No Sentence Stack returned')
+
+            sPOS = ss.getPOS(ccs, inData)
+
+            print('sPOS: ' + str(sPOS))
+            
+            #ss.searchMeaning(ccs, pos_s, myNames, myNouns)
+            
+            ss.s4m(ccs, inData, sPOS)
+
+            
+        else:
+            print('-->>Something unexpected happened')
+ 
+#        sys.exit('all for now')
 
     elif cmd == 's' or cmd == 'S': # Speak
         # Randomly generates a sentence from the exiting CFG
@@ -69,85 +134,23 @@ while loop:
         relationFound = False
         
         while not relationFound:
-            s = sm.randomSpeak(rules)
+            s = ss.randomSpeak(rules)
             # This check also returns a list which is needed
-            ccs = sm.correctCase(s, myNames)
-            pos_s = sm.getTags(s)
-            relationFound = sm.searchMeaning(ccs, pos_s, myNames, myNouns)
+            ccs = ss.correctCase(s, myNames)
+            pos_s = ss.getTags(s)
+            relationFound = ss.searchMeaning(ccs, pos_s, myNames, myNouns)
             print('relationFound: ' + str(relationFound))
         s = ''
             
-    elif cmd == 't' or cmd == 'T': # Not yet
+    elif cmd == 't' or cmd == 'T': # Tech mode; Not yet
+        # Train
+        #
         print("TODO: Enter learningMode")
         s = ''
     #    sm.learningMode(retCode)
     else:
         print("else cmd = " + str(cmd))
         s = ''
-
-
-    # Should be left with an input sentence
-    #
-    if len(s) > 0: # Now the fun begins
-
-        f = open(flog, 'a')
-        
-        slt = sLoopTime.strftime("%m/%d/%Y %H:%M:%S")
-
-        print('=== START LOOP AT: ' + str(slt) + ' ===')
-        f.write('\n=== START LOOP AT: ' + str(slt) + ' ===\n')
-        f.close()
-
-        # Check and correct case for NNPs
-        print('Correcting case...')
-        ccs = sm.correctCase(s, myNames)
-        print(type(ccs))
-        print(ccs)
-        print('Correcting case completed.')
-
-      
-
-        # Parse corrected case sentenance (input) per grammar
-        #
-        retCode = sm.chkGrammar(ccs)
-
-        # retCode will be either:
-        # 1)
-        #  retType: <class 'list'>
-        #  [Tree('S', [Tree('NP', ['Mary']), Tree('VP', [Tree('V', ['walked']), Tree('NP', ['Pookie']), Tree('PP', [Tree('P', ['in']), Tree('NP', [Tree('Det', ['the']), Tree('N', ['park'])])])])])]
-        # 2)
-        #  retType: <class 'ValueError'>
-        #  Grammar does not cover some of the input words: "'Harry'".
-        # 3)
-        #  retType: <class 'int'>
-        #  0
-
-        if retCode == 0:
-            print('-->>Unable to find any productions in existing grammar')
-            print('-->>Searching for relationships and/or meaning...')
-            sm.searchMeaning(ccs, pos_s, myNames, myNouns)
-    
-        elif isinstance(retCode, ValueError):
-            print('-->>retCode returned a ValueError' + str(ValueError))
-            sm.myErrHandler(retCode)
-
-# TODO           if sm.myErrHandler(retCode):
-#                    sm.learningMode(retCode)
-    
-        elif isinstance(retCode, list):
-            print('-->>Input is grammatically correct per CFG')
-            print('-->>Searching for relationships and/or meaning...')
-
-            print(retCode)
-            print('- - - - - ')
-            print(type(retCode))
-            print('- - - - - ')
-            
-            sm.searchMeaning(ccs, pos_s, myNames, myNouns)
-        else:
-            print('-->>Something unexpected happened')
-        
-    else:
         loop = False
 
     now = datetime.now()
@@ -155,12 +158,11 @@ while loop:
     elooptime = now - sLoopTime
 
     f = open(flog, 'a')
-    print('=== END LOOP AT: ' + str(elt) + ' ===')
-    print('=== elapsed loop time: ' + str(elooptime))
+    print('---=== END LOOP AT: ' + str(elt) + ' ===')
+    print('---=== elapsed loop time: ' + str(elooptime))
     
-    f.write('\n=== END LOOP AT: ' + str(elt) + ' ===\n')
-    f.write('=== elapsed loop time: ' + str(elooptime) + ' ===\n')
-    f.close()
+    f.write('\n---=== END LOOP AT: ' + str(elt) + ' ===\n')
+    f.write('---=== elapsed loop time: ' + str(elooptime) + ' ===\n')
         
 
 now = datetime.now()

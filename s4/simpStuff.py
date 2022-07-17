@@ -1,20 +1,370 @@
 #
-# simpMod.py
+# simpStuff.py
 #
-import nltk
-from nltk import word_tokenize
-#from nltk.corpus import wordnet as wn
-from nltk import pos_tag
-#import re
+#import nltk
+#from nltk import word_tokenize
+#from nltk import pos_tag
 import random as rd
 import spacy
 import pyinflect
+import sys
+import string
 
+from collections import defaultdict
+from nltk.tree import Tree
 
 fRules = 'cfg_rules.cfg'    # CFG Rules w/o terminals
 fCFG = 'simp.cfg'           # CFG 
 fData = 'data.txt'          # Lexicon & KB
 fLog = 'simpLog.txt'        # Log file
+fSS = 'sentStacks.txt'    # Parsed sentences for later analysis
+
+### Classes
+#
+class Rule(object):
+        """
+        Represents a CFG rule.
+        """
+
+        def __init__(self, lhs, rhs):
+                # Represents the rule 'lhs -> rhs', where lhs is a non-terminal and
+                # rhs is a list of non-terminals and terminals.
+                self.lhs, self.rhs = lhs, rhs
+
+        def __contains__(self, sym):
+                return sym in self.rhs
+
+        def __eq__(self, other):
+                if type(other) is Rule:
+                        return self.lhs == other.lhs and self.rhs == other.rhs
+
+                return False
+
+        def __getitem__(self, i):
+                return self.rhs[i]
+
+        def __len__(self):
+                return len(self.rhs)
+
+        def __repr__(self):
+                return self.__str__()
+
+        def __str__(self):
+                return self.lhs + ' -> ' + ' '.join(self.rhs)
+
+
+class Grammar(object):
+        """
+        Represents a CFG.
+        """
+
+        def __init__(self):
+                # The rules are represented as a dictionary from L.H.S to R.H.S.
+                self.rules = defaultdict(list)
+
+        def add(self, rule):
+                """
+                Adds the given rule to the grammar.
+                """
+                
+                self.rules[rule.lhs].append(rule)
+
+        @staticmethod
+        def load_grammar(fpath):
+                """
+                Loads the grammar from file (from the )
+                """
+
+                CFGor = '|'
+
+                grammar = Grammar()
+                
+                with open(fpath) as f:
+                        for line in f:
+                                line = line.strip()
+
+                                if len(line) == 0:
+                                        continue
+
+                                if line == '#':
+                                        continue
+
+                                entries = line.split('->')
+                                lhs = entries[0].strip()
+
+                                if CFGor in entries[1]:
+                                        for rhs in entries[1].split('|'):
+                                                grammar.add(Rule(lhs, rhs.strip().split()))
+                                else:
+                                        grammar.add(Rule(lhs, entries[1].strip().split()))
+
+                return grammar
+
+        def __repr__(self):
+                return self.__str__()
+
+        def __str__(self):
+                s = [str(r) for r in self.rules['S']]
+
+                for nt, rule_list in self.rules.iteritems():
+                        if nt == 'S':
+                                continue
+
+                        s += [str(r) for r in rule_list]
+
+                return '\n'.join(s)
+
+        # Returns the rules for a given Non-terminal.
+        def __getitem__(self, nt):
+                return self.rules[nt]
+
+        def is_terminal(self, sym):
+                """
+                Checks is the given symbol is terminal.
+                """
+
+                return len(self.rules[sym]) == 0
+
+        def is_tag(self, sym):
+                """
+                Checks whether the given symbol is a tag, i.e. a non-terminal with rules
+                to solely terminals.
+                """
+
+                if not self.is_terminal(sym):
+                        return all(self.is_terminal(s) for r in self.rules[sym] for s in
+                                r.rhs)
+
+                return False
+
+
+class EarleyState(object):
+        """
+        Represents a state in the Earley algorithm.
+        """
+
+        GAM = '<GAM>'
+
+        def __init__(self, rule, dot=0, sent_pos=0, chart_pos=0, back_pointers=[]):
+                # CFG Rule.
+                self.rule = rule
+                # Dot position in the rule.
+                self.dot = dot
+                # Sentence position.
+                self.sent_pos = sent_pos
+                # Chart index.
+                self.chart_pos = chart_pos
+                # Pointers to child states (if the given state was generated using
+                # Completer).
+                self.back_pointers = back_pointers
+
+        def __eq__(self, other):
+                if type(other) is EarleyState:
+                        return self.rule == other.rule and self.dot == other.dot and \
+                                self.sent_pos == other.sent_pos
+
+                return False
+
+        def __len__(self):
+                return len(self.rule)
+
+        def __repr__(self):
+                return self.__str__()
+
+        def __str__(self):
+                def str_helper(state):
+                        return ('(' + state.rule.lhs + ' -> ' +
+                        ' '.join(state.rule.rhs[:state.dot] + ['*'] + 
+                                state.rule.rhs[state.dot:]) +
+                        (', [%d, %d])' % (state.sent_pos, state.chart_pos)))
+
+                return (str_helper(self) +
+                        ' (' + ', '.join(str_helper(s) for s in self.back_pointers) + ')')
+
+        def next(self):
+                """
+                Return next symbol to parse, i.e. the one after the dot
+                """
+
+                if self.dot < len(self):
+                        return self.rule[self.dot]
+
+        def is_complete(self):
+                """
+                Checks whether the given state is complete.
+                """
+
+                return len(self) == self.dot
+
+        @staticmethod
+        def init():
+                """
+                Returns the state used to initialize the chart in the Earley algorithm.
+                """
+
+                return EarleyState(Rule(EarleyState.GAM, ['S']))
+
+
+class ChartEntry(object):
+        """
+        Represents an entry in the chart used by the Earley algorithm.
+        """
+
+        def __init__(self, states):
+                # List of Earley states.
+                self.states = states
+
+        def __iter__(self):
+                return iter(self.states)
+
+        def __len__(self):
+                return len(self.states)
+
+        def __repr__(self):
+                return self.__str__()
+
+        def __str__(self):
+                return '\n'.join(str(s) for s in self.states)
+
+        def add(self, state):
+                """
+                Add the given state (if it hasn't already been added).
+                """
+
+                if state not in self.states:
+                        self.states.append(state)
+
+
+class Chart(object):
+        """
+        Represents the chart used in the Earley algorithm.
+        """
+
+        def __init__(self, entries):
+                # List of chart entries.
+                self.entries = entries
+
+        def __getitem__(self, i):
+                return self.entries[i]
+
+        def __len__(self):
+                return len(self.entries)
+
+        def __repr__(self):
+                return self.__str__()
+
+        def __str__(self):
+                return '\n\n'.join([("Chart[%d]:\n" % i) + str(entry) for i, entry in
+                        enumerate(self.entries)])
+
+        @staticmethod
+        def init(l):
+                """
+                Initializes a chart with l entries (Including the dummy start state).
+                """
+
+                return Chart([(ChartEntry([]) if i > 0 else
+                                ChartEntry([EarleyState.init()])) for i in range(l)])
+
+
+class EarleyParse(object):
+        """
+        Represents the Earley-generated parse for a given sentence according to a
+        given grammar.
+        """
+
+        def __init__(self, sentence, grammar):
+                #self.words = sentence.split()
+                self.words = sentence
+                self.grammar = grammar
+
+                self.chart = Chart.init(len(self.words) + 1)
+
+        def predictor(self, state, pos):
+                """
+                Earley Predictor.
+                """
+
+                for rule in self.grammar[state.next()]:
+                        self.chart[pos].add(EarleyState(rule, dot=0,
+                                sent_pos=state.chart_pos, chart_pos=state.chart_pos))
+
+        def scanner(self, state, pos):
+                """
+                Earley Scanner.
+                """
+
+                if state.chart_pos < len(self.words):
+                        word = self.words[state.chart_pos]
+
+                        if any((word in r) for r in self.grammar[state.next()]):
+                                self.chart[pos + 1].add(EarleyState(Rule(state.next(), [word]),
+                                        dot=1, sent_pos=state.chart_pos,
+                                        chart_pos=(state.chart_pos + 1)))
+
+        def completer(self, state, pos):
+                """
+                Earley Completer.
+                """
+
+                for prev_state in self.chart[state.sent_pos]:
+                        if prev_state.next() == state.rule.lhs:
+                                self.chart[pos].add(EarleyState(prev_state.rule,
+                                        dot=(prev_state.dot + 1), sent_pos=prev_state.sent_pos,
+                                        chart_pos=pos,
+                                        back_pointers=(prev_state.back_pointers + [state])))
+
+        def parse(self):
+                """
+                Parses the sentence by running the Earley algorithm and filling out the
+                chart.
+                """
+
+                # Checks whether the next symbol for the given state is a tag.
+                def is_tag(state):
+                        return self.grammar.is_tag(state.next())
+
+                for i in range(len(self.chart)):
+                        for state in self.chart[i]:
+                                if not state.is_complete():
+                                        if is_tag(state):
+                                                self.scanner(state, i)
+                                        else:
+                                                self.predictor(state, i)
+                                else:
+                                        self.completer(state, i)
+
+        def has_parse(self):
+                """
+                Checks whether the sentence has a parse.
+                """
+
+                for state in self.chart[-1]:
+                        if state.is_complete() and state.rule.lhs == 'S' and \
+                                state.sent_pos == 0 and state.chart_pos == len(self.words):
+                                return True
+
+                return False
+
+        def get(self):
+                """
+                Returns the parse if it exists, otherwise returns None.
+                """
+
+                def get_helper(state):
+                        if self.grammar.is_tag(state.rule.lhs):
+                                return Tree(state.rule.lhs, [state.rule.rhs[0]])
+
+                        return Tree(state.rule.lhs,
+                                [get_helper(s) for s in state.back_pointers])
+
+                for state in self.chart[-1]:
+                        if state.is_complete() and state.rule.lhs == 'S' and \
+                                state.sent_pos == 0 and state.chart_pos == len(self.words):
+                                return get_helper(state)
+
+                return None
+# End Classes
 
 ###
 def getData():
@@ -35,6 +385,7 @@ def getData():
     fin.close()
 
     return(inData)
+# End getData
 
 ###
 def buildCFG(data):
@@ -59,6 +410,7 @@ def buildCFG(data):
     cf.close()
 
     return
+# End buildCFG
 
 ###
 def getInput():
@@ -66,7 +418,6 @@ def getInput():
     s = input("Enter a command <[C]hat, [S]peak, or [T]each>: ")
 
     if s == 'c' or s == 'C':
-
         print("Entering Chat mode...")
     elif s == 's' or s == 'S':
         print(s)
@@ -78,121 +429,253 @@ def getInput():
         print("Invalid entry!?" + str(s))
 
     return s
-# end getSentence()
+# end getInput
 
 ###
-def chkGrammar(s):
+def correctCase(s, data):
+# Capitalizes NNPs mary -> Mary
 
-    simpleGrammar = nltk.data.load('file:' + str(fCFG))
+    slist = s.split(' ')
+    ccs = []
 
-    rd_parser = nltk.RecursiveDescentParser(simpleGrammar) #, trace=2)
-##    rd_parser = nltk.RecursiveDescentParser(simpleGrammar, trace=2)
-    treesFound = []
-    strTrees = []
+    for w in slist:           
+        for d in data:
+                       
+            if d[0].lower() == w:
+                if d[1] == 'NNP':
+                    w = w.capitalize()
+                            
+        ccs.append(w)
 
-    slist = s 
+    return ccs
+# End correctCase
 
-    fl = open(flog, 'a')
+###
+def chkWords(s, inData):
+# Returns sentence words not in lex
+    words = []
 
- 
-    try:
-        for tree in rd_parser.parse(slist):
-            treesFound.append(tree)
-            print('>' + str(tree) + '<')
-
-        if len(treesFound) == 0:
-            fl.write('Input: ' + str(s) + ' - did not produce a tree:\n')
-#            tok_s = word_tokenize(s)
-            pos_s = nltk.pos_tag(s)
-            fl.write('Simple tokenizer: ' + str(pos_s) + '\n')
-            retCode = 0
-        else:
-##?            fmem = open(fm, fmMode)
-            fl.write('Input: ' + str(s) + ' - produced:\n')
-            for t in treesFound:
-                fl.write(str(t))
-                fl.write('\n')
-                strTrees.append(str(t))
-
-            for st in strTrees:
-                print(type(st))
-                print(st)
-#            tok_s = word_tokenize(s)
-            pos_s = nltk.pos_tag(s)
-            fl.write('Simple tokenizer: ' + str(pos_s) + '\n')
-            
-#            retCode = len(treesFound)
-            retCode = treesFound
+    for d in inData:
+        words.append(d[0])
+                
+    s1 = set(s)
+    s2 = set(words)
+    ret = s1.difference(s2)
     
-    except ValueError as err:
-#        print('Problem with input not covered by grammar')
-#        print('ValueError: {0}'.format(err))
-#        myErrHandler(err)        
-#        retCode = -1
-        retCode = err
-        
-    fl.close()
+    return ret
+# End chkWords
+
+###
+def chkGrammar(sentence, d):
+
+    grammar = Grammar.load_grammar(fCFG)
+
+    def run_parse(sentence):
+        parse = EarleyParse(sentence, grammar)
+        parse.parse()
+        return parse.get()
+  
+    while True:
+        try:
+
+            '''
+            Revist this at another time
+
+            # Strip the sentence of any puncutation.
+            stripped_sentence = sentence
+            for p in string.punctuation:
+                stripped_sentence = stripped_sentence.replace(p, '')
+
+            parse = run_parse(stripped_sentence)
+            '''
+            parse = run_parse(sentence)
+            #print('parse type is:\n\t' + str(type(parse)))
+                        
+            if parse is None:
+                print('parse returned None for:\n\t' + str(sentence) + '\n')
+                return(parse)
+            else:
+                if d:
+                    parse.draw()
+                else:
+                    parse.pretty_print()
+
+#                    print('-----')
+#
+#                    getNodes(parse)
+#
+#                    print('----------')
+
+                    #myParse = str(parse)
+                    #print(type(myParse))
+                    #print(myParse)
+                        
+            #return(myParse)
+            return(parse)
+        except EOFError:
+            #sys.exit()
+            return('EOFError')
     
-    return retCode
+    return('Drop-through-parse-error')
 
 # end chkGrammar(s)
 
-
 ###
-def myErrHandler(err):
+def getSentStack(t):
+# Get information from sentence tree (subject, direct/indirect object, verb/action, etc.)
+# For now just return a list of the sentence structure
 
-    learningMode = False
+    myStack = []
+
+    def getNodes(parent):
     
-    print('ErrH: Problem with input not covered by grammar')
-    print('ErrH: ValueError: {0}'.format(err))
+        for node in parent:
+            if type(node) is Tree:
 
-#    missingWord = re.search('\'(.*)\'', str(err))
-#    mw = missingWord.group(1)
-#    print(mw)
-#
-    response = input('Shall we enter learning mode? <Y/N>')
-
-    if (response == 'Y') or (response == 'y'):
-        learningMode = True
-    
-    return learningMode
-
-# end myErrHandler(err):
-
-
-###
-def getNodes(parent):
-
-    ROOT = 'ROOT'
-    tree = ...
-    
-    for node in parent:
-        if type(node) is nltk.Tree:
-            if node.label() == ROOT:
-                print("======== Sentence =========")
-                print("Sentence:", " ".join(node.leaves()))
+                l = node.label()
+                myStack.append(l)
+                getNodes(node)
             else:
-                print("Label:", node.label())
-                print("Leaves:", node.leaves())
 
-            getNodes(node)
-        else:
-            print("Word:", node)
+                n = str(node)
+                myStack.append(n)
+                
+        return
 
-# end getNodes(parent)
+    getNodes(t)
 
+    return(myStack)
+# End getSentStack
 
 ###
-def getJustNouns(pos_s):
+def saveStack(s):
+# Build a history of sentences for late analysis
 
-    jNouns = []
+    #inStr = '\n' + str(s)
+    inStr = str(s)
+    inStr = inStr.strip('\n')
+
+    sf = open(fSS, 'a')
+    sf.write(inStr + '\n')
+    sf.close()
+# End saveStack
+
+###
+def getPOS(s, data):
+
+    sPOS = []
     
-    for i in range(len(pos_s)):
-        if pos_s[i] in "NN NNS":
-            jNouns.append(pos_s[i - 1])        
+    for w in s:
+        for d in data:
+            if w == d[0]:
+                sPOS.append((w,d[1]))
+    return(sPOS)
+# End getPOS
 
-    return jNouns
-# end getJustNouns
+###
+def getInflections(w, pos):
+
+    inflections = "No inflections found"
+    #inflections = w # If no inflections found return original
+    
+    # Becuse of the wonky way in which spacy and pyinflect work
+    # we must read all base pos (NN or VB) then compare output to w
+    #
+##    nlp = spacy.load("en")
+    nlp = spacy.load("en_core_web_sm")
+
+    if pos == "VB":
+
+        doc = nlp(w)
+
+        for token in doc:
+            vb  = token._.inflect("VB")
+            vbd = token._.inflect("VBD")
+            vbg = token._.inflect("VBG")
+            vbn = token._.inflect("VBN")
+            # add vbp later
+            vbz = token._.inflect("VBZ")
+
+        # We're assuming an inflection for each vbd, vbg, vbn, and vbz
+            if w == vb or w == vbd or w == vbg or w == vbn or w == vbz:
+                #inflections = token.text + "," + vb + "," + vbd + "," + vbg + "," + vbn + "," + vbz
+                inflections = vb + "," + vbd + "," + vbg + "," + vbn + "," + vbz 
+    elif pos == "NN":
+        
+        doc = nlp(w)
+
+        for token in doc:
+            nn  = token._.inflect("NN")
+            nns = token._.inflect("NNS")
+            
+            #if w == token.text:
+            #    inflections = token.text + "," + str(nns)
+            if w == nn or w == nns:
+                inflections = nn + "," + nns        
+    else:
+        print("Unknown inflection pos tag: " + str(pos))
+    
+    return inflections
+# End getInflections
+
+###
+def s4m(s, data, stack):
+
+    wData = []
+    tFact = ' Match: '
+    fFact = ' No Match: '
+    
+    print('--- s4m ---')
+
+    for w in s:
+        for d in data:
+            if w == d[0]:
+                wData.append(d)
+
+    for w in wData:
+
+        if w[1] in ['NN', 'NNS']:
+            nounInflections = getInflections(w[0], "NN")
+        elif w[1] in ['VB', 'VBD', 'VBG', 'VBN', 'VBZ']:
+            verbInflections = getInflections(w[0], "VB")
+
+    verbs = verbInflections.split(',')
+    verbs = list(dict.fromkeys(verbs))
+
+    for w in wData:
+        print(w)
+        print('---')
+        actionVerbMatch = False
+        if w[1] in ['NN', 'NNS', 'NNP']:
+            actions = w[4].split(',')
+            print('actions: ' + str(actions))
+            print('verbs: ' + str(verbs))
+            
+            for v in verbs:
+                print('v: ' + str(v))
+                for a in actions:
+                    print('a: ' + str(a))
+                    if v == a:
+                    #print('w[0]: ' + w[0] + ' action/verb match ' + v)
+                        tFact = str(w[0]) + ' can ' + str(v)
+                        actionVerbMatch = True
+                    else:
+                        fFact = fFact + str(w[0]) + ' cannot ' + str(v) + '; '
+
+    if actionVerbMatch:
+        print(tFact)
+    else:
+        print(fFact)
+
+
+
+# End s4m
+
+
+
+
+
+
 
 
 ###
@@ -602,61 +1085,6 @@ def randomSpeak(rules):
     return final
 
 
-def getInflections(w, pos):
-
-    inflections = "No inflections found"
-    # Becuse of the wonky way in whicg spacy and pyinflect work
-    # we must read all base pos (NN or VB) then compare output to w
-    #
-##    nlp = spacy.load("en")
-    nlp = spacy.load("en_core_web_sm")
-
-    if pos == "VB":
-
-        verbs = getVerbs() # These verbs should already be VB
-        verbs = ' '.join(verbs)
-        doc = nlp(verbs)
-
-        for token in doc:
-            vbd = token._.inflect("VBD")
-            vbg = token._.inflect("VBG")
-            vbn = token._.inflect("VBN")
-            # add vbp later
-            vbz = token._.inflect("VBZ")
-
-       # print(vbd, "-", vbg, "-", vbn, "-", vbz)
-        # We're assuming an inflection for each vbd, vbg, vbn, and vbz
-            if w == vbd or w == vbg or w == vbn or w == vbz:
-                inflections = token.text + "," + vbd + "," + vbg + "," + vbn + "," + vbz 
-    elif pos == "NN":
-        
-#        nouns = getNouns()
-#        nouns = ' '.join(nouns)
-
-
-#        print("get inflec w: " + str(w))
-        
-        doc = nlp(w)
-
-#        print("get inflec doc: " + str(doc))
-
-        for token in doc:
- #           print("get inflec token.text: " + token.text)
-            nns = token._.inflect("NNS")
-
- #           print("get inflec nns " + str(nns)) # str(nns) to handle "NoneType"
-            
-            if w == token.text:
-                inflections = token.text + "," + str(nns)
-                
-        
-    else:
-        print("Unknown inflection pos tag: " + str(pos))
-
-#    print("get inflec inflections: " + inflections)
-    
-    return inflections
-# End getInflections(w, pos)
 
 
 ##
@@ -1022,21 +1450,3 @@ def getRules():
 # End getRules()
 
 
-#
-def correctCase(s, data):
-# Capitalizes NNPs mary -> Mary
-
-    slist = s.split(' ')
-    ccs = []
-
-    for w in slist:           
-        for d in data:
-                       
-            if d[0].lower() == w:
-                if d[1] == 'NNP':
-                    w = w.capitalize()
-                            
-        ccs.append(w)
-
-    return ccs
-# End correctCase()
