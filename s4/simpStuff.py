@@ -641,11 +641,23 @@ def s4m(s, data, stack):
             print(str(w[0]) + ' - ' + str(w[1]))
             vInflections.append(getInflections(w[0], "VB"))
 
-    #verbs = verbInflections.split(',')
-    #verbs = list(dict.fromkeys(verbs))
-
     print('wData: ' + str(wData))
     print('verbs: ' + str(vInflections))
+
+    for w in wData:
+        if w[1] == 'NNP':
+            actions = set(w[4].split(','))
+            print('typ a: ' + str(type(actions)))
+            print('a: ' + str(actions))
+            for v in vInflections:
+                v = v.split(',')
+                print('typ v: ' + str(type(v)))
+                print('v: ' + str(v))
+                inflect = set(v)
+                print('inflect: ' + str(inflect))
+                inflect.intersection_update(actions)
+                print('set results: ' + str(inflect))
+            
 
 
 # End s4m
