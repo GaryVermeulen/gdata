@@ -614,6 +614,8 @@ def getInflections(w, pos):
                 inflections = nn + "," + nns        
     else:
         print("Unknown inflection pos tag: " + str(pos))
+
+    print('inflections: ' + str(inflections))
     
     return inflections
 # End getInflections
@@ -622,8 +624,8 @@ def getInflections(w, pos):
 def s4m(s, data, stack):
 
     wData = []
-    tFact = ' Match: '
-    fFact = ' No Match: '
+    nInflectsions = []
+    vInflections  = []
     
     print('--- s4m ---')
 
@@ -633,40 +635,17 @@ def s4m(s, data, stack):
                 wData.append(d)
 
     for w in wData:
-
         if w[1] in ['NN', 'NNS']:
-            nounInflections = getInflections(w[0], "NN")
+            nInflections.append(getInflections(w[0], "NN"))
         elif w[1] in ['VB', 'VBD', 'VBG', 'VBN', 'VBZ']:
-            verbInflections = getInflections(w[0], "VB")
+            print(str(w[0]) + ' - ' + str(w[1]))
+            vInflections.append(getInflections(w[0], "VB"))
 
-    verbs = verbInflections.split(',')
-    verbs = list(dict.fromkeys(verbs))
+    #verbs = verbInflections.split(',')
+    #verbs = list(dict.fromkeys(verbs))
 
-    for w in wData:
-        print(w)
-        print('---')
-        actionVerbMatch = False
-        if w[1] in ['NN', 'NNS', 'NNP']:
-            actions = w[4].split(',')
-            print('actions: ' + str(actions))
-            print('verbs: ' + str(verbs))
-            
-            for v in verbs:
-                print('v: ' + str(v))
-                for a in actions:
-                    print('a: ' + str(a))
-                    if v == a:
-                    #print('w[0]: ' + w[0] + ' action/verb match ' + v)
-                        tFact = str(w[0]) + ' can ' + str(v)
-                        actionVerbMatch = True
-                    else:
-                        fFact = fFact + str(w[0]) + ' cannot ' + str(v) + '; '
-
-    if actionVerbMatch:
-        print(tFact)
-    else:
-        print(fFact)
-
+    print('wData: ' + str(wData))
+    print('verbs: ' + str(vInflections))
 
 
 # End s4m
