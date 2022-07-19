@@ -615,14 +615,15 @@ def getInflections(w, pos):
     else:
         print("Unknown inflection pos tag: " + str(pos))
 
-    print('inflections: ' + str(inflections))
+#    print('inflections: ' + str(inflections))
     
     return inflections
 # End getInflections
 
 ###
 def s4m(s, data, stack):
-
+    # Simple comparison of data and verbs
+    #
     wData = []
     nInflectsions = []
     vInflections  = []
@@ -638,26 +639,34 @@ def s4m(s, data, stack):
         if w[1] in ['NN', 'NNS']:
             nInflections.append(getInflections(w[0], "NN"))
         elif w[1] in ['VB', 'VBD', 'VBG', 'VBN', 'VBZ']:
-            print(str(w[0]) + ' - ' + str(w[1]))
+#            print(str(w[0]) + ' - ' + str(w[1]))
             vInflections.append(getInflections(w[0], "VB"))
 
     print('wData: ' + str(wData))
-    print('verbs: ' + str(vInflections))
+#    print('verbs: ' + str(vInflections))
 
     for w in wData:
         if w[1] == 'NNP':
             actions = set(w[4].split(','))
-            print('typ a: ' + str(type(actions)))
-            print('a: ' + str(actions))
+            
+#            print('typ a: ' + str(type(actions)))
+#            print('a: ' + str(actions))
             for v in vInflections:
                 v = v.split(',')
-                print('typ v: ' + str(type(v)))
-                print('v: ' + str(v))
+#                print('typ v: ' + str(type(v)))
+#                print('v: ' + str(v))
                 inflect = set(v)
-                print('inflect: ' + str(inflect))
+                
+#                print('inflect: ' + str(inflect))
                 inflect.intersection_update(actions)
                 print('set results: ' + str(inflect))
-            
+
+                if len(inflect) == 0:
+                    print(str(w[0]) + ' cannot ' + str(v))
+                else:
+                    print(str(w[0]) + ' can ' + str(v))
+
+                
 
 
 # End s4m
