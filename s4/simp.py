@@ -12,8 +12,8 @@ import simpStuff as ss
 from datetime import datetime
 
 flog = 'simpLog.txt'
+fhistory = 'history.txt'
 
-    
 
 f = open(flog, 'a')
 startTime = datetime.now()
@@ -34,21 +34,21 @@ inData = ss.getData()
 ss.buildCFG(inData)
 
 print("----------------------")
-print("--- Reading of data completed ---\n")
+print("--- Reading of data completed:")
 
 endTime = datetime.now()
 et = endTime.strftime("%m/%d/%Y %H:%M:%S")
 
 elpTime = endTime - startTime
 
-print("--- endTime: " + str(et))
-print("--- elapsed time: " + str(elpTime))
+print("    endTime: " + str(et))
+print("    elapsed time: " + str(elpTime))
 
 
 f.write("----------------------\n")
-f.write("--- reading of data completed ---\n")
-f.write("--- end time: " + str(et) + "\n")
-f.write("--- elapsed time: " + str(elpTime) + "\n")
+f.write("--- reading of data completed:\n")
+f.write("    end time: " + str(et) + "\n")
+f.write("    elapsed time: " + str(elpTime) + "\n")
 #f.close()
 
 
@@ -68,8 +68,8 @@ while loop:
 
     slt = sLoopTime.strftime("%m/%d/%Y %H:%M:%S")
 
-    print('---=== START LOOP AT: ' + str(slt) + ' ===')
-    f.write('\n---=== START LOOP AT: ' + str(slt) + ' ===\n')
+    print('---    START LOOP AT: ' + str(slt) + ' ===')
+    f.write('\n---    START LOOP AT: ' + str(slt) + ' ===\n')
 
 
     if cmd == 'c' or cmd == 'C': # Chat
@@ -92,53 +92,94 @@ while loop:
                 print(len(ret))
                 print(type(ret))
                 print('chkWords returned: ' + str(ret))
+                x = input('Shall I check external sources? <Y/N>')
+                if x in ['Y', 'y']:
+                    print('I shll attempt to learn on my own...')
+                else:
+                    print('dropping through...')
+                
                 continue
 
-            # Parse corrected case sentence (input) per grammar
-            # Draw out the grammar tree?
-            draw = False
-            tree = ss.chkGrammar(ccs, draw)
+            # Has this been said before?
+            aforementioned = ss.chkHistory(ccs)
 
-            #print('chkGrammar returned: ' + str(tree))
-
-            if tree == None:
-                print('CFG parse returned: ' + str(tree))
+            if len(aforementioned) > 0:
+                print(len(aforementioned))
+                print(type(aforementioned))
+                for a in aforementioned:
+                    print(a)
+                    a2 = a.split(';')
+                    for a2a in a2:
+                        a2a = a2a.replace(" ", "")
+                        print(a2a)
+                    sPOS = a2[0]
+                    rel = s2[1]
+                    
+                saidBefore = True
             else:
-                print('now do something with parse tree')
-                sStack = ss.getSentStack(tree)
+                print('something new...')
+                saidBefore = False
 
-                if len(sStack) > 0:
-                    print('Sentence Stack: ' + str(sStack))
-                    ss.saveStack(sStack)
+            if not saidBefore:
+                # Parse corrected case sentence (input) per grammar
+                # Draw out the grammar tree?
+                draw = False
+                tree = ss.chkGrammar(ccs, draw)
+
+                if tree == None:
+                    validCFG = False
+                    print('CFG parse returned: ' + str(tree))
                 else:
-                    print('No Sentence Stack returned')
+                    validCFG = True
+                    print('now do something with parse tree')
+                    sStack = ss.getSentStack(tree)
 
-            sPOS = ss.getPOS(ccs, inData)
+                    if len(sStack) > 0:
+                        print('Sentence Stack: ' + str(sStack))
+                        ss.saveStack(sStack)
+                    else:
+                        print('No Sentence Stack returned')
 
-            print('sPOS: ' + str(sPOS))
+                sPOS = ss.getPOS(ccs, inData)
+
+                print('sPOS: ' + str(sPOS))
             
-            #ss.searchMeaning(ccs, pos_s, myNames, myNouns)
-            
-            ss.s4m(ccs, inData, sPOS)
+                rel = ss.s4m(ccs, inData, sPOS)
+
+                if rel == None:
+                    relationFound = False
+                else:
+                    relationFound = True
+            else:
+                validCFG = True
+                relationFound = True
+                
+            # Retain valid information i.e. memory or history
+#            if validCFG and relationFound:
+#                print('Saving history...')
+#                fh = open(fhistory, 'a')
+#                fh.write('\n' + str(sPOS) + '; ' + str(rel) + '; ' + slt)
+#                fh.close()
+#            else:
+#                print('History not saved')
+#                print(str(validCFG) + '; ' + str(relationFound))
 
             
         else:
             print('-->>Something unexpected happened')
- 
-#        sys.exit('all for now')
 
     elif cmd == 's' or cmd == 'S': # Speak
         # Randomly generates a sentence from the exiting CFG
         # 
-        rules = sm.getRules()
+        rules = ss.getRules()
         relationFound = False
         
         while not relationFound:
             s = ss.randomSpeak(rules)
             # This check also returns a list which is needed
-            ccs = ss.correctCase(s, myNames)
-            pos_s = ss.getTags(s)
-            relationFound = ss.searchMeaning(ccs, pos_s, myNames, myNouns)
+            ccs = ss.correctCase(s, inData)
+            sPOS = ss.getPOS(ccs, inData)
+            relationFound = ss.s4m(ccs, inData, sPOS)
             print('relationFound: ' + str(relationFound))
         s = ''
             
@@ -158,11 +199,11 @@ while loop:
     elooptime = now - sLoopTime
 
     f = open(flog, 'a')
-    print('---=== END LOOP AT: ' + str(elt) + ' ===')
-    print('---=== elapsed loop time: ' + str(elooptime))
+    print('---    END LOOP AT: ' + str(elt) + ' ===')
+    print('---    elapsed loop time: ' + str(elooptime))
     
-    f.write('\n---=== END LOOP AT: ' + str(elt) + ' ===\n')
-    f.write('---=== elapsed loop time: ' + str(elooptime) + ' ===\n')
+    f.write('\n---    END LOOP AT: ' + str(elt) + ' ===\n')
+    f.write('---    elapsed loop time: ' + str(elooptime) + ' ===\n')
         
 
 now = datetime.now()

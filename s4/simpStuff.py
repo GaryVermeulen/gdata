@@ -17,7 +17,8 @@ fRules = 'cfg_rules.cfg'    # CFG Rules w/o terminals
 fCFG = 'simp.cfg'           # CFG 
 fData = 'data.txt'          # Lexicon & KB
 fLog = 'simpLog.txt'        # Log file
-fSS = 'sentStacks.txt'    # Parsed sentences for later analysis
+fSS = 'sentStacks.txt'      # Parsed sentences for later analysis
+fHist = 'history.txt'       # History (passed CFG and s4m)
 
 ### Classes
 #
@@ -625,8 +626,9 @@ def s4m(s, data, stack):
     # Simple comparison of data and verbs
     #
     wData = []
-    nInflectsions = []
+    nInflections = []
     vInflections  = []
+    rel = None
     
     print('--- s4m ---')
 
@@ -642,15 +644,18 @@ def s4m(s, data, stack):
 #            print(str(w[0]) + ' - ' + str(w[1]))
             vInflections.append(getInflections(w[0], "VB"))
 
-    print('wData: ' + str(wData))
-#    print('verbs: ' + str(vInflections))
-
+#    print('wData: ' + str(wData))
+#    print('nInflections: ' + str(nInflections))
+#    print('vInflections: ' + str(vInflections))
+#
+#    print(len(wData))
+#    print('wData: ' + str(wData))
     for w in wData:
         if w[1] == 'NNP':
             actions = set(w[4].split(','))
             
-#            print('typ a: ' + str(type(actions)))
-#            print('a: ' + str(actions))
+#            print('typ actions: ' + str(type(actions)))
+            print('actions: ' + str(actions))
             for v in vInflections:
                 v = v.split(',')
 #                print('typ v: ' + str(type(v)))
@@ -663,16 +668,73 @@ def s4m(s, data, stack):
 
                 if len(inflect) == 0:
                     print(str(w[0]) + ' cannot ' + str(v))
+                    rel = None
                 else:
-                    print(str(w[0]) + ' can ' + str(v))
-
+                    rel = inflect.pop()
+                    print(str(w[0]) + ' can ' + rel)
                 
 
-
+    return rel
 # End s4m
 
+###
+def chkHistory(s):
 
+    hist = []
 
+    fh = open(fHist, 'r')
+    myHist = fh.read()
+    fh.close()
+
+#    print(len(myHist))
+#    print(type(myHist))
+
+    lines = myHist.split('\n')
+
+    for line in lines:
+        if len(line) > 0:
+            if line[0] != '#':
+#                print('line:' + str(line))
+                hSentence = line.split(';')
+#                print('hSentence: ' + str(hSentence))
+#                print('hSentence[0]: ' + str(hSentence[0]))
+
+                rawSent = removePOS(hSentence[0])
+
+#                print(type(rawSent))
+#                print(len(rawSent))
+#                print('>*>' + str(rawSent) + '<*<')
+
+                if s == rawSent:
+                    print('s: ' + str(s) + ' = ' + 'rawSent: ' + str(rawSent))
+                    hist.append(line)       
+                else:
+                    print('s: ' + str(s) + ' != ' + 'rawSent: ' + str(rawSent))
+    
+    return hist
+# End chkHistory
+
+###
+def removePOS(sPOS):
+
+    noPOS = []
+    
+    s = sPOS.strip("[])(")
+    s = s.replace("(", "") # strip does not remove all ( or )
+    s = s.replace(")", "")
+    s = s.replace("'", "")
+    s = s.replace(" ", "")
+
+    s = s.split(',')
+
+    # the second item is POS so just skip it
+    i = 0
+    while i < len(s):
+        noPOS.append(s[i])
+        i = i + 2
+    
+    return noPOS
+# End removePOS
 
 
 
