@@ -110,60 +110,66 @@ while loop:
                     print(a)
                     a2 = a.split(';')
                     for a2a in a2:
-                        a2a = a2a.replace(" ", "")
+                        # a2a = a2a.replace(" ", "")
                         print(a2a)
                     sPOS = a2[0]
-                    rel = s2[1]
+                    rel = a2[1]
                     
                 saidBefore = True
             else:
                 print('something new...')
                 saidBefore = False
 
-            if not saidBefore:
-                # Parse corrected case sentence (input) per grammar
-                # Draw out the grammar tree?
-                draw = False
-                tree = ss.chkGrammar(ccs, draw)
+            # Parse corrected case sentence (input) per grammar
+            # Draw out the grammar tree?
+            draw = False
+            tree = ss.chkGrammar(ccs, draw)
 
-                if tree == None:
-                    validCFG = False
-                    print('CFG parse returned: ' + str(tree))
-                else:
-                    validCFG = True
-                    print('now do something with parse tree')
-                    sStack = ss.getSentStack(tree)
-
-                    if len(sStack) > 0:
-                        print('Sentence Stack: ' + str(sStack))
-                        ss.saveStack(sStack)
-                    else:
-                        print('No Sentence Stack returned')
-
-                sPOS = ss.getPOS(ccs, inData)
-
-                print('sPOS: ' + str(sPOS))
-            
-                rel = ss.s4m(ccs, inData, sPOS)
-
-                if rel == None:
-                    relationFound = False
-                else:
-                    relationFound = True
+            if tree == None:
+                validCFG = False
+                print('CFG parse returned: ' + str(tree))
             else:
                 validCFG = True
-                relationFound = True
-                
-            # Retain valid information i.e. memory or history
-#            if validCFG and relationFound:
-#                print('Saving history...')
-#                fh = open(fhistory, 'a')
-#                fh.write('\n' + str(sPOS) + '; ' + str(rel) + '; ' + slt)
-#                fh.close()
-#            else:
-#                print('History not saved')
-#                print(str(validCFG) + '; ' + str(relationFound))
+                print('now do something with parse tree')
+                sStack = ss.getSentStack(tree)
 
+                if len(sStack) > 0:
+                    print('Sentence Stack: ' + str(sStack))
+                    ss.saveStack(sStack)
+                else:
+                    print('No Sentence Stack returned')
+
+            sPOS = ss.getPOS(ccs, inData)
+
+            print('sPOS: ' + str(sPOS))
+            
+            rel = ss.s4m(ccs, inData, sPOS)
+
+            if rel == None:
+                relationFound = False
+                print('rel = False: ' + str(rel))
+            else:
+                relationFound = True
+                print('rel = True: ' + str(rel))
+
+            # Thus far we can have four (4) situations:
+            #   1) New sentence
+            #   2) Old sentence complete KB match
+            #   3) Old sentence partial KB match
+            #   4) Old sentence no KB match
+
+
+            
+            # For now just add the new sentence   
+            # Retain valid information i.e. memory or history
+            if validCFG and relationFound:
+                print('Saving history...')
+                fh = open(fhistory, 'a')
+                fh.write('\n' + str(sPOS) + '; ' + str(rel) + '; ' + slt)
+                fh.close()
+            else:
+                print('History not saved')
+                print(str(validCFG) + '; ' + str(relationFound))
             
         else:
             print('-->>Something unexpected happened')

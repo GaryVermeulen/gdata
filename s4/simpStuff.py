@@ -14,11 +14,11 @@ from collections import defaultdict
 from nltk.tree import Tree
 
 fRules = 'cfg_rules.cfg'    # CFG Rules w/o terminals
-fCFG = 'simp.cfg'           # CFG 
-fData = 'data.txt'          # Lexicon & KB
-fLog = 'simpLog.txt'        # Log file
-fSS = 'sentStacks.txt'      # Parsed sentences for later analysis
-fHist = 'history.txt'       # History (passed CFG and s4m)
+fCFG   = 'simp.cfg'         # CFG 
+fData  = 'data.txt'         # Lexicon & KB
+fLog   = 'simpLog.txt'      # Log file
+fSS    = 'sentStacks.txt'   # Parsed sentences for later analysis
+fHist  = 'history.txt'      # History (passed CFG and s4m)
 
 ### Classes
 #
@@ -629,6 +629,7 @@ def s4m(s, data, stack):
     nInflections = []
     vInflections  = []
     rel = None
+    rels = []
     
     print('--- s4m ---')
 
@@ -671,10 +672,11 @@ def s4m(s, data, stack):
                     rel = None
                 else:
                     rel = inflect.pop()
+                    rels.append(rel)
                     print(str(w[0]) + ' can ' + rel)
                 
 
-    return rel
+    return rels
 # End s4m
 
 ###
@@ -706,10 +708,10 @@ def chkHistory(s):
 #                print('>*>' + str(rawSent) + '<*<')
 
                 if s == rawSent:
-                    print('s: ' + str(s) + ' = ' + 'rawSent: ' + str(rawSent))
+#                    print('s: ' + str(s) + ' = ' + 'rawSent: ' + str(rawSent))
                     hist.append(line)       
-                else:
-                    print('s: ' + str(s) + ' != ' + 'rawSent: ' + str(rawSent))
+#                else:
+#                    print('s: ' + str(s) + ' != ' + 'rawSent: ' + str(rawSent))
     
     return hist
 # End chkHistory

@@ -1380,3 +1380,123 @@
 
 *** END RUN AT: 07/23/2022 13:01:48 ***
 *** elapsed run time: 0:00:17.020129
+
+*** START RUN AT: 07/29/2022 07:54:27 ***
+----------------------
+--- reading of data completed:
+    end time: 07/29/2022 07:54:27
+    elapsed time: 0:00:00.065520
+
+---    START LOOP AT: 07/29/2022 07:54:30 ===
+
+---    END LOOP AT: 07/29/2022 07:54:40 ===
+---    elapsed loop time: 0:00:10.583367 ===
+
+---    START LOOP AT: 07/29/2022 07:55:00 ===
+
+*** START RUN AT: 07/29/2022 07:59:36 ***
+----------------------
+--- reading of data completed:
+    end time: 07/29/2022 07:59:36
+    elapsed time: 0:00:00.060328
+
+---    START LOOP AT: 07/29/2022 07:59:48 ===
+
+---    END LOOP AT: 07/29/2022 07:59:53 ===
+---    elapsed loop time: 0:00:05.541134 ===
+
+---    START LOOP AT: 07/29/2022 08:00:37 ===
+
+---    END LOOP AT: 07/29/2022 08:00:37 ===
+---    elapsed loop time: 0:00:00.011452 ===
+
+*** END RUN AT: 07/29/2022 08:00:37 ***
+*** elapsed run time: 0:01:00.997067
+
+*** START RUN AT: 07/29/2022 08:48:45 ***
+----------------------
+--- reading of data completed:
+    end time: 07/29/2022 08:48:45
+    elapsed time: 0:00:00.030795
+
+---    START LOOP AT: 07/29/2022 08:48:48 ===
+
+*** START RUN AT: 07/29/2022 08:54:51 ***
+----------------------
+--- reading of data completed:
+    end time: 07/29/2022 08:54:51
+    elapsed time: 0:00:00.066695
+
+---    START LOOP AT: 07/29/2022 08:54:53 ===
+
+*** START RUN AT: 07/29/2022 09:17:06 ***
+----------------------
+--- reading of data completed:
+    end time: 07/29/2022 09:17:06
+    elapsed time: 0:00:00.067861
+
+---    START LOOP AT: 07/29/2022 09:17:11 ===
+
+---    END LOOP AT: 07/29/2022 09:17:19 ===
+---    elapsed loop time: 0:00:07.799137 ===
+
+---    START LOOP AT: 07/29/2022 09:17:43 ===
+
+---    END LOOP AT: 07/29/2022 09:17:54 ===
+---    elapsed loop time: 0:00:10.952710 ===
+
+---    START LOOP AT: 07/29/2022 09:18:01 ===
+
+---    END LOOP AT: 07/29/2022 09:18:08 ===
+---    elapsed loop time: 0:00:07.121437 ===
+
+---    START LOOP AT: 07/29/2022 09:20:04 ===
+
+---    END LOOP AT: 07/29/2022 09:20:04 ===
+---    elapsed loop time: 0:00:00.007194 ===
+
+*** END RUN AT: 07/29/2022 09:20:04 ***
+*** elapsed run time: 0:02:57.647912
+
+*** START RUN AT: 07/29/2022 09:34:08 ***
+----------------------
+--- reading of data completed:
+    end time: 07/29/2022 09:34:08
+    elapsed time: 0:00:00.076581
+
+---    START LOOP AT: 07/29/2022 09:34:10 ===
+
+---    END LOOP AT: 07/29/2022 09:34:15 ===
+---    elapsed loop time: 0:00:04.959069 ===
+
+---    START LOOP AT: 07/29/2022 09:34:27 ===
+
+---    END LOOP AT: 07/29/2022 09:34:31 ===
+---    elapsed loop time: 0:00:04.262442 ===
+
+---    START LOOP AT: 07/29/2022 09:35:22 ===
+
+---    END LOOP AT: 07/29/2022 09:35:22 ===
+---    elapsed loop time: 0:00:00.011914 ===
+
+*** END RUN AT: 07/29/2022 09:35:22 ***
+*** elapsed run time: 0:01:13.690433
+
+*** START RUN AT: 07/29/2022 10:01:02 ***
+----------------------
+--- reading of data completed:
+    end time: 07/29/2022 10:01:02
+    elapsed time: 0:00:00.064333
+
+---    START LOOP AT: 07/29/2022 10:01:07 ===
+
+---    END LOOP AT: 07/29/2022 10:01:13 ===
+---    elapsed loop time: 0:00:06.327925 ===
+
+---    START LOOP AT: 07/29/2022 10:01:50 ===
+
+---    END LOOP AT: 07/29/2022 10:01:50 ===
+---    elapsed loop time: 0:00:00.013454 ===
+
+*** END RUN AT: 07/29/2022 10:01:50 ***
+*** elapsed run time: 0:00:47.751154
