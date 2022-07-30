@@ -5,10 +5,8 @@
 #
 
 import sys
-# from dataclasses import dataclass
 import simpStuff as ss
-#import nltk
-#from nltk import word_tokenize
+
 from datetime import datetime
 
 flog = 'simpLog.txt'
@@ -73,6 +71,7 @@ while loop:
 
 
     if cmd == 'c' or cmd == 'C': # Chat
+        
         s = input("Enter a short sentence: ")
         
         if len(s) > 0: # Now the fun begins
@@ -143,33 +142,35 @@ while loop:
 
             print('sPOS: ' + str(sPOS))
             
-            rel = ss.s4m(ccs, inData, sPOS)
+            rel = ss.s4r(ccs, inData, sPOS) # Search for relationships
 
-            if rel == None:
+            if len(rel) == 0:
                 relationFound = False
                 print('rel = False: ' + str(rel))
             else:
                 relationFound = True
                 print('rel = True: ' + str(rel))
 
-            # Thus far we can have four (4) situations:
-            #   1) New sentence
-            #   2) Old sentence complete KB match
-            #   3) Old sentence partial KB match
-            #   4) Old sentence no KB match
+            # Thus far we can have 8 situations:
+            #   1) New sentence +CFG +rel
+            #   2) New sentence +CFG -rel
+            #   3) New sentence -CFG +rel
+            #   4) New sentence -CFG -rel
+            #   5) Old sentence +CFG +rel
+            #   6) Old sentence +CFG -rel
+            #   7) Old sentence -CFG +rel
+            #   8) Old sentence -CFG -rel
 
 
             
-            # For now just add the new sentence   
-            # Retain valid information i.e. memory or history
-            if validCFG and relationFound:
-                print('Saving history...')
-                fh = open(fhistory, 'a')
-                fh.write('\n' + str(sPOS) + '; ' + str(rel) + '; ' + slt)
-                fh.close()
-            else:
-                print('History not saved')
-                print(str(validCFG) + '; ' + str(relationFound))
+            # For now just add the new sentence to the history file
+            # 
+            print('Saving history...')
+            t = slt.replace(' ', '; ')
+            fh = open(fhistory, 'a')
+            fh.write('\n' + str(sPOS) + '; ' + str(rel) + '; ' + t)
+            fh.close()
+            
             
         else:
             print('-->>Something unexpected happened')

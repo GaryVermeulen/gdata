@@ -12,6 +12,7 @@ import string
 
 from collections import defaultdict
 from nltk.tree import Tree
+from pathlib import Path
 
 fRules = 'cfg_rules.cfg'    # CFG Rules w/o terminals
 fCFG   = 'simp.cfg'         # CFG 
@@ -372,18 +373,25 @@ def getData():
 
     inData = []
 
-    with open(fData, 'r') as fin:
+    file = Path(fData)
+
+    if file.is_file():
+
+        with open(fData, 'r') as fin:
         
-        while (line := fin.readline().rstrip()):
-           if '#' not in line:
-                line = line.replace(' ', '') # Needed?
-                line = line.split(";")
+            while (line := fin.readline().rstrip()):
+                if '#' not in line:
+                    line = line.replace(' ', '') # Needed?
+                    line = line.split(";")
 
-                if line[0] != '#':
-                #    print(line)
-                    inData.append(line)
+                    if line[0] != '#':
+                    #    print(line)
+                        inData.append(line)
 
-    fin.close()
+        fin.close()
+    else:
+        print("File not found: " + str(fData))
+        sys.exit("inData file not found")
 
     return(inData)
 # End getData
@@ -391,11 +399,16 @@ def getData():
 ###
 def buildCFG(data):
 
-    #rules = []
+    file = Path(fRules)
 
-    rf = open(fRules, 'r') # Get base rules
-    rules = rf.read()
-    rf.close()
+    if file.is_file():
+
+        rf = open(fRules, 'r') # Get base rules
+        rules = rf.read()
+        rf.close()
+    else:
+        print("File not found: " + str(fRules))
+        sys.exit("CFG Rules file not found")
 
     firstLine = True
     
@@ -406,9 +419,15 @@ def buildCFG(data):
         else:
             rules = rules + '\n' + d[1] + ' -> ' + d[0]
 
-    cf = open(fCFG, 'w')
-    cf.write(rules)
-    cf.close()
+    file = Path(fCFG)
+
+    if file.is_file():
+        cf = open(fCFG, 'w')
+        cf.write(rules)
+        cf.close()
+    else:
+        print("File not found: " + str(fCFG))
+        sys.exit("CFG file not found")
 
     return
 # End buildCFG
@@ -622,7 +641,7 @@ def getInflections(w, pos):
 # End getInflections
 
 ###
-def s4m(s, data, stack):
+def s4r(s, data, stack):
     # Simple comparison of data and verbs
     #
     wData = []
@@ -683,35 +702,29 @@ def s4m(s, data, stack):
 def chkHistory(s):
 
     hist = []
+    file = Path(fHist)
 
-    fh = open(fHist, 'r')
-    myHist = fh.read()
-    fh.close()
+    if file.is_file():
 
-#    print(len(myHist))
-#    print(type(myHist))
+        fh = open(fHist, 'r')
+        myHist = fh.read()
+        fh.close()
 
-    lines = myHist.split('\n')
+        lines = myHist.split('\n')
 
-    for line in lines:
-        if len(line) > 0:
-            if line[0] != '#':
-#                print('line:' + str(line))
-                hSentence = line.split(';')
-#                print('hSentence: ' + str(hSentence))
-#                print('hSentence[0]: ' + str(hSentence[0]))
+        for line in lines:
+            if len(line) > 0:
+                if line[0] != '#':
+                    hSentence = line.split(';')
+                    rawSent = removePOS(hSentence[0])
 
-                rawSent = removePOS(hSentence[0])
-
-#                print(type(rawSent))
-#                print(len(rawSent))
-#                print('>*>' + str(rawSent) + '<*<')
-
-                if s == rawSent:
-#                    print('s: ' + str(s) + ' = ' + 'rawSent: ' + str(rawSent))
-                    hist.append(line)       
-#                else:
-#                    print('s: ' + str(s) + ' != ' + 'rawSent: ' + str(rawSent))
+                    if s == rawSent:
+                        hist.append(line)       
+    else:
+        print('No history file found, created new history file.')
+        fh = open(fHist, 'w')
+        fh.write('# Input sentence w/POS; Possible relationships; Date; Time')
+        fh.close()
     
     return hist
 # End chkHistory

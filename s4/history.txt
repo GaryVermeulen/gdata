@@ -1,29 +1,5 @@
-# Orignal sentence w/PoS; relation between data and sntence; Processed time
-[('see', 'VB'), ('Bob', 'NNP')]; see; 07/23/2022 09:57:19
-[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; run; 07/23/2022 09:58:07
-[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]; run; 07/23/2022 09:58:17
-[('see', 'VB'), ('Pookie', 'NNP')]; see; 07/23/2022 09:59:08
-[('see', 'VB'), ('Pookie', 'NNP'), ('run', 'VB')]; run; 07/23/2022 09:59:14
-[('see', 'VB'), ('Pookie', 'NNP'), ('run', 'VB'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]; run; 07/23/2022 09:59:30
-[('Mary', 'NNP'), ('walks', 'VBZ')]; walk; 07/23/2022 10:00:06
-[('Mary', 'NNP'), ('walks', 'VBZ'), ('Pookie', 'NNP'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]; walk; 07/23/2022 10:00:43
-[('Pookie', 'NNP'), ('walks', 'VBZ')]; walk; 07/23/2022 10:03:48
-
-[('see', 'VB'), ('Mary', 'NNP')]; see; 07/23/2022 10:06:52
-[('Mary', 'NNP'), ('walked', 'VBD'), ('walked', 'VBN'), ('Pookie', 'NNP')]; walk; 07/23/2022 10:07:52
-
-[('Pookie', 'NNP'), ('walked', 'VBD'), ('walked', 'VBN'), ('Mary', 'NNP'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]; walk; 07/23/2022 10:08:47
-
-[('see', 'VB'), ('Bob', 'NNP')]; see; 07/23/2022 10:12:48
-[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; run; 07/23/2022 10:12:54
-[('see', 'VB'), ('Pookie', 'NNP')]; see; 07/23/2022 10:14:25
-[('see', 'VB'), ('Pookie', 'NNP'), ('run', 'VB')]; run; 07/23/2022 10:14:31
-
-[('see', 'VB'), ('Mary', 'NNP')]; see; 07/23/2022 10:15:01
-[('see', 'VB'), ('Mary', 'NNP'), ('run', 'VB')]; run; 07/23/2022 10:15:08
-[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 07/29/2022 09:17:11
-[('see', 'VB'), ('Pookie', 'NNP'), ('run', 'VB')]; ['see', 'run']; 07/29/2022 09:17:43
-[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 07/29/2022 09:18:01
-[('see', 'VB'), ('Bob', 'NNP')]; ['see']; 07/29/2022 09:34:10
-[('see', 'VB'), ('Bob', 'NNP')]; ['see']; 07/29/2022 09:34:27
-[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 07/29/2022 10:01:07
+# Input sentence w/POS; Possible relationships; Date; Time
+[('see', 'VB'), ('Bob', 'NNP')]; ['see']; 07/30/2022; 10:50:34
+[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 07/30/2022; 10:50:46
+[('see', 'VB'), ('telescope', 'NN')]; []; 07/30/2022; 10:51:40
+[('see', 'VB'), ('telescope', 'NN'), ('run', 'VB')]; []; 07/30/2022; 10:51:50
