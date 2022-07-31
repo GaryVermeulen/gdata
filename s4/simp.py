@@ -28,6 +28,16 @@ print("--- Reading data, one moment please ---")
 # Read lexicon & KB data file
 inData = ss.getData()
 
+# Develope rudimentary concept of self (I am Simp)
+simpName = 'Simp'
+for i in inData:
+    if i[0] == simpName:
+        simpData = i
+        break
+
+print(simpName)
+print(simpData)
+
 # Build CFG file from data and cfg_rules
 ss.buildCFG(inData)
 
@@ -103,20 +113,19 @@ while loop:
             aforementioned = ss.chkHistory(ccs)
 
             if len(aforementioned) > 0:
-                print(len(aforementioned))
-                print(type(aforementioned))
+                print('Something old...')
+                #print(len(aforementioned))
+                #print(type(aforementioned))
                 for a in aforementioned:
-                    print(a)
+                    print('a: ' + str(a))
                     a2 = a.split(';')
                     for a2a in a2:
                         # a2a = a2a.replace(" ", "")
-                        print(a2a)
-                    sPOS = a2[0]
-                    rel = a2[1]
+                        print('a2a: ' + str(a2a))
                     
                 saidBefore = True
             else:
-                print('something new...')
+                print('Something new...')
                 saidBefore = False
 
             # Parse corrected case sentence (input) per grammar
@@ -126,11 +135,12 @@ while loop:
 
             if tree == None:
                 validCFG = False
-                print('CFG parse returned: ' + str(tree))
+                print('CFG parse returned NONE: ' + str(tree))
             else:
                 validCFG = True
                 print('now do something with parse tree')
                 sStack = ss.getSentStack(tree)
+                sAnaly = ss.sentAnalysis(sStack, simpData)
 
                 if len(sStack) > 0:
                     print('Sentence Stack: ' + str(sStack))

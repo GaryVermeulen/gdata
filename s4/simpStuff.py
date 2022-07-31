@@ -397,7 +397,9 @@ def getData():
 # End getData
 
 ###
-def buildCFG(data):
+def getCFGRules():
+
+    rules = ''
 
     file = Path(fRules)
 
@@ -409,6 +411,14 @@ def buildCFG(data):
     else:
         print("File not found: " + str(fRules))
         sys.exit("CFG Rules file not found")
+
+    return(rules)
+# End getRules
+
+###
+def buildCFG(data):
+
+    rules = getCFGRules()
 
     firstLine = True
     
@@ -542,8 +552,7 @@ def chkGrammar(sentence, d):
 
 ###
 def getSentStack(t):
-# Get information from sentence tree (subject, direct/indirect object, verb/action, etc.)
-# For now just return a list of the sentence structure
+# Just return a list of the sentence structure
 
     myStack = []
 
@@ -568,8 +577,61 @@ def getSentStack(t):
 # End getSentStack
 
 ###
+def sentAnalysis(s, sd):
+# Attempt to analyze the sentence
+    print('--- sentAnalysis ---')
+    print(s)
+    print(sd) # simpData
+    
+    # Fewer rules to check then words
+    cfgRules = getCFGRules()
+
+    # Break up sentence into phrases
+    lstSize = len(s)
+    lstIdx = [lstIdx + 1 for lstIdx, lstVal in enumerate(s) if lstVal not in cfgRules]
+
+    print(s)
+
+    res = [s[i: j] for i, j in
+           zip([0] + lstIdx, lstIdx +
+               ([lstSize] if lstIdx[-1] != lstSize else []))]
+                 
+    print(res)
+    print(len(res))
+
+    # Sentence type? Declarative, imperative, interrogative, or exclamatory.
+    # This will most liekly change many times...
+    #
+    # Let's start with super simple sentences...
+    #
+    for w in res:
+        print(w)
+        
+        if w[0] == 'VP':
+            vpLen = len(w)
+            action = w[vpLen - 1]
+            print(action)
+            # Can I (Simp) do any of these actions?
+            if action1 not in sd:
+                print('I cannot: ' + str(action))
+
+        # Looking for object
+        if w[0] == 'NP':
+            npLen = len(w)
+            subject = w[npLen - 1]
+            print(subject)
+
+            
+
+
+
+
+    return('something')
+# End sentAnalysis
+
+###
 def saveStack(s):
-# Build a history of sentences for late analysis
+# Build a history of sentences for later analysis
 
     #inStr = '\n' + str(s)
     inStr = str(s)
