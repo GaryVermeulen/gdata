@@ -612,7 +612,7 @@ def sentAnalysis(s, sd):
             action = w[vpLen - 1]
             print(action)
             # Can I (Simp) do any of these actions?
-            if action1 not in sd:
+            if action not in sd:
                 print('I cannot: ' + str(action))
 
         # Looking for object
