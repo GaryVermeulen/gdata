@@ -19,7 +19,7 @@ fCFG   = 'simp.cfg'         # CFG
 fData  = 'data.txt'         # Lexicon & KB
 fLog   = 'simpLog.txt'      # Log file
 fSS    = 'sentStacks.txt'   # Parsed sentences for later analysis
-fHist  = 'history.txt'      # History (passed CFG and s4m)
+fHist  = 'history.txt'      # History of all sentences w/findings 
 
 ### Classes
 #
@@ -368,7 +368,7 @@ class EarleyParse(object):
                 return None
 # End Classes
 
-###
+################################################
 def getData():
 
     inData = []
@@ -396,7 +396,7 @@ def getData():
     return(inData)
 # End getData
 
-###
+################################################
 def getCFGRules():
 
     rules = ''
@@ -415,7 +415,32 @@ def getCFGRules():
     return(rules)
 # End getRules
 
-###
+################################################
+def getNx(n):
+
+    file = Path(fData)
+
+    if file.is_file():
+
+        with open(fData, 'r') as fin:
+        
+            while (line := fin.readline().rstrip()):
+                if '#' not in line:
+                    line = line.replace(' ', '') # Needed?
+                    line = line.split(";")
+
+                    if line[0] == n:
+                        Nx = line
+
+        fin.close()
+    else:
+        print("File not found: " + str(fData))
+        sys.exit("inData file not found")
+
+    return(Nx)
+# End getNx
+
+################################################
 def buildCFG(data):
 
     rules = getCFGRules()
@@ -442,7 +467,7 @@ def buildCFG(data):
     return
 # End buildCFG
 
-###
+################################################
 def getInput():
 
     s = input("Enter a command <[C]hat, [S]peak, or [T]each>: ")
@@ -461,7 +486,7 @@ def getInput():
     return s
 # end getInput
 
-###
+################################################
 def correctCase(s, data):
 # Capitalizes NNPs mary -> Mary
 
@@ -480,7 +505,7 @@ def correctCase(s, data):
     return ccs
 # End correctCase
 
-###
+################################################
 def chkWords(s, inData):
 # Returns sentence words not in lex
     words = []
@@ -495,7 +520,7 @@ def chkWords(s, inData):
     return ret
 # End chkWords
 
-###
+################################################
 def chkGrammar(sentence, d):
 
     grammar = Grammar.load_grammar(fCFG)
@@ -550,7 +575,7 @@ def chkGrammar(sentence, d):
 
 # end chkGrammar(s)
 
-###
+################################################
 def getSentStack(t):
 # Just return a list of the sentence structure
 
@@ -576,9 +601,13 @@ def getSentStack(t):
     return(myStack)
 # End getSentStack
 
-###
+################################################
 def sentAnalysis(s, sd):
 # Attempt to analyze the sentence
+
+    actions = []
+    subjects = []
+    
     print('--- sentAnalysis ---')
     print(s)
     print(sd) # simpData
@@ -610,6 +639,7 @@ def sentAnalysis(s, sd):
         if w[0] == 'VP':
             vpLen = len(w)
             action = w[vpLen - 1]
+            actions.append(action)
             print(action)
             # Can I (Simp) do any of these actions?
             if action not in sd:
@@ -619,17 +649,20 @@ def sentAnalysis(s, sd):
         if w[0] == 'NP':
             npLen = len(w)
             subject = w[npLen - 1]
+            subjects.append(subject)
             print(subject)
 
-            
+            subjectData = getNx(subject)
 
+            print(subjectData[len(subjectData)- 1])
+        
 
 
 
     return('something')
 # End sentAnalysis
 
-###
+################################################
 def saveStack(s):
 # Build a history of sentences for later analysis
 
@@ -642,7 +675,7 @@ def saveStack(s):
     sf.close()
 # End saveStack
 
-###
+################################################
 def getPOS(s, data):
 
     sPOS = []
@@ -654,7 +687,7 @@ def getPOS(s, data):
     return(sPOS)
 # End getPOS
 
-###
+################################################
 def getInflections(w, pos):
 
     inflections = "No inflections found"
@@ -702,7 +735,7 @@ def getInflections(w, pos):
     return inflections
 # End getInflections
 
-###
+################################################
 def s4r(s, data, stack):
     # Simple comparison of data and verbs
     #
@@ -760,7 +793,7 @@ def s4r(s, data, stack):
     return rels
 # End s4m
 
-###
+################################################
 def chkHistory(s):
 
     hist = []
@@ -791,7 +824,7 @@ def chkHistory(s):
     return hist
 # End chkHistory
 
-###
+################################################
 def removePOS(sPOS):
 
     noPOS = []
