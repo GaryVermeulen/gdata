@@ -602,14 +602,26 @@ def getSentStack(t):
 # End getSentStack
 
 ################################################
-def sentAnalysis(s, sd):
+def tree2List(t):
+
+    tStr = t.pformat_latex_qtree()
+
+    tList = tStr.split('\n')
+
+    return(tList)
+#End tree2List
+
+################################################
+def sentAnalysis(s, tl, sd):
 # Attempt to analyze the sentence
 
     actions = []
     subjects = []
     
     print('--- sentAnalysis ---')
+    print('s:')
     print(s)
+    print('sd:')
     print(sd) # simpData
     
     # Fewer rules to check then words
@@ -619,12 +631,11 @@ def sentAnalysis(s, sd):
     lstSize = len(s)
     lstIdx = [lstIdx + 1 for lstIdx, lstVal in enumerate(s) if lstVal not in cfgRules]
 
-    print(s)
-
     res = [s[i: j] for i, j in
            zip([0] + lstIdx, lstIdx +
                ([lstSize] if lstIdx[-1] != lstSize else []))]
-                 
+
+    print('res:')             
     print(res)
     print(len(res))
 
@@ -655,8 +666,68 @@ def sentAnalysis(s, sd):
             subjectData = getNx(subject)
 
             print(subjectData[len(subjectData)- 1])
-        
 
+    print('---')
+    print(actions)
+    print(subjects)
+
+    print('---')
+    print(type(tl))
+    print(len(tl))
+    for i in tl:
+        print('>>' + str(i) + '<<')
+
+    if len(tl) < 1:
+        print('tl should not be less than 1')
+    elif len(tl) == 1:
+        # Simple sentence trees are just 1 line
+        print('simple sentence')
+
+        tStr = tl[0]
+
+        # Does the sentence start with a VP?
+        if tStr[12] == 'V' and tStr[13] == 'P':
+            if tStr[17] == 'V' and tStr[18] == 'B':
+                print('simple imperative sentence')
+
+                if tStr[19] == ' ':
+                    tlIndex = 20
+                elif tStr[19] in ['D', 'G', 'N', 'Z']:
+                    tlIndex = 21
+                    
+                vb = ''
+                
+                while tStr[tlIndex] != ' ':                    
+                    vb = vb + tStr[tlIndex]
+                    tlIndex = tlIndex + 1
+                
+                print('VP -> VB -> ' + vb)
+
+                # Advance to next phrase (if one exists)
+                if tStr[tlIndex + 3] == '[':
+                    print('more to come')
+
+                    if tStr[tlIndex + 12] == ' ':
+                        # NN
+                        tlIndex = tlIndex + 13
+                    else:
+                        # NNP, NNS, etc
+                        tlIndex = tlIndex + 14
+                    
+                    nnx = ''
+
+                    while tStr[tlIndex] != ' ':                    
+                        nnx = nnx + tStr[tlIndex]
+                        tlIndex = tlIndex + 1
+
+                    print('NP -> nnx -> ' + nnx)
+        # Does the sentence start with a NP?
+        elif tStr[12] == 'N' and tStr[13] == 'P':
+            
+    else:
+        print('complex sentence')
+
+    
 
 
     return('something')
@@ -745,7 +816,7 @@ def s4r(s, data, stack):
     rel = None
     rels = []
     
-    print('--- s4m ---')
+    print('--- s4r ---')
 
     for w in s:
         for d in data:

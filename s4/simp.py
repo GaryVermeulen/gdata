@@ -139,8 +139,27 @@ while loop:
             else:
                 validCFG = True
                 print('now do something with parse tree')
+                print('tree:')
+                print(tree)
+                print('---items in tree-')
+                print(len(tree))
+                for i in range(len(tree) - 1):
+                    t = tree[i]
+                    print('i: ' + str(i) + ' t[i]: ' + str(t[i]))
+                print('----')
+
+                tList = ss.tree2List(tree)
+                print(type(tList))
+                print(len(tList))
+                
+                print('----')
                 sStack = ss.getSentStack(tree)
-                sAnaly = ss.sentAnalysis(sStack, simpData)
+                print('sStack:')
+                print(sStack)
+                sAnaly = ss.sentAnalysis(sStack, tList, simpData)
+                print('sAnaly:')
+                print(sAnaly)
+                print('---')
 
                 if len(sStack) > 0:
                     print('Sentence Stack: ' + str(sStack))
@@ -196,7 +215,7 @@ while loop:
             # This check also returns a list which is needed
             ccs = ss.correctCase(s, inData)
             sPOS = ss.getPOS(ccs, inData)
-            relationFound = ss.s4m(ccs, inData, sPOS)
+            relationFound = ss.s4r(ccs, inData, sPOS)
             print('relationFound: ' + str(relationFound))
         s = ''
             
