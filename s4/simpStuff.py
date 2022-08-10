@@ -473,6 +473,7 @@ def getInput():
     s = input("Enter a command <[C]hat, [S]peak, or [T]each>: ")
 
     if s == 'c' or s == 'C':
+        print(s)
         print("Entering Chat mode...")
     elif s == 's' or s == 'S':
         print(s)

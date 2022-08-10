@@ -397,3 +397,7 @@
 ['VP', 'VB', 'see', 'NP', 'NP', 'NNP', 'Bob', 'VP', 'VB', 'run']
 ['VP', 'VB', 'see', 'NP', 'NP', 'NNP', 'Bob', 'VP', 'VB', 'run']
 ['VP', 'VB', 'see', 'NP', 'NNP', 'Bob']
+['VP', 'VB', 'see', 'NP', 'NNP', 'Bob']
+['VP', 'VB', 'see', 'NP', 'NP', 'NNP', 'Bob', 'VP', 'VB', 'run']
+['VP', 'VB', 'see', 'NP', 'DT', 'the', 'NN', 'cat']
+['VP', 'VB', 'see', 'NP', 'NP', 'DT', 'the', 'NN', 'cat', 'VP', 'VB', 'run']
