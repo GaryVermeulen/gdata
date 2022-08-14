@@ -87,18 +87,12 @@ while loop:
                 # Are all the words in the sentence in our Lex?
                 ret = ss.chkWords(ccs, inData)
 
-                f.write('    ret: ' + str(ret) + '\n')
+                f.write('    ret: ' + str(ret) + ' Is Unknown\n')
 
                 if len(ret) > 0:
                     # We'll do something with missing words later...
-                    print(len(ret))
-                    print(type(ret))
                     print('chkWords returned: ' + str(ret))
-                    x = input('Shall I check external sources? <Y/N>')
-                    if x in ['Y', 'y']:
-                        print('I shll attempt to learn on my own...')
-                    else:
-                        print('dropping through...')
+                    print('You will need to teach me the above')
                 
                     continue
 
@@ -139,35 +133,19 @@ while loop:
                 else:
                     validCFG = True
         
-#                   print('tree:')
-#                   print(tree)
-
                     f.write('    CFG tree: ' + str(tree) + '\n')
-#                   print('---items in tree-')
-#                   print(len(tree))
-#                   for i in range(len(tree) - 1):
-#                       t = tree[i]
-#                       print('i: ' + str(i) + ' t[i]: ' + str(t[i]))
-#                   print('----')
 
                     tList = ss.tree2List(tree)
 
                     f.write('    tList: ' + str(tree) + '\n')
-#                   print(type(tList))
-#                   print(len(tList))
                 
                     sAnaly = ss.sentAnalysis(tList)
 
                     f.write('    sAnaly: ' + str(sAnaly) + '\n')
-#                   print('sAnaly:')
-#                   print(sAnaly)
-#                   print('---')
 
                 sPOS = ss.getPOS(ccs, inData)
 
                 f.write('    sPOS: ' + str(sPOS) + '\n')
-
-#               print('sPOS: ' + str(sPOS))
             
                 rel = ss.s4r(ccs, inData, sPOS) # Search for relationships
 
