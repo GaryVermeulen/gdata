@@ -587,7 +587,7 @@ def tree2List(t):
 #End tree2List
 
 ################################################
-def sentAnalysis(tl):
+def sentAnalysis(tl, f):
 # Attempt to analyze the sentence
     
     print('--- sentAnalysis ---')
@@ -821,7 +821,8 @@ def sentAnalysis(tl):
                     sVerb = vp
                     print('VP -> VBx -> ' + vp)
     else:
-        print('complex sentence')
+        f.write('    a some-what more complex sentence\n')
+        print('a some-what more complex sentence')
         print(len(tl))
         for t in tl:
             print(t)

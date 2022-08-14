@@ -1,3 +1,4 @@
 # Input sentence w/POS; Possible relationships; Date; Time
 [('see', 'VB'), ('Bob', 'NNP')]; ['see']; 08/14/2022; 10:56:31
 [('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/14/2022; 10:56:31
+[('see', 'VB'), ('Bob', 'NNP'), ('walk', 'VB')]; ['see', 'walk']; 08/14/2022; 11:45:06

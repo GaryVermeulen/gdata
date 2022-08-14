@@ -77,6 +77,7 @@ while loop:
         
             s = input("Enter a short sentence: ")
 
+            f.write('-------------\n')
             f.write('    s: ' + str(s) + '\n')
         
             if len(s) > 0: # Now the fun begins
@@ -139,7 +140,7 @@ while loop:
 
                     f.write('    tList: ' + str(tree) + '\n')
                 
-                    sAnaly = ss.sentAnalysis(tList)
+                    sAnaly = ss.sentAnalysis(tList, f)
 
                     f.write('    sAnaly: ' + str(sAnaly) + '\n')
 
