@@ -1,0 +1,22 @@
+>>\Tree [.S [.VP [.VB see ] [.NP [.NNP Bob ] ] ] ]<<
+
+>>\Tree [.S<<
+>>        [.VP [.VB see ] [.NP [.NP [.NNP Bob ] ] [.VP [.VB run ] ] ] ] ]<<
+
+>>\Tree [.S<<
+>>        [.VP<<
+>>          [.VB see ]<<
+>>          [.NP<<
+>>            [.NP [.NP [.NNP Bob ] ] [.VP [.VB run ] ] ]<<
+>>            [.PP [.IN in ] [.NP [.DT the ] [.NN park ] ] ] ] ] ]<<
+
+>>\Tree [.S<<
+>>        [.NP [.NNP Mary ] ]<<
+>>        [.VP<<
+>>          [.VBN walked ]<<
+>>          [.NP [.NNP Pookie ] ]<<
+>>          [.PP [.IN in ] [.NP [.DT the ] [.NN park ] ] ] ] ]<<
+
+>>\Tree [.S<<
+>>        [.NP [.DT the ] [.NN telescope ] ]<<
+>>        [.VP [.VBD ate ] [.NP [.DT the ] [.NN park ] ] ] ]<<
