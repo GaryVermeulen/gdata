@@ -921,15 +921,15 @@ def s4r(s, data, sd):
     
     print('--- s4r ---')
 
-    print('s: ' + str(s))
-    print('data len: ' + str(len(data)))
-    print('sd (SimpData): ' + str(sd))
+#    print('s: ' + str(s))
+#    print('data len: ' + str(len(data)))
+#    print('sd (SimpData): ' + str(sd))
 
     simpActions = sd[-1]
     simpActions = simpActions.split(',')
-    print('simpActions: ' + str(simpActions))
-    print('       type: ' + str(type(simpActions)))
-    print('simpActions: ' + str(simpActions))
+#    print('simpActions: ' + str(simpActions))
+#    print('       type: ' + str(type(simpActions)))
+#    print('simpActions: ' + str(simpActions))
 
     for w in s:
         for d in data:
