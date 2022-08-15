@@ -148,7 +148,7 @@ while loop:
 
                 f.write('    sPOS: ' + str(sPOS) + '\n')
             
-                rel = ss.s4r(ccs, inData, sPOS) # Search for relationships
+                rel = ss.s4r(ccs, inData, simpData) # Search for relationships
 
                 f.write('    rel: ' + str(rel) + '\n')
 

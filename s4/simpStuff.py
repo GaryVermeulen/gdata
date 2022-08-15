@@ -545,7 +545,6 @@ def chkGrammar(sentence, d):
             parse = run_parse(stripped_sentence)
             '''
             parse = run_parse(sentence)
-            #print('parse type is:\n\t' + str(type(parse)))
                         
             if parse is None:
                 print('parse returned None for:\n\t' + str(sentence) + '\n')
@@ -588,7 +587,7 @@ def tree2List(t):
 
 ################################################
 def sentAnalysis(tl, f):
-# Attempt to analyze the sentence
+# Attempt to analyze the sentence per CFG
     
     print('--- sentAnalysis ---')
 
@@ -911,8 +910,8 @@ def getInflections(w, pos):
 # End getInflections
 
 ################################################
-def s4r(s, data, stack):
-    # Simple comparison of data and verbs
+def s4r(s, data, sd):
+    # Simple comparison of KB data and verbs
     #
     wData = []
     nInflections = []
@@ -921,6 +920,16 @@ def s4r(s, data, stack):
     rels = []
     
     print('--- s4r ---')
+
+    print('s: ' + str(s))
+    print('data len: ' + str(len(data)))
+    print('sd (SimpData): ' + str(sd))
+
+    simpActions = sd[-1]
+    simpActions = simpActions.split(',')
+    print('simpActions: ' + str(simpActions))
+    print('       type: ' + str(type(simpActions)))
+    print('simpActions: ' + str(simpActions))
 
     for w in s:
         for d in data:
@@ -937,6 +946,17 @@ def s4r(s, data, stack):
 #    print('wData: ' + str(wData))
 #    print('nInflections: ' + str(nInflections))
 #    print('vInflections: ' + str(vInflections))
+
+    # This is cheezy, but Simp can only do certain actions (VBs)
+    firstWord = True
+    for w in wData:     
+        if firstWord:
+            if w[1] == 'VB': 
+                if w[0] not in simpActions:
+                    print('I cannot: ' + str(w[0]))
+
+        firstWord = False
+
 #
 #    print(len(wData))
 #    print('wData: ' + str(wData))
