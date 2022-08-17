@@ -936,36 +936,54 @@ def s4r(s, data, sd):
             if w == d[0]:
                 wData.append(d)
 
+    print('wData: ' + str(wData))
+
+    processedVBx = False
     for w in wData:
         if w[1] in ['NN', 'NNS']:
             nInflections.append(getInflections(w[0], "NN"))
         elif w[1] in ['VB', 'VBD', 'VBG', 'VBN', 'VBZ']:
-#            print(str(w[0]) + ' - ' + str(w[1]))
-            vInflections.append(getInflections(w[0], "VB"))
-
+            if not processedVBx:
+#                print(str(w[0]) + ' - ' + str(w[1]))
+                vInflections.append(getInflections(w[0], "VB"))
+#                print('building vInflections: ' + str(vInflections))
+                processedVBx = True
+            
 #    print('wData: ' + str(wData))
 #    print('nInflections: ' + str(nInflections))
 #    print('vInflections: ' + str(vInflections))
 
     # This is cheezy, but Simp can only do certain actions (VBs)
     firstWord = True
+    prp = ''
     for w in wData:     
         if firstWord:
             if w[1] == 'VB': 
                 if w[0] not in simpActions:
-                    print('I cannot: ' + str(w[0]))
+                    print('Simp cannot: ' + str(w[0]))
+            elif w[1] == 'PRP':
+                print('PRP Found: ' + str(w))
+                if w[0] == 'you':
+                    prp = w[0]
 
         firstWord = False
+
+        if prp != '':
+            if w[1] == 'VB': 
+                if w[0] not in simpActions:
+                    print('As implied with: ' + prp)
+                    print('Simp cannot: ' + str(w[0]))
 
 #
 #    print(len(wData))
 #    print('wData: ' + str(wData))
-    for w in wData:
+    for w in wData:        
         if w[1] == 'NNP':
             actions = set(w[4].split(','))
             
 #            print('typ actions: ' + str(type(actions)))
-            print('actions: ' + str(actions))
+#            print('actions: ' + str(actions))
+#            print('vInflections: ' + str(vInflections))
             for v in vInflections:
                 v = v.split(',')
 #                print('typ v: ' + str(type(v)))
@@ -974,17 +992,16 @@ def s4r(s, data, sd):
                 
 #                print('inflect: ' + str(inflect))
                 inflect.intersection_update(actions)
-                print('set results: ' + str(inflect))
+#                print('set results: ' + str(inflect))
 
                 if len(inflect) == 0:
                     print(str(w[0]) + ' cannot ' + str(v))
                     rel = None
                 else:
                     rel = inflect.pop()
-                    rels.append(rel)
+                    rels.append(w[0] + ',' + rel)
                     print(str(w[0]) + ' can ' + rel)
                 
-
     return rels
 # End s4m
 

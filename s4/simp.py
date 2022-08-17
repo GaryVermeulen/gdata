@@ -144,7 +144,7 @@ while loop:
 
                     f.write('    sAnaly: ' + str(sAnaly) + '\n')
 
-                sPOS = ss.getPOS(ccs, inData)
+                sPOS = ss.getPOS(ccs, inData) # Is this needed any more?
 
                 f.write('    sPOS: ' + str(sPOS) + '\n')
             

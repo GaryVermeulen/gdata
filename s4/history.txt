@@ -2,3 +2,40 @@
 [('see', 'VB'), ('Bob', 'NNP')]; ['see']; 08/14/2022; 10:56:31
 [('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/14/2022; 10:56:31
 [('see', 'VB'), ('Bob', 'NNP'), ('walk', 'VB')]; ['see', 'walk']; 08/14/2022; 11:45:06
+[('see', 'VB'), ('Bob', 'NNP'), ('walk', 'VB')]; ['see', 'walk']; 08/15/2022; 08:43:17
+[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/15/2022; 09:20:37
+[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/15/2022; 09:32:45
+[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/15/2022; 09:39:59
+[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/15/2022; 09:47:58
+[('see', 'VB'), ('Bob', 'NNP')]; ['see']; 08/15/2022; 09:58:31
+[('see', 'VB'), ('Bob', 'NNP')]; ['see']; 08/15/2022; 10:00:18
+[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/15/2022; 10:00:59
+[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/15/2022; 10:02:08
+[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/15/2022; 10:24:18
+[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/15/2022; 10:29:03
+[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/15/2022; 10:31:22
+[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/15/2022; 10:32:46
+[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/15/2022; 10:34:18
+[('see', 'VB'), ('Bob', 'NNP'), ('fly', 'VB')]; ['see']; 08/15/2022; 10:40:14
+[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['Bob,see', 'Bob,run']; 08/16/2022; 08:52:27
+[('see', 'VB'), ('Bob', 'NNP')]; ['Bob,see']; 08/16/2022; 08:52:27
+[('see', 'VB'), ('Bob', 'NNP'), ('fly', 'VB')]; ['Bob,see']; 08/16/2022; 08:52:27
+[('Mary', 'NNP'), ('walked', 'VBD'), ('walked', 'VBN'), ('Pookie', 'NNP'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]; ['Mary,walk', 'Mary,walk', 'Pookie,walk', 'Pookie,walk']; 08/16/2022; 09:05:11
+[('Mary', 'NNP'), ('walked', 'VBD'), ('walked', 'VBN'), ('Pookie', 'NNP'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]; ['Mary,walk', 'Mary,walk', 'Pookie,walk', 'Pookie,walk']; 08/17/2022; 05:51:25
+[('Mary', 'NNP'), ('walked', 'VBD'), ('walked', 'VBN'), ('Pookie', 'NNP'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]; ['Mary,walk', 'Mary,walk', 'Pookie,walk', 'Pookie,walk']; 08/17/2022; 05:55:47
+[('Mary', 'NNP'), ('walked', 'VBD'), ('walked', 'VBN'), ('Pookie', 'NNP'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]; ['Mary,walk', 'Mary,walk', 'Pookie,walk', 'Pookie,walk']; 08/17/2022; 05:59:06
+[('Mary', 'NNP'), ('walked', 'VBD'), ('walked', 'VBN'), ('Pookie', 'NNP'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]; ['Mary,walk', 'Pookie,walk']; 08/17/2022; 06:04:46
+[('see', 'VB'), ('Bob', 'NNP')]; ['Bob,see']; 08/17/2022; 06:10:41
+[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['Bob,see']; 08/17/2022; 06:10:41
+[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]; ['Bob,see']; 08/17/2022; 06:10:41
+[('see', 'VB'), ('Bob', 'NNP')]; ['Bob,see']; 08/17/2022; 06:10:41
+[('see', 'VB'), ('telescope', 'NN')]; []; 08/17/2022; 06:10:41
+[('I', 'PRP'), ('see', 'VB'), ('Bob', 'NNP')]; ['Bob,see']; 08/17/2022; 06:10:41
+[('see', 'VB'), ('Bob', 'NNP')]; ['Bob,see']; 08/17/2022; 06:18:42
+[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['Bob,see']; 08/17/2022; 06:18:42
+[('I', 'PRP'), ('see', 'VB')]; []; 08/17/2022; 06:18:42
+[('I', 'PRP'), ('see', 'VB'), ('Bob', 'NNP')]; ['Bob,see']; 08/17/2022; 06:18:42
+[('I', 'PRP'), ('see', 'VB'), ('Bob', 'NNP')]; ['Bob,see']; 08/17/2022; 06:26:47
+[('they', 'PRP'), ('see', 'VB'), ('Bob', 'NNP')]; ['Bob,see']; 08/17/2022; 06:26:47
+[('you', 'PRP'), ('see', 'VB'), ('Bob', 'NNP')]; ['Bob,see']; 08/17/2022; 06:26:47
+[('you', 'PRP'), ('see', 'VB'), ('Bob', 'NNP')]; ['Bob,see']; 08/17/2022; 06:34:54
