@@ -12,6 +12,16 @@
 
 \Tree [.S [.NP [.NNP Bob ] ] [.VP [.VBZ sees ] ] ]
 
+\Tree [.S
+        [.NP [.NNP Bob ] ]
+        [.VP [.VBD saw ] [.NP [.DT the ] [.NN cat ] ] ] ]
+        
+\Tree [.S
+        [.NP
+          [.NP [.NNP Bob ] ]
+          [.VP [.VBD saw ] [.NP [.DT the ] [.NN cat ] ] ] ]
+        [.VP [.VB eat ] [.NP [.DT the ] [.NN duck ] ] ] ]        
+
 \Tree [.S [.NP [.NN duck ] ] [.VP [.VBZ eats ] ] ]
 
 \Tree [.S [.NP [.NNS ducks ] ] [.VP [.VB eat ] ] ]
@@ -41,3 +51,24 @@
 \Tree [.S
         [.NP [.DT the ] [.NN telescope ] ]
         [.VP [.VBD ate ] [.NP [.DT the ] [.NN park ] ] ] ]
+        
+\Tree [.S
+        [.NP [.PRP I ] ]
+        [.VP
+          [.VBD saw ]
+          [.NP
+            [.NP
+              [.NP [.NNP Pookie ] ]
+              [.PP [.IN in ] [.NP [.DT the ] [.NN park ] ] ] ]
+            [.PP [.IN with ] [.NP [.DT a ] [.NN telescope ] ] ] ] ] ]
+            
+\Tree [.S
+        [.NP [.PRP I ] ]
+        [.VP
+          [.VBD saw ]
+          [.NP
+            [.NP
+              [.NP [.DT a ] [.NN duck ] ]
+              [.PP [.IN in ] [.NP [.DT the ] [.NN park ] ] ] ]
+            [.PP [.IN with ] [.NP [.DT a ] [.NN telescope ] ] ] ] ] ]
+            

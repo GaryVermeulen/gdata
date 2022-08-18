@@ -39,3 +39,12 @@
 [('they', 'PRP'), ('see', 'VB'), ('Bob', 'NNP')]; ['Bob,see']; 08/17/2022; 06:26:47
 [('you', 'PRP'), ('see', 'VB'), ('Bob', 'NNP')]; ['Bob,see']; 08/17/2022; 06:26:47
 [('you', 'PRP'), ('see', 'VB'), ('Bob', 'NNP')]; ['Bob,see']; 08/17/2022; 06:34:54
+[('see', 'VB'), ('Bob', 'NNP')]; ['Bob,see']; 08/18/2022; 07:12:51
+[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['Bob,see']; 08/18/2022; 07:12:51
+[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/18/2022; 07:12:51
+[('see', 'VB'), ('Bob', 'NNP'), ('eat', 'VB')]; ['Bob,see']; 08/18/2022; 07:12:51
+[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['Bob,see']; 08/18/2022; 07:15:33
+[('I', 'PRP'), ('saw', 'VBD'), ('Pookie', 'NNP'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN'), ('with', 'IN'), ('a', 'DT'), ('telescope', 'NN')]; ['Pookie,see']; 08/18/2022; 07:52:35
+[('Bob', 'NNP'), ('saw', 'VBD'), ('the', 'DT'), ('cat', 'NN')]; ['Bob,see']; 08/18/2022; 07:52:35
+[('Bob', 'NNP'), ('saw', 'VBD'), ('the', 'DT'), ('cat', 'NN'), ('eat', 'VB'), ('the', 'DT'), ('duck', 'NN')]; ['Bob,see']; 08/18/2022; 07:52:35
+[('I', 'PRP'), ('saw', 'VBD'), ('a', 'DT'), ('duck', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN'), ('with', 'IN'), ('a', 'DT'), ('telescope', 'NN')]; []; 08/18/2022; 07:52:35

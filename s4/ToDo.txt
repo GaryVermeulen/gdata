@@ -1,4 +1,4 @@
-TODO:
+Thoughts and TODO:
 
 Remove cruft
 
@@ -6,7 +6,8 @@ Clean/organize time keeping and logging
 
 Clean/re-organize UI (GUI?)
 
-Add complex (or some-what more complex) sentence analysis
+Improve sentence analysis
+	Develop rule-based Semantic Role Labling (SRL)
 
 Improve KB analysis
 
@@ -16,7 +17,7 @@ Improve history (memory) storage and retrieval
 
 Improve concept of self (Simp: I am a computer, and I cannot see, run, eat, etc.)
 
-Re-work random-speak (chat) into topic-speak
+Re-work random-speak (chat) into topic-speak/correct response to input (AQG?)
 
 Develop "teacher" program (Teacher to train Simp)
 	New words w/POS tags & add to KB
