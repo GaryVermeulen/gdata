@@ -6,6 +6,7 @@
 
 import sys
 import simpStuff as ss
+import simpSA as sa
 
 from datetime import datetime
 
@@ -140,7 +141,7 @@ while loop:
 
                     f.write('    tList: ' + str(tree) + '\n')
                 
-                    sAnaly = ss.sentAnalysis(tList, f)
+                    sAnaly = sa.sentAnalysis(tList, f)
 
                     f.write('    sAnaly: ' + str(sAnaly) + '\n')
 

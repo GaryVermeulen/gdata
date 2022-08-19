@@ -1346,3 +1346,1623 @@
 
 *** END RUN AT: 08/18/2022 14:59:18 ***
 *** elapsed run time: 7:06:49.977020
+
+*** START RUN AT: 08/19/2022 05:51:44 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 05:51:44
+    elapsed time: 0:00:00.013788
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 05:51:46 ===
+-------------
+    s: see bob run
+    ccs: ['see', 'Bob', 'run']
+    ret: set() Is Unknown
+    aforementioned: ["[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/14/2022; 10:56:31", "[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/15/2022; 09:20:37", "[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/15/2022; 09:32:45", "[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/15/2022; 09:39:59", "[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/15/2022; 09:47:58", "[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/15/2022; 10:00:59", "[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/15/2022; 10:02:08", "[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/15/2022; 10:24:18", "[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/15/2022; 10:29:03", "[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/15/2022; 10:31:22", "[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/15/2022; 10:32:46", "[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['see', 'run']; 08/15/2022; 10:34:18", "[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['Bob,see', 'Bob,run']; 08/16/2022; 08:52:27", "[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['Bob,see']; 08/17/2022; 06:10:41", "[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['Bob,see']; 08/17/2022; 06:18:42", "[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['Bob,see']; 08/18/2022; 07:12:51", "[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['Bob,see']; 08/18/2022; 07:15:33"]
+    aforementioned mentioned: 17 times before
+    CFG tree: (S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+    tList: (S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]
+    rel: ['Bob,see']
+-------------
+    s: bob ate duck
+    ccs: ['Bob', 'ate', 'duck']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (NNP Bob)) (VP (VBD ate) (NP (NN duck))))
+    tList: (S (NP (NNP Bob)) (VP (VBD ate) (NP (NN duck))))
+    sAnaly: ['simple declarative sentence strting with N', 'Bob', 'ate']
+    sPOS: [('Bob', 'NNP'), ('ate', 'VBD'), ('duck', 'NN')]
+    rel: ['Bob,eat']
+-------------
+    s: bob eats ducks in the park
+    ccs: ['Bob', 'eats', 'ducks', 'in', 'the', 'park']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S
+  (NP (NNP Bob))
+  (VP
+    (VBZ eats)
+    (NP (NNS ducks))
+    (PP (IN in) (NP (DT the) (NN park)))))
+    tList: (S
+  (NP (NNP Bob))
+  (VP
+    (VBZ eats)
+    (NP (NNS ducks))
+    (PP (IN in) (NP (DT the) (NN park)))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('Bob', 'NNP'), ('eats', 'VBZ'), ('ducks', 'NNS'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+    rel: ['Bob,eat']
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 05:52:52 ===
+---    elapsed loop time: 0:01:05.654205 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 05:52:52 ===
+
+---    END LOOP AT: 08/19/2022 05:52:52 ===
+---    elapsed loop time: 0:00:00.021940 ===
+
+*** END RUN AT: 08/19/2022 05:52:52 ***
+*** elapsed run time: 0:01:08.032407
+
+*** START RUN AT: 08/19/2022 05:54:09 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 05:54:09
+    elapsed time: 0:00:00.040976
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 05:54:13 ===
+-------------
+    s: pookie eats ducks in the park
+    ccs: ['Pookie', 'eats', 'ducks', 'in', 'the', 'park']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S
+  (NP (NNP Pookie))
+  (VP
+    (VBZ eats)
+    (NP (NNS ducks))
+    (PP (IN in) (NP (DT the) (NN park)))))
+    tList: (S
+  (NP (NNP Pookie))
+  (VP
+    (VBZ eats)
+    (NP (NNS ducks))
+    (PP (IN in) (NP (DT the) (NN park)))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('Pookie', 'NNP'), ('eats', 'VBZ'), ('ducks', 'NNS'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
+    rel: ['Pookie,eat']
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 05:55:16 ===
+---    elapsed loop time: 0:01:03.356186 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 05:55:16 ===
+
+---    END LOOP AT: 08/19/2022 05:55:16 ===
+---    elapsed loop time: 0:00:00.010957 ===
+
+*** END RUN AT: 08/19/2022 05:55:16 ***
+*** elapsed run time: 0:01:07.186166
+
+*** START RUN AT: 08/19/2022 06:32:18 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 06:32:18
+    elapsed time: 0:00:00.037044
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 06:32:27 ===
+-------------
+    s: my cat ate the duck
+    ccs: ['my', 'cat', 'ate', 'the', 'duck']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    tList: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 06:32:44 ===
+---    elapsed loop time: 0:00:17.562547 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 06:32:45 ===
+
+---    END LOOP AT: 08/19/2022 06:32:45 ===
+---    elapsed loop time: 0:00:00.022827 ===
+
+*** END RUN AT: 08/19/2022 06:32:45 ***
+*** elapsed run time: 0:00:27.457863
+
+*** START RUN AT: 08/19/2022 06:57:55 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 06:57:55
+    elapsed time: 0:00:00.040489
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 06:57:59 ===
+-------------
+    s: my cat ate the duck
+    ccs: ['my', 'cat', 'ate', 'the', 'duck']
+    ret: set() Is Unknown
+    aforementioned: ["[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 06:32:27"]
+    aforementioned mentioned: 1 times before
+    CFG tree: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    tList: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 07:00:42 ===
+---    elapsed loop time: 0:02:42.383940 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 07:00:42 ===
+
+---    END LOOP AT: 08/19/2022 07:00:42 ===
+---    elapsed loop time: 0:00:00.022776 ===
+
+*** END RUN AT: 08/19/2022 07:00:42 ***
+*** elapsed run time: 0:02:46.692852
+
+*** START RUN AT: 08/19/2022 07:15:03 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 07:15:03
+    elapsed time: 0:00:00.087401
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 07:15:10 ===
+-------------
+    s: my cat ate the duck
+    ccs: ['my', 'cat', 'ate', 'the', 'duck']
+    ret: set() Is Unknown
+    aforementioned: ["[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 06:32:27", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 06:57:59"]
+    aforementioned mentioned: 2 times before
+    CFG tree: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    tList: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 07:27:45 ===
+---    elapsed loop time: 0:12:35.039291 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 07:27:46 ===
+
+---    END LOOP AT: 08/19/2022 07:27:46 ===
+---    elapsed loop time: 0:00:00.020388 ===
+
+*** END RUN AT: 08/19/2022 07:27:46 ***
+*** elapsed run time: 0:12:42.497651
+
+*** START RUN AT: 08/19/2022 07:35:10 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 07:35:10
+    elapsed time: 0:00:00.047664
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 07:35:12 ===
+-------------
+    s: my cat ate the duck
+    ccs: ['my', 'cat', 'ate', 'the', 'duck']
+    ret: set() Is Unknown
+    aforementioned: ["[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 06:32:27", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 06:57:59", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:15:10"]
+    aforementioned mentioned: 3 times before
+    CFG tree: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    tList: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 07:35:24 ===
+---    elapsed loop time: 0:00:11.325816 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 07:35:24 ===
+
+---    END LOOP AT: 08/19/2022 07:35:24 ===
+---    elapsed loop time: 0:00:00.008666 ===
+
+*** END RUN AT: 08/19/2022 07:35:24 ***
+*** elapsed run time: 0:00:13.697793
+
+*** START RUN AT: 08/19/2022 07:36:33 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 07:36:33
+    elapsed time: 0:00:00.040229
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 07:36:40 ===
+-------------
+    s: cat ate the duck
+    ccs: ['cat', 'ate', 'the', 'duck']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    tList: (S (NP (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 07:37:30 ===
+---    elapsed loop time: 0:00:50.370366 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 07:37:30 ===
+
+---    END LOOP AT: 08/19/2022 07:37:30 ===
+---    elapsed loop time: 0:00:00.018329 ===
+
+*** END RUN AT: 08/19/2022 07:37:30 ***
+*** elapsed run time: 0:00:57.093533
+
+*** START RUN AT: 08/19/2022 07:44:50 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 07:44:50
+    elapsed time: 0:00:00.082000
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 07:44:56 ===
+-------------
+    s: cat ate the duck
+    ccs: ['cat', 'ate', 'the', 'duck']
+    ret: set() Is Unknown
+    aforementioned: ["[('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:36:40"]
+    aforementioned mentioned: 1 times before
+    CFG tree: (S (NP (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    tList: (S (NP (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 07:45:16 ===
+---    elapsed loop time: 0:00:19.309639 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 07:45:16 ===
+
+---    END LOOP AT: 08/19/2022 07:45:16 ===
+---    elapsed loop time: 0:00:00.010175 ===
+
+*** END RUN AT: 08/19/2022 07:45:16 ***
+*** elapsed run time: 0:00:25.940513
+
+*** START RUN AT: 08/19/2022 07:48:26 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 07:48:26
+    elapsed time: 0:00:00.026945
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 07:48:31 ===
+-------------
+    s: my cat ate the duck
+    ccs: ['my', 'cat', 'ate', 'the', 'duck']
+    ret: set() Is Unknown
+    aforementioned: ["[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 06:32:27", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 06:57:59", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:15:10", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:35:12"]
+    aforementioned mentioned: 4 times before
+    CFG tree: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    tList: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 07:48:43 ===
+---    elapsed loop time: 0:00:11.225396 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 07:48:43 ===
+
+---    END LOOP AT: 08/19/2022 07:48:43 ===
+---    elapsed loop time: 0:00:00.010151 ===
+
+*** END RUN AT: 08/19/2022 07:48:43 ***
+*** elapsed run time: 0:00:16.714099
+
+*** START RUN AT: 08/19/2022 08:21:43 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 08:21:43
+    elapsed time: 0:00:00.093064
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 08:21:53 ===
+-------------
+    s: my cat ate the duck
+    ccs: ['my', 'cat', 'ate', 'the', 'duck']
+    ret: set() Is Unknown
+    aforementioned: ["[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 06:32:27", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 06:57:59", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:15:10", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:35:12", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:48:31", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:19:37", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:20:42"]
+    aforementioned mentioned: 7 times before
+    CFG tree: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    tList: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 08:22:18 ===
+---    elapsed loop time: 0:00:24.914520 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 08:22:20 ===
+
+---    END LOOP AT: 08/19/2022 08:22:20 ===
+---    elapsed loop time: 0:00:00.009957 ===
+
+*** END RUN AT: 08/19/2022 08:22:20 ***
+*** elapsed run time: 0:00:37.044905
+
+*** START RUN AT: 08/19/2022 08:23:11 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 08:23:11
+    elapsed time: 0:00:00.037322
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 08:23:13 ===
+-------------
+    s: my cat ate the duck
+    ccs: ['my', 'cat', 'ate', 'the', 'duck']
+    ret: set() Is Unknown
+    aforementioned: ["[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 06:32:27", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 06:57:59", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:15:10", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:35:12", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:48:31", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:19:37", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:20:42", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:21:53"]
+    aforementioned mentioned: 8 times before
+    CFG tree: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    tList: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 08:23:25 ===
+---    elapsed loop time: 0:00:12.099279 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 08:23:25 ===
+
+---    END LOOP AT: 08/19/2022 08:23:25 ===
+---    elapsed loop time: 0:00:00.008259 ===
+
+*** END RUN AT: 08/19/2022 08:23:25 ***
+*** elapsed run time: 0:00:13.928781
+
+*** START RUN AT: 08/19/2022 08:24:42 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 08:24:42
+    elapsed time: 0:00:00.036278
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 08:24:43 ===
+-------------
+    s: my cat ate the duck
+    ccs: ['my', 'cat', 'ate', 'the', 'duck']
+    ret: set() Is Unknown
+    aforementioned: ["[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 06:32:27", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 06:57:59", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:15:10", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:35:12", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:48:31", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:19:37", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:20:42", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:21:53", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:23:13"]
+    aforementioned mentioned: 9 times before
+    CFG tree: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    tList: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 08:24:55 ===
+---    elapsed loop time: 0:00:11.640320 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 08:24:55 ===
+
+---    END LOOP AT: 08/19/2022 08:24:55 ===
+---    elapsed loop time: 0:00:00.007355 ===
+
+*** END RUN AT: 08/19/2022 08:24:55 ***
+*** elapsed run time: 0:00:13.464185
+
+*** START RUN AT: 08/19/2022 08:28:32 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 08:28:32
+    elapsed time: 0:00:00.031642
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 08:28:37 ===
+-------------
+    s: my cat ate the duck
+    ccs: ['my', 'cat', 'ate', 'the', 'duck']
+    ret: set() Is Unknown
+    aforementioned: ["[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 06:32:27", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 06:57:59", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:15:10", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:35:12", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:48:31", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:19:37", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:20:42", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:21:53", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:23:13", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:24:43", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:25:12"]
+    aforementioned mentioned: 11 times before
+    CFG tree: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    tList: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 08:28:47 ===
+---    elapsed loop time: 0:00:09.910074 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 08:28:48 ===
+
+---    END LOOP AT: 08/19/2022 08:28:48 ===
+---    elapsed loop time: 0:00:00.010311 ===
+
+*** END RUN AT: 08/19/2022 08:28:48 ***
+*** elapsed run time: 0:00:15.321692
+
+*** START RUN AT: 08/19/2022 08:29:07 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 08:29:07
+    elapsed time: 0:00:00.086681
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 08:29:09 ===
+-------------
+    s: my cat ate the duck
+    ccs: ['my', 'cat', 'ate', 'the', 'duck']
+    ret: set() Is Unknown
+    aforementioned: ["[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 06:32:27", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 06:57:59", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:15:10", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:35:12", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:48:31", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:19:37", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:20:42", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:21:53", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:23:13", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:24:43", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:25:12", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:28:37"]
+    aforementioned mentioned: 12 times before
+    CFG tree: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    tList: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 08:29:24 ===
+---    elapsed loop time: 0:00:15.149096 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 08:29:24 ===
+
+---    END LOOP AT: 08/19/2022 08:29:24 ===
+---    elapsed loop time: 0:00:00.022124 ===
+
+*** END RUN AT: 08/19/2022 08:29:24 ***
+*** elapsed run time: 0:00:17.652937
+
+*** START RUN AT: 08/19/2022 08:34:31 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 08:34:31
+    elapsed time: 0:00:00.036062
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 08:34:32 ===
+-------------
+    s: cat ate the bus
+    ccs: ['cat', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 08:33:29"]
+    aforementioned mentioned: 1 times before
+    CFG tree: (S (NP (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: my cat ate the bus
+    ccs: ['my', 'cat', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 08:34:59 ===
+---    elapsed loop time: 0:00:26.858039 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 08:35:00 ===
+
+---    END LOOP AT: 08/19/2022 08:35:00 ===
+---    elapsed loop time: 0:00:00.021077 ===
+
+*** END RUN AT: 08/19/2022 08:35:00 ***
+*** elapsed run time: 0:00:29.431758
+
+*** START RUN AT: 08/19/2022 08:44:49 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 08:44:49
+    elapsed time: 0:00:00.033517
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 08:44:50 ===
+-------------
+    s: my cat ate the duck
+    ccs: ['my', 'cat', 'ate', 'the', 'duck']
+    ret: set() Is Unknown
+    aforementioned: ["[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 06:32:27", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 06:57:59", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:15:10", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:35:12", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:48:31", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:19:37", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:20:42", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:21:53", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:23:13", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:24:43", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:25:12", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:28:37", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:29:09"]
+    aforementioned mentioned: 13 times before
+    CFG tree: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    tList: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]
+    rel: []
+-------------
+    s: bob ate the duck
+    ccs: ['Bob', 'ate', 'the', 'duck']
+    ret: set() Is Unknown
+    aforementioned: ["[('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; ['Bob,eat']; 08/19/2022; 08:41:16"]
+    aforementioned mentioned: 1 times before
+    CFG tree: (S (NP (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    tList: (S (NP (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]
+    rel: ['Bob,eat']
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 08:45:21 ===
+---    elapsed loop time: 0:00:30.833659 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 08:45:25 ===
+
+---    END LOOP AT: 08/19/2022 08:45:25 ===
+---    elapsed loop time: 0:00:00.022428 ===
+
+*** END RUN AT: 08/19/2022 08:45:25 ***
+*** elapsed run time: 0:00:36.057882
+
+*** START RUN AT: 08/19/2022 08:51:32 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 08:51:32
+    elapsed time: 0:00:00.097823
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 08:51:35 ===
+-------------
+    s: my cat ate the duck
+    ccs: ['my', 'cat', 'ate', 'the', 'duck']
+    ret: set() Is Unknown
+    aforementioned: ["[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 06:32:27", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 06:57:59", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:15:10", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:35:12", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 07:48:31", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:19:37", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:20:42", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:21:53", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:23:13", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:24:43", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:25:12", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:28:37", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:29:09", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; []; 08/19/2022; 08:44:50"]
+    aforementioned mentioned: 14 times before
+    CFG tree: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    tList: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]
+    rel: []
+-------------
+    s: bob ate the cat
+    ccs: ['Bob', 'ate', 'the', 'cat']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN cat))))
+    tList: (S (NP (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN cat))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('cat', 'NN')]
+    rel: ['Bob,eat']
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 08:52:02 ===
+---    elapsed loop time: 0:00:26.753199 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 08:52:02 ===
+
+---    END LOOP AT: 08/19/2022 08:52:02 ===
+---    elapsed loop time: 0:00:00.022736 ===
+
+*** END RUN AT: 08/19/2022 08:52:02 ***
+*** elapsed run time: 0:00:29.922945
+
+*** START RUN AT: 08/19/2022 09:09:52 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 09:09:52
+    elapsed time: 0:00:00.034168
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 09:09:54 ===
+-------------
+    s: my cat ate the dog
+    ccs: ['my', 'cat', 'ate', 'the', 'dog']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN dog))))
+    tList: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN dog))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('dog', 'NN')]
+    rel: []
+-------------
+    s: cat ate the dog
+    ccs: ['cat', 'ate', 'the', 'dog']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (NN cat)) (VP (VBD ate) (NP (DT the) (NN dog))))
+    tList: (S (NP (NN cat)) (VP (VBD ate) (NP (DT the) (NN dog))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('dog', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 09:10:30 ===
+---    elapsed loop time: 0:00:36.774522 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 09:10:30 ===
+
+---    END LOOP AT: 08/19/2022 09:10:30 ===
+---    elapsed loop time: 0:00:00.008970 ===
+
+*** END RUN AT: 08/19/2022 09:10:30 ***
+*** elapsed run time: 0:00:38.657747
+
+*** START RUN AT: 08/19/2022 09:28:49 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 09:28:49
+    elapsed time: 0:00:00.018882
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 09:28:59 ===
+-------------
+    s: cat ate the bus
+    ccs: ['cat', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 08:33:29", "[('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 08:34:32"]
+    aforementioned mentioned: 2 times before
+    CFG tree: (S (NP (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: my cat ate the bus
+    ccs: ['my', 'cat', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 08:34:32"]
+    aforementioned mentioned: 1 times before
+    CFG tree: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 09:32:15 ===
+---    elapsed loop time: 0:03:16.003076 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 09:32:15 ===
+
+---    END LOOP AT: 08/19/2022 09:32:15 ===
+---    elapsed loop time: 0:00:00.011211 ===
+
+*** END RUN AT: 08/19/2022 09:32:15 ***
+*** elapsed run time: 0:03:26.014722
+
+*** START RUN AT: 08/19/2022 09:38:03 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 09:38:03
+    elapsed time: 0:00:00.042441
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 09:38:05 ===
+-------------
+    s: bob ate the bus
+    ccs: ['Bob', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; ['Bob,eat']; 08/19/2022; 09:33:23"]
+    aforementioned mentioned: 1 times before
+    CFG tree: (S (NP (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: ['Bob,eat']
+-------------
+    s: my bus ate the park
+    ccs: ['my', 'bus', 'ate', 'the', 'park']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (DT my) (NN bus)) (VP (VBD ate) (NP (DT the) (NN park))))
+    tList: (S (NP (DT my) (NN bus)) (VP (VBD ate) (NP (DT the) (NN park))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('bus', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('park', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 09:38:36 ===
+---    elapsed loop time: 0:00:31.235462 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 09:38:36 ===
+
+---    END LOOP AT: 08/19/2022 09:38:36 ===
+---    elapsed loop time: 0:00:00.020504 ===
+
+*** END RUN AT: 08/19/2022 09:38:36 ***
+*** elapsed run time: 0:00:33.096711
+
+*** START RUN AT: 08/19/2022 10:27:23 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 10:27:23
+    elapsed time: 0:00:00.042163
+    cmd: my dog ate the bus
+
+---    START LOOP AT: 08/19/2022 10:27:30 ===
+
+---    END LOOP AT: 08/19/2022 10:27:30 ===
+---    elapsed loop time: 0:00:00.010185 ===
+
+*** END RUN AT: 08/19/2022 10:27:30 ***
+*** elapsed run time: 0:00:06.875553
+
+*** START RUN AT: 08/19/2022 10:29:12 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 10:29:12
+    elapsed time: 0:00:00.024538
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 10:29:15 ===
+-------------
+    s: bob ate the duck
+    ccs: ['Bob', 'ate', 'the', 'duck']
+    ret: set() Is Unknown
+    aforementioned: ["[('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; ['Bob,eat']; 08/19/2022; 08:41:16", "[('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; ['Bob,eat']; 08/19/2022; 08:44:50"]
+    aforementioned mentioned: 2 times before
+    CFG tree: (S (NP (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    tList: (S (NP (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]
+    rel: ['Bob,eat']
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 10:30:09 ===
+---    elapsed loop time: 0:00:53.986185 ===
+    cmd:        Sentence root -- little to no value...~?
+
+---    START LOOP AT: 08/19/2022 10:30:09 ===
+
+---    END LOOP AT: 08/19/2022 10:30:09 ===
+---    elapsed loop time: 0:00:00.011340 ===
+
+*** END RUN AT: 08/19/2022 10:30:09 ***
+*** elapsed run time: 0:00:57.775886
+
+*** START RUN AT: 08/19/2022 10:31:58 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 10:31:58
+    elapsed time: 0:00:00.096031
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 10:31:59 ===
+-------------
+    s: bob ate the duck
+    ccs: ['Bob', 'ate', 'the', 'duck']
+    ret: set() Is Unknown
+    aforementioned: ["[('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; ['Bob,eat']; 08/19/2022; 08:41:16", "[('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; ['Bob,eat']; 08/19/2022; 08:44:50", "[('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]; ['Bob,eat']; 08/19/2022; 10:29:15"]
+    aforementioned mentioned: 3 times before
+    CFG tree: (S (NP (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    tList: (S (NP (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]
+    rel: ['Bob,eat']
+-------------
+    s: my bob ate the duck
+    ccs: ['my', 'Bob', 'ate', 'the', 'duck']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (DT my) (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    tList: (S (NP (DT my) (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN duck))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('duck', 'NN')]
+    rel: ['Bob,eat']
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 10:32:32 ===
+---    elapsed loop time: 0:00:32.319424 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 10:32:32 ===
+
+---    END LOOP AT: 08/19/2022 10:32:32 ===
+---    elapsed loop time: 0:00:00.021304 ===
+
+*** END RUN AT: 08/19/2022 10:32:32 ***
+*** elapsed run time: 0:00:34.445172
+
+*** START RUN AT: 08/19/2022 10:34:47 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 10:34:47
+    elapsed time: 0:00:00.031081
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 10:34:51 ===
+-------------
+    s: bob ate the bus
+    ccs: ['Bob', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; ['Bob,eat']; 08/19/2022; 09:33:23", "[('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; ['Bob,eat']; 08/19/2022; 09:38:05"]
+    aforementioned mentioned: 2 times before
+    CFG tree: (S (NP (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: ['Bob,eat']
+-------------
+    s: my dog ate the cat
+    ccs: ['my', 'dog', 'ate', 'the', 'cat']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (DT my) (NN dog)) (VP (VBD ate) (NP (DT the) (NN cat))))
+    tList: (S (NP (DT my) (NN dog)) (VP (VBD ate) (NP (DT the) (NN cat))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('dog', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('cat', 'NN')]
+    rel: []
+-------------
+    s: my Bob ate the cat
+    ccs: ['my', 'Bob', 'ate', 'the', 'cat']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (DT my) (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN cat))))
+    tList: (S (NP (DT my) (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN cat))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('cat', 'NN')]
+    rel: ['Bob,eat']
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 10:35:59 ===
+---    elapsed loop time: 0:01:07.954160 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 10:35:59 ===
+
+---    END LOOP AT: 08/19/2022 10:35:59 ===
+---    elapsed loop time: 0:00:00.009409 ===
+
+*** END RUN AT: 08/19/2022 10:35:59 ***
+*** elapsed run time: 0:01:12.252949
+
+*** START RUN AT: 08/19/2022 10:49:01 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 10:49:01
+    elapsed time: 0:00:00.035249
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 10:49:04 ===
+-------------
+    s: my cat ate the bus
+    ccs: ['my', 'cat', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 08:34:32", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 09:28:59", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:46:10"]
+    aforementioned mentioned: 4 times before
+    CFG tree: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: the cat ate the bus
+    ccs: ['the', 'cat', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:46:10"]
+    aforementioned mentioned: 3 times before
+    CFG tree: (S (NP (DT the) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT the) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 10:49:50 ===
+---    elapsed loop time: 0:00:46.035448 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 10:49:51 ===
+
+---    END LOOP AT: 08/19/2022 10:49:51 ===
+---    elapsed loop time: 0:00:00.022229 ===
+
+*** END RUN AT: 08/19/2022 10:49:51 ***
+*** elapsed run time: 0:00:49.987806
+
+*** START RUN AT: 08/19/2022 12:13:04 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 12:13:04
+    elapsed time: 0:00:00.029984
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 12:13:10 ===
+-------------
+    s: my cat ate the bus
+    ccs: ['my', 'cat', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 08:34:32", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 09:28:59", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:46:10", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:49:04"]
+    aforementioned mentioned: 5 times before
+    CFG tree: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: the cat ate the bus
+    ccs: ['the', 'cat', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:46:10", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:49:04"]
+    aforementioned mentioned: 4 times before
+    CFG tree: (S (NP (DT the) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT the) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 12:14:10 ===
+---    elapsed loop time: 0:01:00.797180 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 12:14:11 ===
+
+---    END LOOP AT: 08/19/2022 12:14:11 ===
+---    elapsed loop time: 0:00:00.025109 ===
+
+*** END RUN AT: 08/19/2022 12:14:11 ***
+*** elapsed run time: 0:01:06.161926
+
+*** START RUN AT: 08/19/2022 12:18:48 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 12:18:48
+    elapsed time: 0:00:00.060900
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 12:18:51 ===
+-------------
+    s: my cat ate the bus
+    ccs: ['my', 'cat', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 08:34:32", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 09:28:59", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:46:10", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:49:04", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:13:10"]
+    aforementioned mentioned: 6 times before
+    CFG tree: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: the cat ate the bus
+    ccs: ['the', 'cat', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:46:10", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:49:04", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:13:10"]
+    aforementioned mentioned: 5 times before
+    CFG tree: (S (NP (DT the) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT the) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 12:19:13 ===
+---    elapsed loop time: 0:00:21.604764 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 12:19:13 ===
+
+---    END LOOP AT: 08/19/2022 12:19:13 ===
+---    elapsed loop time: 0:00:00.007771 ===
+
+*** END RUN AT: 08/19/2022 12:19:13 ***
+*** elapsed run time: 0:00:24.995336
+
+*** START RUN AT: 08/19/2022 12:25:28 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 12:25:28
+    elapsed time: 0:00:00.062056
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 12:25:32 ===
+
+---    END LOOP AT: 08/19/2022 12:25:32 ===
+---    elapsed loop time: 0:00:00.012860 ===
+
+*** END RUN AT: 08/19/2022 12:25:32 ***
+*** elapsed run time: 0:00:04.374401
+
+*** START RUN AT: 08/19/2022 12:39:03 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 12:39:03
+    elapsed time: 0:00:00.044232
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 12:39:09 ===
+-------------
+    s: my cat ate the bus
+    ccs: ['my', 'cat', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 08:34:32", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 09:28:59", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:46:10", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:49:04", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:13:10", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:18:51", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:25:54"]
+    aforementioned mentioned: 8 times before
+    CFG tree: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: the cat ate the bus
+    ccs: ['the', 'cat', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:46:10", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:49:04", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:13:10", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:18:51", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:25:54"]
+    aforementioned mentioned: 7 times before
+    CFG tree: (S (NP (DT the) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT the) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 12:39:35 ===
+---    elapsed loop time: 0:00:25.936390 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 12:39:35 ===
+
+---    END LOOP AT: 08/19/2022 12:39:35 ===
+---    elapsed loop time: 0:00:00.018890 ===
+
+*** END RUN AT: 08/19/2022 12:39:35 ***
+*** elapsed run time: 0:00:32.300541
+
+*** START RUN AT: 08/19/2022 12:41:51 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 12:41:51
+    elapsed time: 0:00:00.047162
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 12:41:52 ===
+-------------
+    s: my cat ate the bus
+    ccs: ['my', 'cat', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 08:34:32", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 09:28:59", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:46:10", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:49:04", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:13:10", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:18:51", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:25:54", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:39:09"]
+    aforementioned mentioned: 9 times before
+    CFG tree: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: the cat ate the bus
+    ccs: ['the', 'cat', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:46:10", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:49:04", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:13:10", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:18:51", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:25:54", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:39:09"]
+    aforementioned mentioned: 8 times before
+    CFG tree: (S (NP (DT the) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT the) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 12:42:15 ===
+---    elapsed loop time: 0:00:23.180274 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 12:42:16 ===
+
+---    END LOOP AT: 08/19/2022 12:42:16 ===
+---    elapsed loop time: 0:00:00.014426 ===
+
+*** END RUN AT: 08/19/2022 12:42:16 ***
+*** elapsed run time: 0:00:24.904949
+
+*** START RUN AT: 08/19/2022 12:45:46 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 12:45:46
+    elapsed time: 0:00:00.041874
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 12:45:52 ===
+-------------
+    s: a cat ate the bus
+    ccs: ['a', 'cat', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (DT a) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT a) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('a', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: my cat ate the bus
+    ccs: ['my', 'cat', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 08:34:32", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 09:28:59", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:46:10", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:49:04", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:13:10", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:18:51", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:25:54", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:39:09", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:41:52"]
+    aforementioned mentioned: 10 times before
+    CFG tree: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: the cat ate the bus
+    ccs: ['the', 'cat', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:46:10", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:49:04", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:13:10", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:18:51", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:25:54", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:39:09", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:41:52"]
+    aforementioned mentioned: 9 times before
+    CFG tree: (S (NP (DT the) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT the) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 12:46:34 ===
+---    elapsed loop time: 0:00:42.053108 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 12:46:34 ===
+
+---    END LOOP AT: 08/19/2022 12:46:34 ===
+---    elapsed loop time: 0:00:00.018698 ===
+
+*** END RUN AT: 08/19/2022 12:46:34 ***
+*** elapsed run time: 0:00:47.803072
+
+*** START RUN AT: 08/19/2022 13:17:24 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 13:17:24
+    elapsed time: 0:00:00.060270
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 13:17:26 ===
+-------------
+    s: a cat ate the bus
+    ccs: ['a', 'cat', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('a', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:45:52"]
+    aforementioned mentioned: 1 times before
+    CFG tree: (S (NP (DT a) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT a) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('a', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: my cat ate the bus
+    ccs: ['my', 'cat', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 08:34:32", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 09:28:59", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:46:10", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:49:04", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:13:10", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:18:51", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:25:54", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:39:09", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:41:52", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:45:52"]
+    aforementioned mentioned: 11 times before
+    CFG tree: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: the cat ate the bus
+    ccs: ['the', 'cat', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:46:10", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:49:04", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:13:10", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:18:51", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:25:54", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:39:09", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:41:52", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:45:52"]
+    aforementioned mentioned: 10 times before
+    CFG tree: (S (NP (DT the) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT the) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 13:18:07 ===
+---    elapsed loop time: 0:00:40.855495 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 13:18:07 ===
+
+---    END LOOP AT: 08/19/2022 13:18:07 ===
+---    elapsed loop time: 0:00:00.014837 ===
+
+*** END RUN AT: 08/19/2022 13:18:07 ***
+*** elapsed run time: 0:00:43.274168
+
+*** START RUN AT: 08/19/2022 13:40:25 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 13:40:25
+    elapsed time: 0:00:00.060823
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 13:40:30 ===
+-------------
+    s: a dog ate the cat
+    ccs: ['a', 'dog', 'ate', 'the', 'cat']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (DT a) (NN dog)) (VP (VBD ate) (NP (DT the) (NN cat))))
+    tList: (S (NP (DT a) (NN dog)) (VP (VBD ate) (NP (DT the) (NN cat))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('a', 'DT'), ('dog', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('cat', 'NN')]
+    rel: []
+-------------
+    s: my dog ate the cat
+    ccs: ['my', 'dog', 'ate', 'the', 'cat']
+    ret: set() Is Unknown
+    aforementioned: ["[('my', 'DT'), ('dog', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('cat', 'NN')]; []; 08/19/2022; 10:34:51"]
+    aforementioned mentioned: 1 times before
+    CFG tree: (S (NP (DT my) (NN dog)) (VP (VBD ate) (NP (DT the) (NN cat))))
+    tList: (S (NP (DT my) (NN dog)) (VP (VBD ate) (NP (DT the) (NN cat))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('dog', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('cat', 'NN')]
+    rel: []
+-------------
+    s: the dog ate the cat
+    ccs: ['the', 'dog', 'ate', 'the', 'cat']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (DT the) (NN dog)) (VP (VBD ate) (NP (DT the) (NN cat))))
+    tList: (S (NP (DT the) (NN dog)) (VP (VBD ate) (NP (DT the) (NN cat))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('the', 'DT'), ('dog', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('cat', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 13:41:15 ===
+---    elapsed loop time: 0:00:44.771701 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 13:41:15 ===
+
+---    END LOOP AT: 08/19/2022 13:41:15 ===
+---    elapsed loop time: 0:00:00.011636 ===
+
+*** END RUN AT: 08/19/2022 13:41:15 ***
+*** elapsed run time: 0:00:50.342303
+
+*** START RUN AT: 08/19/2022 14:26:13 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 14:26:13
+    elapsed time: 0:00:00.108344
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 14:26:15 ===
+-------------
+    s: a dog ate the bus
+    ccs: ['a', 'dog', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('a', 'DT'), ('dog', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 13:20:12", "[('a', 'DT'), ('dog', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 13:21:50", "[('a', 'DT'), ('dog', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 14:21:38"]
+    aforementioned mentioned: 3 times before
+    CFG tree: (S (NP (DT a) (NN dog)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT a) (NN dog)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('a', 'DT'), ('dog', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: my dog ate the bus
+    ccs: ['my', 'dog', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('my', 'DT'), ('dog', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 09:33:23", "[('my', 'DT'), ('dog', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:27:42", "[('my', 'DT'), ('dog', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:56:45", "[('my', 'DT'), ('dog', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 13:20:12", "[('my', 'DT'), ('dog', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 13:21:50", "[('my', 'DT'), ('dog', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 14:21:38"]
+    aforementioned mentioned: 6 times before
+    CFG tree: (S (NP (DT my) (NN dog)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT my) (NN dog)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('dog', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: the dog ate the bus
+    ccs: ['the', 'dog', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('the', 'DT'), ('dog', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:53:43", "[('the', 'DT'), ('dog', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:56:45", "[('the', 'DT'), ('dog', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 13:20:12", "[('the', 'DT'), ('dog', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 13:21:50", "[('the', 'DT'), ('dog', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 14:21:38"]
+    aforementioned mentioned: 5 times before
+    CFG tree: (S (NP (DT the) (NN dog)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT the) (NN dog)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('the', 'DT'), ('dog', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 14:26:53 ===
+---    elapsed loop time: 0:00:37.335939 ===
+    cmd: 
+
+---    START LOOP AT: 08/19/2022 14:26:53 ===
+
+---    END LOOP AT: 08/19/2022 14:26:53 ===
+---    elapsed loop time: 0:00:00.009428 ===
+
+*** END RUN AT: 08/19/2022 14:26:53 ***
+*** elapsed run time: 0:00:39.703423
+
+*** START RUN AT: 08/19/2022 14:30:47 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/19/2022 14:30:47
+    elapsed time: 0:00:00.096271
+    cmd: c
+
+---    START LOOP AT: 08/19/2022 14:30:49 ===
+-------------
+    s: a cat ate the bus
+    ccs: ['a', 'cat', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('a', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:45:52", "[('a', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 13:17:26", "[('a', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 14:28:00", "[('a', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 14:29:25"]
+    aforementioned mentioned: 4 times before
+    CFG tree: (S (NP (DT a) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT a) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('a', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: my cat ate the bus
+    ccs: ['my', 'cat', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 08:34:32", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 09:28:59", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:46:10", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:49:04", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:13:10", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:18:51", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:25:54", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:39:09", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:41:52", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:45:52", "[('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 13:17:26"]
+    aforementioned mentioned: 12 times before
+    CFG tree: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT my) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: the cat ate the bus
+    ccs: ['the', 'cat', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:40:12", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:46:10", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 10:49:04", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:13:10", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:18:51", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:25:54", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:39:09", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:41:52", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 12:45:52", "[('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; []; 08/19/2022; 13:17:26"]
+    aforementioned mentioned: 11 times before
+    CFG tree: (S (NP (DT the) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT the) (NN cat)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('the', 'DT'), ('cat', 'NN'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: []
+-------------
+    s: bob ate the bus
+    ccs: ['Bob', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; ['Bob,eat']; 08/19/2022; 09:33:23", "[('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; ['Bob,eat']; 08/19/2022; 09:38:05", "[('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; ['Bob,eat']; 08/19/2022; 10:34:51"]
+    aforementioned mentioned: 3 times before
+    CFG tree: (S (NP (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: ['Bob,eat']
+-------------
+    s: my bob ate the bus
+    ccs: ['my', 'Bob', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: ["[('my', 'DT'), ('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; ['Bob,eat']; 08/19/2022; 10:40:12"]
+    aforementioned mentioned: 1 times before
+    CFG tree: (S (NP (DT my) (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT my) (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('my', 'DT'), ('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: ['Bob,eat']
+-------------
+    s: a bob ate the bus
+    ccs: ['a', 'Bob', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (DT a) (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (DT a) (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('a', 'DT'), ('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]
+    rel: ['Bob,eat']
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/19/2022 14:36:46 ===
+---    elapsed loop time: 0:05:57.626856 ===
+    cmd: >>        [.VP [.VBD ate ] [.NP [.DT the ] [.NN bus ] ] ] ]<<
+
+---    START LOOP AT: 08/19/2022 14:36:46 ===
+
+---    END LOOP AT: 08/19/2022 14:36:47 ===
+---    elapsed loop time: 0:00:00.034315 ===
+
+*** END RUN AT: 08/19/2022 14:36:47 ***
+*** elapsed run time: 0:05:59.613746
