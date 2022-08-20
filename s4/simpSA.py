@@ -19,9 +19,6 @@ def sentAnalysis(tl, f):
 
     sTag = ''
     sIdx = 0
-#    rows, cols = (63, 63)
-#    sMatrix = [[' ']*cols]*rows
-#    print(sMatrix)
     
     for i in tl:
         print('>>' + str(i) + '<<')
@@ -33,7 +30,7 @@ def sentAnalysis(tl, f):
         print('tl should never be less than 1')
     elif len(tl) == 1:
         # Simple sentence trees are just 1 line
-        print('simple sentence')
+        print('simple sentence, or so they seem...')
 
         tStr = tl[0]
 
@@ -49,7 +46,7 @@ def sentAnalysis(tl, f):
         print(tStrLen)
         print(tStr)
 
-        # Build sentence metrix
+        # Build sentence matrix
         row = []
         col = []
 
@@ -61,7 +58,7 @@ def sentAnalysis(tl, f):
                 row.append(tStr[sIdx])                
 
         print('---')
-
+        # Now build simplified list for if-then processing
         tags = []
         word = ""
         wordTags = []
@@ -137,8 +134,15 @@ def sentAnalysis(tl, f):
                         if wordTags[2][0] == 'VP':
                             sVerb = wordTags[3]
                     
-            #elif wordTags[0][1] == 'VP':
+            elif wordTags[0][1] == 'VP':
                 # Starting with VP
+                print(wordTags)
+                sVerb = wordTags[1]
+                sSubj = wordTags[3]
+                if wordTags[2][1] == 'NNP':
+                    nnpFound = True
+
+
 
         print('det: ' + str(det))
         print('subject: ' + str(sSubj))
