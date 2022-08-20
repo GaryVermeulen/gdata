@@ -2966,3 +2966,198 @@
 
 *** END RUN AT: 08/19/2022 14:36:47 ***
 *** elapsed run time: 0:05:59.613746
+
+*** START RUN AT: 08/20/2022 07:34:41 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/20/2022 07:34:41
+    elapsed time: 0:00:00.015263
+    cmd: c
+
+---    START LOOP AT: 08/20/2022 07:34:49 ===
+-------------
+    s: see mary
+    ccs: ['see', 'Mary']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (VP (VB see) (NP (NNP Mary))))
+    tList: (S (VP (VB see) (NP (NNP Mary))))
+    sAnaly: ['simple imperative starting with V', 'Mary', 'see']
+    sPOS: [('see', 'VB'), ('Mary', 'NNP')]
+    rel: ['Mary,see']
+-------------
+    s: I see mary
+    ccs: ['I', 'see', 'Mary']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (PRP I)) (VP (VB see) (NP (NNP Mary))))
+    tList: (S (NP (PRP I)) (VP (VB see) (NP (NNP Mary))))
+    sAnaly: ['', '', '']
+    sPOS: [('I', 'PRP'), ('see', 'VB'), ('Mary', 'NNP')]
+    rel: ['Mary,see']
+-------------
+    s: I see mary walk
+    ccs: ['I', 'see', 'Mary', 'walk']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (NP (PRP I)) (VP (VB see) (NP (NNP Mary)))) (VP (VB walk)))
+    tList: (S (NP (NP (PRP I)) (VP (VB see) (NP (NNP Mary)))) (VP (VB walk)))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('I', 'PRP'), ('see', 'VB'), ('Mary', 'NNP'), ('walk', 'VB')]
+    rel: ['Mary,see']
+-------------
+    s: see mary walk
+    ccs: ['see', 'Mary', 'walk']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB walk)))))
+    tList: (S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB walk)))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('see', 'VB'), ('Mary', 'NNP'), ('walk', 'VB')]
+    rel: ['Mary,see']
+-------------
+    s: my mary walks
+    ccs: ['my', 'Mary', 'walks']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (DT my) (NNP Mary)) (VP (VBZ walks)))
+    tList: (S (NP (DT my) (NNP Mary)) (VP (VBZ walks)))
+    sAnaly: ['simple declarative sentence strting with NP -> DT -> NNx', 'my ary', 'walks']
+    sPOS: [('my', 'DT'), ('Mary', 'NNP'), ('walks', 'VBZ')]
+    rel: ['Mary,walk']
+-------------
+    s: a bob walks
+    ccs: ['a', 'Bob', 'walks']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (DT a) (NNP Bob)) (VP (VBZ walks)))
+    tList: (S (NP (DT a) (NNP Bob)) (VP (VBZ walks)))
+    sAnaly: ['simple declarative sentence strting with NP -> DT -> NNx', 'a b', 'lks']
+    sPOS: [('a', 'DT'), ('Bob', 'NNP'), ('walks', 'VBZ')]
+    rel: ['Bob,walk']
+-------------
+    s: bob walks
+    ccs: ['Bob', 'walks']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (NNP Bob)) (VP (VBZ walks)))
+    tList: (S (NP (NNP Bob)) (VP (VBZ walks)))
+    sAnaly: ['simple declarative sentence strting with N', 'Bob', 'walks']
+    sPOS: [('Bob', 'NNP'), ('walks', 'VBZ')]
+    rel: ['Bob,walk']
+-------------
+    s: the bob walks
+    ccs: ['the', 'Bob', 'walks']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (DT the) (NNP Bob)) (VP (VBZ walks)))
+    tList: (S (NP (DT the) (NNP Bob)) (VP (VBZ walks)))
+    sAnaly: ['simple declarative sentence strting with NP -> DT -> NNx', 'the Bob', 'walks']
+    sPOS: [('the', 'DT'), ('Bob', 'NNP'), ('walks', 'VBZ')]
+    rel: ['Bob,walk']
+-------------
+    s: a bob walks
+    ccs: ['a', 'Bob', 'walks']
+    ret: set() Is Unknown
+    aforementioned: ["[('a', 'DT'), ('Bob', 'NNP'), ('walks', 'VBZ')]; ['Bob,walk']; 08/20/2022; 07:34:49"]
+    aforementioned mentioned: 1 times before
+    CFG tree: (S (NP (DT a) (NNP Bob)) (VP (VBZ walks)))
+    tList: (S (NP (DT a) (NNP Bob)) (VP (VBZ walks)))
+    sAnaly: ['simple declarative sentence strting with NP -> DT -> NNx', 'a b', 'lks']
+    sPOS: [('a', 'DT'), ('Bob', 'NNP'), ('walks', 'VBZ')]
+    rel: ['Bob,walk']
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/20/2022 07:40:22 ===
+---    elapsed loop time: 0:05:33.900097 ===
+    cmd: 
+
+---    START LOOP AT: 08/20/2022 07:40:23 ===
+
+---    END LOOP AT: 08/20/2022 07:40:23 ===
+---    elapsed loop time: 0:00:00.007020 ===
+
+*** END RUN AT: 08/20/2022 07:40:23 ***
+*** elapsed run time: 0:05:41.350846
+
+*** START RUN AT: 08/20/2022 08:04:36 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/20/2022 08:04:36
+    elapsed time: 0:00:00.076153
+    cmd: c
+
+---    START LOOP AT: 08/20/2022 08:04:38 ===
+-------------
+    s: see bob walk
+    ccs: ['see', 'Bob', 'walk']
+    ret: set() Is Unknown
+    aforementioned: ["[('see', 'VB'), ('Bob', 'NNP'), ('walk', 'VB')]; ['see', 'walk']; 08/14/2022; 11:45:06", "[('see', 'VB'), ('Bob', 'NNP'), ('walk', 'VB')]; ['see', 'walk']; 08/15/2022; 08:43:17"]
+    aforementioned mentioned: 2 times before
+    CFG tree: (S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB walk)))))
+    tList: (S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB walk)))))
+    a some-what more complex sentence
+    sAnaly: ['', '', '']
+    sPOS: [('see', 'VB'), ('Bob', 'NNP'), ('walk', 'VB')]
+    rel: ['Bob,see']
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 08/20/2022 08:04:45 ===
+---    elapsed loop time: 0:00:07.521751 ===
+    cmd: 
+
+---    START LOOP AT: 08/20/2022 08:04:46 ===
+
+---    END LOOP AT: 08/20/2022 08:04:46 ===
+---    elapsed loop time: 0:00:00.008575 ===
+
+*** END RUN AT: 08/20/2022 08:04:46 ***
+*** elapsed run time: 0:00:09.482725
+
+*** START RUN AT: 08/20/2022 09:18:37 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/20/2022 09:18:37
+    elapsed time: 0:00:00.080174
+    cmd: 
+
+---    START LOOP AT: 08/20/2022 09:18:41 ===
+
+---    END LOOP AT: 08/20/2022 09:18:41 ===
+---    elapsed loop time: 0:00:00.010503 ===
+
+*** END RUN AT: 08/20/2022 09:18:41 ***
+*** elapsed run time: 0:00:03.734123
+
+*** START RUN AT: 08/20/2022 11:52:35 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/20/2022 11:52:35
+    elapsed time: 0:00:00.069069
+    cmd: ran man
+
+---    START LOOP AT: 08/20/2022 11:52:51 ===
+
+---    END LOOP AT: 08/20/2022 11:52:51 ===
+---    elapsed loop time: 0:00:00.008407 ===
+
+*** END RUN AT: 08/20/2022 11:52:51 ***
+*** elapsed run time: 0:00:15.432697

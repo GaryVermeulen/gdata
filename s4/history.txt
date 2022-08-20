@@ -160,3 +160,14 @@
 [('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; ['Bob,eat']; 08/19/2022; 14:30:49
 [('my', 'DT'), ('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; ['Bob,eat']; 08/19/2022; 14:30:49
 [('a', 'DT'), ('Bob', 'NNP'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 'NN')]; ['Bob,eat']; 08/19/2022; 14:30:49
+[('see', 'VB'), ('Mary', 'NNP')]; ['Mary,see']; 08/20/2022; 07:34:49
+[('I', 'PRP'), ('see', 'VB'), ('Mary', 'NNP')]; ['Mary,see']; 08/20/2022; 07:34:49
+[('I', 'PRP'), ('see', 'VB'), ('Mary', 'NNP'), ('walk', 'VB')]; ['Mary,see']; 08/20/2022; 07:34:49
+[('see', 'VB'), ('Mary', 'NNP'), ('walk', 'VB')]; ['Mary,see']; 08/20/2022; 07:34:49
+[('my', 'DT'), ('Mary', 'NNP'), ('walks', 'VBZ')]; ['Mary,walk']; 08/20/2022; 07:34:49
+[('a', 'DT'), ('Bob', 'NNP'), ('walks', 'VBZ')]; ['Bob,walk']; 08/20/2022; 07:34:49
+[('Bob', 'NNP'), ('walks', 'VBZ')]; ['Bob,walk']; 08/20/2022; 07:34:49
+[('the', 'DT'), ('Bob', 'NNP'), ('walks', 'VBZ')]; ['Bob,walk']; 08/20/2022; 07:34:49
+[('a', 'DT'), ('Bob', 'NNP'), ('walks', 'VBZ')]; ['Bob,walk']; 08/20/2022; 07:34:49
+[('see', 'VB'), ('Bob', 'NNP'), ('walk', 'VB')]; ['Bob,see']; 08/20/2022; 08:04:38
+[('see', 'VB'), ('Bob', 'NNP'), ('walk', 'VB')]; ['Bob,see']; 08/20/2022; 11:45:02

@@ -4,6 +4,8 @@
 #    Sentence analysis--determine SVO
 #
 
+import sys
+
 ################################################
 def sentAnalysis(tl, f):
 # Attempt to analyze the sentence per CFG
@@ -13,62 +15,14 @@ def sentAnalysis(tl, f):
     sType = ''
     sSubj = ''
     sVerb = ''
+    det = ''
+
+    sTag = ''
+    sIdx = 0
+#    rows, cols = (63, 63)
+#    sMatrix = [[' ']*cols]*rows
+#    print(sMatrix)
     
-#    print('s:')
-#    print(s)
-#    print('sd:')
-#    print(sd) # simpData
-    
-    # Fewer rules to check then words
-#    cfgRules = getCFGRules()
-
-    # Break up sentence into phrases
-#    lstSize = len(s)
-#    lstIdx = [lstIdx + 1 for lstIdx, lstVal in enumerate(s) if lstVal not in cfgRules]
-#
-#    res = [s[i: j] for i, j in
-#           zip([0] + lstIdx, lstIdx +
-#               ([lstSize] if lstIdx[-1] != lstSize else []))]
-
-#    print('res:')             
-#    print(res)
-#    print(len(res))
-
-    # Sentence type? Declarative, imperative, interrogative, or exclamatory.
-    # This will most liekly change many times...
-    #
-    # Let's start with super simple sentences...
-    #
-#    for w in res:
-#        print(w)
-#        
-#        if w[0] == 'VP':
-#            vpLen = len(w)
-#            action = w[vpLen - 1]
-#            actions.append(action)
-#            print(action)
-#            # Can I (Simp) do any of these actions?
-#            if action not in sd:
-#                print('I cannot: ' + str(action))
-#
-#        # Looking for object
-#        if w[0] == 'NP':
-#            npLen = len(w)
-#            subject = w[npLen - 1]
-#            subjects.append(subject)
-#            print(subject)
-#
-#            subjectData = getNx(subject)
-#
-#            print(subjectData[len(subjectData)- 1])
-#
-#    print('---')
-#    print(actions)
-#    print(subjects)
-#
-#    print('---')
-#    print(type(tl))
-#    print(len(tl))
     for i in tl:
         print('>>' + str(i) + '<<')
 
@@ -83,161 +37,117 @@ def sentAnalysis(tl, f):
 
         tStr = tl[0]
 
-        tlIndex = 12 # Single line tree starting index
+#        print(type(tStr))
+#        print(len(tStr))
+#        print(tStr)
 
-        # Does the sentence start with a VP or NP?
-        if tStr[tlIndex] == 'V' and tStr[tlIndex + 1] == 'P':
-            if tStr[tlIndex + 5] == 'V' and tStr[tlIndex + 6] == 'B':
+        # Remove "\Tree " from tree string
+        tStr = tStr.replace('\Tree ', '')
 
-                vb = ''
-                sType = 'simple imperative starting with V'
+        tStrLen = len(tStr)
+
+        print(tStrLen)
+        print(tStr)
+
+        # Build sentence metrix
+        row = []
+        col = []
+
+        for sIdx in range(tStrLen):
+            if tStr[sIdx] == ' ':
+                col.append(row)
+                row = []
+            else:
+                row.append(tStr[sIdx])                
+
+        print('---')
+
+        tags = []
+        word = ""
+        wordTags = []
+        for c in col:
+            print(c)
+            tag = ''
+            if len(c) > 2 and c[1] == '.':
+#                print('dot found')
+#                print(len(c))
+                if len(c) == 4: # NP, DT, VB,...
+                    tag = c[-2] + c[-1]
+                elif len(c) == 5: # NNP, NNS, VBD,...
+                    tag = c[-3] + c[-2] + c[-1]
+                elif c[-1] == 'S': # Don't forget the S
+                    tag = c[-1]
+
+#                print('tag: ' + str(tag))
+
+                tags.append(tag)
                 
-                print('simple imperative sentence starting with VP -> VB')
+            elif c[0] not in ['[',']']:
 
-                if tStr[tlIndex + 7] == ' ':
-                    tlIndex = 20
-                elif tStr[tlIndex + 7] in ['D', 'G', 'N', 'Z']:
-                    tlIndex = 21
+#                print(' bare c: ' + str(c))
+                word = ''.join(c)
+
+#                print('word: ' + str(word))
+
+                wordTags.append(tags)
+                wordTags.append(word)
+                tags = []
                 
-                while tStr[tlIndex] != ' ':                    
-                    vb = vb + tStr[tlIndex]
-                    tlIndex = tlIndex + 1
-    
-                sVerb = vb
 
-                print('VP -> VB -> ' + vb)
-
-                # Advance to next phrase (if one exists)
-                if tStr[tlIndex + 3] == '[':
-
-                    if tStr[tlIndex + 12] == ' ':
-                        # NP NN
-                        tlIndex = tlIndex + 13
-                    else:
-                        # NP NNP, NNS, etc
-                        tlIndex = tlIndex + 14    
+#        print(wordTags)
+#        print(len(wordTags))
+        
+        nnpFound = False
+        
+        if wordTags[0][0] == 'S':
+            # They should all start with S
+            if wordTags[0][1] == 'NP':
+                # Starting with NP
+                if wordTags[0][2] == 'DT':
+                    # Determiner found
+                    det = wordTags[1]
                     
-                    nnx = ''
+                    if 'NN' in wordTags[2]:
+                        sSubj = wordTags[3]
 
-                    while tStr[tlIndex] != ' ':                    
-                        nnx = nnx + tStr[tlIndex]
-                        tlIndex = tlIndex + 1
-                        nnxLen = len(nnx)
+                        if len(wordTags) > 2:
+                            if 'VP' in wordTags[4][0]:
+                                sVerb = wordTags[5]
+        
+                    elif 'NNP' in wordTags[2]:
+                        sSubj = wordTags[3]
+                        nnpFound = True
 
-                    if (tStr[tlIndex - (nnxLen + 3)]) == 'D' and (tStr[tlIndex - (nnxLen + 2)]) == 'T':
-                        # Found DT, so continue parsing sentence
-                        dt = nnx
-                        nnx = ''
+                        if len(wordTags) > 2:                    
+                            if wordTags[4][0] == 'VP':
+                                sVerb = wordTags[5]
+        
+                elif wordTags[0][2] == 'NN':
+                    sSubj = wordTags[1]
 
-                        if tStr[tlIndex + 7] in ['P', 'S']:
-                            tlIndex = tlIndex + 9
-                        else:
-                            tlIndex = tlIndex + 8
+                    if len(wordTags) > 2:
+                            if wordTags[2][0] == 'VP':
+                                sVerb = wordTags[3]
+                    
+                elif wordTags[0][2] == 'NNP':
+                    sSubj = wordTags[1]
+                    nnpFound = True
 
-                        while tStr[tlIndex] != ' ':                    
-                            nnx = nnx + tStr[tlIndex]
-                            tlIndex = tlIndex + 1
-                    else:
-                        dt = ''
+                    if len(wordTags) > 2:                    
+                        if wordTags[2][0] == 'VP':
+                            sVerb = wordTags[3]
+                    
+            #elif wordTags[0][1] == 'VP':
+                # Starting with VP
 
-                    if dt == '':
-                        sSubj = nnx
-                        print('NP -> nnx -> ' + nnx)
-                    else:
-                        sSubj = dt + ' ' + nnx
-                        print('DT -> ' + dt + ' nnx -> ' + nnx)
-                        
-        # Does the sentence start with a NP?
-        elif tStr[tlIndex] == 'N' and tStr[tlIndex + 1] == 'P':
-            # NP -> NNx
-            if tStr[tlIndex + 5] == 'N' and tStr[tlIndex + 6] == 'N':
+        print('det: ' + str(det))
+        print('subject: ' + str(sSubj))
+        print('nnp?: ' + str(nnpFound))
+        print('verb/action: ' + str(sVerb))
+        
+        sys.exit()
 
-                sType = 'simple declarative sentence strting with N'
-                
-                print('simple declarative sentence strting with NP -> NNx')
 
-                if tStr[tlIndex + 7] == ' ':
-                    tlIndex = 20
-                elif tStr[tlIndex + 7] in ['P', 'S']:
-                    tlIndex = 21
-
-                nnx = ''
-                
-                while tStr[tlIndex] != ' ':                    
-                    nnx = nnx + tStr[tlIndex]
-                    tlIndex = tlIndex + 1
-
-                sSubj = nnx
-                print('NP -> nnx -> ' + nnx)
-
-                # Advance to next phrase (if one exists)
-                vp = ''
-                
-                if tStr[tlIndex + 3] == ']':
-
-                    if tStr[tlIndex + 14] == ' ':
-                        # NP VP
-                        tlIndex = tlIndex + 15
-                    else:
-                        # NPx VP, VBD, VBG, etc
-                        tlIndex = tlIndex + 16
-
-                    while tStr[tlIndex] != ' ':                    
-                        vp = vp + tStr[tlIndex]
-                        tlIndex = tlIndex + 1
-    
-                sVerb = vp
-                print('VP -> VBx -> ' + vp)
-
-            elif tStr[tlIndex + 5] == 'D' and tStr[tlIndex + 6] == 'T':
-            # NP -> DT
-
-                sType = 'simple declarative sentence strting with NP -> DT -> NNx'
-                print('simple declarative sentence strting with NP -> DT -> NNx')           
-                print('found DT')
-
-                dt = ''
-                tlIndex = tlIndex + 8
-
-                while tStr[tlIndex] != ' ':                    
-                    dt = dt + tStr[tlIndex]
-                    tlIndex = tlIndex + 1
-
-                # Advance to next phrase
-                nnx = ''
-                
-                if tStr[tlIndex + 7] == ' ':
-                    tlIndex = 31
-                elif tStr[tlIndex + 7] in ['P', 'S']:
-                    tlIndex = 32
-                
-                while tStr[tlIndex] != ' ':                    
-                    nnx = nnx + tStr[tlIndex]
-                    tlIndex = tlIndex + 1
-
-                sSubj = dt + ' ' + nnx
-                print('NP -> DT -> ' + dt + ' nnx -> ' + nnx)
-
-                # Advance to next phrase (if one exists)
-                vp = ''
-
-                if tStr[tlIndex + 3] == ']':
-
-                    tlIndex = 49                    
-
-                    if tStr[tlIndex] == ' ':
-                        # NP VP
-                        tlIndex = tlIndex + 1
-                    else:
-                        # NPx VP, VBD, VBG, etc
-                        tlIndex = tlIndex + 2
-
-                    while tStr[tlIndex] != ' ':                    
-                        vp = vp + tStr[tlIndex]
-                        tlIndex = tlIndex + 1
-
-                    sVerb = vp
-                    print('VP -> VBx -> ' + vp)
     else:
         # This is going to be enormous--for now just:
         #   NP -> NN
