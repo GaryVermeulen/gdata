@@ -144,6 +144,9 @@ while loop:
                     sAnaly = sa.sentAnalysis(tList, f)
 
                     f.write('    sAnaly: ' + str(sAnaly) + '\n')
+                    print('sAnaly: ' + str(sAnaly))
+
+                    sys.exit()
 
                 sPOS = ss.getPOS(ccs, inData) # Is this needed any more?
 

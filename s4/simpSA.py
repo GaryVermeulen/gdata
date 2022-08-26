@@ -8,13 +8,14 @@ import sys
 
 ################################################
 def sentAnalysis(tl, f):
-# Attempt to analyze the sentence per CFG
+# Attempt to analyze the sentence per CFG (find SVO)
     
     print('--- sentAnalysis ---')
 
     sType = ''
     sSubj = ''
     sVerb = ''
+    sObj = ''
     det = ''
 
     sTag = ''
@@ -149,9 +150,6 @@ def sentAnalysis(tl, f):
         print('nnp?: ' + str(nnpFound))
         print('verb/action: ' + str(sVerb))
         
-        sys.exit()
-
-
     else:
         # This is going to be enormous--for now just:
         #   NP -> NN
@@ -165,6 +163,7 @@ def sentAnalysis(tl, f):
         np = ''
         dt = ''
         nextTag = ''
+        nnpFound = False
         
         f.write('    a some-what more complex sentence\n')
         print('a some-what more complex sentence')
@@ -173,7 +172,7 @@ def sentAnalysis(tl, f):
         # Start with NP VP
         # Typically the first NP is the Subject
         for t in tl:
-            print(t)
+            print('t: ' + str(t))
             if t[-1] == 'S':
                 print('Sentence root -- little to no value...~?')
             else:
@@ -186,7 +185,8 @@ def sentAnalysis(tl, f):
 
                 # Remove leading spaces
                 tStr = tStr.lstrip()
-                print(len(tStr))
+                tStrLen = len(tStr)
+                print(tStrLen)
                 print('>' + str(tStr) + '<')
                 
 
@@ -196,100 +196,117 @@ def sentAnalysis(tl, f):
 
                 nextTag = tStr[tIdx + 2] + tStr[tIdx + 3]
 
-                if nextTag == 'NP':
+                print('nextTag: ' + str(nextTag))
 
-#                    np = nextTag
+                # Build sentence matrix
+                row = []
+                col = []
 
-                    nextTag = tStr[tIdx + 7] + tStr[tIdx + 8]
-
-                    if nextTag == 'NN':
-
-                        nextTag = tStr[tIdx + 7] + tStr[tIdx + 8] + tStr[tIdx + 9]
-
-                        if nextTag in ['NNP', 'NNS']:
-                            tIdx = 11
-                        else:
-                            tIdx =  10
-                    
-                        while tStr[tIdx] != ' ':                    
-                            subject = subject + tStr[tIdx]
-                            tIdx = tIdx + 1
-
-                    elif nextTag == 'DT':
-
-                        print(len(tStr))
-                        print(':>' + tStr + '<:')
-
-                        tIdx = 10
-
-                        while tStr[tIdx] != ' ':                    
-                            dt = dt + tStr[tIdx]
-                            tIdx = tIdx + 1
-                        
-
-                        dtLen = len(dt)
-                        print('dtLen: ' + str(dtLen))
-
-                        print(tIdx)
-                        print(dtLen)
-                        print(tStr[tIdx])
-                        print(tStr[tIdx + 1])
-                        print(tStr[tIdx + 2])
-                        
-                        print('--')
-
-                        tIdx = tIdx + dtLen
-
-                        print(tIdx)
-                        print(tStr[tIdx])
-                        print(tStr[tIdx + 1])
-                        print(tStr[tIdx + 2])
-
-                        # Advance to next TAG
-                        while tStr[tIdx] != '.':                    
-                            tIdx = tIdx + 1
-
-                        print('DOT: ' + str(tStr[tIdx]))
-
-                        nextTag = ''
-                        tIdx += 1
-                        # Cap to next TAG
-                        while tStr[tIdx] != ' ':                    
-                            
-                            nextTag = nextTag + tStr[tIdx]
-                            tIdx += 1
-
-                        print(nextTag)
-                        print(tStr[tIdx])
-
-                        subject = ''
-                        tIdx +=1
-                        # Cap to next NN
-                        while tStr[tIdx] != ' ':                    
-                            
-                            subject = subject + tStr[tIdx]
-                            tIdx += 1
-
-
-                        print('sub: ' + str(subject))
-
-                    if len(dt) == 0:
-                        np = subject
+                for sIdx in range(tStrLen):
+                    if tStr[sIdx] == ' ':
+                        col.append(row)
+                        row = []
                     else:
-                        np = dt + ' ' + subject
+                        row.append(tStr[sIdx])                
+        
+                print('---')
+                # Now build simplified list for if-then processing
+                tags = []
+                word = ""
+                wordTags = []
+                for c in col:
+                    print(c)
+                    tag = ''
+                    if len(c) > 2 and c[1] == '.':
+#                       print('dot found')
+#                       print(len(c))
+                        if len(c) == 4: # NP, DT, VB,...
+                            tag = c[-2] + c[-1]
+                        elif len(c) == 5: # NNP, NNS, VBD,...
+                            tag = c[-3] + c[-2] + c[-1]
+                        elif c[-1] == 'S': # Don't forget the S
+                            tag = c[-1]
 
-                    print('dt: >' + dt + '<')
-                    print('subject: ' + subject)
-                    print('np:' + np)
+#                       print('tag: ' + str(tag))
+
+                        tags.append(tag)
+                
+                    elif c[0] not in ['[',']']:
+
+#                       print(' bare c: ' + str(c))
+                        word = ''.join(c)
+
+#                       print('word: ' + str(word))
+
+                        wordTags.append(tags)
+                        wordTags.append(word)
+                        tags = []
+                
+
+                print(wordTags)
+                print(len(wordTags))
+
+                print(wordTags[0])
+                print(wordTags[0][0])
+                print(wordTags[0][1])
+                print(wordTags[1])
+        
+        
+                if wordTags[0][0] == 'NP':
+                    # Starting with NP
+                    if wordTags[0][1] == 'DT':
+                        # Determiner found
+                        det = wordTags[1]
                     
-                    break
+                        if 'NN' in wordTags[1]:
+                            sSubj = wordTags[2]
 
+                            if len(wordTags) > 2:
+                                if 'VP' in wordTags[3][0]:
+                                    sVerb = wordTags[4]
         
+                        elif 'NNP' in wordTags[1]:
+                            sSubj = wordTags[2]
+                            nnpFound = True
+
+                            if len(wordTags) > 2:                    
+                                if wordTags[3][0] == 'VP':
+                                    sVerb = wordTags[4]
         
+                    elif wordTags[0][1] == 'NN':
+                        sSubj = wordTags[1]
 
-                else:
+                        if len(wordTags) > 2:
+                            if wordTags[1][0] == 'VP':
+                                sVerb = wordTags[2]
+                    
+                    elif wordTags[0][1] == 'NNP':
+                        sSubj = wordTags[1]
+                        nnpFound = True
 
-                    print('not ready for this tag: ' + str(nextTag))
+                        if len(wordTags) > 2:                    
+                            if wordTags[1][0] == 'VP':
+                                sVerb = wordTags[2]
+                    
+                elif wordTags[0][0] == 'VP':
+                    # Starting with VP
+                    print(wordTags)
+                    sVerb = wordTags[1]
+                    if sSubj == '':
+                        sSubj = wordTags[3]
+                    else:
+                        sObj = wordTags[3]
+                        
+#                    if wordTags[1][1] == 'NNP':
+#                        nnpFound = True
+
+
+
+        print('det: ' + str(det))
+        print('subject: ' + str(sSubj))
+        print('nnp?: ' + str(nnpFound))
+        print('verb/action: ' + str(sVerb))
+        print('object: ' + str(sObj))
                     
         
 #        print(' parent = %s' % subTree.parent())
@@ -297,5 +314,5 @@ def sentAnalysis(tl, f):
 
     print('--- end sentAnalysis ---')
 
-    return([sType, sSubj, sVerb])
+    return([sType, sSubj, sVerb, sObj])
 # End sentAnalysis

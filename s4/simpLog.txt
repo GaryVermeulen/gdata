@@ -3161,3 +3161,19 @@
 
 *** END RUN AT: 08/20/2022 11:52:51 ***
 *** elapsed run time: 0:00:15.432697
+
+*** START RUN AT: 08/26/2022 06:35:31 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 08/26/2022 06:35:31
+    elapsed time: 0:00:00.022953
+    cmd: mary walked pookie
+
+---    START LOOP AT: 08/26/2022 06:35:40 ===
+
+---    END LOOP AT: 08/26/2022 06:35:40 ===
+---    elapsed loop time: 0:00:00.018649 ===
+
+*** END RUN AT: 08/26/2022 06:35:40 ***
+*** elapsed run time: 0:00:08.404845

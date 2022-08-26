@@ -172,3 +172,4 @@
 [('see', 'VB'), ('Bob', 'NNP'), ('walk', 'VB')]; ['Bob,see']; 08/20/2022; 08:04:38
 [('see', 'VB'), ('Bob', 'NNP'), ('walk', 'VB')]; ['Bob,see']; 08/20/2022; 11:45:02
 [('the', 'DT'), ('running', 'VBG'), ('Pookie', 'NNP')]; ['Pookie,run']; 08/20/2022; 14:01:44
+[('see', 'VB'), ('Bob', 'NNP'), ('run', 'VB')]; ['Bob,see']; 08/26/2022; 06:26:52
