@@ -145,10 +145,10 @@ def sentAnalysis(tl, f):
 
 
 
-        print('det: ' + str(det))
-        print('subject: ' + str(sSubj))
-        print('nnp?: ' + str(nnpFound))
-        print('verb/action: ' + str(sVerb))
+#        print('det: ' + str(det))
+#        print('subject: ' + str(sSubj))
+#        print('nnp?: ' + str(nnpFound))
+#        print('verb/action: ' + str(sVerb))
         
     else:
         # This is going to be enormous--for now just:
@@ -302,11 +302,11 @@ def sentAnalysis(tl, f):
 
 
 
-        print('det: ' + str(det))
-        print('subject: ' + str(sSubj))
-        print('nnp?: ' + str(nnpFound))
-        print('verb/action: ' + str(sVerb))
-        print('object: ' + str(sObj))
+    print('det: ' + str(det))
+    print('subject: ' + str(sSubj))
+    print('nnp?: ' + str(nnpFound))
+    print('verb/action: ' + str(sVerb))
+    print('object: ' + str(sObj))
                     
         
 #        print(' parent = %s' % subTree.parent())
