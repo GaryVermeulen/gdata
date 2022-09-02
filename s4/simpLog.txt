@@ -3177,3 +3177,51 @@
 
 *** END RUN AT: 08/26/2022 06:35:40 ***
 *** elapsed run time: 0:00:08.404845
+
+*** START RUN AT: 09/02/2022 08:00:25 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 09/02/2022 08:00:25
+    elapsed time: 0:00:00.032471
+    cmd: see bob
+
+---    START LOOP AT: 09/02/2022 08:00:31 ===
+
+---    END LOOP AT: 09/02/2022 08:00:31 ===
+---    elapsed loop time: 0:00:00.021574 ===
+
+*** END RUN AT: 09/02/2022 08:00:31 ***
+*** elapsed run time: 0:00:05.868648
+
+*** START RUN AT: 09/02/2022 09:15:39 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 09/02/2022 09:15:39
+    elapsed time: 0:00:00.023778
+    cmd: see ducks
+
+---    START LOOP AT: 09/02/2022 09:15:51 ===
+
+---    END LOOP AT: 09/02/2022 09:15:51 ===
+---    elapsed loop time: 0:00:00.014950 ===
+
+*** END RUN AT: 09/02/2022 09:15:51 ***
+*** elapsed run time: 0:00:11.639563
+
+*** START RUN AT: 09/02/2022 12:31:51 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 09/02/2022 12:31:51
+    elapsed time: 0:00:00.027971
+    cmd: bob eats ducks
+
+---    START LOOP AT: 09/02/2022 12:32:01 ===
+
+---    END LOOP AT: 09/02/2022 12:32:01 ===
+---    elapsed loop time: 0:00:00.022743 ===
+
+*** END RUN AT: 09/02/2022 12:32:01 ***
+*** elapsed run time: 0:00:10.398338

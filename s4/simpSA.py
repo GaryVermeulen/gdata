@@ -18,8 +18,16 @@ def sentAnalysis(tl, f):
     sObj = ''
     det = ''
 
+    sCommand = '' # Imperative sentence start verb
+    oneWordCommand = False 
+    twoWordCommand = False # 'See Bob' or 'Do something'
+
+    lastTag = ''
+
     sTag = ''
     sIdx = 0
+
+    print('tl len: ' + str(len(tl)))
     
     for i in tl:
         print('>>' + str(i) + '<<')
@@ -64,7 +72,7 @@ def sentAnalysis(tl, f):
         word = ""
         wordTags = []
         for c in col:
-            print(c)
+#            print(c)
             tag = ''
             if len(c) > 2 and c[1] == '.':
 #                print('dot found')
@@ -92,7 +100,7 @@ def sentAnalysis(tl, f):
                 tags = []
                 
 
-#        print(wordTags)
+#        print('simp sent: ' + str(wordTags))
 #        print(len(wordTags))
         
         nnpFound = False
@@ -134,15 +142,52 @@ def sentAnalysis(tl, f):
                     if len(wordTags) > 2:                    
                         if wordTags[2][0] == 'VP':
                             sVerb = wordTags[3]
+
+                        if len(wordTags) > 4:
+                            if wordTags[4][0] == 'NP':
+                                if wordTags[4][1] == 'NNP':
+                                    # set a secondary nnpFound?
+                                    sObj = wordTags[5]
+                                elif wordTags[4][1] in ['NN','NNS']:
+                                    sObj = wordTags[5]
                     
             elif wordTags[0][1] == 'VP':
-                # Starting with VP
-                print(wordTags)
+                # Starting with VP should be imperative or interrogative
+                # We'll worry about infinitive and auxilary later...
+#                print('VP: ' + str(wordTags))
                 sVerb = wordTags[1]
-                sSubj = wordTags[3]
-                if wordTags[2][1] == 'NNP':
-                    nnpFound = True
-
+                if len(wordTags) > 2: # Checking for one word commands ex: stop
+                    
+                    if wordTags[2][1] == 'NNP':
+                        nnpFound = True
+                        sSubj = wordTags[3]
+                        if len(wordTags) > 4:
+                            if wordTags[4][0] == 'VP':
+                                if len(wordTags) > 6:
+                                    print('S starting with VP has greater length than checks')
+                                else:
+                                    sCommand = sVerb
+                                    sVerb = wordTags[5]
+                        else:
+                            sCommand = sVerb
+                            twoWordCommand = True
+                            
+                    elif wordTags[2][1] in ['NN', 'NNS']:
+                        nnpFound = False
+                        sSubj = wordTags[3]
+                        if len(wordTags) > 4:
+                            if wordTags[4][0] == 'VP':
+                                if len(wordTags) > 6:
+                                    print('S starting with VP has greater length than checks')
+                                else:
+                                    sCommand = sVerb
+                                    sVerb = wordTags[5]
+                        else:
+                            sCommand = sVerb
+                            twoWordCommand = True
+                        
+                else:
+                    oneWordCommand = True
 
 
 #        print('det: ' + str(det))
@@ -188,15 +233,21 @@ def sentAnalysis(tl, f):
                 tStrLen = len(tStr)
                 print(tStrLen)
                 print('>' + str(tStr) + '<')
-                
-
+                    
                 print('----')
 #                print(tIdx)
 #                print(tStr[tIdx])
 
                 nextTag = tStr[tIdx + 2] + tStr[tIdx + 3]
 
-                print('nextTag: ' + str(nextTag))
+#                print('nextTag: ' + str(nextTag))
+
+                # may need to modify this in case
+                # length is shorter than just one POS Tag
+                if tStrLen <= 4:
+                    lastTag = nextTag
+                    continue
+    
 
                 # Build sentence matrix
                 row = []
@@ -215,7 +266,7 @@ def sentAnalysis(tl, f):
                 word = ""
                 wordTags = []
                 for c in col:
-                    print(c)
+##                    print(c)
                     tag = ''
                     if len(c) > 2 and c[1] == '.':
 #                       print('dot found')
@@ -243,13 +294,15 @@ def sentAnalysis(tl, f):
                         tags = []
                 
 
-                print(wordTags)
-                print(len(wordTags))
+#                print(wordTags)
+#                print(len(wordTags))
+#                print('lastTag: ' + str(lastTag))
+#                print('nextTag: ' + str(nextTag))
 
-                print(wordTags[0])
-                print(wordTags[0][0])
-                print(wordTags[0][1])
-                print(wordTags[1])
+#                print(wordTags[0])
+#                print(wordTags[0][0])
+#                print(wordTags[0][1])
+#                print(wordTags[1])
         
         
                 if wordTags[0][0] == 'NP':
@@ -287,21 +340,70 @@ def sentAnalysis(tl, f):
                         if len(wordTags) > 2:                    
                             if wordTags[1][0] == 'VP':
                                 sVerb = wordTags[2]
+                                
+                    # For the strange occurrence of: [NP, NP, NNS]
+                    elif wordTags[0][1] == 'NP':
+                        sSubj = wordTags[1]
+
+                        if len(wordTags) > 2:
+                            if wordTags[2][0] == 'VP':
+                                sVerb = wordTags[3]
+
+                        if sCommand != '':
+                            twoWordCommand = True
                     
                 elif wordTags[0][0] == 'VP':
                     # Starting with VP
-                    print(wordTags)
+#                    print(wordTags)
+
                     sVerb = wordTags[1]
                     if sSubj == '':
                         sSubj = wordTags[3]
                     else:
                         sObj = wordTags[3]
+
+                    nxLen = len(wordTags[2])
+#                    print('where is the nnp?: ' + str(wordTags[2]))
+#                    print(nxLen)
+                    
+                    if nxLen == 2:
+                        if wordTags[2][1] == 'NNP':
+                            nnpFound = True
+                    elif nxLen == 3:
+                        if wordTags[2][2] == 'NNP':
+                            nnpFound = True
                         
-#                    if wordTags[1][1] == 'NNP':
-#                        nnpFound = True
+                    sSubj = wordTags[3]
+                    if len(wordTags) > 4:
+                        if wordTags[4][0] == 'VP':
+                            if len(wordTags) > 6:
+                                    print('S starting with VP has greater length than checks')
+                            else:
+                                twoWordCommand = True
+                                sCommand = sVerb
+                                sVerb = wordTags[5]
+
+                if lastTag == 'VP' and nextTag == 'VB':
+                    sCommand = wordTags[1]
 
 
+    if oneWordCommand:
+        if sVerb == 'compute':
+            print('What do you wish me to ' + str(sVerb))
+        else:
+            print('Sorry, I cannot ' + str(sVerb))
 
+    if twoWordCommand:
+        if sCommand == 'compute':
+            print('What do you wish me to ' + str(sCommand))
+        else:
+            print('Sorry, I cannot ' + str(sCommand))
+        
+
+
+    print('sCommand: ' + str(sCommand))
+    print('oneWordCommand: ' + str(oneWordCommand))
+    print('twoWordCommand: ' + str(twoWordCommand))
     print('det: ' + str(det))
     print('subject: ' + str(sSubj))
     print('nnp?: ' + str(nnpFound))
