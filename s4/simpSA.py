@@ -307,6 +307,9 @@ def sentAnalysis(tl, f):
         
                 if wordTags[0][0] == 'NP':
                     # Starting with NP
+
+                    print('wt[0][1]: ' + str(wordTags[0][1]))
+                    
                     if wordTags[0][1] == 'DT':
                         # Determiner found
                         det = wordTags[1]
@@ -343,6 +346,10 @@ def sentAnalysis(tl, f):
                                 
                     # For the strange occurrence of: [NP, NP, NNS]
                     elif wordTags[0][1] == 'NP':
+
+                        if wordTags[0][2] == 'NNP':
+                            nnpFound = True
+                        
                         sSubj = wordTags[1]
 
                         if len(wordTags) > 2:
@@ -363,8 +370,9 @@ def sentAnalysis(tl, f):
                         sObj = wordTags[3]
 
                     nxLen = len(wordTags[2])
-#                    print('where is the nnp?: ' + str(wordTags[2]))
-#                    print(nxLen)
+
+                    print('where is the nnp?: ' + str(wordTags[2]))
+                    print(nxLen)
                     
                     if nxLen == 2:
                         if wordTags[2][1] == 'NNP':
