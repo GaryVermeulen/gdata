@@ -10,7 +10,7 @@ import sys
 def sentAnalysis(tl, f):
 # Attempt to analyze the sentence per CFG (find SVO)
     
-    print('--- sentAnalysis ---')
+    print('--- sentAnalysis x version---')
 
     sType = ''
     sSubj = ''
@@ -37,169 +37,10 @@ def sentAnalysis(tl, f):
 
     if len(tl) < 1:
         print('tl should never be less than 1')
-    elif len(tl) == 1:
-        # Simple sentence trees are just 1 line
-        print('simple sentence, or so they seem...')
-
-        tStr = tl[0]
-
-#        print(type(tStr))
-#        print(len(tStr))
-#        print(tStr)
-
-        # Remove "\Tree " from tree string
-        tStr = tStr.replace('\Tree ', '')
-
-        tStrLen = len(tStr)
-
-        print(tStrLen)
-        print(tStr)
-
-        # Build sentence matrix
-        row = []
-        col = []
-
-        for sIdx in range(tStrLen):
-            if tStr[sIdx] == ' ':
-                col.append(row)
-                row = []
-            else:
-                row.append(tStr[sIdx])                
-
-        print('---')
-        # Now build simplified list for if-then processing
-        tags = []
-        word = ""
-        wordTags = []
-        for c in col:
-#            print(c)
-            tag = ''
-            if len(c) > 2 and c[1] == '.':
-#                print('dot found')
-#                print(len(c))
-                if len(c) == 4: # NP, DT, VB,...
-                    tag = c[-2] + c[-1]
-                elif len(c) == 5: # NNP, NNS, VBD,...
-                    tag = c[-3] + c[-2] + c[-1]
-                elif c[-1] == 'S': # Don't forget the S
-                    tag = c[-1]
-
-#                print('tag: ' + str(tag))
-
-                tags.append(tag)
-                
-            elif c[0] not in ['[',']']:
-
-#                print(' bare c: ' + str(c))
-                word = ''.join(c)
-
-#                print('word: ' + str(word))
-
-                wordTags.append(tags)
-                wordTags.append(word)
-                tags = []
-                
-
-#        print('simp sent: ' + str(wordTags))
-#        print(len(wordTags))
-        
-        nnpFound = False
-        
-        if wordTags[0][0] == 'S':
-            # They should all start with S
-            if wordTags[0][1] == 'NP':
-                # Starting with NP
-                if wordTags[0][2] == 'DT':
-                    # Determiner found
-                    det = wordTags[1]
-                    
-                    if 'NN' in wordTags[2]:
-                        sSubj = wordTags[3]
-
-                        if len(wordTags) > 2:
-                            if 'VP' in wordTags[4][0]:
-                                sVerb = wordTags[5]
-        
-                    elif 'NNP' in wordTags[2]:
-                        sSubj = wordTags[3]
-                        nnpFound = True
-
-                        if len(wordTags) > 2:                    
-                            if wordTags[4][0] == 'VP':
-                                sVerb = wordTags[5]
-        
-                elif wordTags[0][2] == 'NN':
-                    sSubj = wordTags[1]
-
-                    if len(wordTags) > 2:
-                            if wordTags[2][0] == 'VP':
-                                sVerb = wordTags[3]
-                    
-                elif wordTags[0][2] == 'NNP':
-                    sSubj = wordTags[1]
-                    nnpFound = True
-
-                    if len(wordTags) > 2:                    
-                        if wordTags[2][0] == 'VP':
-                            sVerb = wordTags[3]
-
-                        if len(wordTags) > 4:
-                            if wordTags[4][0] == 'NP':
-                                if wordTags[4][1] == 'NNP':
-                                    # set a secondary nnpFound?
-                                    sObj = wordTags[5]
-                                elif wordTags[4][1] in ['NN','NNS']:
-                                    sObj = wordTags[5]
-                    
-            elif wordTags[0][1] == 'VP':
-                # Starting with VP should be imperative or interrogative
-                # We'll worry about infinitive and auxilary later...
-#                print('VP: ' + str(wordTags))
-                sVerb = wordTags[1]
-                if len(wordTags) > 2: # Checking for one word commands ex: stop
-                    
-                    if wordTags[2][1] == 'NNP':
-                        nnpFound = True
-                        sSubj = wordTags[3]
-                        if len(wordTags) > 4:
-                            if wordTags[4][0] == 'VP':
-                                if len(wordTags) > 6:
-                                    print('S starting with VP has greater length than checks')
-                                else:
-                                    sCommand = sVerb
-                                    sVerb = wordTags[5]
-                        else:
-                            sCommand = sVerb
-                            twoWordCommand = True
-                            
-                    elif wordTags[2][1] in ['NN', 'NNS']:
-                        nnpFound = False
-                        sSubj = wordTags[3]
-                        if len(wordTags) > 4:
-                            if wordTags[4][0] == 'VP':
-                                if len(wordTags) > 6:
-                                    print('S starting with VP has greater length than checks')
-                                else:
-                                    sCommand = sVerb
-                                    sVerb = wordTags[5]
-                        else:
-                            sCommand = sVerb
-                            twoWordCommand = True
-                        
-                else:
-                    oneWordCommand = True
-
-
-#        print('det: ' + str(det))
-#        print('subject: ' + str(sSubj))
-#        print('nnp?: ' + str(nnpFound))
-#        print('verb/action: ' + str(sVerb))
         
     else:
-        # This is going to be enormous--for now just:
-        #   NP -> NN
-        #   NP -> DT NNx (NN, NNP, NNS)
-        #
+        # This is going to be enormous--starting simple:
+        #   
         # Long term goal: An algorithm that can handle any 
         #   tree input including new (learned) CFG rules.
         #
@@ -210,13 +51,17 @@ def sentAnalysis(tl, f):
         nextTag = ''
         nnpFound = False
         
-        f.write('    a some-what more complex sentence\n')
+#        f.write('    a some-what more complex sentence\n')
         print('a some-what more complex sentence')
-        print(len(tl))
+        print('tl len: ' + str(len(tl)))
 
         # Start with NP VP
         # Typically the first NP is the Subject
         for t in tl:
+            if len(t) <= 0:
+                continue
+            
+            print('t len: ' + str(len(t)))
             print('t: ' + str(t))
             if t[-1] == 'S':
                 print('Sentence root -- little to no value...~?')
@@ -224,9 +69,14 @@ def sentAnalysis(tl, f):
                 tStr = t
                 tIdx = 0
 
-#                print(type(tStr))
-#                print(len(tStr))
-#                print('>>>' + str(tStr) + '<<<')
+                print(type(tStr))
+                print(len(tStr))
+                print('>>>' + str(tStr) + '<<<')
+
+                # Remove "\Tree " from tree string
+                tStr = tStr.replace('\Tree ', '')
+
+                tStr = tStr.replace('[.S ' , '')
 
                 # Remove leading spaces
                 tStr = tStr.lstrip()
@@ -235,12 +85,12 @@ def sentAnalysis(tl, f):
                 print('>' + str(tStr) + '<')
                     
                 print('----')
-#                print(tIdx)
-#                print(tStr[tIdx])
+                print(tIdx)
+                print(tStr[tIdx])
 
                 nextTag = tStr[tIdx + 2] + tStr[tIdx + 3]
 
-#                print('nextTag: ' + str(nextTag))
+                print('nextTag: ' + str(nextTag))
 
                 # may need to modify this in case
                 # length is shorter than just one POS Tag
@@ -266,11 +116,11 @@ def sentAnalysis(tl, f):
                 word = ""
                 wordTags = []
                 for c in col:
-##                    print(c)
+                    print(c)
                     tag = ''
                     if len(c) > 2 and c[1] == '.':
-#                       print('dot found')
-#                       print(len(c))
+                        print('dot found')
+                        print(len(c))
                         if len(c) == 4: # NP, DT, VB,...
                             tag = c[-2] + c[-1]
                         elif len(c) == 5: # NNP, NNS, VBD,...
@@ -278,23 +128,23 @@ def sentAnalysis(tl, f):
                         elif c[-1] == 'S': # Don't forget the S
                             tag = c[-1]
 
-#                       print('tag: ' + str(tag))
+                        print('tag: ' + str(tag))
 
                         tags.append(tag)
                 
                     elif c[0] not in ['[',']']:
 
-#                       print(' bare c: ' + str(c))
+                        print(' bare c: ' + str(c))
                         word = ''.join(c)
 
-#                       print('word: ' + str(word))
+                        print('word: ' + str(word))
 
                         wordTags.append(tags)
                         wordTags.append(word)
                         tags = []
                 
 
-#                print(wordTags)
+                print(wordTags)
 #                print(len(wordTags))
 #                print('lastTag: ' + str(lastTag))
 #                print('nextTag: ' + str(nextTag))
@@ -307,6 +157,9 @@ def sentAnalysis(tl, f):
         
                 if wordTags[0][0] == 'NP':
                     # Starting with NP
+
+                    print('wt[0][1]: ' + str(wordTags[0][1]))
+                    
                     if wordTags[0][1] == 'DT':
                         # Determiner found
                         det = wordTags[1]
@@ -343,6 +196,10 @@ def sentAnalysis(tl, f):
                                 
                     # For the strange occurrence of: [NP, NP, NNS]
                     elif wordTags[0][1] == 'NP':
+
+                        if wordTags[0][2] == 'NNP':
+                            nnpFound = True
+                        
                         sSubj = wordTags[1]
 
                         if len(wordTags) > 2:
@@ -363,8 +220,9 @@ def sentAnalysis(tl, f):
                         sObj = wordTags[3]
 
                     nxLen = len(wordTags[2])
-#                    print('where is the nnp?: ' + str(wordTags[2]))
-#                    print(nxLen)
+
+                    print('where is the nnp?: ' + str(wordTags[2]))
+                    print(nxLen)
                     
                     if nxLen == 2:
                         if wordTags[2][1] == 'NNP':

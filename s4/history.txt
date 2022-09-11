@@ -180,3 +180,4 @@
 [('Bob', 'NNP'), ('runs', 'VBZ'), ('fast', 'JJ')]; ['Bob,run']; 09/02/2022; 12:37:12
 [('fast', 'JJ'), ('Bob', 'NNP'), ('runs', 'VBZ')]; ['Bob,run']; 09/02/2022; 12:37:40
 [('man', 'NN'), ('eats', 'VBZ'), ('duck', 'NN')]; []; 09/02/2022; 12:59:38
+[('Bob', 'NNP'), ('saw', 'VBD'), ('the', 'DT'), ('saw', 'VBD'), ('running', 'VBG')]; ['Bob,see']; 09/10/2022; 09:10:43

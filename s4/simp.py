@@ -6,7 +6,7 @@
 
 import sys
 import simpStuff as ss
-import simpSA as sa
+import simpSAx as sa
 
 from datetime import datetime
 
