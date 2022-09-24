@@ -6,12 +6,13 @@
 
 import sys
 import simpStuff as ss
-import simpSAx as sa
+import simpSAx3 as sa
 
 from datetime import datetime
 
 flog = 'simpLog.txt'
 fhistory = 'history.txt'
+frslog = 'raw_sentence_log.txt'
 
 
 f = open(flog, 'a')
@@ -134,18 +135,27 @@ while loop:
                 
                 else:
                     validCFG = True
+
+                    fl = open(frslog, 'a')
+                    fl.write(str(s) + '\n')
+                    fl.write(str(tree) + '\n')
+                    fl.close()
         
                     f.write('    CFG tree: ' + str(tree) + '\n')
 
-                    tList = ss.tree2List(tree)
+#                    tList = ss.tree2List(tree)
+                    tStr = tree.pformat_latex_qtree()
 
                     f.write('    tList: ' + str(tree) + '\n')
                 
-                    sAnaly = sa.sentAnalysis(tList, f)
+#                    sAnaly = sa.sentAnalysis(tList, f)
+                    sAnaly = sa.sentAnalysis(tStr, f)
 
                     f.write('    sAnaly: ' + str(sAnaly) + '\n')
                     print('sAnaly: ' + str(sAnaly))
 
+
+                    f.close()
                     sys.exit()
 
                 sPOS = ss.getPOS(ccs, inData) # Is this needed any more?
