@@ -1,0 +1,21 @@
+
+*** START RUN AT: 09/25/2022 10:51:48 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 09/25/2022 10:51:48
+    elapsed time: 0:00:00.064974
+    cmd: c
+
+---    START LOOP AT: 09/25/2022 10:51:52 ===
+-------------
+    s: see bob run
+    ccs: ['see', 'Bob', 'run']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+    tList: (S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+-------------
+item: [.VP [.VB see ] [.NP [.NP [.NNP Bob ] ] [.VP [.VB run ] ] ] ]
+----:[['VP', 'VB'], 'see', ['NP', 'NP', 'NNP'], 'Bob', ['VP', 'VB'], 'run']

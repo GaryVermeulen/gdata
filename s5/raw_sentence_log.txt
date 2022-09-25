@@ -1,0 +1,2 @@
+see bob run
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
