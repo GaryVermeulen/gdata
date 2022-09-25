@@ -1,6 +1,0 @@
-[[['VP', 'VB'], 'see', ['NP', 'NNP'], 'Mary']]
-[[['VB'], 'see'], [['NP', 'NP', 'NNP'], 'Mary', ['VP', 'VB'], 'walk']]
-[[['NP', 'NNP'], 'Mary', ['VP', 'VBZ'], 'walks']]
-[[['VB'], 'see'], [['NP', 'NP', 'NNP'], 'Mary', ['VP', 'VB'], 'walk'], [['PP', 'IN'], 'in', ['NP', 'DT'], 'the', ['NN'], 'park']]
-[[['NP', 'NNP'], 'Mary'], [['VBZ'], 'walks'], [['PP', 'IN'], 'in', ['NP', 'DT'], 'the', ['NN'], 'park']]
-[[['NP', 'NNP'], 'Mary'], [['VBZ'], 'walks'], [['PP', 'IN'], 'in', ['NP', 'DT'], 'the', ['NN'], 'park']]
