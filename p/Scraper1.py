@@ -10,9 +10,7 @@ req = Request(
 )
 
 htmlfile = urlopen(req).read()
-soup = BeautifulSoup(htmlfile, 'html')
-
-print('line 10')
+soup = BeautifulSoup(htmlfile, 'html.parser')
 
 soup1 = soup.find(class_="short")
 
@@ -45,9 +43,6 @@ print ('-' * 65)
 
 soup4 =soup.find(class_="word-definitions")
 text = soup4.get_text()
-#wd = wdef.rstrip()
-#wd = wd.strip()
-#wd = wd.replace('\n','')
 
 text = os.linesep.join([s for s in text.splitlines() if s])
 
