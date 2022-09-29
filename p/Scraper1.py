@@ -1,5 +1,6 @@
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
+import os
 
 word = input('Enter the word to find the meaning : ')
 
@@ -43,8 +44,13 @@ print (' '.join(txt1.split()))
 print ('-' * 65)
 
 soup4 =soup.find(class_="word-definitions")
-wdef = soup4.get_text()
+text = soup4.get_text()
+#wd = wdef.rstrip()
+#wd = wd.strip()
+#wd = wd.replace('\n','')
 
-print('wdef:')
-print(wdef)
+text = os.linesep.join([s for s in text.splitlines() if s])
+
+print('text:')
+print(text)
 
