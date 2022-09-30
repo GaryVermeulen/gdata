@@ -1,0 +1,20 @@
+# POS tag: NN; Noun, singular or mass
+# Word; <P>erson, <p>lace, or <t>hing; isA; actions (can do)
+self; P; human; see,eat,walk,run
+cat; t; feline; see,eat,walk,run
+man; t; human; see,eat,walk,run
+woman; t; human; see,eat,walk,run
+dog; t; canine; see,eat,walk,run
+telescope; t; instrument; magnify
+bus; t; vehicle; transport
+duck; t; bird; see,eat,walk,run,fly
+park; p; recreation-ground; recreation
+playground; t; park; play
+feline; t; mammal; see,eat,walk,run
+canine; t; mammal; see,eat,walk,run
+human; t; mammal; see,eat,walk,run
+mammal; t; animal; see,eat,walk,run
+bird; t; animal; see,eat,walk,run
+computer; t; device; compute
+vehicle; t; thing; TBD
+
