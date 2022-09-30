@@ -18,7 +18,7 @@ try:
     soup1 = soup1.get_text()
 except AttributeError:
     print('Cannot find such word! Check spelling.')
-    exit()
+#    exit()
 
 # Print short meaning
 print ('-' * 25 + '->',word,"<-" + "-" * 25)

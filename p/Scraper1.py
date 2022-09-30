@@ -1,6 +1,7 @@
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 import os
+import sys
 
 word = input('Enter the word to find the meaning : ')
 
@@ -18,7 +19,7 @@ try:
     soup1 = soup1.get_text()
 except AttributeError:
     print('Cannot find such word! Check spelling.')
-    exit()
+    sys.exit()
 
 # Print short meaning
 print ('-' * 25 + '->',word,"<-" + "-" * 25)
@@ -47,5 +48,13 @@ text = soup4.get_text()
 text = os.linesep.join([s for s in text.splitlines() if s])
 
 print('text:')
-print(text)
+print(type(text))
+print(len(text))
+#print('>>>' + str(text) + '<<<')
+
+tlist = text.split('\n')
+
+print(tlist[1])
+
+
 
