@@ -1,6 +1,6 @@
 # POS tag: NNP; Proper noun, singular
 # Word; <P>erson, <p>lace, or <t>hing; isA; actions (can do)
-Simp; computer; compute
+Simp; t; computer; compute
 Bob; P; man; see,eat,walk,run
 John; P; man; see,eat,walk,run
 Pookie; t; cat; see,eat,walk,run

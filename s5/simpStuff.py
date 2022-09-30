@@ -9,6 +9,7 @@ import spacy
 import pyinflect
 import sys
 import string
+import os
 
 from collections import defaultdict
 from nltk.tree import Tree
@@ -16,7 +17,7 @@ from pathlib import Path
 
 fRules = 'cfg_rules.cfg'    # CFG Rules w/o terminals
 fCFG   = 'simp.cfg'         # CFG 
-fData  = 'data.txt'         # Lexicon & KB
+#fData  = 'data.txt'         # Lexicon & KB
 fLog   = 'simpLog.txt'      # Log file
 fSS    = 'sentStacks.txt'   # Parsed sentences for later analysis
 fHist  = 'history.txt'      # History of all sentences w/findings 
@@ -371,29 +372,25 @@ class EarleyParse(object):
 ################################################
 def getData():
 
-    inData = []
+    dataList = []
+    progPath = os.getcwd()
+    dataPath = progPath + '/data'
+    dirList = os.listdir(dataPath)
 
-    file = Path(fData)
-
-    if file.is_file():
-
-        with open(fData, 'r') as fin:
-        
-            while (line := fin.readline().rstrip()):
+    for inFile in dirList:
+        with open(dataPath + '/' + inFile, 'r') as f:
+            while (line := f.readline().rstrip()):
                 if '#' not in line:
                     line = line.replace(' ', '') # Needed?
                     line = line.split(";")
 
                     if line[0] != '#':
-                    #    print(line)
-                        inData.append(line)
+                        line.append(inFile.upper()) # Add POS tag
+                        dataList.append(line)
+    f.close()
 
-        fin.close()
-    else:
-        print("File not found: " + str(fData))
-        sys.exit("inData file not found")
+    return dataList
 
-    return(inData)
 # End getData
 
 ################################################
@@ -401,15 +398,18 @@ def getCFGRules():
 
     rules = ''
 
-    file = Path(fRules)
+    progPath = os.getcwd()
+    dataPath = progPath + '/cfg'
+
+    file = Path(dataPath + '/' + fRules)
 
     if file.is_file():
 
-        rf = open(fRules, 'r') # Get base rules
+        rf = open(dataPath + '/' + fRules, 'r') # Get base rules
         rules = rf.read()
         rf.close()
     else:
-        print("File not found: " + str(fRules))
+        print("File not found: " + str(dataPath + '/' + fRules))
         sys.exit("CFG Rules file not found")
 
     return(rules)
@@ -452,7 +452,7 @@ def buildCFG(data):
             rules = rules + d[1] + ' -> ' + d[0]
             firstLine = False
         else:
-            rules = rules + '\n' + d[1] + ' -> ' + d[0]
+            rules = rules + '\n' + d[-1] + ' -> ' + d[0]
 
     file = Path(fCFG)
 
@@ -498,7 +498,7 @@ def correctCase(s, data):
         for d in data:
                        
             if d[0].lower() == w:
-                if d[1] == 'NNP':
+                if d[-1] == 'NNP':
                     w = w.capitalize()
                             
         ccs.append(w)

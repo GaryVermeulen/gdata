@@ -26,6 +26,7 @@ f.write('\n*** START RUN AT: ' + str(st) + ' ***\n')
 f.write('   Reading input data\n')
 
 # Read lexicon & KB data file
+
 inData = ss.getData()
 
 # Develop rudimentary concept of self (I am Simp)
