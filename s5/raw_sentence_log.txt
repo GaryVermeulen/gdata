@@ -1,4 +1,31 @@
+see
+(S (VP (VB see)))
+see bob
+(S (VP (VB see) (NP (NNP Bob))))
 see bob run
 (S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
-see bob run
-(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+bob ran
+(S (NP (NNP Bob)) (VP (VBD ran)))
+bob runs
+(S (NP (NNP Bob)) (VP (VBZ runs)))
+bob runs in the park
+(S
+  (NP (NNP Bob))
+  (VP (VBZ runs) (PP (IN in) (NP (DT the) (NN park)))))
+bob walked mary in the park
+(S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+bob walks with mary in the park
+(S
+  (NP (NNP Bob))
+  (VP
+    (VBZ walks)
+    (PP
+      (IN with)
+      (NP (NP (NNP Mary)) (PP (IN in) (NP (DT the) (NN park)))))))
+bob ate the bus
+(S (NP (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN bus))))

@@ -1,13 +1,55 @@
 
-*** START RUN AT: 09/25/2022 10:51:48 ***
+*** START RUN AT: 10/01/2022 08:41:18 ***
    Reading input data
 ----------------------
 --- reading of data completed:
-    end time: 09/25/2022 10:51:48
-    elapsed time: 0:00:00.064974
+    end time: 10/01/2022 08:41:18
+    elapsed time: 0:00:00.064914
     cmd: c
 
----    START LOOP AT: 09/25/2022 10:51:52 ===
+---    START LOOP AT: 10/01/2022 08:41:21 ===
+-------------
+    s: see
+    ccs: ['see']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (VP (VB see)))
+    tList: (S (VP (VB see)))
+-------------
+item: [.VP [.VB see ] ]
+----:[['VP', 'VB'], 'see']
+
+*** START RUN AT: 10/01/2022 08:41:35 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 10/01/2022 08:41:35
+    elapsed time: 0:00:00.026951
+    cmd: c
+
+---    START LOOP AT: 10/01/2022 08:41:37 ===
+-------------
+    s: see bob
+    ccs: ['see', 'Bob']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (VP (VB see) (NP (NNP Bob))))
+    tList: (S (VP (VB see) (NP (NNP Bob))))
+-------------
+item: [.VP [.VB see ] [.NP [.NNP Bob ] ] ]
+----:[['VP', 'VB'], 'see', ['NP', 'NNP'], 'Bob']
+
+*** START RUN AT: 10/01/2022 08:41:48 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 10/01/2022 08:41:48
+    elapsed time: 0:00:00.026575
+    cmd: c
+
+---    START LOOP AT: 10/01/2022 08:41:51 ===
 -------------
     s: see bob run
     ccs: ['see', 'Bob', 'run']
@@ -20,90 +62,273 @@
 item: [.VP [.VB see ] [.NP [.NP [.NNP Bob ] ] [.VP [.VB run ] ] ] ]
 ----:[['VP', 'VB'], 'see', ['NP', 'NP', 'NNP'], 'Bob', ['VP', 'VB'], 'run']
 
-*** START RUN AT: 09/30/2022 13:56:13 ***
+*** START RUN AT: 10/01/2022 08:42:21 ***
    Reading input data
 ----------------------
 --- reading of data completed:
-    end time: 09/30/2022 13:56:13
-    elapsed time: 0:00:00.043364
+    end time: 10/01/2022 08:42:21
+    elapsed time: 0:00:00.027060
     cmd: c
 
----    START LOOP AT: 09/30/2022 13:56:18 ===
+---    START LOOP AT: 10/01/2022 08:42:23 ===
 -------------
-    s: see bob run
-    ccs: ['see', 'bob', 'run']
-    ret: {'bob'} Is Unknown
+    s: bob ran
+    ccs: ['Bob', 'ran']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (NNP Bob)) (VP (VBD ran)))
+    tList: (S (NP (NNP Bob)) (VP (VBD ran)))
 -------------
-    s: see Bob run
-    ccs: ['see', 'Bob', 'run']
+item: [.NP [.NNP Bob ] ] [.VP [.VBD ran ] ]
+----:[['NP', 'NNP'], 'Bob', ['VP', 'VBD'], 'ran']
+
+*** START RUN AT: 10/01/2022 08:42:36 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 10/01/2022 08:42:36
+    elapsed time: 0:00:00.024428
+    cmd: c
+
+---    START LOOP AT: 10/01/2022 08:42:38 ===
+-------------
+    s: bob runs
+    ccs: ['Bob', 'runs']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (NNP Bob)) (VP (VBZ runs)))
+    tList: (S (NP (NNP Bob)) (VP (VBZ runs)))
+-------------
+item: [.NP [.NNP Bob ] ] [.VP [.VBZ runs ] ]
+----:[['NP', 'NNP'], 'Bob', ['VP', 'VBZ'], 'runs']
+
+*** START RUN AT: 10/01/2022 08:42:55 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 10/01/2022 08:42:55
+    elapsed time: 0:00:00.074229
+    cmd: c
+
+---    START LOOP AT: 10/01/2022 08:42:57 ===
+-------------
+    s: bob ran in the park
+    ccs: ['Bob', 'ran', 'in', 'the', 'park']
     ret: set() Is Unknown
     aforementioned: []
     aforementioned mentioned: 0 times before
     CFG parse returned NONE: None
-    sPOS: [('see', 'VB'), ('Bob', 'P'), ('run', 'VB')]
+    sPOS: [('Bob', 'P'), ('ran', 'VBD'), ('in', 'IN'), ('the', 'DT'), ('park', 'p')]
+    rel: []
+-------------
+    s: bob runs in the park
+    ccs: ['Bob', 'runs', 'in', 'the', 'park']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S
+  (NP (NNP Bob))
+  (VP (VBZ runs) (PP (IN in) (NP (DT the) (NN park)))))
+    tList: (S
+  (NP (NNP Bob))
+  (VP (VBZ runs) (PP (IN in) (NP (DT the) (NN park)))))
+-------------
+item: [.NP [.NNP Bob ] ]
+----:[['NP', 'NNP'], 'Bob']
+item: [.VP
+item: [.VBZ runs ]
+----:[['VBZ'], 'runs']
+item: [.PP [.IN in ] [.NP [.DT the ] [.NN park ] ] ] ]
+----:[['PP', 'IN'], 'in', ['NP', 'DT'], 'the', ['NN'], 'park']
+
+*** START RUN AT: 10/01/2022 08:43:31 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 10/01/2022 08:43:31
+    elapsed time: 0:00:00.024467
+    cmd: c
+
+---    START LOOP AT: 10/01/2022 08:43:33 ===
+-------------
+    s: bob walked mary in the park
+    ccs: ['Bob', 'walked', 'Mary', 'in', 'the', 'park']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+    tList: (S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+-------------
+item: [.NP [.NNP Bob ] ]
+----:[['NP', 'NNP'], 'Bob']
+item: [.VP
+item: [.VBN walked ]
+----:[['VBN'], 'walked']
+item: [.NP [.NNP Mary ] ]
+----:[['NP', 'NNP'], 'Mary']
+item: [.PP [.IN in ] [.NP [.DT the ] [.NN park ] ] ] ]
+----:[['PP', 'IN'], 'in', ['NP', 'DT'], 'the', ['NN'], 'park']
+
+*** START RUN AT: 10/01/2022 08:43:57 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 10/01/2022 08:43:57
+    elapsed time: 0:00:00.027576
+    cmd: c
+
+---    START LOOP AT: 10/01/2022 08:43:59 ===
+-------------
+    s: bob walks with mary in the park
+    ccs: ['Bob', 'walks', 'with', 'Mary', 'in', 'the', 'park']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S
+  (NP (NNP Bob))
+  (VP
+    (VBZ walks)
+    (PP
+      (IN with)
+      (NP (NP (NNP Mary)) (PP (IN in) (NP (DT the) (NN park)))))))
+    tList: (S
+  (NP (NNP Bob))
+  (VP
+    (VBZ walks)
+    (PP
+      (IN with)
+      (NP (NP (NNP Mary)) (PP (IN in) (NP (DT the) (NN park)))))))
+-------------
+item: [.NP [.NNP Bob ] ]
+----:[['NP', 'NNP'], 'Bob']
+item: [.VP
+item: [.VBZ walks ]
+----:[['VBZ'], 'walks']
+item: [.PP
+item: [.IN with ]
+----:[['IN'], 'with']
+item: [.NP
+item: [.NP [.NNP Mary ] ]
+----:[['NP', 'NNP'], 'Mary']
+item: [.PP [.IN in ] [.NP [.DT the ] [.NN park ] ] ] ] ] ]
+----:[['PP', 'IN'], 'in', ['NP', 'DT'], 'the', ['NN'], 'park']
+
+*** START RUN AT: 10/01/2022 08:45:10 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 10/01/2022 08:45:10
+    elapsed time: 0:00:00.025753
+    cmd: c
+
+---    START LOOP AT: 10/01/2022 08:45:12 ===
+-------------
+    s: bob went to the park
+    ccs: ['Bob', 'went', 'to', 'the', 'park']
+    ret: {'went'} Is Unknown
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 10/01/2022 08:49:31 ===
+---    elapsed loop time: 0:04:19.201890 ===
+    cmd: 
+
+---    START LOOP AT: 10/01/2022 08:49:32 ===
+
+---    END LOOP AT: 10/01/2022 08:49:32 ===
+---    elapsed loop time: 0:00:00.007363 ===
+
+*** END RUN AT: 10/01/2022 08:49:32 ***
+*** elapsed run time: 0:04:21.783760
+
+*** START RUN AT: 10/01/2022 10:00:54 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 10/01/2022 10:00:54
+    elapsed time: 0:00:00.029433
+    cmd: c
+
+---    START LOOP AT: 10/01/2022 10:00:56 ===
+-------------
+    s: bob went nuts
+    ccs: ['Bob', 'went', 'nuts']
+    ret: {'went', 'nuts'} Is Unknown
+-------------
+    s: bob went nuts
+    ccs: ['Bob', 'went', 'nuts']
+    ret: {'went', 'nuts'} Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('Bob', 'P')]
     rel: []
 -------------
     s: 
  -->> cmd: EXIT
 
----    END LOOP AT: 09/30/2022 13:56:46 ===
----    elapsed loop time: 0:00:27.450863 ===
+---    END LOOP AT: 10/01/2022 10:10:04 ===
+---    elapsed loop time: 0:09:08.574778 ===
     cmd: 
 
----    START LOOP AT: 09/30/2022 13:56:46 ===
+---    START LOOP AT: 10/01/2022 10:10:05 ===
 
----    END LOOP AT: 09/30/2022 13:56:46 ===
----    elapsed loop time: 0:00:00.023281 ===
+---    END LOOP AT: 10/01/2022 10:10:05 ===
+---    elapsed loop time: 0:00:00.007460 ===
 
-*** END RUN AT: 09/30/2022 13:56:46 ***
-*** elapsed run time: 0:00:33.614424
+*** END RUN AT: 10/01/2022 10:10:05 ***
+*** elapsed run time: 0:09:11.626102
 
-*** START RUN AT: 09/30/2022 14:11:28 ***
+*** START RUN AT: 10/01/2022 10:52:37 ***
    Reading input data
 ----------------------
 --- reading of data completed:
-    end time: 09/30/2022 14:11:28
-    elapsed time: 0:00:00.103534
+    end time: 10/01/2022 10:52:37
+    elapsed time: 0:00:00.044314
     cmd: c
 
----    START LOOP AT: 09/30/2022 14:11:33 ===
+---    START LOOP AT: 10/01/2022 10:52:40 ===
 -------------
-    s: see bob run
-    ccs: ['see', 'bob', 'run']
-    ret: {'bob'} Is Unknown
+    s: bob went nuts
+    ccs: ['Bob', 'went', 'nuts']
+    ret: {'nuts', 'went'} Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('Bob', 'P')]
+    rel: []
 -------------
-    s: 
- -->> cmd: EXIT
-
----    END LOOP AT: 09/30/2022 14:11:46 ===
----    elapsed loop time: 0:00:13.089705 ===
-    cmd: 
-
----    START LOOP AT: 09/30/2022 14:11:47 ===
-
----    END LOOP AT: 09/30/2022 14:11:47 ===
----    elapsed loop time: 0:00:00.017783 ===
-
-*** END RUN AT: 09/30/2022 14:11:47 ***
-*** elapsed run time: 0:00:19.184830
-
-*** START RUN AT: 09/30/2022 14:13:22 ***
-   Reading input data
-----------------------
---- reading of data completed:
-    end time: 09/30/2022 14:13:22
-    elapsed time: 0:00:00.025987
-    cmd: c
-
----    START LOOP AT: 09/30/2022 14:13:27 ===
--------------
-    s: see bob run
-    ccs: ['see', 'Bob', 'run']
+    s: bob bob ate the bus
+    ccs: ['Bob', 'Bob', 'ate', 'the', 'bus']
     ret: set() Is Unknown
-    aforementioned: ["[('see', 'VB'), ('Bob', 'P'), ('run', 'VB')]; []; 09/30/2022; 13:56:18"]
-    aforementioned mentioned: 1 times before
-    CFG tree: (S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
-    tList: (S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('Bob', 'P'), ('Bob', 'P'), ('ate', 'VBD'), ('the', 'DT'), ('bus', 't')]
+    rel: []
 -------------
-item: [.VP [.VB see ] [.NP [.NP [.NNP Bob ] ] [.VP [.VB run ] ] ] ]
-----:[['VP', 'VB'], 'see', ['NP', 'NP', 'NNP'], 'Bob', ['VP', 'VB'], 'run']
+    s: bob ate the bus
+    ccs: ['Bob', 'ate', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (NP (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN bus))))
+    tList: (S (NP (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN bus))))
+-------------
+item: [.NP [.NNP Bob ] ]
+----:[['NP', 'NNP'], 'Bob']
+item: [.VP [.VBD ate ] [.NP [.DT the ] [.NN bus ] ] ]
+----:[['VP', 'VBD'], 'ate', ['NP', 'DT'], 'the', ['NN'], 'bus']

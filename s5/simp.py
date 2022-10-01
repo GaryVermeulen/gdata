@@ -96,9 +96,12 @@ while loop:
                 if len(ret) > 0:
                     # We'll do something with missing words later...
                     print('chkWords returned: ' + str(ret))
-                    print('You will need to teach me the above')
-                
-                    continue
+                    ans = input('Learn and add? <y/n>:')
+
+                    if ans in ['Y','y']:
+                        ss.addWord(ret)
+                    else:
+                        continue
 
                 # Has this been said before?
                 aforementioned = ss.chkHistory(ccs)

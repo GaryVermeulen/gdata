@@ -17,7 +17,6 @@ from pathlib import Path
 
 fRules = 'cfg_rules.cfg'    # CFG Rules w/o terminals
 fCFG   = 'simp.cfg'         # CFG 
-#fData  = 'data.txt'         # Lexicon & KB
 fLog   = 'simpLog.txt'      # Log file
 fSS    = 'sentStacks.txt'   # Parsed sentences for later analysis
 fHist  = 'history.txt'      # History of all sentences w/findings 
@@ -807,6 +806,86 @@ def removePOS(sPOS):
     return noPOS
 # End removePOS
 
+################################################
+def addWord(nw):
+
+    from urllib.request import Request, urlopen
+    from bs4 import BeautifulSoup
+    import nltk
+
+    found = False
+    notFound = []
+    foundLst = []
+    
+    print('Entering addWord: ')
+    print(type(nw))
+    print(len(nw))
+    print(nw)
+    
+    print('-' * 30)
+#    tok_nw = word_tokenize(nw)
+    nwList = list(nw)
+    print(type(nwList))
+    print(len(nwList))
+    print(nwList)
+
+    print('-' * 30)
+    print('Verifying spelling...')
+
+    for w in nwList:
+        req = Request(
+            url = "https://www.vocabulary.com/dictionary/" + w + "",
+            headers={'User-Agent': 'Mozilla/5.0'}
+        )
+        htmlFile = urlopen(req).read()
+        soup = BeautifulSoup(htmlFile, 'html.parser')
+
+        soup1 = soup.find(class_="short")
+        try:
+            soup1 = soup1.get_text()
+            found = True
+        except AttributeError:
+            print('Cannot find such word!')
+            print(w)
+            print('Check spelling.')
+            notFound.append(w)
+            found = False
+            continue
+        if found:
+            foundLst.append(w)
+            soup2 =soup.find(class_="word-definitions")
+            txt = soup2.get_text()
+            txt = os.linesep.join([s for s in txt.splitlines() if s])
+            txtLst = txt.split('\n')
+            
+            print('Found: ' + str(w))
+            print(soup1)
+            print(txtLst[1])
+        
+
+    print('-' * 30)
+    pos_nw = nltk.pos_tag(foundLst)
+    
+    print('NLTK tagged input as:')
+    print(pos_nw)
+
+    i = []
+    for p in pos_nw:
+        if p[1] in ['NN', 'NNS']:
+            i.append(getInflections(p[0], 'NN'))
+        elif p[1] in ['VB', 'VBD', 'VBG', 'VBN', 'VBZ']:
+            i.append(getInflections(p[0], 'VB'))
+        else:
+            print('problem with p: ' + str(p))
+        
+        print('i = ' + str(i))
+
+
+    print('End addWord.')
+      
+    return
+
+# End addWord()
 
 
 
@@ -993,102 +1072,6 @@ def searchMeaning(s, pos_s, names, nouns):
 # End searchMeaning(s)
 
 
-###
-def addWord(nw):
-
-    tag_not_found = []
-    word_added = []
-    lines = []
-    idx = 0
-
-    print('Entering addWord...')
-
-    nw = nw.replace(",", '')
-
-    tok_nw = word_tokenize(nw)
-    pos_nw = pos_tag(tok_nw)
-
-    print('NLTK tagged input as:')
-    for w in pos_nw:
-        print(w)
-        
-        response = input('Is the above tag correct <Yy>?')
-
-        if response not in 'Yy':
-            c_tag = input('Enter corrrect tag: ')
-            w0 = w[0]
-            new_w = (w0, c_tag)
-            pos_nw[idx] = new_w
-            print('You have entered: ' + str(new_w))
-
-        idx = idx + 1
-
-    # Read existing CFG
-    with open(fCFG, 'r') as fin:        
-        while (line := fin.readline().rstrip()):        
-            lines.append(line)
-    fin.close()
-
-    inserted = False
-    
-    # Search for the end of the given section ex: NN, NNP, DT, etc.
-    for new in pos_nw:
-
-        nw = new[0]
-        nt = new[1]
-    
-        lin_no = 0
-        match = False
-        for l in lines:
-            l = l.replace("-", '')
-            l = l.replace(" ", '')
-            l = l.split(">")
-
-            if l[0] == nt:
-                match = True
-
-            if l[0] == '#' and match:
-                lines.insert(lin_no, str(nt) + ' -> "' + str(nw) +'"')
-                inserted = True
-                break
-
-            lin_no += 1
-        
-    # Overwrite with new input
-    f = open(fCFG, 'w')
-    for l in lines:
-        f.write(l + '\n')
-    f.close()
-
-    print('End addWord.')
-      
-    return
-
-# End addWord()
-
-
-###
-def learningMode(nW):
-    #
-    # Scaled back to just add words
-    #
-
-    nWs = []
-    
-    print('Learning Mode:')
-    print(nW)
-
-    missingWord = re.search('\'(.*)\'', str(nW))    
-    nW = missingWord.group(1)
-    nW = nW.replace("'", '')
-
-    addWord(nW)
-    
-
-    print('Exiting Learning Mode.')
-
-    return
-# End learningMode
 
 
 ## randomSpeak below...
