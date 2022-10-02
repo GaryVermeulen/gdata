@@ -850,10 +850,9 @@ def addWord(nw):
             txt = os.linesep.join([s for s in txt.splitlines() if s])
             txtLst = txt.split('\n')
             
-            print('Found: ' + str(w))
-            print(soup1)
-            print(txtLst[1])
-
+#            print('Found: ' + str(w))
+#            print(soup1)
+#            print(txtLst[1])
 
         wLst.append(w)
         wTag = nltk.pos_tag(wLst)
@@ -877,8 +876,15 @@ def addWord(nw):
         print(str(cp))
         
         if cp:
-            print('Add to data?')
+            print('We can add:')
             print(f)
+            res = input('Add to data? <Y/y>')
+
+            if res in ['Y','y']:
+                print('add')
+            else:
+                print('do not add')
+
         else:
             print('Found mismatch with POS tag: ' + str(fLst[1]) + ' and dictionary: ' + str(fLst[2]))
             print(f)
@@ -899,14 +905,9 @@ def chkPOS(d):
 
     print('----- chkPos -----')
 #    print(type(d))
-    print(d)
+#    print(d)
 
     dLst = d.split(';')
-
-#    for di in dLst:
-#        print(di)
-#
-#    print(dLst[2])
 
     nouns = ['NNS','NN','NNP']
     verbs = ['VBG','VBD','VBN','VBZ']
@@ -919,7 +920,7 @@ def chkPOS(d):
         if dLst[1] in adjectives:
             posMatch = True
     elif dLst[2] == 'noun':
-        if dLSt[1] in nouns:
+        if dLst[1] in nouns:
             posMatch = True
     elif dLst[2] == 'verb':
         if dLst[1] in verbs:
@@ -928,8 +929,8 @@ def chkPOS(d):
         if dLst[1] in adverbs:
             posMatch = True
 
-    print('   posMatch:')
-    print(str(posMatch))
+#    print('   posMatch:')
+#    print(str(posMatch))
 
     print('--- End chkPos ---')
     return posMatch
