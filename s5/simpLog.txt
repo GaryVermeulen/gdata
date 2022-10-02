@@ -332,3 +332,98 @@ item: [.NP [.NNP Bob ] ]
 ----:[['NP', 'NNP'], 'Bob']
 item: [.VP [.VBD ate ] [.NP [.DT the ] [.NN bus ] ] ]
 ----:[['VP', 'VBD'], 'ate', ['NP', 'DT'], 'the', ['NN'], 'bus']
+
+*** START RUN AT: 10/01/2022 10:55:14 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 10/01/2022 10:55:14
+    elapsed time: 0:00:00.064154
+    cmd: c
+
+---    START LOOP AT: 10/01/2022 10:55:16 ===
+-------------
+    s: bob ate nuts
+    ccs: ['Bob', 'ate', 'nuts']
+    ret: {'nuts'} Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('Bob', 'P'), ('ate', 'VBD')]
+    rel: []
+-------------
+    s: bob is nuts
+    ccs: ['Bob', 'is', 'nuts']
+    ret: {'nuts', 'is'} Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('Bob', 'P')]
+    rel: []
+-------------
+    s: bob has nuts
+    ccs: ['Bob', 'has', 'nuts']
+    ret: {'nuts', 'has'} Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('Bob', 'P')]
+    rel: []
+-------------
+    s: bob went nuts
+    ccs: ['Bob', 'went', 'nuts']
+    ret: {'nuts', 'went'} Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('Bob', 'P')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 10/01/2022 11:49:14 ===
+---    elapsed loop time: 0:53:57.647938 ===
+    cmd: 
+
+---    START LOOP AT: 10/01/2022 11:49:14 ===
+
+---    END LOOP AT: 10/01/2022 11:49:14 ===
+---    elapsed loop time: 0:00:00.005303 ===
+
+*** END RUN AT: 10/01/2022 11:49:14 ***
+*** elapsed run time: 0:54:00.707341
+
+*** START RUN AT: 10/02/2022 09:17:59 ***
+   Reading input data
+----------------------
+--- reading of data completed:
+    end time: 10/02/2022 09:17:59
+    elapsed time: 0:00:00.033959
+    cmd: c
+
+---    START LOOP AT: 10/02/2022 09:19:03 ===
+-------------
+    s: bob went nuts
+    ccs: ['Bob', 'went', 'nuts']
+    ret: {'went', 'nuts'} Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('Bob', 'P')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 10/02/2022 09:20:46 ===
+---    elapsed loop time: 0:01:43.717380 ===
+    cmd: 
+
+---    START LOOP AT: 10/02/2022 09:20:47 ===
+
+---    END LOOP AT: 10/02/2022 09:20:47 ===
+---    elapsed loop time: 0:00:00.006911 ===
+
+*** END RUN AT: 10/02/2022 09:20:47 ***
+*** elapsed run time: 0:02:47.476312

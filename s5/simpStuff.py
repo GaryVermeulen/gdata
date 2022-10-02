@@ -818,21 +818,13 @@ def addWord(nw):
     foundLst = []
     
     print('Entering addWord: ')
-    print(type(nw))
-    print(len(nw))
-    print(nw)
-    
-    print('-' * 30)
-#    tok_nw = word_tokenize(nw)
-    nwList = list(nw)
-    print(type(nwList))
-    print(len(nwList))
-    print(nwList)
 
-    print('-' * 30)
+    nwList = list(nw)
+
     print('Verifying spelling...')
 
-    for w in nwList:
+    for w in nwList:        
+        wLst = []
         req = Request(
             url = "https://www.vocabulary.com/dictionary/" + w + "",
             headers={'User-Agent': 'Mozilla/5.0'}
@@ -852,7 +844,7 @@ def addWord(nw):
             found = False
             continue
         if found:
-            foundLst.append(w)
+            
             soup2 =soup.find(class_="word-definitions")
             txt = soup2.get_text()
             txt = os.linesep.join([s for s in txt.splitlines() if s])
@@ -861,25 +853,39 @@ def addWord(nw):
             print('Found: ' + str(w))
             print(soup1)
             print(txtLst[1])
-        
 
-    print('-' * 30)
-    pos_nw = nltk.pos_tag(foundLst)
-    
-    print('NLTK tagged input as:')
-    print(pos_nw)
 
-    i = []
-    for p in pos_nw:
-        if p[1] in ['NN', 'NNS']:
-            i.append(getInflections(p[0], 'NN'))
-        elif p[1] in ['VB', 'VBD', 'VBG', 'VBN', 'VBZ']:
-            i.append(getInflections(p[0], 'VB'))
+        wLst.append(w)
+        wTag = nltk.pos_tag(wLst)
+
+        if wTag[0][1] in ['NN', 'NNS']:
+            i = (getInflections(wTag[0][0], 'NN'))
+        elif wTag[0][1] in ['VB', 'VBD', 'VBG', 'VBN', 'VBZ']:
+            i = (getInflections(wTag[0][0], 'VB'))
         else:
-            print('problem with p: ' + str(p))
-        
-        print('i = ' + str(i))
+            i = "No Inflection Found"
+            print('No Inflection Found for wTag: ' + str(wTag))
 
+        foundLst.append(w + ';' + str(wTag[0][1]) + ';' + str(txtLst[1]) + ';' + i + ';' + soup1)
+
+    print('-f-' * 5)
+    for f in foundLst:
+
+        fLst = f.split(';')
+        
+        cp = chkPOS(f)
+        print(str(cp))
+        
+        if cp:
+            print('Add to data?')
+            print(f)
+        else:
+            print('Found mismatch with POS tag: ' + str(fLst[1]) + ' and dictionary: ' + str(fLst[2]))
+            print(f)
+
+    print('-n-' * 5)
+    for n in notFound:
+        print(n)
 
     print('End addWord.')
       
@@ -887,8 +893,46 @@ def addWord(nw):
 
 # End addWord()
 
+################################################
+def chkPOS(d):
+    posMatch = False
 
+    print('----- chkPos -----')
+#    print(type(d))
+    print(d)
 
+    dLst = d.split(';')
+
+#    for di in dLst:
+#        print(di)
+#
+#    print(dLst[2])
+
+    nouns = ['NNS','NN','NNP']
+    verbs = ['VBG','VBD','VBN','VBZ']
+    adjectives = ['JJ','JJR','JJS']
+    modals = ['MD']
+    personal_pronouns = ['PRP']
+    adverbs = ['RB','RBR','RBS']
+
+    if dLst[2] == 'adjective':
+        if dLst[1] in adjectives:
+            posMatch = True
+    elif dLst[2] == 'noun':
+        if dLSt[1] in nouns:
+            posMatch = True
+    elif dLst[2] == 'verb':
+        if dLst[1] in verbs:
+            posMatch = True
+    elif dLst[2] == 'adverb':
+        if dLst[1] in adverbs:
+            posMatch = True
+
+    print('   posMatch:')
+    print(str(posMatch))
+
+    print('--- End chkPos ---')
+    return posMatch
 
 ###
 def searchMeaning(s, pos_s, names, nouns):
