@@ -1,4 +1,6 @@
 #
+# https://realpython.com/python-keras-text-classification/
+#
 from sklearn.feature_extraction.text import CountVectorizer
 
 sentences = ['John likes ice cream', 'John hates chocolate.']
