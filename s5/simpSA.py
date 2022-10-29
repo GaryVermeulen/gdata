@@ -31,8 +31,7 @@ class Sentence:
 # Attempt to analyze the sentence per CFG (find SVO)
 ####################################################
 def sentAnalysis(t, s, f):
-
-    
+   
     print('--- sentAnalysis ---')
 
     sType = ''

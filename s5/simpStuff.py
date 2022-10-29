@@ -369,6 +369,9 @@ class EarleyParse(object):
 # End Classes
 
 ################################################
+# Currently words are within POS files, and only
+# nouns (NN, NNP, and NNS contain any kind of knowledge
+#
 def getData():
 
     dataList = []
@@ -384,7 +387,7 @@ def getData():
                     line = line.split(";")
 
                     if line[0] != '#':
-                        line.append(inFile.upper()) # Add POS tag
+                        line.append(inFile.upper()) # Add POS tag from file name
                         dataList.append(line)
     f.close()
 
@@ -487,8 +490,9 @@ def getInput():
 # end getInput
 
 ################################################
-def correctCase(s, data):
 # Capitalizes NNPs mary -> Mary
+#
+def correctCase(s, data):
 
     slist = s.split(' ')
     ccs = []

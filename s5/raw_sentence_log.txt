@@ -29,3 +29,5 @@ bob walks with mary in the park
       (NP (NP (NNP Mary)) (PP (IN in) (NP (DT the) (NN park)))))))
 bob ate the bus
 (S (NP (NNP Bob)) (VP (VBD ate) (NP (DT the) (NN bus))))
+see simp run
+(S (VP (VB see) (NP (NP (NNP Simp)) (VP (VB run)))))

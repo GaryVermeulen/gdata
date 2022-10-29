@@ -1,7 +1,8 @@
 #
 # Simpleton
-#    Simple-Ton: A ton of simple things to do.
-#
+#   Simple-Ton: A ton of simple things to do.
+#   
+#   Except to develop AGI (Artifical General Intelligence).
 #
 
 import sys
@@ -23,11 +24,27 @@ print("Simple-Ton, A ton of simple things to do.")
 st = startTime.strftime("%m/%d/%Y %H:%M:%S")
 
 f.write('\n*** START RUN AT: ' + str(st) + ' ***\n')
-f.write('   Reading input data\n')
+f.write('   Reading input data and building CFG file\n')
 
 # Read lexicon & KB data file
-
 inData = ss.getData()
+inDataLen = len(inData)
+f.write('   Read {} items\n'.format(inDataLen))
+
+# Build CFG file from data and cfg_rules
+f.write('   Building CFG file\n')
+ss.buildCFG(inData)
+
+endTime = datetime.now()
+et = endTime.strftime("%m/%d/%Y %H:%M:%S")
+
+elpTime = endTime - startTime
+
+f.write("----------------------\n")
+f.write("--- reading of data and building of CFG file completed:\n")
+f.write("    end time: " + str(et) + "\n")
+f.write("    elapsed time: " + str(elpTime) + "\n")
+#f.close()
 
 # Develop rudimentary concept of self (I am Simp)
 simpName = 'Simp'
@@ -37,30 +54,13 @@ for i in inData:
         break
 
 print("Hello I am: " + simpName)
-print(simpData)
-
-# Build CFG file from data and cfg_rules
-ss.buildCFG(inData)
-
-endTime = datetime.now()
-et = endTime.strftime("%m/%d/%Y %H:%M:%S")
-
-elpTime = endTime - startTime
-
-f.write("----------------------\n")
-f.write("--- reading of data completed:\n")
-f.write("    end time: " + str(et) + "\n")
-f.write("    elapsed time: " + str(elpTime) + "\n")
-#f.close()
-
-
+print("simpData  : {}: ".format(simpData))
 
 loop = True
 
 # Main loop
 #
 while loop:
-   
    
     # Get user command input
     #
@@ -69,15 +69,12 @@ while loop:
     f.write('    cmd: ' + str(cmd) + '\n')
 
     sLoopTime = datetime.now()
-
     slt = sLoopTime.strftime("%m/%d/%Y %H:%M:%S")
 
     f.write('\n---    START LOOP AT: ' + str(slt) + ' ===\n')
 
     if cmd == 'c' or cmd == 'C': # Chat
-
         while cmd in ['c', 'C']:
-        
             s = input("Enter a short sentence: ")
 
             f.write('-------------\n')
@@ -85,12 +82,10 @@ while loop:
         
             if len(s) > 0: # Now the fun begins
                 ccs = ss.correctCase(s, inData)
-
                 f.write('    ccs: ' + str(ccs) + '\n')
 
                 # Are all the words in the sentence in our Lex?
                 ret = ss.chkWords(ccs, inData)
-
                 f.write('    ret: ' + str(ret) + ' Is Unknown\n')
 
                 if len(ret) > 0:
@@ -105,7 +100,6 @@ while loop:
 
                 # Has this been said before?
                 aforementioned = ss.chkHistory(ccs)
-
                 f.write('    aforementioned: ' + str(aforementioned) + '\n')
 
                 if len(aforementioned) > 0:
@@ -170,14 +164,12 @@ while loop:
 #
 
                     f.close()
-                    sys.exit()
+                    sys.exit() # Under dev, so exit for now
 
                 sPOS = ss.getPOS(ccs, inData) # Is this needed any more?
-
                 f.write('    sPOS: ' + str(sPOS) + '\n')
             
                 rel = ss.s4r(ccs, inData, simpData) # Search for relationships
-
                 f.write('    rel: ' + str(rel) + '\n')
 
                 if len(rel) == 0:
@@ -196,8 +188,6 @@ while loop:
                 #   6) Old sentence +CFG -rel
                 #   7) Old sentence -CFG +rel
                 #   8) Old sentence -CFG -rel
-
-
             
                 # For now just add the new sentence to the history file
                 # 
@@ -206,7 +196,6 @@ while loop:
                 fh = open(fhistory, 'a')
                 fh.write('\n' + str(sPOS) + '; ' + str(rel) + '; ' + t)
                 fh.close()
-            
             
             else:
                 cmd = 'EXIT'
@@ -220,7 +209,9 @@ while loop:
         relationFound = False
         
         while not relationFound:
+            # Most likely returns gibberish
             s = ss.randomSpeak(rules)
+            
             # This check also returns a list which is needed
             ccs = ss.correctCase(s, inData)
             sPOS = ss.getPOS(ccs, inData)
