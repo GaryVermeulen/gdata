@@ -89,7 +89,7 @@ while loop:
                 f.write('    ret: ' + str(ret) + ' Is Unknown\n')
 
                 if len(ret) > 0:
-                    # We'll do something with missing words later...
+                    # ss.addWord is under construction...
                     print('chkWords returned: ' + str(ret))
                     ans = input('Learn and add? <y/n>:')
 
@@ -128,9 +128,13 @@ while loop:
 
                 if tree == None:
                     validCFG = False
-
+                    print('tree == none')
                     f.write('    CFG parse returned NONE: ' + str(tree) + '\n')
-                
+
+                    sPOS = ss.getPOS(ccs, inData)
+                    print('ccs tagged, sPOS: ', sPOS)
+                    f.write('    sPOS: ' + str(sPOS) + '\n')
+
                 else:
                     validCFG = True
 
@@ -152,22 +156,21 @@ while loop:
 #                    f.write('    sAnaly: ' + str(sAnaly) + '\n')
 #                    print('sAnaly: ' + str(sAnaly))
 
-#                    print(type(sA))
-                    print(sA.inSent)
-                    print(sA.sType)
-#                    print(sA.sSubj)
-#                    print(sA.sObj)
-#                    print(sA.sVerb)
-#                    print(sA.sDet)
-#                    print(sA.sIN)
-#                    print(sA.sPP)
+                    print(type(sA))
+                    print('--- sA:')
+                    print('    inSent: ', sA.inSent)
+                    print('    sType : ', sA.sType)
+                    print('    sSubj : ', sA.sSubj)
+                    print('    sObj  : ', sA.sObj)
+                    print('    sVerb : ', sA.sVerb)
+                    print('    sDet  : ', sA.sDet)
+                    print('    sIN   : ', sA.sIN)
+                    print('    sPP   : ', sA.sPP)
+                    print('--- end sA')
 #
+#                f.close()
+#                sys.exit() # Under dev, so exit for now
 
-                    f.close()
-                    sys.exit() # Under dev, so exit for now
-
-                sPOS = ss.getPOS(ccs, inData) # Is this needed any more?
-                f.write('    sPOS: ' + str(sPOS) + '\n')
             
                 rel = ss.s4r(ccs, inData, simpData) # Search for relationships
                 f.write('    rel: ' + str(rel) + '\n')
@@ -179,22 +182,13 @@ while loop:
                     relationFound = True
                     print('rel = True: ' + str(rel))
 
-                # Thus far we can have 8 situations:
-                #   1) New sentence +CFG +rel
-                #   2) New sentence +CFG -rel
-                #   3) New sentence -CFG +rel
-                #   4) New sentence -CFG -rel
-                #   5) Old sentence +CFG +rel
-                #   6) Old sentence +CFG -rel
-                #   7) Old sentence -CFG +rel
-                #   8) Old sentence -CFG -rel
-            
+          
                 # For now just add the new sentence to the history file
                 # 
                 print('Saving history...')
                 t = slt.replace(' ', '; ')
                 fh = open(fhistory, 'a')
-                fh.write('\n' + str(sPOS) + '; ' + str(rel) + '; ' + t)
+                fh.write('\n' + str(ccs) + '; ' + str(rel) + '; ' + t)
                 fh.close()
             
             else:

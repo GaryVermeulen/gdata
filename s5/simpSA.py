@@ -77,10 +77,15 @@ def sentAnalysis(t, s, f):
             if iLst[0][0] == 'NP':
                 print('iLst[0][0] == NP')
                 print(iLst[0])
+                print('.', iLst[0][1])
                 if iLst[0][1] in ['NP','NNP','NN','NNS']: # Included NP for NP NP NNx
                     if firstLine:
                         sType = 'declarative'
-                        sSubj = iLst[1]
+                        if sSubj == '':
+                            sSubj = iLst[1]
+                            print('..', sSubj)
+                        else:
+                            print('Who this: ', iLst[1])
 
                         if len(iLst) > 2:
                             if iLst[2][0] == 'VP':
@@ -90,7 +95,12 @@ def sentAnalysis(t, s, f):
                         if sVerb == '':
                             sObj = iLst[1]
                         else:
-                            sSubj = iLst[1]
+                            if sSubj == '':
+                                sSubj = iLst[1]
+                            else:
+                                sSubj = sSubj + ',' + iLst[1]
+                                print('who dat ', iLst[1])
+                                
                             if len(iLst) > 2:
                                 if iLst[2][0] == 'VP':
                                     if iLst[2][1] in ['VB','VBD','VBG','VBN','VBP','VBZ']:
