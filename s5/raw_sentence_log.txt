@@ -266,3 +266,27 @@ what can mary do
 (S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
 what can mary do
 (S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))

@@ -1760,3 +1760,138 @@ item: [.VP [.VB do ] ]
 
 *** END RUN AT: 11/06/2022 12:32:42 ***
 *** elapsed run time: 0:01:17.281444
+
+*** START RUN AT: 11/06/2022 12:47:13 ***
+   Reading input data and building CFG file
+   Read 126 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/06/2022 12:47:13
+    elapsed time: 0:00:00.030371
+    cmd: c
+
+---    START LOOP AT: 11/06/2022 12:47:15 ===
+-------------
+    s: what can mary do
+    ccs: ['what', 'can', 'Mary', 'do']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+    tList: (S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+-------------
+item: [.WDT what ]
+----:[['WDT'], 'what']
+item: [.MD can ]
+----:[['MD'], 'can']
+item: [.NP [.NNP Mary ] ]
+----:[['NP', 'NNP'], 'Mary']
+item: [.VP [.VB do ] ]
+----:[['VP', 'VB'], 'do']
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/06/2022 12:47:38 ===
+---    elapsed loop time: 0:00:22.942508 ===
+    cmd: 
+
+---    START LOOP AT: 11/06/2022 12:47:38 ===
+
+---    END LOOP AT: 11/06/2022 12:47:38 ===
+---    elapsed loop time: 0:00:00.009500 ===
+
+*** END RUN AT: 11/06/2022 12:47:38 ***
+*** elapsed run time: 0:00:25.554051
+
+*** START RUN AT: 11/06/2022 14:56:29 ***
+   Reading input data and building CFG file
+   Read 127 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/06/2022 14:56:29
+    elapsed time: 0:00:00.042491
+    cmd: c
+
+---    START LOOP AT: 11/06/2022 14:56:33 ===
+-------------
+    s: what can mary do
+    ccs: ['what', 'can', 'Mary', 'do']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+    tList: (S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+-------------
+item: [.WDT what ]
+----:[['WDT'], 'what']
+item: [.MD can ]
+----:[['MD'], 'can']
+item: [.NP [.NNP Mary ] ]
+----:[['NP', 'NNP'], 'Mary']
+item: [.VP [.VB do ] ]
+----:[['VP', 'VB'], 'do']
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/06/2022 14:56:48 ===
+---    elapsed loop time: 0:00:14.994364 ===
+    cmd: 
+
+---    START LOOP AT: 11/06/2022 14:56:48 ===
+
+---    END LOOP AT: 11/06/2022 14:56:48 ===
+---    elapsed loop time: 0:00:00.009195 ===
+
+*** END RUN AT: 11/06/2022 14:56:48 ***
+*** elapsed run time: 0:00:18.821650
+
+*** START RUN AT: 11/06/2022 15:33:02 ***
+   Reading input data and building CFG file
+   Read 127 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/06/2022 15:33:02
+    elapsed time: 0:00:00.052826
+    cmd: c
+
+---    START LOOP AT: 11/06/2022 15:33:04 ===
+-------------
+    s: what can mary do
+    ccs: ['what', 'can', 'Mary', 'do']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+    tList: (S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+-------------
+item: [.WDT what ]
+----:[['WDT'], 'what']
+item: [.MD can ]
+----:[['MD'], 'can']
+item: [.NP [.NNP Mary ] ]
+----:[['NP', 'NNP'], 'Mary']
+item: [.VP [.VB do ] ]
+----:[['VP', 'VB'], 'do']
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/06/2022 15:33:50 ===
+---    elapsed loop time: 0:00:45.344729 ===
+    cmd: 
+
+---    START LOOP AT: 11/06/2022 15:33:50 ===
+
+---    END LOOP AT: 11/06/2022 15:33:50 ===
+---    elapsed loop time: 0:00:00.008536 ===
+
+*** END RUN AT: 11/06/2022 15:33:50 ***
+*** elapsed run time: 0:00:48.439654

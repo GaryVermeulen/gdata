@@ -696,6 +696,7 @@ def s4r(s, sObj, sPOS, sD, inData):
         print('    sDet  : ', sObj.sDet)
         print('    sIN   : ', sObj.sIN)
         print('    sPP   : ', sObj.sPP)
+        print('    sMD   : ', sObj.sMD)
         print(sD)
 
         for w in s:
@@ -741,6 +742,8 @@ def s4r(s, sObj, sPOS, sD, inData):
             
         elif sObj.sType == 'imperative':
             print('   imperative response')
+        elif sObj.sType == 'interrogative':
+            print('   interrogative response')
         else:
             print('   unkonwn senetence type')
 

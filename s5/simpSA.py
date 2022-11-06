@@ -16,7 +16,7 @@ ftslog = 'tagged_sentence_log.txt'
 
 class Sentence:
 
-    def __init__(self, inSent, sType, sSubj, sVerb, sObj, sDet, sIN, sPP):
+    def __init__(self, inSent, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD):
         self.inSent = inSent
         self.sType = sType
         self.sSubj = sSubj
@@ -25,6 +25,7 @@ class Sentence:
         self.sDet = sDet
         self.sIN = sIN
         self.sPP = sPP
+        self.sMD = sMD
         
 
 
@@ -41,6 +42,7 @@ def sentAnalysis(t, s, f):
     sDet = ''
     sIN = ''
     sPP = ''
+    sMD = ''
 
     firstLine = True
 
@@ -57,14 +59,17 @@ def sentAnalysis(t, s, f):
         if len(item) > 0:
             tmpLst.append(item)
 
+    print('tmpLst: ', str(tmpLst))
+
     f.write('-------------\n')
     for item in tmpLst:
         f.write('item: ' + str(item) + '\n')
 
         iLst = buildItemList(item)
 
-#        print('---')
-#        print(iLst)
+        print(item)
+        print('^ item  | iLst ---')
+        print(iLst)
 #        print('---')
         if len(iLst) > 0:
 #            print(type(iLst))
@@ -201,7 +206,20 @@ def sentAnalysis(t, s, f):
                                         sObj = iLst[5]
                                         sPP = sIN + ',' + sDet + ',' + sObj
                 firstLine = False
+            elif iLst[0][0] == 'WDT':
+                print('iLst[0][0] == WDT')
+                print(iLst[0])
+                print('iLst: ', str(iLst))
+                sType = 'interrogative'
                 
+
+                firstLine = False
+
+            elif iLst[0][0] == 'MD':
+                print('iLst[0][0] == MD')
+                print(str(iLst))
+
+                firstLine = False
             else:
                 print('else--something wrong?')
                 print(iLst)
@@ -220,8 +238,9 @@ def sentAnalysis(t, s, f):
     print('sDet =  ' + sDet)
     print('sIN =   ' + sIN)
     print('sPP =   ' + sPP)
+    print('sMD =   ' + sMD)
 
-    sent = Sentence(s, sType, sSubj, sVerb, sObj, sDet, sIN, sPP)
+    sent = Sentence(s, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD)
                 
 
     print('--- end sentAnalysis ---')

@@ -173,6 +173,7 @@ while loop:
                     print('    sDet  : ', sA.sDet)
                     print('    sIN   : ', sA.sIN)
                     print('    sPP   : ', sA.sPP)
+                    print('    sMD   : ', sA.sMD)
                     print('--- end sA')
 #
 #                f.close()
