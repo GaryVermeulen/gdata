@@ -662,100 +662,93 @@ def getInflections(w, pos):
 # End getInflections
 
 ################################################
-def s4r(s, data, sd):
-    # Simple comparison of KB data and verbs
-    #
+# Search For Relationship(s) within the limited KB
+#
+def s4r(s, sObj, sPOS, sD, inData):
+    
     wData = []
-    nInflections = []
-    vInflections  = []
     rel = None
     rels = []
+    vInflects = []
     
     print('--- s4r ---')
 
-#    print('s: ' + str(s))
-#    print('data len: ' + str(len(data)))
-#    print('sd (SimpData): ' + str(sd))
 
-    simpActions = sd[-1]
-    simpActions = simpActions.split(',')
-#    print('simpActions: ' + str(simpActions))
-#    print('       type: ' + str(type(simpActions)))
-#    print('simpActions: ' + str(simpActions))
 
-    for w in s:
-        for d in data:
-            if w == d[0]:
-                wData.append(d)
+#    print('---')
 
-    print('wData: ' + str(wData))
+    if sObj.inSent == '':
+        print('no sent obj found')
+        print(s)
+        print(sPOS)
+        print(sD)
 
-    processedVBx = False
-    for w in wData:
-        if w[1] in ['NN', 'NNS']:
-            nInflections.append(getInflections(w[0], "NN"))
-        elif w[1] in ['VB', 'VBD', 'VBG', 'VBN', 'VBZ']:
-            if not processedVBx:
-#                print(str(w[0]) + ' - ' + str(w[1]))
-                vInflections.append(getInflections(w[0], "VB"))
-#                print('building vInflections: ' + str(vInflections))
-                processedVBx = True
+    print('---')
+    
+    if len(sPOS) == 0:
+        print('no sPOS found')
+        print(s)
+        print('    inSent: ', sObj.inSent)
+        print('    sType : ', sObj.sType)
+        print('    sSubj : ', sObj.sSubj)
+        print('    sObj  : ', sObj.sObj)
+        print('    sVerb : ', sObj.sVerb)
+        print('    sDet  : ', sObj.sDet)
+        print('    sIN   : ', sObj.sIN)
+        print('    sPP   : ', sObj.sPP)
+        print(sD)
+
+        for w in s:
+            for d in inData:
+                if w == d[0]:
+                    wData.append(d)
+        print('wData: ' + str(wData))
+
+        if sObj.sType == 'declarative':
+            print('   declarative response')
+            # Does the verb(s) match the actions on the nouns?
+            # First get the inflections
             
-#    print('wData: ' + str(wData))
-#    print('nInflections: ' + str(nInflections))
-#    print('vInflections: ' + str(vInflections))
+            verbs = sObj.sVerb.split(',')
+            print('verbs: ', verbs)
+            for v in verbs:
+                vInflects.append(getInflections(v, "VB"))
 
-    # This is cheezy, but Simp can only do certain actions (VBs)
-    firstWord = True
-    prp = ''
-    for w in wData:     
-        if firstWord:
-            if w[1] == 'VB': 
-                if w[0] not in simpActions:
-                    print('Simp cannot: ' + str(w[0]))
-            elif w[1] == 'PRP':
-                print('PRP Found: ' + str(w))
-                if w[0] == 'you':
-                    prp = w[0]
+            print('vInflects: ', vInflects)
 
-        firstWord = False
+            subjects = sObj.sSubj.split(',')
 
-        if prp != '':
-            if w[1] == 'VB': 
-                if w[0] not in simpActions:
-                    print('As implied with: ' + prp)
-                    print('Simp cannot: ' + str(w[0]))
+            for w in wData:
+                if w[0] in subjects:
+                    print('w: ', w)
 
-#
-#    print(len(wData))
-#    print('wData: ' + str(wData))
-    for w in wData:        
-        if w[1] == 'NNP':
-            actions = set(w[4].split(','))
+                    actions = set(w[3].split(','))
+                    
+                    for v in vInflects:
+                        v = v.split(',')
+                        inflect = set(v)
+                        inflect.intersection_update(actions)
+
+                    if len(inflect) == 0:
+                        print(str(w[0]) + ' cannot ' + str(v))
+                        rel = None
+                    else:
+                        rel = inflect.pop()
+                        rels.append(w[0] + ',' + rel)
+                        print(str(w[0]) + ' can ' + rel)
+                    
+
             
-#            print('typ actions: ' + str(type(actions)))
-#            print('actions: ' + str(actions))
-#            print('vInflections: ' + str(vInflections))
-            for v in vInflections:
-                v = v.split(',')
-#                print('typ v: ' + str(type(v)))
-#                print('v: ' + str(v))
-                inflect = set(v)
-                
-#                print('inflect: ' + str(inflect))
-                inflect.intersection_update(actions)
-#                print('set results: ' + str(inflect))
+        elif sObj.sType == 'imperative':
+            print('   imperative response')
+        else:
+            print('   unkonwn senetence type')
 
-                if len(inflect) == 0:
-                    print(str(w[0]) + ' cannot ' + str(v))
-                    rel = None
-                else:
-                    rel = inflect.pop()
-                    rels.append(w[0] + ',' + rel)
-                    print(str(w[0]) + ' can ' + rel)
-                
+    print('   rels: ', str(rels))
+        
+    print('--- End s4r ---')
     return rels
-# End s4m
+# End s4r
 
 ################################################
 def chkHistory(s):
@@ -820,6 +813,7 @@ def addWord(nw):
     found = False
     notFound = []
     foundLst = []
+    res = False
     
     print('Entering addWord: ')
 
@@ -854,12 +848,12 @@ def addWord(nw):
             txt = os.linesep.join([s for s in txt.splitlines() if s])
             txtLst = txt.split('\n')
             
-#            print('Found: ' + str(w))
-#            print(soup1)
-#            print(txtLst[1])
+            print('Found: ' + str(w))
+            print('soup: ', soup1)
+            print('txtLst[1]: ', txtLst[1])
 
         wLst.append(w)
-        wTag = nltk.pos_tag(wLst)
+        wTag = nltk.pos_tag(wLst) # WARNING: nltk can return incorrect results!
 
         if wTag[0][1] in ['NN', 'NNS']:
             i = (getInflections(wTag[0][0], 'NN'))
@@ -871,10 +865,15 @@ def addWord(nw):
 
         foundLst.append(w + ';' + str(wTag[0][1]) + ';' + str(txtLst[1]) + ';' + i + ';' + soup1)
 
+    print('foundLst: ', str(foundLst))
+
     print('-f-' * 5)
     for f in foundLst:
 
         fLst = f.split(';')
+
+        print('f: ', f)
+        print('fLst: ', str(fLst))
         
         cp = chkPOS(f)
         print(str(cp))
@@ -886,6 +885,7 @@ def addWord(nw):
 
             if res in ['Y','y']:
                 print('add')
+                res = addWord2File(fLst[0], fLst[1])
             else:
                 print('do not add')
 
@@ -897,10 +897,12 @@ def addWord(nw):
     for n in notFound:
         print(n)
 
+    if res:
+        print('res retunred true--meaning word added')
+
     print('End addWord.')
       
-    return
-
+    return res
 # End addWord()
 
 ################################################
@@ -908,13 +910,15 @@ def chkPOS(d):
     posMatch = False
 
     print('----- chkPos -----')
-#    print(type(d))
-#    print(d)
+    print(type(d))
+    print(d)
 
     dLst = d.split(';')
 
+    print('dLst: ', str(dLst))
+
     nouns = ['NNS','NN','NNP']
-    verbs = ['VBG','VBD','VBN','VBZ']
+    verbs = ['VB','VBG','VBD','VBN','VBZ']
     adjectives = ['JJ','JJR','JJS']
     modals = ['MD']
     personal_pronouns = ['PRP']
@@ -927,17 +931,58 @@ def chkPOS(d):
         if dLst[1] in nouns:
             posMatch = True
     elif dLst[2] == 'verb':
+        print('*** here')
         if dLst[1] in verbs:
+            print('*** there')
             posMatch = True
     elif dLst[2] == 'adverb':
         if dLst[1] in adverbs:
             posMatch = True
 
-#    print('   posMatch:')
-#    print(str(posMatch))
+    print('   dLst[2]: >>' + str(dLst[2]) + '<<')
+    print('   dLst[1]: ', str(dLst[1]))
+
+    print('   posMatch:', str(posMatch))
 
     print('--- End chkPos ---')
     return posMatch
+# End chkPOS(d)
+
+################################################
+def addWord2File(w, posTag):
+
+    print('--- addWord2File ---')
+
+    success = False
+    
+    progPath = os.getcwd()
+    dataPath = progPath + '/data'
+
+    file = Path(dataPath + '/' + posTag.lower())
+
+    if file.is_file():
+        print('   file found: ', file)
+        f = open(file, 'a')
+        f.write(w + '\n')
+        f.close()
+        success = True
+    else:
+        success = False
+        
+    print('--- End addWord2File ---')
+    return success
+# End addWord2File(w, posTag)
+
+
+
+
+
+
+
+
+
+
+
 
 ###
 def searchMeaning(s, pos_s, names, nouns):

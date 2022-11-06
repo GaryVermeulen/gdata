@@ -75,6 +75,7 @@ while loop:
 
     if cmd == 'c' or cmd == 'C': # Chat
         while cmd in ['c', 'C']:
+            sPOS = ''
             s = input("Enter a short sentence: ")
 
             f.write('-------------\n')
@@ -94,7 +95,9 @@ while loop:
                     ans = input('Learn and add? <y/n>:')
 
                     if ans in ['Y','y']:
-                        ss.addWord(ret)
+                        if ss.addWord(ret):
+                            inData = ss.getData() # Refresh input data with new word added
+                            print('inData refreshed with: ', ret)
                     else:
                         continue
 
@@ -135,6 +138,8 @@ while loop:
                     print('ccs tagged, sPOS: ', sPOS)
                     f.write('    sPOS: ' + str(sPOS) + '\n')
 
+                    sA = sa.Sentence('', '', '', '', '', '', '', '') 
+
                 else:
                     validCFG = True
 
@@ -171,8 +176,13 @@ while loop:
 #                f.close()
 #                sys.exit() # Under dev, so exit for now
 
-            
-                rel = ss.s4r(ccs, inData, simpData) # Search for relationships
+                if validCFG:
+                    rel = ss.s4r(ccs, sA, sPOS, simpData, inData) # Search for relationships
+                else:
+                    rel = ss.s4r(ccs, sA, sPOS, simpData, inData)
+
+
+                    
                 f.write('    rel: ' + str(rel) + '\n')
 
                 if len(rel) == 0:

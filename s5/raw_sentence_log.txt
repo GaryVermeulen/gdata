@@ -98,3 +98,169 @@ bob walked mary in the park
     (VBN walked)
     (NP (NNP Mary))
     (PP (IN in) (NP (DT the) (NN park)))))
+bob walked mary in the park
+(S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+bob walked mary in the park
+(S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+bob walked mary in the park
+(S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+bob walked mary in the park
+(S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+bob walked mary in the park
+(S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+bob walked mary in the park
+(S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+bob walked mary in the park
+(S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+mary walked pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+bob walked mary in the park
+(S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+bob walked mary in the park
+(S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+bob walked mary in the park
+(S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+bob walked mary in the park
+(S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+mary walked pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+bob walked mary in the park
+(S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+bob walked pookie in the park
+(S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+bob walked pookie in the park
+(S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+pookie walked bob in the park
+(S
+  (NP (NNP Pookie))
+  (VP
+    (VBN walked)
+    (NP (NNP Bob))
+    (PP (IN in) (NP (DT the) (NN park)))))
+bob walked pookie in the park
+(S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+bob walked pookie in the park
+(S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+bob walked mary in the park
+(S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+pookie walked sam in the park
+(S
+  (NP (NNP Pookie))
+  (VP
+    (VBN walked)
+    (NP (NNP Sam))
+    (PP (IN in) (NP (DT the) (NN park)))))
+pookie walked telescope in the park
+(S
+  (NP (NNP Pookie))
+  (VP
+    (VBN walked)
+    (NP (NN telescope))
+    (PP (IN in) (NP (DT the) (NN park)))))
+to see
+(S (VP (TO to) (VP (VB see))))
+see pookie
+(S (VP (VB see) (NP (NNP Pookie))))
+bob flew mary in the park
+(S
+  (NP (NNP Bob))
+  (VP
+    (VBD flew)
+    (NP (NP (NNP Mary)) (PP (IN in) (NP (DT the) (NN park))))))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))

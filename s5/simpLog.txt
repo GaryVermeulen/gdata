@@ -901,3 +901,714 @@ item: [.PP [.IN in ] [.NP [.DT the ] [.NN park ] ] ] ]
 
 *** END RUN AT: 11/04/2022 11:46:31 ***
 *** elapsed run time: 0:02:05.113781
+
+*** START RUN AT: 11/06/2022 08:08:32 ***
+   Reading input data and building CFG file
+   Read 125 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/06/2022 08:08:32
+    elapsed time: 0:00:00.013151
+    cmd: c
+
+---    START LOOP AT: 11/06/2022 08:08:34 ===
+-------------
+    s: bob walked mary in the park
+    ccs: ['Bob', 'walked', 'Mary', 'in', 'the', 'park']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+    tList: (S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+-------------
+item: [.NP [.NNP Bob ] ]
+----:[['NP', 'NNP'], 'Bob']
+item: [.VP
+item: [.VBN walked ]
+----:[['VBN'], 'walked']
+item: [.NP [.NNP Mary ] ]
+----:[['NP', 'NNP'], 'Mary']
+item: [.PP [.IN in ] [.NP [.DT the ] [.NN park ] ] ] ]
+----:[['PP', 'IN'], 'in', ['NP', 'DT'], 'the', ['NN'], 'park']
+    rel: []
+-------------
+    s: bob and mary walked in the park
+    ccs: ['Bob', 'and', 'Mary', 'walked', 'in', 'the', 'park']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('Bob', 'P'), ('and', 'CC'), ('Mary', 'P'), ('walked', 'VBN'), ('walked', 'VBD'), ('in', 'IN'), ('the', 'DT'), ('park', 'p')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/06/2022 08:09:26 ===
+---    elapsed loop time: 0:00:51.769106 ===
+    cmd: 
+
+---    START LOOP AT: 11/06/2022 08:09:26 ===
+
+---    END LOOP AT: 11/06/2022 08:09:26 ===
+---    elapsed loop time: 0:00:00.006269 ===
+
+*** END RUN AT: 11/06/2022 08:09:26 ***
+*** elapsed run time: 0:00:54.437897
+
+*** START RUN AT: 11/06/2022 08:18:33 ***
+   Reading input data and building CFG file
+   Read 125 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/06/2022 08:18:33
+    elapsed time: 0:00:00.011614
+    cmd: c
+
+---    START LOOP AT: 11/06/2022 08:18:35 ===
+-------------
+    s: bob walked mary in the park
+    ccs: ['Bob', 'walked', 'Mary', 'in', 'the', 'park']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+    tList: (S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+-------------
+item: [.NP [.NNP Bob ] ]
+----:[['NP', 'NNP'], 'Bob']
+item: [.VP
+item: [.VBN walked ]
+----:[['VBN'], 'walked']
+item: [.NP [.NNP Mary ] ]
+----:[['NP', 'NNP'], 'Mary']
+item: [.PP [.IN in ] [.NP [.DT the ] [.NN park ] ] ] ]
+----:[['PP', 'IN'], 'in', ['NP', 'DT'], 'the', ['NN'], 'park']
+    rel: []
+-------------
+    s: bob and mary walked in the park
+    ccs: ['Bob', 'and', 'Mary', 'walked', 'in', 'the', 'park']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('Bob', 'P'), ('and', 'CC'), ('Mary', 'P'), ('walked', 'VBN'), ('walked', 'VBD'), ('in', 'IN'), ('the', 'DT'), ('park', 'p')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/06/2022 08:38:25 ===
+---    elapsed loop time: 0:19:49.459278 ===
+    cmd: 
+
+---    START LOOP AT: 11/06/2022 08:38:25 ===
+
+---    END LOOP AT: 11/06/2022 08:38:25 ===
+---    elapsed loop time: 0:00:00.005520 ===
+
+*** END RUN AT: 11/06/2022 08:38:25 ***
+*** elapsed run time: 0:19:51.693501
+
+*** START RUN AT: 11/06/2022 09:03:29 ***
+   Reading input data and building CFG file
+   Read 125 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/06/2022 09:03:29
+    elapsed time: 0:00:00.053802
+    cmd: c
+
+---    START LOOP AT: 11/06/2022 09:03:32 ===
+-------------
+    s: mary walked pookie in the park
+    ccs: ['Mary', 'walked', 'Pookie', 'in', 'the', 'park']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+    tList: (S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+-------------
+item: [.NP [.NNP Mary ] ]
+----:[['NP', 'NNP'], 'Mary']
+item: [.VP
+item: [.VBN walked ]
+----:[['VBN'], 'walked']
+item: [.NP [.NNP Pookie ] ]
+----:[['NP', 'NNP'], 'Pookie']
+item: [.PP [.IN in ] [.NP [.DT the ] [.NN park ] ] ] ]
+----:[['PP', 'IN'], 'in', ['NP', 'DT'], 'the', ['NN'], 'park']
+    rel: []
+-------------
+    s: mary and pookie walked in the park
+    ccs: ['Mary', 'and', 'Pookie', 'walked', 'in', 'the', 'park']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('Mary', 'P'), ('and', 'CC'), ('Pookie', 't'), ('walked', 'VBN'), ('walked', 'VBD'), ('in', 'IN'), ('the', 'DT'), ('park', 'p')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/06/2022 09:04:36 ===
+---    elapsed loop time: 0:01:04.252656 ===
+    cmd: 
+
+---    START LOOP AT: 11/06/2022 09:04:36 ===
+
+---    END LOOP AT: 11/06/2022 09:04:36 ===
+---    elapsed loop time: 0:00:00.010839 ===
+
+*** END RUN AT: 11/06/2022 09:04:36 ***
+*** elapsed run time: 0:01:07.357222
+
+*** START RUN AT: 11/06/2022 09:11:24 ***
+   Reading input data and building CFG file
+   Read 125 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/06/2022 09:11:24
+    elapsed time: 0:00:00.045972
+    cmd: c
+
+---    START LOOP AT: 11/06/2022 09:11:38 ===
+-------------
+    s: bob walked mary in the park
+    ccs: ['Bob', 'walked', 'Mary', 'in', 'the', 'park']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+    tList: (S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+-------------
+item: [.NP [.NNP Bob ] ]
+----:[['NP', 'NNP'], 'Bob']
+item: [.VP
+item: [.VBN walked ]
+----:[['VBN'], 'walked']
+item: [.NP [.NNP Mary ] ]
+----:[['NP', 'NNP'], 'Mary']
+item: [.PP [.IN in ] [.NP [.DT the ] [.NN park ] ] ] ]
+----:[['PP', 'IN'], 'in', ['NP', 'DT'], 'the', ['NN'], 'park']
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/06/2022 09:12:08 ===
+---    elapsed loop time: 0:00:29.799191 ===
+    cmd: 
+
+---    START LOOP AT: 11/06/2022 09:12:09 ===
+
+---    END LOOP AT: 11/06/2022 09:12:09 ===
+---    elapsed loop time: 0:00:00.007777 ===
+
+*** END RUN AT: 11/06/2022 09:12:09 ***
+*** elapsed run time: 0:00:44.532150
+
+*** START RUN AT: 11/06/2022 09:21:41 ***
+   Reading input data and building CFG file
+   Read 125 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/06/2022 09:21:41
+    elapsed time: 0:00:00.062015
+    cmd: bob walked mary in the park
+
+---    START LOOP AT: 11/06/2022 09:21:59 ===
+
+---    END LOOP AT: 11/06/2022 09:21:59 ===
+---    elapsed loop time: 0:00:00.008748 ===
+
+*** END RUN AT: 11/06/2022 09:21:59 ***
+*** elapsed run time: 0:00:17.565141
+
+*** START RUN AT: 11/06/2022 09:22:10 ***
+   Reading input data and building CFG file
+   Read 125 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/06/2022 09:22:10
+    elapsed time: 0:00:00.016034
+    cmd: c
+
+---    START LOOP AT: 11/06/2022 09:22:12 ===
+-------------
+    s: bob walked mary in the park
+    ccs: ['Bob', 'walked', 'Mary', 'in', 'the', 'park']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+    tList: (S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Mary))
+    (PP (IN in) (NP (DT the) (NN park)))))
+-------------
+item: [.NP [.NNP Bob ] ]
+----:[['NP', 'NNP'], 'Bob']
+item: [.VP
+item: [.VBN walked ]
+----:[['VBN'], 'walked']
+item: [.NP [.NNP Mary ] ]
+----:[['NP', 'NNP'], 'Mary']
+item: [.PP [.IN in ] [.NP [.DT the ] [.NN park ] ] ] ]
+----:[['PP', 'IN'], 'in', ['NP', 'DT'], 'the', ['NN'], 'park']
+    rel: []
+-------------
+    s: bob and mary walked in the park
+    ccs: ['Bob', 'and', 'Mary', 'walked', 'in', 'the', 'park']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('Bob', 'P'), ('and', 'CC'), ('Mary', 'P'), ('walked', 'VBN'), ('walked', 'VBD'), ('in', 'IN'), ('the', 'DT'), ('park', 'p')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/06/2022 09:23:09 ===
+---    elapsed loop time: 0:00:56.706001 ===
+    cmd: 
+
+---    START LOOP AT: 11/06/2022 09:23:09 ===
+
+---    END LOOP AT: 11/06/2022 09:23:09 ===
+---    elapsed loop time: 0:00:00.008992 ===
+
+*** END RUN AT: 11/06/2022 09:23:09 ***
+*** elapsed run time: 0:00:59.289915
+
+*** START RUN AT: 11/06/2022 09:48:06 ***
+   Reading input data and building CFG file
+   Read 125 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/06/2022 09:48:06
+    elapsed time: 0:00:00.068291
+    cmd: c
+
+---    START LOOP AT: 11/06/2022 09:48:10 ===
+-------------
+    s: bob walked pookie in the park
+    ccs: ['Bob', 'walked', 'Pookie', 'in', 'the', 'park']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+    tList: (S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+-------------
+item: [.NP [.NNP Bob ] ]
+----:[['NP', 'NNP'], 'Bob']
+item: [.VP
+item: [.VBN walked ]
+----:[['VBN'], 'walked']
+item: [.NP [.NNP Pookie ] ]
+----:[['NP', 'NNP'], 'Pookie']
+item: [.PP [.IN in ] [.NP [.DT the ] [.NN park ] ] ] ]
+----:[['PP', 'IN'], 'in', ['NP', 'DT'], 'the', ['NN'], 'park']
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/06/2022 09:48:44 ===
+---    elapsed loop time: 0:00:33.816415 ===
+    cmd: 
+
+---    START LOOP AT: 11/06/2022 09:48:44 ===
+
+---    END LOOP AT: 11/06/2022 09:48:44 ===
+---    elapsed loop time: 0:00:00.007553 ===
+
+*** END RUN AT: 11/06/2022 09:48:44 ***
+*** elapsed run time: 0:00:37.510755
+
+*** START RUN AT: 11/06/2022 09:49:30 ***
+   Reading input data and building CFG file
+   Read 125 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/06/2022 09:49:30
+    elapsed time: 0:00:00.028488
+    cmd: c
+
+---    START LOOP AT: 11/06/2022 09:49:32 ===
+-------------
+    s: bob walked pookie in the park
+    ccs: ['Bob', 'walked', 'Pookie', 'in', 'the', 'park']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+    tList: (S
+  (NP (NNP Bob))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+-------------
+item: [.NP [.NNP Bob ] ]
+----:[['NP', 'NNP'], 'Bob']
+item: [.VP
+item: [.VBN walked ]
+----:[['VBN'], 'walked']
+item: [.NP [.NNP Pookie ] ]
+----:[['NP', 'NNP'], 'Pookie']
+item: [.PP [.IN in ] [.NP [.DT the ] [.NN park ] ] ] ]
+----:[['PP', 'IN'], 'in', ['NP', 'DT'], 'the', ['NN'], 'park']
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/06/2022 09:58:44 ===
+---    elapsed loop time: 0:09:11.510593 ===
+    cmd: 
+
+---    START LOOP AT: 11/06/2022 09:58:44 ===
+
+---    END LOOP AT: 11/06/2022 09:58:44 ===
+---    elapsed loop time: 0:00:00.010554 ===
+
+*** END RUN AT: 11/06/2022 09:58:44 ***
+*** elapsed run time: 0:09:14.147612
+
+*** START RUN AT: 11/06/2022 10:02:38 ***
+   Reading input data and building CFG file
+   Read 125 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/06/2022 10:02:38
+    elapsed time: 0:00:00.066761
+    cmd: bob walked mary in the park
+
+---    START LOOP AT: 11/06/2022 10:02:48 ===
+
+---    END LOOP AT: 11/06/2022 10:02:48 ===
+---    elapsed loop time: 0:00:00.010044 ===
+
+*** END RUN AT: 11/06/2022 10:02:48 ***
+*** elapsed run time: 0:00:09.673976
+
+*** START RUN AT: 11/06/2022 11:38:21 ***
+   Reading input data and building CFG file
+   Read 125 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/06/2022 11:38:21
+    elapsed time: 0:00:00.058730
+    cmd: c
+
+---    START LOOP AT: 11/06/2022 11:38:25 ===
+-------------
+    s: what can mary do
+    ccs: ['what', 'can', 'Mary', 'do']
+    ret: {'do'} Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('what', 'WDT'), ('can', 'MD'), ('Mary', 'P')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/06/2022 11:38:58 ===
+---    elapsed loop time: 0:00:32.672985 ===
+    cmd: 
+
+---    START LOOP AT: 11/06/2022 11:38:58 ===
+
+---    END LOOP AT: 11/06/2022 11:38:58 ===
+---    elapsed loop time: 0:00:00.005536 ===
+
+*** END RUN AT: 11/06/2022 11:38:58 ***
+*** elapsed run time: 0:00:36.875245
+
+*** START RUN AT: 11/06/2022 11:50:55 ***
+   Reading input data and building CFG file
+   Read 125 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/06/2022 11:50:55
+    elapsed time: 0:00:00.049892
+    cmd: c
+
+---    START LOOP AT: 11/06/2022 11:50:58 ===
+-------------
+    s: what can mary do
+    ccs: ['what', 'can', 'Mary', 'do']
+    ret: {'do'} Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('what', 'WDT'), ('can', 'MD'), ('Mary', 'P')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/06/2022 11:51:31 ===
+---    elapsed loop time: 0:00:33.008672 ===
+    cmd: 
+
+---    START LOOP AT: 11/06/2022 11:51:31 ===
+
+---    END LOOP AT: 11/06/2022 11:51:31 ===
+---    elapsed loop time: 0:00:00.011206 ===
+
+*** END RUN AT: 11/06/2022 11:51:31 ***
+*** elapsed run time: 0:00:35.634453
+
+*** START RUN AT: 11/06/2022 11:52:54 ***
+   Reading input data and building CFG file
+   Read 125 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/06/2022 11:52:54
+    elapsed time: 0:00:00.013600
+    cmd: c
+
+---    START LOOP AT: 11/06/2022 11:53:04 ===
+-------------
+    s: what can mary do
+    ccs: ['what', 'can', 'Mary', 'do']
+    ret: {'do'} Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('what', 'WDT'), ('can', 'MD'), ('Mary', 'P')]
+    rel: []
+-------------
+    s: what can mary do
+    ccs: ['what', 'can', 'Mary', 'do']
+    ret: {'do'} Is Unknown
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/06/2022 11:54:03 ===
+---    elapsed loop time: 0:00:58.826847 ===
+    cmd: 
+
+---    START LOOP AT: 11/06/2022 11:54:03 ===
+
+---    END LOOP AT: 11/06/2022 11:54:03 ===
+---    elapsed loop time: 0:00:00.012009 ===
+
+*** END RUN AT: 11/06/2022 11:54:03 ***
+*** elapsed run time: 0:01:09.342134
+
+*** START RUN AT: 11/06/2022 11:54:11 ***
+   Reading input data and building CFG file
+   Read 126 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/06/2022 11:54:11
+    elapsed time: 0:00:00.064353
+    cmd: c
+
+---    START LOOP AT: 11/06/2022 11:54:19 ===
+-------------
+    s: what can mary do
+    ccs: ['what', 'can', 'Mary', 'do']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+    tList: (S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+-------------
+item: [.WDT what ]
+----:[['WDT'], 'what']
+item: [.MD can ]
+----:[['MD'], 'can']
+item: [.NP [.NNP Mary ] ]
+----:[['NP', 'NNP'], 'Mary']
+item: [.VP [.VB do ] ]
+----:[['VP', 'VB'], 'do']
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/06/2022 11:55:25 ===
+---    elapsed loop time: 0:01:06.038753 ===
+    cmd: 
+
+---    START LOOP AT: 11/06/2022 11:55:26 ===
+
+---    END LOOP AT: 11/06/2022 11:55:26 ===
+---    elapsed loop time: 0:00:00.010163 ===
+
+*** END RUN AT: 11/06/2022 11:55:26 ***
+*** elapsed run time: 0:01:14.223751
+
+*** START RUN AT: 11/06/2022 12:14:00 ***
+   Reading input data and building CFG file
+   Read 125 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/06/2022 12:14:00
+    elapsed time: 0:00:00.035747
+    cmd: c
+
+---    START LOOP AT: 11/06/2022 12:14:04 ===
+-------------
+    s: what can mary do
+    ccs: ['what', 'can', 'Mary', 'do']
+    ret: {'do'} Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('what', 'WDT'), ('can', 'MD'), ('Mary', 'P'), ('do', 'VB')]
+    rel: []
+-------------
+    s: what can mary do
+    ccs: ['what', 'can', 'Mary', 'do']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('what', 'WDT'), ('can', 'MD'), ('Mary', 'P'), ('do', 'VB')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/06/2022 12:15:20 ===
+---    elapsed loop time: 0:01:15.623689 ===
+    cmd: 
+
+---    START LOOP AT: 11/06/2022 12:15:20 ===
+
+---    END LOOP AT: 11/06/2022 12:15:20 ===
+---    elapsed loop time: 0:00:00.006456 ===
+
+*** END RUN AT: 11/06/2022 12:15:20 ***
+*** elapsed run time: 0:01:20.701330
+
+*** START RUN AT: 11/06/2022 12:17:28 ***
+   Reading input data and building CFG file
+   Read 125 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/06/2022 12:17:28
+    elapsed time: 0:00:00.051881
+    cmd: c
+
+---    START LOOP AT: 11/06/2022 12:17:37 ===
+-------------
+    s: what can mary do
+    ccs: ['what', 'can', 'Mary', 'do']
+    ret: {'do'} Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('what', 'WDT'), ('can', 'MD'), ('Mary', 'P'), ('do', 'VB')]
+    rel: []
+-------------
+    s: what can mary do
+    ccs: ['what', 'can', 'Mary', 'do']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('what', 'WDT'), ('can', 'MD'), ('Mary', 'P'), ('do', 'VB')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/06/2022 12:19:24 ===
+---    elapsed loop time: 0:01:47.480446 ===
+    cmd: 
+
+---    START LOOP AT: 11/06/2022 12:19:24 ===
+
+---    END LOOP AT: 11/06/2022 12:19:24 ===
+---    elapsed loop time: 0:00:00.008601 ===
+
+*** END RUN AT: 11/06/2022 12:19:24 ***
+*** elapsed run time: 0:01:56.289257
