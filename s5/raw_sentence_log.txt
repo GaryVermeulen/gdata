@@ -264,3 +264,5 @@ bob flew mary in the park
     (NP (NP (NNP Mary)) (PP (IN in) (NP (DT the) (NN park))))))
 what can mary do
 (S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))

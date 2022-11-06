@@ -811,9 +811,9 @@ def addWord(nw):
     import nltk
 
     found = False
+    r = False
     notFound = []
     foundLst = []
-    res = False
     
     print('Entering addWord: ')
 
@@ -885,9 +885,10 @@ def addWord(nw):
 
             if res in ['Y','y']:
                 print('add')
-                res = addWord2File(fLst[0], fLst[1])
+                r = addWord2File(fLst[0], fLst[1])
             else:
                 print('do not add')
+                r = False
 
         else:
             print('Found mismatch with POS tag: ' + str(fLst[1]) + ' and dictionary: ' + str(fLst[2]))
@@ -897,12 +898,12 @@ def addWord(nw):
     for n in notFound:
         print(n)
 
-    if res:
+    if r:
         print('res retunred true--meaning word added')
 
     print('End addWord.')
       
-    return res
+    return r
 # End addWord()
 
 ################################################

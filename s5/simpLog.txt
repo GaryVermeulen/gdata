@@ -1612,3 +1612,151 @@ item: [.VP [.VB do ] ]
 
 *** END RUN AT: 11/06/2022 12:19:24 ***
 *** elapsed run time: 0:01:56.289257
+
+*** START RUN AT: 11/06/2022 12:24:39 ***
+   Reading input data and building CFG file
+   Read 126 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/06/2022 12:24:39
+    elapsed time: 0:00:00.021367
+    cmd: c
+
+---    START LOOP AT: 11/06/2022 12:24:43 ===
+-------------
+    s: cam mary poo
+    ccs: ['cam', 'Mary', 'poo']
+    ret: {'poo', 'cam'} Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('Mary', 'P')]
+    rel: []
+-------------
+    s: cam mary poo
+    ccs: ['cam', 'Mary', 'poo']
+    ret: {'poo', 'cam'} Is Unknown
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/06/2022 12:26:34 ===
+---    elapsed loop time: 0:01:50.994412 ===
+    cmd: 
+
+---    START LOOP AT: 11/06/2022 12:26:34 ===
+
+---    END LOOP AT: 11/06/2022 12:26:34 ===
+---    elapsed loop time: 0:00:00.007445 ===
+
+*** END RUN AT: 11/06/2022 12:26:34 ***
+*** elapsed run time: 0:01:55.053062
+
+*** START RUN AT: 11/06/2022 12:30:17 ***
+   Reading input data and building CFG file
+   Read 126 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/06/2022 12:30:17
+    elapsed time: 0:00:00.039361
+    cmd: c
+
+---    START LOOP AT: 11/06/2022 12:30:19 ===
+-------------
+    s: can mary poo
+    ccs: ['can', 'Mary', 'poo']
+    ret: {'poo'} Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('can', 'MD'), ('Mary', 'P')]
+    rel: []
+-------------
+    s: what can mary do
+    ccs: ['what', 'can', 'Mary', 'do']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+    tList: (S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+-------------
+item: [.WDT what ]
+----:[['WDT'], 'what']
+item: [.MD can ]
+----:[['MD'], 'can']
+item: [.NP [.NNP Mary ] ]
+----:[['NP', 'NNP'], 'Mary']
+item: [.VP [.VB do ] ]
+----:[['VP', 'VB'], 'do']
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/06/2022 12:30:55 ===
+---    elapsed loop time: 0:00:35.339352 ===
+    cmd: 
+
+---    START LOOP AT: 11/06/2022 12:30:55 ===
+
+---    END LOOP AT: 11/06/2022 12:30:55 ===
+---    elapsed loop time: 0:00:00.008352 ===
+
+*** END RUN AT: 11/06/2022 12:30:55 ***
+*** elapsed run time: 0:00:38.220573
+
+*** START RUN AT: 11/06/2022 12:31:24 ***
+   Reading input data and building CFG file
+   Read 125 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/06/2022 12:31:24
+    elapsed time: 0:00:00.015418
+    cmd: c
+
+---    START LOOP AT: 11/06/2022 12:31:28 ===
+-------------
+    s: what can mary do
+    ccs: ['what', 'can', 'Mary', 'do']
+    ret: {'do'} Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('what', 'WDT'), ('can', 'MD'), ('Mary', 'P')]
+    rel: []
+-------------
+    s: what can mary do
+    ccs: ['what', 'can', 'Mary', 'do']
+    ret: {'do'} Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('what', 'WDT'), ('can', 'MD'), ('Mary', 'P'), ('do', 'VB')]
+    rel: []
+-------------
+    s: what can mary do
+    ccs: ['what', 'can', 'Mary', 'do']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('what', 'WDT'), ('can', 'MD'), ('Mary', 'P'), ('do', 'VB')]
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/06/2022 12:32:41 ===
+---    elapsed loop time: 0:01:12.942399 ===
+    cmd: 
+
+---    START LOOP AT: 11/06/2022 12:32:42 ===
+
+---    END LOOP AT: 11/06/2022 12:32:42 ===
+---    elapsed loop time: 0:00:00.008195 ===
+
+*** END RUN AT: 11/06/2022 12:32:42 ***
+*** elapsed run time: 0:01:17.281444

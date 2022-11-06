@@ -98,6 +98,8 @@ while loop:
                         if ss.addWord(ret):
                             inData = ss.getData() # Refresh input data with new word added
                             print('inData refreshed with: ', ret)
+                        else:
+                            print('!!{} was not added!!'.format(ret))
                     else:
                         continue
 
