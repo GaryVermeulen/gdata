@@ -210,7 +210,7 @@ def sentAnalysis(t, s, f):
                 print('iLst[0][0] == WDT')
                 print(iLst[0])
                 print('iLst: ', str(iLst))
-                sType = 'interrogative'
+                sType = 'interrogative,' + str(iLst[1])
                 
 
                 firstLine = False
@@ -219,9 +219,14 @@ def sentAnalysis(t, s, f):
                 print('iLst[0][0] == MD')
                 print(str(iLst))
 
+                if sMD == '':
+                    sMD = iLst[1]
+                else:
+                    sMD = sMD + ',' + iLst[1]
+
                 firstLine = False
             else:
-                print('else--something wrong?')
+                print('else--something wrong of not defined?')
                 print(iLst)
                 print(str(firstLine))
                 

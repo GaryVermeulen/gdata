@@ -8,6 +8,7 @@
 import sys
 import simpStuff as ss
 import simpSA as sa
+import simpReply as sr
 
 from datetime import datetime
 
@@ -140,7 +141,7 @@ while loop:
                     print('ccs tagged, sPOS: ', sPOS)
                     f.write('    sPOS: ' + str(sPOS) + '\n')
 
-                    sA = sa.Sentence('', '', '', '', '', '', '', '') 
+                    sA = sa.Sentence('', '', '', '', '', '', '', '', '') 
 
                 else:
                     validCFG = True
@@ -196,7 +197,7 @@ while loop:
                     print('rel = True: ' + str(rel))
 
           
-                # For now just add the new sentence to the history file
+                # Save sentence to conversation history file
                 # 
                 print('Saving history...')
                 t = slt.replace(' ', '; ')
@@ -208,6 +209,8 @@ while loop:
                 cmd = 'EXIT'
                 print('    cmd: ' + str(cmd)) 
                 f.write(' -->> cmd: ' + str(cmd) + '\n')
+
+            sr.reply(sA, rel)
 
     elif cmd == 's' or cmd == 'S': # Speak
         # Randomly generates a sentence from the exiting CFG

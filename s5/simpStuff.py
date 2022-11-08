@@ -418,25 +418,38 @@ def getCFGRules():
 # End getRules
 
 ################################################
-def getNx(n):
+# f = noun file
+# n = noun data
+#
+def getNx(f, n):
 
-    file = Path(fData)
+    Nx = ' ' + str(n) + ' Not Found'
+    progPath = os.getcwd()
+    dataPath = progPath + '/data'
+    
+    file = Path(dataPath + '/' + f)
+
+#    print('n: ', n)
+#    print('f: ', f)
+#    print('progPath: ', progPath)
+#    print('dataPath: ', dataPath)
+#    print('file: ', file)
 
     if file.is_file():
 
-        with open(fData, 'r') as fin:
+        with open(file, 'r') as fin:
         
             while (line := fin.readline().rstrip()):
                 if '#' not in line:
                     line = line.replace(' ', '') # Needed?
                     line = line.split(";")
-
+                    
                     if line[0] == n:
                         Nx = line
 
         fin.close()
     else:
-        print("File not found: " + str(fData))
+        print("File not found: " + str(n))
         sys.exit("inData file not found")
 
     return(Nx)
