@@ -2264,3 +2264,237 @@ item: [.VP [.VB do ] ]
 
 *** END RUN AT: 11/08/2022 08:19:56 ***
 *** elapsed run time: 0:00:16.562968
+
+*** START RUN AT: 11/11/2022 05:50:51 ***
+   Reading input data and building CFG file
+   Read 127 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/11/2022 05:50:51
+    elapsed time: 0:00:00.005856
+    cmd: c
+
+---    START LOOP AT: 11/11/2022 05:50:53 ===
+-------------
+    s: what can pookie do
+    ccs: ['what', 'can', 'Pookie', 'do']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (WDT what) (MD can) (NP (NNP Pookie)) (VP (VB do)))
+    tList: (S (WDT what) (MD can) (NP (NNP Pookie)) (VP (VB do)))
+-------------
+item: [.WDT what ]
+----:[['WDT'], 'what']
+item: [.MD can ]
+----:[['MD'], 'can']
+item: [.NP [.NNP Pookie ] ]
+----:[['NP', 'NNP'], 'Pookie']
+item: [.VP [.VB do ] ]
+----:[['VP', 'VB'], 'do']
+    rel: []
+-------------
+    s: what is pookie
+    ccs: ['what', 'is', 'Pookie']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('what', 'WDT'), ('is', 'VBZ'), ('Pookie', 't')]
+    rel: []
+-------------
+    s: who is pookie
+    ccs: ['who', 'is', 'Pookie']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG parse returned NONE: None
+    sPOS: [('who', 'WDT'), ('is', 'VBZ'), ('Pookie', 't')]
+    rel: []
+-------------
+    s: what can a bus do
+    ccs: ['what', 'can', 'a', 'bus', 'do']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (WDT what) (MD can) (NP (DT a) (NN bus)) (VP (VB do)))
+    tList: (S (WDT what) (MD can) (NP (DT a) (NN bus)) (VP (VB do)))
+-------------
+item: [.WDT what ]
+----:[['WDT'], 'what']
+item: [.MD can ]
+----:[['MD'], 'can']
+item: [.NP [.DT a ] [.NN bus ] ]
+----:[['NP', 'DT'], 'a', ['NN'], 'bus']
+item: [.VP [.VB do ] ]
+----:[['VP', 'VB'], 'do']
+    rel: []
+-------------
+    s: what can bus do
+    ccs: ['what', 'can', 'bus', 'do']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (WDT what) (MD can) (NP (NN bus)) (VP (VB do)))
+    tList: (S (WDT what) (MD can) (NP (NN bus)) (VP (VB do)))
+-------------
+item: [.WDT what ]
+----:[['WDT'], 'what']
+item: [.MD can ]
+----:[['MD'], 'can']
+item: [.NP [.NN bus ] ]
+----:[['NP', 'NN'], 'bus']
+item: [.VP [.VB do ] ]
+----:[['VP', 'VB'], 'do']
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/11/2022 06:09:19 ===
+---    elapsed loop time: 0:18:26.730801 ===
+    cmd: 
+
+---    START LOOP AT: 11/11/2022 06:09:20 ===
+
+---    END LOOP AT: 11/11/2022 06:09:20 ===
+---    elapsed loop time: 0:00:00.017549 ===
+
+*** END RUN AT: 11/11/2022 06:09:20 ***
+*** elapsed run time: 0:18:29.049619
+
+*** START RUN AT: 11/11/2022 06:21:27 ***
+   Reading input data and building CFG file
+   Read 127 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/11/2022 06:21:27
+    elapsed time: 0:00:00.027141
+    cmd: c
+
+---    START LOOP AT: 11/11/2022 06:21:30 ===
+-------------
+    s: what can bus do
+    ccs: ['what', 'can', 'bus', 'do']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (WDT what) (MD can) (NP (NN bus)) (VP (VB do)))
+    tList: (S (WDT what) (MD can) (NP (NN bus)) (VP (VB do)))
+-------------
+item: [.WDT what ]
+----:[['WDT'], 'what']
+item: [.MD can ]
+----:[['MD'], 'can']
+item: [.NP [.NN bus ] ]
+----:[['NP', 'NN'], 'bus']
+item: [.VP [.VB do ] ]
+----:[['VP', 'VB'], 'do']
+    rel: ['bus,transport']
+-------------
+    s: bob walks in the park
+    ccs: ['Bob', 'walks', 'in', 'the', 'park']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S
+  (NP (NNP Bob))
+  (VP (VBZ walks) (PP (IN in) (NP (DT the) (NN park)))))
+    tList: (S
+  (NP (NNP Bob))
+  (VP (VBZ walks) (PP (IN in) (NP (DT the) (NN park)))))
+-------------
+item: [.NP [.NNP Bob ] ]
+----:[['NP', 'NNP'], 'Bob']
+item: [.VP
+item: [.VBZ walks ]
+----:[['VBZ'], 'walks']
+item: [.PP [.IN in ] [.NP [.DT the ] [.NN park ] ] ] ]
+----:[['PP', 'IN'], 'in', ['NP', 'DT'], 'the', ['NN'], 'park']
+    rel: ['Bob,walk']
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/11/2022 06:26:23 ===
+---    elapsed loop time: 0:04:53.070744 ===
+    cmd: 
+
+---    START LOOP AT: 11/11/2022 06:26:23 ===
+
+---    END LOOP AT: 11/11/2022 06:26:23 ===
+---    elapsed loop time: 0:00:00.018740 ===
+
+*** END RUN AT: 11/11/2022 06:26:23 ***
+*** elapsed run time: 0:04:56.394267
+
+*** START RUN AT: 11/11/2022 13:49:43 ***
+   Reading input data and building CFG file
+   Read 127 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/11/2022 13:49:43
+    elapsed time: 0:00:00.015511
+    cmd: see bob
+
+---    START LOOP AT: 11/11/2022 13:49:49 ===
+
+---    END LOOP AT: 11/11/2022 13:49:49 ===
+---    elapsed loop time: 0:00:00.010107 ===
+
+*** END RUN AT: 11/11/2022 13:49:49 ***
+*** elapsed run time: 0:00:05.792983
+
+*** START RUN AT: 11/11/2022 13:54:54 ***
+   Reading input data and building CFG file
+   Read 127 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/11/2022 13:54:54
+    elapsed time: 0:00:00.006504
+    cmd: c
+
+---    START LOOP AT: 11/11/2022 13:54:57 ===
+-------------
+    s: see bob
+    ccs: ['see', 'Bob']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (VP (VB see) (NP (NNP Bob))))
+    tList: (S (VP (VB see) (NP (NNP Bob))))
+-------------
+item: [.VP [.VB see ] [.NP [.NNP Bob ] ] ]
+----:[['VP', 'VB'], 'see', ['NP', 'NNP'], 'Bob']
+    rel: []
+-------------
+    s: see bob run
+    ccs: ['see', 'Bob', 'run']
+    ret: set() Is Unknown
+    aforementioned: []
+    aforementioned mentioned: 0 times before
+    CFG tree: (S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+    tList: (S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+-------------
+item: [.VP [.VB see ] [.NP [.NP [.NNP Bob ] ] [.VP [.VB run ] ] ] ]
+----:[['VP', 'VB'], 'see', ['NP', 'NP', 'NNP'], 'Bob', ['VP', 'VB'], 'run']
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/11/2022 14:02:19 ===
+---    elapsed loop time: 0:07:22.198806 ===
+    cmd:           End simpReply
+
+---    START LOOP AT: 11/11/2022 14:02:19 ===
+
+---    END LOOP AT: 11/11/2022 14:02:19 ===
+---    elapsed loop time: 0:00:00.005111 ===
+
+*** END RUN AT: 11/11/2022 14:02:19 ***
+*** elapsed run time: 0:07:25.543043

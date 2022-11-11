@@ -702,6 +702,7 @@ def s4r(s, sObj, sPOS, sD, inData):
         print('no sPOS found')
         print(s)
         print('    inSent: ', sObj.inSent)
+        print('    sPOS  : ', sObj.sPOS)
         print('    sType : ', sObj.sType)
         print('    sSubj : ', sObj.sSubj)
         print('    sObj  : ', sObj.sObj)
@@ -717,8 +718,12 @@ def s4r(s, sObj, sPOS, sD, inData):
                 if w == d[0]:
                     wData.append(d)
         print('wData: ' + str(wData))
+        
+        sObj.sPOS = wData
 
-        if sObj.sType == 'declarative':
+        sTypLst = sObj.sType.split(',')
+
+        if sTypLst[0] == 'declarative':
             print('   declarative response')
             # Does the verb(s) match the actions on the nouns?
             # First get the inflections
@@ -753,10 +758,17 @@ def s4r(s, sObj, sPOS, sD, inData):
                     
 
             
-        elif sObj.sType == 'imperative':
+        elif sTypLst[0] == 'imperative':
             print('   imperative response')
-        elif sObj.sType == 'interrogative':
+            
+        elif sTypLst[0] == 'interrogative':
             print('   interrogative response')
+
+
+
+            
+            if sObj.sSubj == '':
+                    rels.append(sObj.sObj + ',' + wData[2][3])
         else:
             print('   unkonwn senetence type')
 

@@ -109,3 +109,67 @@
 ['what', 'can', 'Mary', 'do']; []; 11/08/2022; 08:58:47
 ['what', 'is', 'Mary']; []; 11/08/2022; 08:58:47
 ['what', 'is', 'Mary']; []; 11/08/2022; 09:05:48
+['what', 'can', 'Pookie', 'do']; []; 11/11/2022; 05:50:53
+['what', 'is', 'Pookie']; []; 11/11/2022; 05:50:53
+['who', 'is', 'Pookie']; []; 11/11/2022; 05:50:53
+['what', 'can', 'a', 'bus', 'do']; []; 11/11/2022; 05:50:53
+['what', 'can', 'bus', 'do']; []; 11/11/2022; 05:50:53
+['what', 'bus', 'do']; []; 11/11/2022; 06:19:43
+['what', 'can', 'bus', 'do']; []; 11/11/2022; 06:19:43
+['what', 'can', 'bus', 'do']; ['bus,transport']; 11/11/2022; 06:21:30
+['Bob', 'walks', 'in', 'the', 'park']; ['Bob,walk']; 11/11/2022; 06:21:30
+['what', 'can', 'bus', 'do']; ['bus,transport']; 11/11/2022; 06:38:36
+['Bob', 'walks', 'in', 'the', 'park']; ['Bob,walk']; 11/11/2022; 06:38:36
+['what', 'can', 'bus', 'do']; ['bus,transport']; 11/11/2022; 06:59:02
+['what', 'can', 'bus', 'do']; ['bus,transport']; 11/11/2022; 07:14:05
+['what', 'can', 'bus', 'do']; ['bus,transport']; 11/11/2022; 07:16:11
+['what', 'can', 'Bob', 'do']; ['Bob,see,eat,walk,run']; 11/11/2022; 07:53:01
+['what', 'can', 'bus', 'do']; ['bus,transport']; 11/11/2022; 07:53:01
+['what', 'can', 'Mary', 'do']; ['Mary,see,eat,walk,run']; 11/11/2022; 07:56:34
+['what', 'can', 'bus', 'do']; ['bus,transport']; 11/11/2022; 07:56:34
+['Bob', 'walks', 'in', 'the', 'park']; ['Bob,walk']; 11/11/2022; 07:56:34
+['Bob', 'walks', 'in', 'the', 'park']; ['Bob,walk']; 11/11/2022; 08:07:34
+['what', 'can', 'Mary', 'do']; ['Mary,see,eat,walk,run']; 11/11/2022; 08:07:34
+['Bob', 'walks', 'in', 'the', 'park']; ['Bob,walk']; 11/11/2022; 08:11:54
+['Bob', 'walks', 'in', 'the', 'park']; ['Bob,walk']; 11/11/2022; 08:12:44
+['Bob', 'walks', 'in', 'the', 'park']; ['Bob,walk']; 11/11/2022; 08:13:25
+['what', 'can', 'Mary', 'do']; ['Mary,see,eat,walk,run']; 11/11/2022; 08:13:25
+['what', 'can', 'Mary', 'do']; ['Mary,NNP,see,eat,walk,run']; 11/11/2022; 08:21:30
+['Bob', 'walks', 'in', 'the', 'park']; ['Bob,walk']; 11/11/2022; 08:21:30
+['what', 'can', 'bus', 'do']; ['bus,NN,transport']; 11/11/2022; 08:21:30
+['what', 'can', 'Mary', 'do']; ['Mary,NNP,see,eat,walk,run']; 11/11/2022; 08:21:30
+['what', 'can', 'Mary', 'do']; ['Mary,NNP,see,eat,walk,run']; 11/11/2022; 08:54:28
+['what', 'can', 'bus', 'do']; ['bus,NN,transport']; 11/11/2022; 08:54:28
+['what', 'can', 'Mary', 'do']; ['Mary,NNP,see,eat,walk,run']; 11/11/2022; 09:00:27
+['what', 'can', 'Mary', 'do']; ['Mary,NNP,see,eat,walk,run']; 11/11/2022; 09:02:34
+['what', 'can', 'Mary', 'do']; ['Mary,NNP,see,eat,walk,run']; 11/11/2022; 09:04:04
+['Bob', 'walks', 'in', 'the', 'park']; ['Bob,walk']; 11/11/2022; 09:04:04
+['what', 'can', 'bus', 'do']; ['bus,NN,transport']; 11/11/2022; 09:04:04
+['what', 'can', 'bus', 'do']; ['bus,NN,transport']; 11/11/2022; 09:07:02
+['what', 'can', 'Mary', 'do']; ['Mary,NNP,see,eat,walk,run']; 11/11/2022; 09:07:02
+['what', 'can', 'bus', 'do']; ['bus,NN,transport']; 11/11/2022; 09:07:02
+['what', 'can', 'Mary', 'do']; ['Mary,NNP,see,eat,walk,run']; 11/11/2022; 09:13:52
+['what', 'can', 'bus', 'do']; ['bus,NN,transport']; 11/11/2022; 09:13:52
+['what', 'can', 'Pookie', 'do']; ['Pookie,NNP,see,eat,walk,run']; 11/11/2022; 09:13:52
+['what', 'can', 'telescope', 'do']; ['telescope,NN,magnify']; 11/11/2022; 09:13:52
+['what', 'is', 'Mary']; []; 11/11/2022; 11:08:45
+['who', 'is', 'Mary']; []; 11/11/2022; 11:08:45
+['see', 'Mary', 'run']; []; 11/11/2022; 11:24:21
+['see', 'Mary', 'run']; []; 11/11/2022; 12:06:18
+['Mary', 'walks', 'in', 'the', 'park']; ['Mary,walk']; 11/11/2022; 12:06:18
+['see', 'Bob', 'run']; []; 11/11/2022; 13:18:09
+['see', 'Bob']; []; 11/11/2022; 13:18:09
+['see', 'Bob', 'run']; []; 11/11/2022; 13:27:45
+['see', 'Bob']; []; 11/11/2022; 13:31:26
+['see', 'Bob', 'run']; []; 11/11/2022; 13:31:26
+['see', 'Bob']; []; 11/11/2022; 13:41:52
+['see', 'Bob']; []; 11/11/2022; 13:42:28
+['see', 'Bob']; []; 11/11/2022; 13:43:07
+['see', 'Bob', 'run']; []; 11/11/2022; 13:43:07
+['see', 'Bob']; []; 11/11/2022; 13:49:05
+['see', 'Bob']; []; 11/11/2022; 13:50:04
+['see', 'Bob']; []; 11/11/2022; 13:51:37
+['see', 'Bob']; []; 11/11/2022; 13:52:07
+['see', 'Bob']; []; 11/11/2022; 13:53:24
+['see', 'Bob']; []; 11/11/2022; 13:54:57
+['see', 'Bob', 'run']; []; 11/11/2022; 13:54:57

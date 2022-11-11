@@ -141,7 +141,7 @@ while loop:
                     print('ccs tagged, sPOS: ', sPOS)
                     f.write('    sPOS: ' + str(sPOS) + '\n')
 
-                    sA = sa.Sentence('', '', '', '', '', '', '', '', '') 
+                    sA = sa.Sentence('', '', '', '', '', '', '', '', '', '') 
 
                 else:
                     validCFG = True
@@ -167,6 +167,7 @@ while loop:
                     print(type(sA))
                     print('--- sA:')
                     print('    inSent: ', sA.inSent)
+                    print('    sPOS  : ', sA.sPOS)
                     print('    sType : ', sA.sType)
                     print('    sSubj : ', sA.sSubj)
                     print('    sObj  : ', sA.sObj)
@@ -210,7 +211,7 @@ while loop:
                 print('    cmd: ' + str(cmd)) 
                 f.write(' -->> cmd: ' + str(cmd) + '\n')
 
-            sr.reply(sA, rel)
+            sr.reply(sA, rel, simpData)
 
     elif cmd == 's' or cmd == 'S': # Speak
         # Randomly generates a sentence from the exiting CFG

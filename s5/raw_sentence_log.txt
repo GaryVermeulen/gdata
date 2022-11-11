@@ -334,3 +334,143 @@ what can mary do
 (S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
 what can mary do
 (S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+what can pookie do
+(S (WDT what) (MD can) (NP (NNP Pookie)) (VP (VB do)))
+what can a bus do
+(S (WDT what) (MD can) (NP (DT a) (NN bus)) (VP (VB do)))
+what can bus do
+(S (WDT what) (MD can) (NP (NN bus)) (VP (VB do)))
+what can bus do
+(S (WDT what) (MD can) (NP (NN bus)) (VP (VB do)))
+what can bus do
+(S (WDT what) (MD can) (NP (NN bus)) (VP (VB do)))
+bob walks in the park
+(S
+  (NP (NNP Bob))
+  (VP (VBZ walks) (PP (IN in) (NP (DT the) (NN park)))))
+what can bus do
+(S (WDT what) (MD can) (NP (NN bus)) (VP (VB do)))
+bob walks in the park
+(S
+  (NP (NNP Bob))
+  (VP (VBZ walks) (PP (IN in) (NP (DT the) (NN park)))))
+what can bus do
+(S (WDT what) (MD can) (NP (NN bus)) (VP (VB do)))
+what can bus do
+(S (WDT what) (MD can) (NP (NN bus)) (VP (VB do)))
+what can bus do
+(S (WDT what) (MD can) (NP (NN bus)) (VP (VB do)))
+what can bob do
+(S (WDT what) (MD can) (NP (NNP Bob)) (VP (VB do)))
+what can bus do
+(S (WDT what) (MD can) (NP (NN bus)) (VP (VB do)))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+what can bus do
+(S (WDT what) (MD can) (NP (NN bus)) (VP (VB do)))
+bob walks in the park
+(S
+  (NP (NNP Bob))
+  (VP (VBZ walks) (PP (IN in) (NP (DT the) (NN park)))))
+bob walks in the park
+(S
+  (NP (NNP Bob))
+  (VP (VBZ walks) (PP (IN in) (NP (DT the) (NN park)))))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+bob walks in the park
+(S
+  (NP (NNP Bob))
+  (VP (VBZ walks) (PP (IN in) (NP (DT the) (NN park)))))
+bob walks in the park
+(S
+  (NP (NNP Bob))
+  (VP (VBZ walks) (PP (IN in) (NP (DT the) (NN park)))))
+bob walks in the park
+(S
+  (NP (NNP Bob))
+  (VP (VBZ walks) (PP (IN in) (NP (DT the) (NN park)))))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+bob walks in the park
+(S
+  (NP (NNP Bob))
+  (VP (VBZ walks) (PP (IN in) (NP (DT the) (NN park)))))
+what can bus do
+(S (WDT what) (MD can) (NP (NN bus)) (VP (VB do)))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+what can bus do
+(S (WDT what) (MD can) (NP (NN bus)) (VP (VB do)))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+bob walks in the park
+(S
+  (NP (NNP Bob))
+  (VP (VBZ walks) (PP (IN in) (NP (DT the) (NN park)))))
+what can bus do
+(S (WDT what) (MD can) (NP (NN bus)) (VP (VB do)))
+what can bus do
+(S (WDT what) (MD can) (NP (NN bus)) (VP (VB do)))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+what can bus do
+(S (WDT what) (MD can) (NP (NN bus)) (VP (VB do)))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+what can bus do
+(S (WDT what) (MD can) (NP (NN bus)) (VP (VB do)))
+what can pookie do
+(S (WDT what) (MD can) (NP (NNP Pookie)) (VP (VB do)))
+what can telescope do
+(S (WDT what) (MD can) (NP (NN telescope)) (VP (VB do)))
+see mary run
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB run)))))
+see mary run
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB run)))))
+see mary run
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB run)))))
+mary walks in the park
+(S
+  (NP (NNP Mary))
+  (VP (VBZ walks) (PP (IN in) (NP (DT the) (NN park)))))
+see bob run
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+see bob
+(S (VP (VB see) (NP (NNP Bob))))
+see bob run
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+see bob
+(S (VP (VB see) (NP (NNP Bob))))
+see bob run
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+see bob
+(S (VP (VB see) (NP (NNP Bob))))
+see bob
+(S (VP (VB see) (NP (NNP Bob))))
+see bob
+(S (VP (VB see) (NP (NNP Bob))))
+see bob run
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+see bob
+(S (VP (VB see) (NP (NNP Bob))))
+see bob
+(S (VP (VB see) (NP (NNP Bob))))
+see bob
+(S (VP (VB see) (NP (NNP Bob))))
+see bob
+(S (VP (VB see) (NP (NNP Bob))))
+see bob
+(S (VP (VB see) (NP (NNP Bob))))
+see bob
+(S (VP (VB see) (NP (NNP Bob))))
+see bob run
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))

@@ -16,8 +16,9 @@ ftslog = 'tagged_sentence_log.txt'
 
 class Sentence:
 
-    def __init__(self, inSent, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD):
+    def __init__(self, inSent, sPOS, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD):
         self.inSent = inSent
+        self.sPOS = sPOS
         self.sType = sType
         self.sSubj = sSubj
         self.sVerb = sVerb
@@ -35,6 +36,7 @@ def sentAnalysis(t, s, f):
    
     print('--- sentAnalysis ---')
 
+    sPOS = ''
     sType = ''
     sSubj = ''
     sVerb = ''
@@ -87,7 +89,7 @@ def sentAnalysis(t, s, f):
                     if firstLine:
                         sType = 'declarative'
                         if sSubj == '':
-                            sSubj = iLst[1]
+                            sSubj = iLst[1] + ',' + iLst[0][1]
                             print('..', sSubj)
                         else:
                             print('Who this: ', iLst[1])
@@ -98,12 +100,12 @@ def sentAnalysis(t, s, f):
                                     sVerb = iLst[3]
                     else:
                         if sVerb == '':
-                            sObj = iLst[1]
+                            sObj = iLst[1] + ',' + iLst[0][1]
                         else:
                             if sSubj == '':
-                                sSubj = iLst[1]
+                                sSubj = iLst[1] + ',' + iLst[0][1]
                             else:
-                                sSubj = sSubj + ',' + iLst[1]
+                                sSubj = sSubj + ',' + iLst[1] + ',' + iLst[0][1]
                                 print('who dat ', iLst[1])
                                 
                             if len(iLst) > 2:
@@ -119,14 +121,14 @@ def sentAnalysis(t, s, f):
                         sDet = iLst[1]
                         if len(iLst) > 2:
                             if iLst[2][0] in ['NP','NNP','NN','NNS']:
-                                sSubj = iLst[3]
+                                sSubj = iLst[3] + ',' + iLst[2][0]
                                 if len(iLst) > 4:
                                     if iLst[4][0] in ['VP','VB','VBD','VBG','VBN','VBP','VBZ']:
                                         sVerb = iLst[5]
                 elif iLst[0][1] == 'PRP':
                     if firstLine:
                         sType = 'declarative'
-                        sSubj = iLst[1]
+                        sSubj = iLst[1], ',' + iLst[0][1]
                         
                 firstLine = False
 
@@ -144,9 +146,9 @@ def sentAnalysis(t, s, f):
                                     sDet = iLst[3]
                                     if len(iLst) > 4:
                                         if iLst[4][0] in ['NP','NNP','NN','NNS']:
-                                            sObj = iLst[5]
+                                            sObj = iLst[5] + ',' + iLst[4][0]
                                 else:
-                                    sSubj = iLst[3]
+                                    sSubj = iLst[3] + ',' + iLst[2][0]
                                     if len(iLst) > 4:
                                         if iLst[4][0] == 'VP':
                                             if iLst[4][1] in ['VB','VBD','VBG','VBN','VBZ']:
@@ -163,9 +165,9 @@ def sentAnalysis(t, s, f):
                             if iLst[2][0] == 'NP':
                                 if iLst[2][1] in ['NP','NNP','NN','NNS']:
                                     if sObj == '':
-                                        sObj = iLst[3]
+                                        sObj = iLst[3] + ',' + iLst[2][1]
                                     else:
-                                        sObj = sObj + ',' + iLst[3]
+                                        sObj = sObj + ',' + iLst[3] + ',' + iLst[2][1]
                                 elif iLst[2][1] == 'DT':
                                     if sDet == '':
                                         sDet = iLst[3]
@@ -174,9 +176,9 @@ def sentAnalysis(t, s, f):
                                     if len(iLst) > 4:
                                         if iLst[4][0] in ['NP','NNP','NN','NNS']:
                                             if sObj == '':
-                                                sObj = iLst[5]
+                                                sObj = iLst[5] + ',' + iLst[4][0]
                                             else:
-                                                sObj = sObj + ',' + iLst[5]
+                                                sObj = sObj + ',' + iLst[5] + ',' + iLst[4][0]
                 firstLine = False
                 
             elif iLst[0][0] in ['VB','VBD','VBG','VBN','VBP','VBZ']:
@@ -203,7 +205,7 @@ def sentAnalysis(t, s, f):
                                 sDet = iLst[3]
                                 if len(iLst) > 4:
                                     if iLst[4][0] in ['NN', 'NNP', 'NNS']:
-                                        sObj = iLst[5]
+                                        sObj = iLst[5] + ',' + iLst[4][0]
                                         sPP = sIN + ',' + sDet + ',' + sObj
                 firstLine = False
             elif iLst[0][0] == 'WDT':
@@ -236,16 +238,17 @@ def sentAnalysis(t, s, f):
     print('Input sentence w/corrected case:')
     print(s)
     print('----------------------')
-    print('sType = ' + sType)
-    print('sSubj = ' + sSubj)
-    print('sVerb = ' + sVerb)
-    print('sObj =  ' + sObj)
-    print('sDet =  ' + sDet)
-    print('sIN =   ' + sIN)
-    print('sPP =   ' + sPP)
-    print('sMD =   ' + sMD)
+    print('sPOS =  ', sPOS)
+    print('sType = ', sType)
+    print('sSubj = ', sSubj)
+    print('sVerb = ', sVerb)
+    print('sObj =  ', sObj)
+    print('sDet =  ', sDet)
+    print('sIN =   ', sIN)
+    print('sPP =   ',  sPP)
+    print('sMD =   ', sMD)
 
-    sent = Sentence(s, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD)
+    sent = Sentence(s, sPOS, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD)
                 
 
     print('--- end sentAnalysis ---')
