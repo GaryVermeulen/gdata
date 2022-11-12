@@ -173,3 +173,14 @@
 ['see', 'Bob']; []; 11/11/2022; 13:53:24
 ['see', 'Bob']; []; 11/11/2022; 13:54:57
 ['see', 'Bob', 'run']; []; 11/11/2022; 13:54:57
+['see', 'Pookie', 'run']; []; 11/12/2022; 08:43:34
+['see', 'Bob', 'run']; []; 11/12/2022; 08:59:32
+['what', 'can', 'Bob', 'do']; ['Bob,NNP,see,eat,walk,run']; 11/12/2022; 08:59:32
+['see', 'Mary', 'run']; []; 11/12/2022; 09:09:29
+['what', 'can', 'Mary', 'do']; ['Mary,NNP,see,eat,walk,run']; 11/12/2022; 09:09:29
+['see', 'Bob', 'walk']; []; 11/12/2022; 09:10:11
+['what', 'can', 'Bob', 'do']; ['Bob,NNP,see,eat,walk,run']; 11/12/2022; 09:10:11
+['what', 'can', 'Simp', 'do']; ['Simp,NNP,compute']; 11/12/2022; 09:10:11
+['see', 'Simp', 'run']; []; 11/12/2022; 09:10:11
+['see', 'Bob', 'run']; []; 11/12/2022; 09:10:11
+['what', 'can', 'Simp', 'do']; ['Simp,NNP,compute']; 11/12/2022; 09:17:54

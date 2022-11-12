@@ -3,32 +3,36 @@
 #
 
 from simpStuff import getNx
+import simpConfig as sc
 
 
 def reply(sA, rel, sD):
     print('simpReply...')
 
-
-    if len(rel) <= 0:
-        print(' No relationships')
-    else:
-        print(' Relationship(s) found:')
-        print(rel)
+    if sc.verbose: 
+        if len(rel) <= 0:
+            print(' No relationships')
+        else:
+            print(' Relationship(s) found:')
+            print(rel)
 
     sTypeLst = sA.sType.split(',')
 
-    print(' sTypeLst: ', sTypeLst)
-    print(' len sTypeLst: ', len(sTypeLst))
-    print(' sPOS: ' , sA.sPOS)
-    print(' -' * 5)
+    if sc.verbose: 
+        print(' sTypeLst: ', sTypeLst)
+        print(' len sTypeLst: ', len(sTypeLst))
+        print(' sPOS: ' , sA.sPOS)
+        print(' -' * 5)
     
     if len(sTypeLst) >= 1:
         if sTypeLst[0] == 'declarative':
-            print(' declarative')
-            print(str(sTypeLst))
+            if sc.verbose: 
+                print(' declarative')
+                print(str(sTypeLst))
         elif sTypeLst[0] == 'interrogative':
-            print(' interrogative')
-            print(str(sTypeLst))
+            if sc.verbose: 
+                print(' interrogative')
+                print(str(sTypeLst))
 
             if sA.sSubj == '':
                 n = sA.sObj.split(',')
@@ -47,7 +51,7 @@ def reply(sA, rel, sD):
                 else:
                     print(' POS Error: ', n)
 
-            print(' nnpData: ', nnpData)
+            if sc.verbose: print(' nnpData: ', nnpData)
 
             if sTypeLst[1] == 'what':
                 if sA.sMD == 'can' and sA.sVerb == 'do':
@@ -59,10 +63,11 @@ def reply(sA, rel, sD):
                     print(sA.inSent)
                     
         elif sTypeLst[0] == 'imperative':
-            print(' imperative')
-            print(' sTypeLst: ', sTypeLst)
-            print(' sPOS: ', sA.sPOS)
-            print(' sD: ', sD)
+            if sc.verbose: 
+                print(' imperative')
+                print(' sTypeLst: ', sTypeLst)
+                print(' sPOS: ', sA.sPOS)
+                print(' sD: ', sD)
             
             if sA.sPOS[0][1] in ['VB']:
                 sDVerbs = sD[3].split(',')
@@ -72,8 +77,9 @@ def reply(sA, rel, sD):
                     print(' {} cannot {} {}'.format(sD[0], sA.sPOS[0][0], sSubjLst[0]))
             
         elif sTypeLst[0] == 'exclamative':
-            print(' exclamative')
-            print(str(sTypeLst))
+            if sc.verbose: 
+                print(' exclamative')
+                print(str(sTypeLst))
         else:
             print(' unkown sentence type')
             print(str(sTypeLst))

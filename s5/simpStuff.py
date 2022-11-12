@@ -15,6 +15,8 @@ from collections import defaultdict
 from nltk.tree import Tree
 from pathlib import Path
 
+import simpConfig as sc
+
 fRules = 'cfg_rules.cfg'    # CFG Rules w/o terminals
 fCFG   = 'simp.cfg'         # CFG 
 fLog   = 'simpLog.txt'      # Log file
@@ -488,13 +490,13 @@ def getInput():
     s = input("Enter a command <[C]hat, [S]peak, or [T]each>: ")
 
     if s == 'c' or s == 'C':
-        print(s)
+        if sc.verbose: print(s)
         print("Entering Chat mode...")
     elif s == 's' or s == 'S':
-        print(s)
+        if sc.verbose: print(s)
         print("Entering random Speak mode...")
     elif s == 't' or s == 'T':
-        print(s)
+        if sc.vervose: print(s)
         print("Entering Teach mode...")
     else:
         print("I do not understand: >>" + str(s) + "<<")
@@ -563,7 +565,7 @@ def chkGrammar(sentence, d):
             parse = run_parse(sentence)
                         
             if parse is None:
-                print('parse returned None for:\n\t' + str(sentence) + '\n')
+                if sc.verbose: print('parse returned None for:\n\t' + str(sentence) + '\n')
                 return(parse)
             else:
                 if d:
@@ -686,60 +688,57 @@ def s4r(s, sObj, sPOS, sD, inData):
     
     print('--- s4r ---')
 
-
-
-#    print('---')
-
     if sObj.inSent == '':
-        print('no sent obj found')
-        print(s)
-        print(sPOS)
-        print(sD)
-
-    print('---')
+        if sc.verbose:
+            print('no sent obj found')
+            print(s)
+            print(sPOS)
+            print(sD)
+            print('---')
     
     if len(sPOS) == 0:
-        print('no sPOS found')
-        print(s)
-        print('    inSent: ', sObj.inSent)
-        print('    sPOS  : ', sObj.sPOS)
-        print('    sType : ', sObj.sType)
-        print('    sSubj : ', sObj.sSubj)
-        print('    sObj  : ', sObj.sObj)
-        print('    sVerb : ', sObj.sVerb)
-        print('    sDet  : ', sObj.sDet)
-        print('    sIN   : ', sObj.sIN)
-        print('    sPP   : ', sObj.sPP)
-        print('    sMD   : ', sObj.sMD)
-        print(sD)
+        if sc.verbose:
+            print('no sPOS found')
+            print(s)
+            print('    inSent: ', sObj.inSent)
+            print('    sPOS  : ', sObj.sPOS)
+            print('    sType : ', sObj.sType)
+            print('    sSubj : ', sObj.sSubj)
+            print('    sObj  : ', sObj.sObj)
+            print('    sVerb : ', sObj.sVerb)
+            print('    sDet  : ', sObj.sDet)
+            print('    sIN   : ', sObj.sIN)
+            print('    sPP   : ', sObj.sPP)
+            print('    sMD   : ', sObj.sMD)
+            print(sD)
 
         for w in s:
             for d in inData:
                 if w == d[0]:
                     wData.append(d)
-        print('wData: ' + str(wData))
+        if sc.verbose: print('wData: ' + str(wData))
         
         sObj.sPOS = wData
 
         sTypLst = sObj.sType.split(',')
 
         if sTypLst[0] == 'declarative':
-            print('   declarative response')
+            if sc.verbose: print('   declarative response')
             # Does the verb(s) match the actions on the nouns?
             # First get the inflections
             
             verbs = sObj.sVerb.split(',')
-            print('verbs: ', verbs)
+            if sc.verbose: print('verbs: ', verbs)
             for v in verbs:
                 vInflects.append(getInflections(v, "VB"))
 
-            print('vInflects: ', vInflects)
+            if sc.verbose: print('vInflects: ', vInflects)
 
             subjects = sObj.sSubj.split(',')
 
             for w in wData:
                 if w[0] in subjects:
-                    print('w: ', w)
+                    if sc.verbose: print('w: ', w)
 
                     actions = set(w[3].split(','))
                     
@@ -749,20 +748,20 @@ def s4r(s, sObj, sPOS, sD, inData):
                         inflect.intersection_update(actions)
 
                     if len(inflect) == 0:
-                        print(str(w[0]) + ' cannot ' + str(v))
+                        if sc.verbose: print(str(w[0]) + ' cannot ' + str(v))
                         rel = None
                     else:
                         rel = inflect.pop()
                         rels.append(w[0] + ',' + rel)
-                        print(str(w[0]) + ' can ' + rel)
+                        if sc.verbose: print(str(w[0]) + ' can ' + rel)
                     
 
             
         elif sTypLst[0] == 'imperative':
-            print('   imperative response')
+            if sc.verbose: print('   imperative response')
             
         elif sTypLst[0] == 'interrogative':
-            print('   interrogative response')
+            if sc.verbose: print('   interrogative response')
 
 
 
@@ -772,7 +771,7 @@ def s4r(s, sObj, sPOS, sD, inData):
         else:
             print('   unkonwn senetence type')
 
-    print('   rels: ', str(rels))
+    if sc.verbose: print('   rels: ', str(rels))
         
     print('--- End s4r ---')
     return rels
@@ -875,10 +874,11 @@ def addWord(nw):
             txt = soup2.get_text()
             txt = os.linesep.join([s for s in txt.splitlines() if s])
             txtLst = txt.split('\n')
-            
-            print('Found: ' + str(w))
-            print('soup: ', soup1)
-            print('txtLst[1]: ', txtLst[1])
+
+            if sc.verbose:
+                print('Found: ' + str(w))
+                print('soup: ', soup1)
+                print('txtLst[1]: ', txtLst[1])
 
         wLst.append(w)
         wTag = nltk.pos_tag(wLst) # WARNING: nltk can return incorrect results!
@@ -893,18 +893,20 @@ def addWord(nw):
 
         foundLst.append(w + ';' + str(wTag[0][1]) + ';' + str(txtLst[1]) + ';' + i + ';' + soup1)
 
-    print('foundLst: ', str(foundLst))
-
-    print('-f-' * 5)
+    if sc.verbose: 
+        print('foundLst: ', str(foundLst))
+        print('-f-' * 5)
+    
     for f in foundLst:
 
         fLst = f.split(';')
 
-        print('f: ', f)
-        print('fLst: ', str(fLst))
+        if sc.verbose: 
+            print('f: ', f)
+            print('fLst: ', str(fLst))
         
         cp = chkPOS(f)
-        print(str(cp))
+        if sc.verbose: print(str(cp))
         
         if cp:
             print('We can add:')
@@ -922,9 +924,9 @@ def addWord(nw):
             print('Found mismatch with POS tag: ' + str(fLst[1]) + ' and dictionary: ' + str(fLst[2]))
             print(f)
 
-    print('-n-' * 5)
+    if sc.verbose: print('-n-' * 5)
     for n in notFound:
-        print(n)
+        if sc.verbose: print('n {}'.format(n))
 
     if r:
         print('res retunred true--meaning word added')
@@ -939,12 +941,13 @@ def chkPOS(d):
     posMatch = False
 
     print('----- chkPos -----')
-    print(type(d))
-    print(d)
+    if sc.verbose: 
+        print(type(d))
+        print(d)
 
     dLst = d.split(';')
 
-    print('dLst: ', str(dLst))
+    if sc.verbose: print('dLst: ', str(dLst))
 
     nouns = ['NNS','NN','NNP']
     verbs = ['VB','VBG','VBD','VBN','VBZ']
@@ -960,16 +963,17 @@ def chkPOS(d):
         if dLst[1] in nouns:
             posMatch = True
     elif dLst[2] == 'verb':
-        print('*** here')
+        if sc.verbose: print('*** here')
         if dLst[1] in verbs:
-            print('*** there')
+            if sc.verbose: print('*** there')
             posMatch = True
     elif dLst[2] == 'adverb':
         if dLst[1] in adverbs:
             posMatch = True
 
-    print('   dLst[2]: >>' + str(dLst[2]) + '<<')
-    print('   dLst[1]: ', str(dLst[1]))
+    if sc.verbose: 
+        print('   dLst[2]: >>' + str(dLst[2]) + '<<')
+        print('   dLst[1]: ', str(dLst[1]))
 
     print('   posMatch:', str(posMatch))
 
@@ -990,7 +994,7 @@ def addWord2File(w, posTag):
     file = Path(dataPath + '/' + posTag.lower())
 
     if file.is_file():
-        print('   file found: ', file)
+        if sc.verbose: print('   file found: ', file)
         f = open(file, 'a')
         f.write(w + '\n')
         f.close()

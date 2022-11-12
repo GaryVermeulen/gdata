@@ -9,6 +9,7 @@ import sys
 import simpStuff as ss
 import simpSA as sa
 import simpReply as sr
+import simpConfig as sc
 
 from datetime import datetime
 
@@ -55,7 +56,7 @@ for i in inData:
         break
 
 print("Hello I am: " + simpName)
-print("simpData  : {}: ".format(simpData))
+if sc.verbose: print("simpData  : {}: ".format(simpData))
 
 loop = True
 
@@ -98,7 +99,7 @@ while loop:
                     if ans in ['Y','y']:
                         if ss.addWord(ret):
                             inData = ss.getData() # Refresh input data with new word added
-                            print('inData refreshed with: ', ret)
+                            if sc.verbose: print('inData refreshed with: ', ret)
                         else:
                             print('!!{} was not added!!'.format(ret))
                     else:
@@ -109,8 +110,9 @@ while loop:
                 f.write('    aforementioned: ' + str(aforementioned) + '\n')
 
                 if len(aforementioned) > 0:
-                    print('Something old...')
-                    print('Said: ' + str(len(aforementioned)) + ' times before')
+                    if sc.verbose:
+                        print('Something old...')
+                        print('Said: ' + str(len(aforementioned)) + ' times before')
                 
                     #print(type(aforementioned))
 #                   for a in aforementioned:
@@ -122,7 +124,7 @@ while loop:
                     
                     saidBefore = True
                 else:
-                    print('Something new...')
+                    if sc.verbose: print('Something new...')
                     saidBefore = False
 
                 f.write('    aforementioned mentioned: ' + str(len(aforementioned)) + ' times before\n')
@@ -134,11 +136,11 @@ while loop:
 
                 if tree == None:
                     validCFG = False
-                    print('tree == none')
+                    if sc.verbose: print('tree == none')
                     f.write('    CFG parse returned NONE: ' + str(tree) + '\n')
 
                     sPOS = ss.getPOS(ccs, inData)
-                    print('ccs tagged, sPOS: ', sPOS)
+                    if sc.verbose: print('ccs tagged, sPOS: ', sPOS)
                     f.write('    sPOS: ' + str(sPOS) + '\n')
 
                     sA = sa.Sentence('', '', '', '', '', '', '', '', '', '') 
@@ -163,20 +165,20 @@ while loop:
 
 #                    f.write('    sAnaly: ' + str(sAnaly) + '\n')
 #                    print('sAnaly: ' + str(sAnaly))
-
-                    print(type(sA))
-                    print('--- sA:')
-                    print('    inSent: ', sA.inSent)
-                    print('    sPOS  : ', sA.sPOS)
-                    print('    sType : ', sA.sType)
-                    print('    sSubj : ', sA.sSubj)
-                    print('    sObj  : ', sA.sObj)
-                    print('    sVerb : ', sA.sVerb)
-                    print('    sDet  : ', sA.sDet)
-                    print('    sIN   : ', sA.sIN)
-                    print('    sPP   : ', sA.sPP)
-                    print('    sMD   : ', sA.sMD)
-                    print('--- end sA')
+                    if sc.verbose:
+                        print(type(sA))
+                        print('--- sA:')
+                        print('    inSent: ', sA.inSent)
+                        print('    sPOS  : ', sA.sPOS)
+                        print('    sType : ', sA.sType)
+                        print('    sSubj : ', sA.sSubj)
+                        print('    sObj  : ', sA.sObj)
+                        print('    sVerb : ', sA.sVerb)
+                        print('    sDet  : ', sA.sDet)
+                        print('    sIN   : ', sA.sIN)
+                        print('    sPP   : ', sA.sPP)
+                        print('    sMD   : ', sA.sMD)
+                        print('--- end sA')
 #
 #                f.close()
 #                sys.exit() # Under dev, so exit for now
@@ -192,15 +194,15 @@ while loop:
 
                 if len(rel) == 0:
                     relationFound = False
-                    print('rel = False: ' + str(rel))
+                    if sc.verbose: print('rel = False: ' + str(rel))
                 else:
                     relationFound = True
-                    print('rel = True: ' + str(rel))
+                    if sc.verbose: print('rel = True: ' + str(rel))
 
           
                 # Save sentence to conversation history file
                 # 
-                print('Saving history...')
+                if sc.verbose: print('Saving history...')
                 t = slt.replace(' ', '; ')
                 fh = open(fhistory, 'a')
                 fh.write('\n' + str(ccs) + '; ' + str(rel) + '; ' + t)
@@ -208,7 +210,7 @@ while loop:
             
             else:
                 cmd = 'EXIT'
-                print('    cmd: ' + str(cmd)) 
+                if sc.verbose: print('    cmd: ' + str(cmd)) 
                 f.write(' -->> cmd: ' + str(cmd) + '\n')
 
             sr.reply(sA, rel, simpData)
@@ -227,17 +229,17 @@ while loop:
             ccs = ss.correctCase(s, inData)
             sPOS = ss.getPOS(ccs, inData)
             relationFound = ss.s4r(ccs, inData, sPOS)
-            print('relationFound: ' + str(relationFound))
+            if sc.verbose: print('relationFound: ' + str(relationFound))
         s = ''
             
     elif cmd == 't' or cmd == 'T': # Tech mode; Not yet
         # Train
         #
-        print("TODO: Enter learningMode")
+        if sc.verbose: print("TODO: Enter learningMode")
         s = ''
     #    sm.learningMode(retCode)
     else:
-        print("    cmd = " + str(cmd) + " Exiting...")
+        if sc.verbose: print("    cmd = " + str(cmd) + " Exiting...")
         s = ''
         loop = False
 

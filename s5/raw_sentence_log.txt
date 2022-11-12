@@ -474,3 +474,25 @@ see bob
 (S (VP (VB see) (NP (NNP Bob))))
 see bob run
 (S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+see pookie run
+(S (VP (VB see) (NP (NP (NNP Pookie)) (VP (VB run)))))
+see bob run
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+what can bob do
+(S (WDT what) (MD can) (NP (NNP Bob)) (VP (VB do)))
+see mary run
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB run)))))
+what can mary do
+(S (WDT what) (MD can) (NP (NNP Mary)) (VP (VB do)))
+see bob walk
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB walk)))))
+what can bob do
+(S (WDT what) (MD can) (NP (NNP Bob)) (VP (VB do)))
+what can simp do
+(S (WDT what) (MD can) (NP (NNP Simp)) (VP (VB do)))
+see simp run
+(S (VP (VB see) (NP (NP (NNP Simp)) (VP (VB run)))))
+see bob run
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+what can simp do
+(S (WDT what) (MD can) (NP (NNP Simp)) (VP (VB do)))

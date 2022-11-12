@@ -11,6 +11,7 @@
 #
 
 import sys
+import simpConfig as sc
 
 ftslog = 'tagged_sentence_log.txt'
 
@@ -61,7 +62,7 @@ def sentAnalysis(t, s, f):
         if len(item) > 0:
             tmpLst.append(item)
 
-    print('tmpLst: ', str(tmpLst))
+    if sc.verbose: print('tmpLst: ', str(tmpLst))
 
     f.write('-------------\n')
     for item in tmpLst:
@@ -69,9 +70,10 @@ def sentAnalysis(t, s, f):
 
         iLst = buildItemList(item)
 
-        print(item)
-        print('^ item  | iLst ---')
-        print(iLst)
+        if sc.verbose: 
+            print(item)
+            print('^ item  | iLst ---')
+            print(iLst)
 #        print('---')
         if len(iLst) > 0:
 #            print(type(iLst))
@@ -82,17 +84,18 @@ def sentAnalysis(t, s, f):
             f.write('----:' + str(iLst)  + '\n')
 
             if iLst[0][0] == 'NP':
-                print('iLst[0][0] == NP')
-                print(iLst[0])
-                print('.', iLst[0][1])
+                if sc.verbose: 
+                    print('iLst[0][0] == NP')
+                    print(iLst[0])
+                    print('.', iLst[0][1])
                 if iLst[0][1] in ['NP','NNP','NN','NNS']: # Included NP for NP NP NNx
                     if firstLine:
                         sType = 'declarative'
                         if sSubj == '':
                             sSubj = iLst[1] + ',' + iLst[0][1]
-                            print('..', sSubj)
+                            if sc.verbose: print('..', sSubj)
                         else:
-                            print('Who this: ', iLst[1])
+                            if sc.verbose: print('Who this: ', iLst[1])
 
                         if len(iLst) > 2:
                             if iLst[2][0] == 'VP':
@@ -106,7 +109,7 @@ def sentAnalysis(t, s, f):
                                 sSubj = iLst[1] + ',' + iLst[0][1]
                             else:
                                 sSubj = sSubj + ',' + iLst[1] + ',' + iLst[0][1]
-                                print('who dat ', iLst[1])
+                                if sc.verbose: print('who dat ', iLst[1])
                                 
                             if len(iLst) > 2:
                                 if iLst[2][0] == 'VP':
@@ -133,8 +136,9 @@ def sentAnalysis(t, s, f):
                 firstLine = False
 
             elif iLst[0][0] == 'VP':
-                print('iLst[0][0] == VP')
-                print(iLst[0])
+                if sc.verbose: 
+                    print('iLst[0][0] == VP')
+                    print(iLst[0])
                 if iLst[0][1] in ['VB','VBD','VBG','VBN','VBZ']:
                     if firstLine:
                         sType = 'imperative'
@@ -182,8 +186,9 @@ def sentAnalysis(t, s, f):
                 firstLine = False
                 
             elif iLst[0][0] in ['VB','VBD','VBG','VBN','VBP','VBZ']:
-                print('iLst[0][0] in [VB,VBD,VBG,VBN,VBP,VPZ]')
-                print(iLst[0])
+                if sc.verbose: 
+                    print('iLst[0][0] in [VB,VBD,VBG,VBN,VBP,VPZ]')
+                    print(iLst[0])
                 if not firstLine:
                     if sVerb == '':
                         sVerb = iLst[1]
@@ -195,8 +200,9 @@ def sentAnalysis(t, s, f):
                 
                 firstLine = False
             elif iLst[0][0] == 'PP':
-                print('iLst[0][0] == PP')
-                print(iLst[0])
+                if sc.verbose: 
+                    print('iLst[0][0] == PP')
+                    print(iLst[0])
                 if iLst[0][1] == 'IN':
                     sIN = iLst[1]
                     if len(iLst) > 2:
@@ -209,17 +215,19 @@ def sentAnalysis(t, s, f):
                                         sPP = sIN + ',' + sDet + ',' + sObj
                 firstLine = False
             elif iLst[0][0] == 'WDT':
-                print('iLst[0][0] == WDT')
-                print(iLst[0])
-                print('iLst: ', str(iLst))
+                if sc.verbose: 
+                    print('iLst[0][0] == WDT')
+                    print(iLst[0])
+                    print('iLst: ', str(iLst))
                 sType = 'interrogative,' + str(iLst[1])
                 
 
                 firstLine = False
 
             elif iLst[0][0] == 'MD':
-                print('iLst[0][0] == MD')
-                print(str(iLst))
+                if sc.verbose: 
+                    print('iLst[0][0] == MD')
+                    print(str(iLst))
 
                 if sMD == '':
                     sMD = iLst[1]
@@ -228,25 +236,25 @@ def sentAnalysis(t, s, f):
 
                 firstLine = False
             else:
-                print('else--something wrong of not defined?')
+                print('else--something wrong or not defined?')
                 print(iLst)
                 print(str(firstLine))
                 
                 firstLine = False
-
-    print('======================')
-    print('Input sentence w/corrected case:')
-    print(s)
-    print('----------------------')
-    print('sPOS =  ', sPOS)
-    print('sType = ', sType)
-    print('sSubj = ', sSubj)
-    print('sVerb = ', sVerb)
-    print('sObj =  ', sObj)
-    print('sDet =  ', sDet)
-    print('sIN =   ', sIN)
-    print('sPP =   ',  sPP)
-    print('sMD =   ', sMD)
+    if sc.verbose: 
+        print('======================')
+        print('Input sentence w/corrected case:')
+        print(s)
+        print('----------------------')
+        print('sPOS =  ', sPOS)
+        print('sType = ', sType)
+        print('sSubj = ', sSubj)
+        print('sVerb = ', sVerb)
+        print('sObj =  ', sObj)
+        print('sDet =  ', sDet)
+        print('sIN =   ', sIN)
+        print('sPP =   ',  sPP)
+        print('sMD =   ', sMD)
 
     sent = Sentence(s, sPOS, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD)
                 
