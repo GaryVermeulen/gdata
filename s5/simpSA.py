@@ -54,7 +54,7 @@ def sentAnalysis(t, s, f):
     t = t[:-1]
 
     tLst = t.split('\n')
-    
+    sTypLst = []
     tmpLst = []
     
     for item in tLst:
@@ -103,7 +103,12 @@ def sentAnalysis(t, s, f):
                                     sVerb = iLst[3]
                     else:
                         if sVerb == '':
-                            sObj = iLst[1] + ',' + iLst[0][1]
+                            if sTypLst[0] == 'interrogative':
+                                sSubj = iLst[1] + ',' + iLst[0][1]
+                                if sc.verbose: print('who dat1 ', iLst[1])
+                            else:
+                                sObj = iLst[1] + ',' + iLst[0][1]
+                                if sc.verbose: print('who dat2 ', iLst[1])
                         else:
                             if sSubj == '':
                                 sSubj = iLst[1] + ',' + iLst[0][1]
@@ -128,6 +133,13 @@ def sentAnalysis(t, s, f):
                                 if len(iLst) > 4:
                                     if iLst[4][0] in ['VP','VB','VBD','VBG','VBN','VBP','VBZ']:
                                         sVerb = iLst[5]
+                    else:
+                        sDet = iLst[1]
+                        if len(iLst) > 2:
+                            if iLst[2][0] in ['NN','NNS']:
+                                if sSubj == '':
+                                    sSubj = iLst[3] + ',' + iLst[2][0]
+                                    
                 elif iLst[0][1] == 'PRP':
                     if firstLine:
                         sType = 'declarative'
@@ -219,9 +231,26 @@ def sentAnalysis(t, s, f):
                     print('iLst[0][0] == WDT')
                     print(iLst[0])
                     print('iLst: ', str(iLst))
+                    
                 sType = 'interrogative,' + str(iLst[1])
-                
+                sTypLst = sType.split(',')
+                if sc.verbose:
+                    print('sType: {}'.format(sType))
+                    print('sTypLst: {}'.format(sTypLst))
+                    print('len(iLst): ', len(iLst))
 
+                if len(iLst) > 2:
+                    if iLst[2][1] == 'VBZ':
+                        sVerb = iLst[3]
+                        if len(iLst) > 4:
+                            if iLst[4][1] in ['NNP','NN']:
+                                sSubj = iLst[5] + ',' + iLst[4][1]
+                            elif iLst[4][1] == 'DT':
+                                sDet = iLst[5]
+                                if len(iLst) > 6:
+                                    if iLst[6][0] == 'NN':
+                                        sSubj = iLst[7] + ',' + iLst[6][0]
+                
                 firstLine = False
 
             elif iLst[0][0] == 'MD':

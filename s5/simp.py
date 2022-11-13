@@ -165,20 +165,7 @@ while loop:
 
 #                    f.write('    sAnaly: ' + str(sAnaly) + '\n')
 #                    print('sAnaly: ' + str(sAnaly))
-                    if sc.verbose:
-                        print(type(sA))
-                        print('--- sA:')
-                        print('    inSent: ', sA.inSent)
-                        print('    sPOS  : ', sA.sPOS)
-                        print('    sType : ', sA.sType)
-                        print('    sSubj : ', sA.sSubj)
-                        print('    sObj  : ', sA.sObj)
-                        print('    sVerb : ', sA.sVerb)
-                        print('    sDet  : ', sA.sDet)
-                        print('    sIN   : ', sA.sIN)
-                        print('    sPP   : ', sA.sPP)
-                        print('    sMD   : ', sA.sMD)
-                        print('--- end sA')
+                    
 #
 #                f.close()
 #                sys.exit() # Under dev, so exit for now
