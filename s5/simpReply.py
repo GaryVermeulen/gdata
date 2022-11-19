@@ -23,6 +23,7 @@ def reply(sA, rel, sD):
         print('    sPP   : ', sA.sPP)
         print('    sMD   : ', sA.sMD)
         print('--- end sA')
+        print('--- sD    : ', sD)
 
     if sc.verbose: 
         if len(rel) <= 0:
@@ -41,16 +42,16 @@ def reply(sA, rel, sD):
     
     if len(sTypeLst) >= 1:
         if sTypeLst[0] == 'declarative':
-            declarativeReply(sTypeLst, sA)
+            declarativeReply(sTypeLst, sA, sD)
                 
         elif sTypeLst[0] == 'interrogative':
-            interrogativeReply(sTypeLst, sA)
+            interrogativeReply(sTypeLst, sA, sD)
                     
         elif sTypeLst[0] == 'imperative':
-            imperativeReply(sTypeLst, sA)
+            imperativeReply(sTypeLst, sA, sD)
             
         elif sTypeLst[0] == 'exclamative':
-            exclamativeReply(sTypeLst, sA)
+            exclamativeReply(sTypeLst, sA, sD)
             
         else:
             print(' unkown sentence type')
@@ -66,7 +67,7 @@ def reply(sA, rel, sD):
 #
 # declarativeReply
 #
-def declarativeReply(sTypeLst, sA):
+def declarativeReply(sTypeLst, sA, sD):
 
     if sc.verbose:
         print(' declarative')
@@ -79,7 +80,7 @@ def declarativeReply(sTypeLst, sA):
 #
 # interrogativeReply
 #
-def interrogativeReply(sTypeLst, sA):
+def interrogativeReply(sTypeLst, sA, sD):
 
     o = sA.sObj.split(',')
     s = sA.sSubj.split(',')
@@ -136,7 +137,7 @@ def interrogativeReply(sTypeLst, sA):
 #
 # imperativeReply
 #
-def imperativeReply(sTypeLst, sA):
+def imperativeReply(sTypeLst, sA, sD):
 
     if sc.verbose: 
         print(' imperative')

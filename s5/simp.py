@@ -52,11 +52,11 @@ f.write("    elapsed time: " + str(elpTime) + "\n")
 simpName = 'Simp'
 for i in inData:
     if i[0] == simpName:
-        simpData = i
+        sc.simpData = i
         break
 
 print("Hello I am: " + simpName)
-if sc.verbose: print("simpData  : {}: ".format(simpData))
+if sc.verbose: print("simpData  : {}: ".format(sc.simpData))
 
 loop = True
 
@@ -106,13 +106,18 @@ while loop:
                         continue
 
                 # Has this been said before?
-                aforementioned = ss.chkHistory(ccs)
-                f.write('    aforementioned: ' + str(aforementioned) + '\n')
+                print('ccs: ', ccs)
+                print('ccs type: ', type(ccs))
+                
+                hist = ss.chkHistory(ccs)
+                f.write('    aforementioned: ' + str(hist) + '\n')
 
-                if len(aforementioned) > 0:
+                if len(hist) > 0:
                     if sc.verbose:
                         print('Something old...')
-                        print('Said: ' + str(len(aforementioned)) + ' times before')
+                        for h in hist:
+                            print(h)
+                        print('Said: ' + str(len(hist)) + ' times before')
                 
                     #print(type(aforementioned))
 #                   for a in aforementioned:
@@ -125,9 +130,10 @@ while loop:
                     saidBefore = True
                 else:
                     if sc.verbose: print('Something new...')
+                    print(hist)
                     saidBefore = False
 
-                f.write('    aforementioned mentioned: ' + str(len(aforementioned)) + ' times before\n')
+                f.write('    hist mentioned: ' + str(len(hist)) + ' times before\n')
             
                 # Parse corrected case sentence (input) per grammar
                 # Draw out the grammar tree?
@@ -171,9 +177,9 @@ while loop:
 #                sys.exit() # Under dev, so exit for now
 
                 if validCFG:
-                    rel = ss.s4r(ccs, sA, sPOS, simpData, inData) # Search for relationships
+                    rel = ss.s4r(ccs, sA, sPOS, sc.simpData, inData) # Search for relationships
                 else:
-                    rel = ss.s4r(ccs, sA, sPOS, simpData, inData)
+                    rel = ss.s4r(ccs, sA, sPOS, sc.simpData, inData)
 
 
                     
@@ -185,6 +191,11 @@ while loop:
                 else:
                     relationFound = True
                     if sc.verbose: print('rel = True: ' + str(rel))
+
+                    
+#                sg # Make a SWAG
+
+                sr.reply(sA, rel, sc.simpData) # Attempt some kind of coherent output (rule based)
 
           
                 # Save sentence to conversation history file
@@ -199,8 +210,6 @@ while loop:
                 cmd = 'EXIT'
                 if sc.verbose: print('    cmd: ' + str(cmd)) 
                 f.write(' -->> cmd: ' + str(cmd) + '\n')
-
-            sr.reply(sA, rel, simpData)
 
     elif cmd == 's' or cmd == 'S': # Speak
         # Randomly generates a sentence from the exiting CFG

@@ -780,6 +780,7 @@ def s4r(s, sObj, sPOS, sD, inData):
 ################################################
 def chkHistory(s):
 
+    sSet = set(s)
     hist = []
     file = Path(fHist)
 
@@ -792,17 +793,26 @@ def chkHistory(s):
         lines = myHist.split('\n')
 
         for line in lines:
+            
             if len(line) > 0:
                 if line[0] != '#':
-                    hSentence = line.split(';')
-                    rawSent = removePOS(hSentence[0])
+                    lineLst = line.split(';')
 
-                    if s == rawSent:
-                        hist.append(line)       
+                    # Rough-hewn, but readable
+                    tmp = lineLst[0].replace('[', '')
+                    tmp = tmp.replace(']', '')
+                    tmp = tmp.replace(' ', '')
+                    tmp = tmp.replace("'", "")
+                    tmp = tmp.split(',')
+
+                    tmpSet = set(tmp)
+
+                    if sSet == tmpSet:
+                        hist.append(lineLst)
     else:
         print('No history file found, created new history file.')
         fh = open(fHist, 'w')
-        fh.write('# Input sentence w/POS; Possible relationships; Date; Time')
+        fh.write('# Input sentence, Possible relationships, Date; Time')
         fh.close()
     
     return hist
