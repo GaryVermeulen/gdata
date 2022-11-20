@@ -10,6 +10,7 @@ import simpStuff as ss
 import simpSA as sa
 import simpReply as sr
 import simpConfig as sc
+import simpGuess as sg
 
 from datetime import datetime
 
@@ -118,19 +119,11 @@ while loop:
                         for h in hist:
                             print(h)
                         print('Said: ' + str(len(hist)) + ' times before')
-                
-                    #print(type(aforementioned))
-#                   for a in aforementioned:
-#                       print('a: ' + str(a))
-#                       a2 = a.split(';')
-#                       for a2a in a2:
-#                           # a2a = a2a.replace(" ", "")
-#                           print('a2a: ' + str(a2a))
                     
                     saidBefore = True
                 else:
                     if sc.verbose: print('Something new...')
-                    print(hist)
+                    
                     saidBefore = False
 
                 f.write('    hist mentioned: ' + str(len(hist)) + ' times before\n')
@@ -193,7 +186,7 @@ while loop:
                     if sc.verbose: print('rel = True: ' + str(rel))
 
                     
-#                sg # Make a SWAG
+                sg.guess(s) # Make a SWAG with raw input
 
                 sr.reply(sA, rel, sc.simpData) # Attempt some kind of coherent output (rule based)
 
