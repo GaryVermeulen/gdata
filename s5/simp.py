@@ -116,9 +116,9 @@ while loop:
                 if len(hist) > 0:
                     if sc.verbose:
                         print('Something old...')
-                        for h in hist:
-                            print(h)
-                        print('Said: ' + str(len(hist)) + ' times before')
+                        #for h in hist:
+                        #    print(h)
+                        #print('Said: ' + str(len(hist)) + ' times before')
                     
                     saidBefore = True
                 else:

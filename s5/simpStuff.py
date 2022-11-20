@@ -431,12 +431,6 @@ def getNx(f, n):
     
     file = Path(dataPath + '/' + f)
 
-#    print('n: ', n)
-#    print('f: ', f)
-#    print('progPath: ', progPath)
-#    print('dataPath: ', dataPath)
-#    print('file: ', file)
-
     if file.is_file():
 
         with open(file, 'r') as fin:
@@ -573,20 +567,8 @@ def chkGrammar(sentence, d):
                 else:
                     parse.pretty_print()
 
-#                    print('-----')
-#
-#                    getNodes(parse)
-#
-#                    print('----------')
-
-                    #myParse = str(parse)
-                    #print(type(myParse))
-                    #print(myParse)
-                        
-            #return(myParse)
             return(parse)
         except EOFError:
-            #sys.exit()
             return('EOFError')
     
     return('Drop-through-parse-error')
@@ -652,7 +634,7 @@ def getInflections(w, pos):
             # add vbp later
             vbz = token._.inflect("VBZ")
 
-        # We're assuming an inflection for each vbd, vbg, vbn, and vbz
+            # We're assuming an inflection for each vbd, vbg, vbn, and vbz
             if w == vb or w == vbd or w == vbg or w == vbn or w == vbz:
                 #inflections = token.text + "," + vb + "," + vbd + "," + vbg + "," + vbn + "," + vbz
                 inflections = vb + "," + vbd + "," + vbg + "," + vbn + "," + vbz 
@@ -664,14 +646,10 @@ def getInflections(w, pos):
             nn  = token._.inflect("NN")
             nns = token._.inflect("NNS")
             
-            #if w == token.text:
-            #    inflections = token.text + "," + str(nns)
             if w == nn or w == nns:
                 inflections = nn + "," + nns        
     else:
         print("Unknown inflection pos tag: " + str(pos))
-
-#    print('inflections: ' + str(inflections))
     
     return inflections
 # End getInflections
@@ -754,17 +732,48 @@ def s4r(s, sObj, sPOS, sD, inData):
                         rel = inflect.pop()
                         rels.append(w[0] + ',' + rel)
                         if sc.verbose: print(str(w[0]) + ' can ' + rel)
-                    
-
             
         elif sTypLst[0] == 'imperative':
             if sc.verbose: print('   imperative response')
+
+            sD_verbLst = sD[3].split(',')
+
+            print(sD_verbLst)
+
+            sD_verbSet = set(sD_verbLst)
+
+            if len(sObj.sSubj.split(',')) < 3:
+                sSubj = sObj.sSubj.split(',')
+
+                print('len wData: ', len(wData))
+                print(wData)
+                print('sSubj: ', sSubj)
+                
+                for i in wData:
+                    if i[0][0] == sSubj[0][0]:
+                        sSubj_verbLst = i[3].split(',')
+                        sSubj_verbSet = set(sSubj_verbLst)
+
+                        sD_diff = sD_verbSet.difference(sSubj_verbSet)
+
+                        print('sD_diff: ', sD_diff)
+
+                        sO_diff = sSubj_verbSet.difference(sD_verbSet)
+
+                        print('sO_diff:' , sO_diff)
+
+                        sO_u = sSubj_verbSet.union(sD_verbSet)
+                        print('union: ', sO_u)
+                        
+                        break
+                    print(i)
+            else:
+                print('bummer')
+
+            print('wtf')
             
         elif sTypLst[0] == 'interrogative':
             if sc.verbose: print('   interrogative response')
-
-
-
             
             if sObj.sSubj == '':
                     rels.append(sObj.sObj + ',' + wData[2][3])

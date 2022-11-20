@@ -24,25 +24,7 @@ def guess(s):
     print('--- guess ---')
 
     h = readHistory()
-
-    print('    h len: ', len(h))
-    print('    h type: ', type(h))
-
     sentLst = sentTok(h)
-
-    print('-' * 10)
-    print('sentLst type: ', type(sentLst))
-    print('sentLst len: ', len(sentLst))
-
-    wordLst = wordTok(sentLst)
-
-    print('-' * 10)
-    print('wordLst type: ', type(wordLst))
-    print('wordLst len: ', len(wordLst))
-
-
-    #sent_tokens = sentLst
-    #word_tokens = wordLst
 
     # Preprocessing
     lemmer = WordNetLemmatizer()
@@ -72,12 +54,9 @@ def guess(s):
             guess_response = guess_response + sentLst[idx]
             return guess_response
 
-    
     s = s.lower()
     print("Guess response: ",end="")
     print(response(s))
-#    sent_tokens.remove(user_response)
-    
 
     print('--- End of guess ---')
 
