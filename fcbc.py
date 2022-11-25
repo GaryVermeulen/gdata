@@ -2,10 +2,12 @@
 # Forward and Backward chaining Testbed
 #
 
+import os
+
 from collections import OrderedDict
 from pathlib import Path
 
-ruleF = 'rules.txt'
+rulesF = 'rules.txt'
 varsF = 'vars.txt'
 
 class Variable:
@@ -328,7 +330,32 @@ def get_diff(a, b):
 
 def saveRules(rules):
 
+    print('--- Saving Rules To File ---')
+
+    f = open(rulesF, 'a')
+    for rule in rules:
+        f.write(rule.__str__() + '\n')
+    f.close()
+
+    print('--- Saved Rules ---')
+
     return
+
+
+def saveVars(myVars):
+
+    print('--- Saving Vars To File ---')
+
+    f = open(varsF, 'a')
+    for var in myVars:
+        f.write(var + '\n')
+    f.close()
+
+    print('--- Saved Vars ---')
+
+    return
+
+    
 
 
 if __name__ == "__main__":
@@ -463,11 +490,17 @@ if __name__ == "__main__":
             for key in var_list:
                 print('key: {} ; value: {}'.format(key, var_list[key]))
 
+                saveVars(var_list)
+
             print('-' * 5)
             for rule in rule_list:
                 print('rule: {} rule.__str(): {}'.format(rule, rule.__str__()))
                 print(type(rule))
                 print('rule: ', rule)
+                print('antenedent: ', rule.get_antecedent())
+                print('consequent: ', rule.get_consequent())
+
+                saveRules(rule_list)
         
         elif learn:
             
