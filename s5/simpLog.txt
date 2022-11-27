@@ -2979,3 +2979,298 @@ item: [.NP [.NP [.NNP Pookie ] ] [.VP [.VB run ] ] ] ]
 
 *** END RUN AT: 11/19/2022 12:34:31 ***
 *** elapsed run time: 0:47:25.008847
+
+*** START RUN AT: 11/19/2022 13:13:28 ***
+   Reading input data and building CFG file
+   Read 127 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/19/2022 13:13:29
+    elapsed time: 0:00:00.041813
+    cmd: c
+
+---    START LOOP AT: 11/19/2022 13:13:31 ===
+-------------
+    s: see bob run
+    ccs: ['see', 'Bob', 'run']
+    ret: set() Is Unknown
+    aforementioned: [["['see', 'Bob', 'run']", ' []', ' 11/08/2022', ' 05:36:32'], ["['see', 'Bob', 'run']", ' []', ' 11/08/2022', ' 06:27:11'], ["['see', 'Bob', 'run']", ' []', ' 11/08/2022', ' 06:41:42'], ["['see', 'Bob', 'run']", ' []', ' 11/11/2022', ' 13:18:09'], ["['see', 'Bob', 'run']", ' []', ' 11/11/2022', ' 13:27:45'], ["['see', 'Bob', 'run']", ' []', ' 11/11/2022', ' 13:31:26'], ["['see', 'Bob', 'run']", ' []', ' 11/11/2022', ' 13:43:07'], ["['see', 'Bob', 'run']", ' []', ' 11/11/2022', ' 13:54:57'], ["['see', 'Bob', 'run']", ' []', ' 11/12/2022', ' 08:59:32'], ["['see', 'Bob', 'run']", ' []', ' 11/12/2022', ' 09:10:11'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 10:51:24'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:00:10'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:01:23'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:04:57'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:05:54'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:07:24'], ["['Bob', 'run', 'see']", " ['Bob,see']", ' 11/19/2022', ' 11:23:18'], ["['Bob', 'run', 'see']", " ['Bob,see']", ' 11/19/2022', ' 11:23:18'], ["['Bob', 'run', 'see']", " ['Bob,see']", ' 11/19/2022', ' 11:26:19'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:29:50'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:32:40'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:34:32'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:36:48'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:47:08'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 13:12:06']]
+    hist mentioned: 25 times before
+    CFG tree: (S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+    tList: (S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+-------------
+item: [.VP [.VB see ] [.NP [.NP [.NNP Bob ] ] [.VP [.VB run ] ] ] ]
+----:[['VP', 'VB'], 'see', ['NP', 'NP', 'NNP'], 'Bob', ['VP', 'VB'], 'run']
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/19/2022 13:16:56 ===
+---    elapsed loop time: 0:03:25.215604 ===
+    cmd: 
+
+---    START LOOP AT: 11/19/2022 13:16:57 ===
+
+---    END LOOP AT: 11/19/2022 13:16:57 ===
+---    elapsed loop time: 0:00:00.006490 ===
+
+*** END RUN AT: 11/19/2022 13:16:57 ***
+*** elapsed run time: 0:03:28.437819
+
+*** START RUN AT: 11/20/2022 08:30:22 ***
+   Reading input data and building CFG file
+   Read 127 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/20/2022 08:30:22
+    elapsed time: 0:00:00.012330
+    cmd: c
+
+---    START LOOP AT: 11/20/2022 08:30:25 ===
+-------------
+    s: see bob walk
+    ccs: ['see', 'Bob', 'walk']
+    ret: set() Is Unknown
+    aforementioned: [["['see', 'Bob', 'walk']", ' []', ' 11/12/2022', ' 09:10:11']]
+    hist mentioned: 1 times before
+    CFG tree: (S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB walk)))))
+    tList: (S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB walk)))))
+-------------
+item: [.VP
+item: [.VB see ]
+----:[['VB'], 'see']
+item: [.NP [.NP [.NNP Bob ] ] [.VP [.VB walk ] ] ] ]
+----:[['NP', 'NP', 'NNP'], 'Bob', ['VP', 'VB'], 'walk']
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/20/2022 08:31:26 ===
+---    elapsed loop time: 0:01:00.796520 ===
+    cmd: 
+
+---    START LOOP AT: 11/20/2022 08:31:26 ===
+
+---    END LOOP AT: 11/20/2022 08:31:26 ===
+---    elapsed loop time: 0:00:00.008659 ===
+
+*** END RUN AT: 11/20/2022 08:31:26 ***
+*** elapsed run time: 0:01:04.068362
+
+*** START RUN AT: 11/20/2022 09:15:00 ***
+   Reading input data and building CFG file
+   Read 127 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/20/2022 09:15:00
+    elapsed time: 0:00:00.015967
+    cmd: see mary fly
+
+---    START LOOP AT: 11/20/2022 09:15:07 ===
+
+---    END LOOP AT: 11/20/2022 09:15:07 ===
+---    elapsed loop time: 0:00:00.005350 ===
+
+*** END RUN AT: 11/20/2022 09:15:07 ***
+*** elapsed run time: 0:00:06.411857
+
+*** START RUN AT: 11/20/2022 09:45:53 ***
+   Reading input data and building CFG file
+   Read 127 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/20/2022 09:45:53
+    elapsed time: 0:00:00.008818
+    cmd: the bus eats duck
+
+---    START LOOP AT: 11/20/2022 09:46:11 ===
+
+---    END LOOP AT: 11/20/2022 09:46:11 ===
+---    elapsed loop time: 0:00:00.006423 ===
+
+*** END RUN AT: 11/20/2022 09:46:11 ***
+*** elapsed run time: 0:00:18.697350
+
+*** START RUN AT: 11/20/2022 09:46:21 ***
+   Reading input data and building CFG file
+   Read 127 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/20/2022 09:46:21
+    elapsed time: 0:00:00.012879
+    cmd: c
+
+---    START LOOP AT: 11/20/2022 09:46:23 ===
+-------------
+    s: mary walks pookie in the park
+    ccs: ['Mary', 'walks', 'Pookie', 'in', 'the', 'park']
+    ret: set() Is Unknown
+    aforementioned: []
+    hist mentioned: 0 times before
+    CFG tree: (S
+  (NP (NNP Mary))
+  (VP
+    (VBZ walks)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+    tList: (S
+  (NP (NNP Mary))
+  (VP
+    (VBZ walks)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+-------------
+item: [.NP [.NNP Mary ] ]
+----:[['NP', 'NNP'], 'Mary']
+item: [.VP
+item: [.VBZ walks ]
+----:[['VBZ'], 'walks']
+item: [.NP [.NNP Pookie ] ]
+----:[['NP', 'NNP'], 'Pookie']
+item: [.PP [.IN in ] [.NP [.DT the ] [.NN park ] ] ] ]
+----:[['PP', 'IN'], 'in', ['NP', 'DT'], 'the', ['NN'], 'park']
+    rel: ['Mary,walk', 'Pookie,walk']
+-------------
+    s: pookie flys in the park
+    ccs: ['Pookie', 'flys', 'in', 'the', 'park']
+    ret: {'flys'} Is Unknown
+-------------
+    s: pookie flies in the park
+    ccs: ['Pookie', 'flies', 'in', 'the', 'park']
+    ret: set() Is Unknown
+    aforementioned: []
+    hist mentioned: 0 times before
+    CFG tree: (S
+  (NP (NNP Pookie))
+  (VP (VBZ flies) (PP (IN in) (NP (DT the) (NN park)))))
+    tList: (S
+  (NP (NNP Pookie))
+  (VP (VBZ flies) (PP (IN in) (NP (DT the) (NN park)))))
+-------------
+item: [.NP [.NNP Pookie ] ]
+----:[['NP', 'NNP'], 'Pookie']
+item: [.VP
+item: [.VBZ flies ]
+----:[['VBZ'], 'flies']
+item: [.PP [.IN in ] [.NP [.DT the ] [.NN park ] ] ] ]
+----:[['PP', 'IN'], 'in', ['NP', 'DT'], 'the', ['NN'], 'park']
+    rel: []
+-------------
+    s: see bob run
+    ccs: ['see', 'Bob', 'run']
+    ret: set() Is Unknown
+    aforementioned: [["['see', 'Bob', 'run']", ' []', ' 11/08/2022', ' 05:36:32'], ["['see', 'Bob', 'run']", ' []', ' 11/08/2022', ' 06:27:11'], ["['see', 'Bob', 'run']", ' []', ' 11/08/2022', ' 06:41:42'], ["['see', 'Bob', 'run']", ' []', ' 11/11/2022', ' 13:18:09'], ["['see', 'Bob', 'run']", ' []', ' 11/11/2022', ' 13:27:45'], ["['see', 'Bob', 'run']", ' []', ' 11/11/2022', ' 13:31:26'], ["['see', 'Bob', 'run']", ' []', ' 11/11/2022', ' 13:43:07'], ["['see', 'Bob', 'run']", ' []', ' 11/11/2022', ' 13:54:57'], ["['see', 'Bob', 'run']", ' []', ' 11/12/2022', ' 08:59:32'], ["['see', 'Bob', 'run']", ' []', ' 11/12/2022', ' 09:10:11'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 10:51:24'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:00:10'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:01:23'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:04:57'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:05:54'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:07:24'], ["['Bob', 'run', 'see']", " ['Bob,see']", ' 11/19/2022', ' 11:23:18'], ["['Bob', 'run', 'see']", " ['Bob,see']", ' 11/19/2022', ' 11:23:18'], ["['Bob', 'run', 'see']", " ['Bob,see']", ' 11/19/2022', ' 11:26:19'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:29:50'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:32:40'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:34:32'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:36:48'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:47:08'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 13:12:06'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 13:13:31'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 13:38:18'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 13:40:03'], ["['see', 'Bob', 'run']", ' []', ' 11/20/2022', ' 08:02:59'], ["['see', 'Bob', 'run']", ' []', ' 11/20/2022', ' 08:19:39'], ["['see', 'Bob', 'run']", ' []', ' 11/20/2022', ' 08:42:40'], ["['see', 'Bob', 'run']", ' []', ' 11/20/2022', ' 09:01:20']]
+    hist mentioned: 32 times before
+    CFG tree: (S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+    tList: (S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+-------------
+item: [.VP [.VB see ] [.NP [.NP [.NNP Bob ] ] [.VP [.VB run ] ] ] ]
+----:[['VP', 'VB'], 'see', ['NP', 'NP', 'NNP'], 'Bob', ['VP', 'VB'], 'run']
+    rel: []
+-------------
+    s: telescope eat park in the bus
+    ccs: ['telescope', 'eat', 'park', 'in', 'the', 'bus']
+    ret: set() Is Unknown
+    aforementioned: []
+    hist mentioned: 0 times before
+    CFG tree: (S
+  (NP (NN telescope))
+  (VP
+    (VB eat)
+    (NP (NP (NN park)) (PP (IN in) (NP (DT the) (NN bus))))))
+    tList: (S
+  (NP (NN telescope))
+  (VP
+    (VB eat)
+    (NP (NP (NN park)) (PP (IN in) (NP (DT the) (NN bus))))))
+-------------
+item: [.NP [.NN telescope ] ]
+----:[['NP', 'NN'], 'telescope']
+item: [.VP
+item: [.VB eat ]
+----:[['VB'], 'eat']
+item: [.NP
+item: [.NP [.NN park ] ]
+----:[['NP', 'NN'], 'park']
+item: [.PP [.IN in ] [.NP [.DT the ] [.NN bus ] ] ] ] ]
+----:[['PP', 'IN'], 'in', ['NP', 'DT'], 'the', ['NN'], 'bus']
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/20/2022 09:54:44 ===
+---    elapsed loop time: 0:08:21.070812 ===
+    cmd: 
+
+---    START LOOP AT: 11/20/2022 09:54:45 ===
+
+---    END LOOP AT: 11/20/2022 09:54:45 ===
+---    elapsed loop time: 0:00:00.006787 ===
+
+*** END RUN AT: 11/20/2022 09:54:45 ***
+*** elapsed run time: 0:08:23.663640
+
+*** START RUN AT: 11/20/2022 11:12:53 ***
+   Reading input data and building CFG file
+   Read 127 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/20/2022 11:12:53
+    elapsed time: 0:00:00.019632
+    cmd: see pookie walk
+
+---    START LOOP AT: 11/20/2022 11:13:02 ===
+
+---    END LOOP AT: 11/20/2022 11:13:02 ===
+---    elapsed loop time: 0:00:00.007743 ===
+
+*** END RUN AT: 11/20/2022 11:13:02 ***
+*** elapsed run time: 0:00:08.723288
+
+*** START RUN AT: 11/20/2022 11:30:01 ***
+   Reading input data and building CFG file
+   Read 127 items
+   Building CFG file
+----------------------
+--- reading of data and building of CFG file completed:
+    end time: 11/20/2022 11:30:01
+    elapsed time: 0:00:00.026003
+    cmd: c
+
+---    START LOOP AT: 11/20/2022 11:30:02 ===
+-------------
+    s: see bob run
+    ccs: ['see', 'Bob', 'run']
+    ret: set() Is Unknown
+    aforementioned: [["['see', 'Bob', 'run']", ' []', ' 11/08/2022', ' 05:36:32'], ["['see', 'Bob', 'run']", ' []', ' 11/08/2022', ' 06:27:11'], ["['see', 'Bob', 'run']", ' []', ' 11/08/2022', ' 06:41:42'], ["['see', 'Bob', 'run']", ' []', ' 11/11/2022', ' 13:18:09'], ["['see', 'Bob', 'run']", ' []', ' 11/11/2022', ' 13:27:45'], ["['see', 'Bob', 'run']", ' []', ' 11/11/2022', ' 13:31:26'], ["['see', 'Bob', 'run']", ' []', ' 11/11/2022', ' 13:43:07'], ["['see', 'Bob', 'run']", ' []', ' 11/11/2022', ' 13:54:57'], ["['see', 'Bob', 'run']", ' []', ' 11/12/2022', ' 08:59:32'], ["['see', 'Bob', 'run']", ' []', ' 11/12/2022', ' 09:10:11'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 10:51:24'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:00:10'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:01:23'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:04:57'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:05:54'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:07:24'], ["['Bob', 'run', 'see']", " ['Bob,see']", ' 11/19/2022', ' 11:23:18'], ["['Bob', 'run', 'see']", " ['Bob,see']", ' 11/19/2022', ' 11:23:18'], ["['Bob', 'run', 'see']", " ['Bob,see']", ' 11/19/2022', ' 11:26:19'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:29:50'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:32:40'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:34:32'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:36:48'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 11:47:08'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 13:12:06'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 13:13:31'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 13:38:18'], ["['see', 'Bob', 'run']", ' []', ' 11/19/2022', ' 13:40:03'], ["['see', 'Bob', 'run']", ' []', ' 11/20/2022', ' 08:02:59'], ["['see', 'Bob', 'run']", ' []', ' 11/20/2022', ' 08:19:39'], ["['see', 'Bob', 'run']", ' []', ' 11/20/2022', ' 08:42:40'], ["['see', 'Bob', 'run']", ' []', ' 11/20/2022', ' 09:01:20'], ["['see', 'Bob', 'run']", ' []', ' 11/20/2022', ' 09:46:23'], ["['see', 'Bob', 'run']", ' []', ' 11/20/2022', ' 11:15:34'], ["['see', 'Bob', 'run']", ' []', ' 11/20/2022', ' 11:19:01'], ["['see', 'Bob', 'run']", ' []', ' 11/20/2022', ' 11:20:29'], ["['see', 'Bob', 'run']", ' []', ' 11/20/2022', ' 11:22:22'], ["['see', 'Bob', 'run']", ' []', ' 11/20/2022', ' 11:25:00'], ["['see', 'Bob', 'run']", ' []', ' 11/20/2022', ' 11:26:41'], ["['see', 'Bob', 'run']", ' []', ' 11/20/2022', ' 11:28:15']]
+    hist mentioned: 40 times before
+    CFG tree: (S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+    tList: (S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+-------------
+item: [.VP [.VB see ] [.NP [.NP [.NNP Bob ] ] [.VP [.VB run ] ] ] ]
+----:[['VP', 'VB'], 'see', ['NP', 'NP', 'NNP'], 'Bob', ['VP', 'VB'], 'run']
+    rel: []
+-------------
+    s: 
+ -->> cmd: EXIT
+
+---    END LOOP AT: 11/20/2022 11:31:11 ===
+---    elapsed loop time: 0:01:09.095641 ===
+    cmd: Guess response: see Bob run
+
+---    START LOOP AT: 11/20/2022 11:31:11 ===
+
+---    END LOOP AT: 11/20/2022 11:31:11 ===
+---    elapsed loop time: 0:00:00.006484 ===
+
+*** END RUN AT: 11/20/2022 11:31:11 ***
+*** elapsed run time: 0:01:10.515410

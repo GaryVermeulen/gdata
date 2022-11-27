@@ -742,6 +742,7 @@ def s4r(s, sObj, sPOS, sD, inData):
 
             sD_verbSet = set(sD_verbLst)
 
+
             if len(sObj.sSubj.split(',')) < 3:
                 sSubj = sObj.sSubj.split(',')
 
@@ -754,16 +755,26 @@ def s4r(s, sObj, sPOS, sD, inData):
                         sSubj_verbLst = i[3].split(',')
                         sSubj_verbSet = set(sSubj_verbLst)
 
+                        print('sSubj_verbSet: ', sSubj_verbSet)
+
                         sD_diff = sD_verbSet.difference(sSubj_verbSet)
 
                         print('sD_diff: ', sD_diff)
 
                         sO_diff = sSubj_verbSet.difference(sD_verbSet)
-
+                        
                         print('sO_diff:' , sO_diff)
 
                         sO_u = sSubj_verbSet.union(sD_verbSet)
                         print('union: ', sO_u)
+
+                        sVerbSet = set(sObj.sVerb.split(','))
+
+                        print('sVerbSet: ', sVerbSet)
+
+                        sVerbx = sVerbSet.intersection(sSubj_verbSet)
+
+                        print('sVerbx: ' , sVerbx)
                         
                         break
                     print(i)

@@ -332,7 +332,7 @@ def saveRules(rules):
 
     print('--- Saving Rules To File ---')
 
-    f = open(rulesF, 'a')
+    f = open(rulesF, 'w')
     for rule in rules:
         f.write(rule.__str__() + '\n')
     f.close()
@@ -346,24 +346,83 @@ def saveVars(myVars):
 
     print('--- Saving Vars To File ---')
 
-    f = open(varsF, 'a')
+    f = open(varsF, 'w')
     for var in myVars:
-        f.write(var + '\n')
+        f.write(var + ', ' + myVars[var].get_value() + ', ' + str(myVars[var].get_truth()) + ', ' + str(myVars[var].get_root()) + '\n')
     f.close()
 
     print('--- Saved Vars ---')
 
     return
 
-    
 
+def readVars(varLst):
+
+    print('--- Reading Vars From File ---')
+
+    f = open(varsF, 'r')
+    fileVars = f.read()
+    f.close()
+
+    lines = fileVars.split('\n')
+
+    for line in lines:
+        if len(line) > 0:
+            line = line.replace(' ', '')
+            lineLst = line.split(',')
+            if lineLst[2] == 'True':
+                if lineLst[3] == 'True':
+                    varLst[lineLst[0]] = Variable(lineLst[1], True, True)
+                else:
+                    varLst[lineLst[0]] = Variable(lineLst[1], True, False)
+            else:
+                if lineLst[3] == 'True':
+                    varLst[lineLst[0]] = Variable(lineLst[1], False, True)
+                else:
+                    varLst[lineLst[0]] = Variable(lineLst[1], False, False)
+
+    print('--- Vars Read From File ---')
+                           
+    return varLst
+
+
+def readRules(ruleLst):
+
+    print('--- Reading Rules From File ---')
+
+    f = open(rulesF, 'r')
+    fileRules = f.read()
+    f.close()
+
+    lines = fileRules.split('\n')
+
+    for line in lines:
+        if len(line) > 0:
+            lineLst = line.split(' ')
+
+            print('lineLst: ', lineLst)
+            
+            if len(lineLst) == 3:
+                rule_list.append(Rule(lineLst[0], lineLst[2]))
+            else:
+                print('readRules found invalid rule: ', line)
+                continue
+    
+    print('--- Rules Read From File ---')
+                           
+    return ruleLst
+
+    
 
 if __name__ == "__main__":
     
-    print("\n\t\tHello! I'm Halal-bot, and I'm smarter than you.", end='\n\n')
+    print("\n\t\tOne moment while I read input data...", end='\n\n')
     
     var_list = OrderedDict()
     rule_list = list()
+
+    var_list = readVars(var_list)
+    rule_list = readRules(rule_list)
     
     while True:
         
@@ -490,7 +549,7 @@ if __name__ == "__main__":
             for key in var_list:
                 print('key: {} ; value: {}'.format(key, var_list[key]))
 
-                saveVars(var_list)
+            saveVars(var_list)
 
             print('-' * 5)
             for rule in rule_list:
@@ -500,8 +559,8 @@ if __name__ == "__main__":
                 print('antenedent: ', rule.get_antecedent())
                 print('consequent: ', rule.get_consequent())
 
-                saveRules(rule_list)
-        
+            saveRules(rule_list)
+            
         elif learn:
             
             for rule in rule_list:
@@ -570,7 +629,7 @@ if __name__ == "__main__":
                 logic.pop()        
             
         else:
-            print("\nHaram Command.")
+            print("\nInvalid Command.")
     
         print()
         
