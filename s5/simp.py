@@ -8,9 +8,10 @@
 import sys
 import simpStuff as ss
 import simpSA as sa
-import simpReply as sr
+#import simpReply as sr
 import simpConfig as sc
 import simpGuess as sg
+import simpReason as sr
 
 from datetime import datetime
 
@@ -170,9 +171,9 @@ while loop:
 #                sys.exit() # Under dev, so exit for now
 
                 if validCFG:
-                    rel = ss.s4r(ccs, sA, sPOS, sc.simpData, inData) # Search for relationships
+                    rel = sr.s4r(ccs, sA, sPOS, sc.simpData, inData) # Search for relationships
                 else:
-                    rel = ss.s4r(ccs, sA, sPOS, sc.simpData, inData)
+                    rel = sr.s4r(ccs, sA, sPOS, sc.simpData, inData)
 
 
                     
@@ -188,7 +189,8 @@ while loop:
                     
                 sg.guess(s) # Make a SWAG with raw input
 
-                sr.reply(sA, rel, sc.simpData) # Attempt some kind of coherent output (rule based)
+                print('----- No reply for now...')
+#                s????.reply(sA, rel, sc.simpData) # Attempt some kind of coherent output (rule based)
 
           
                 # Save sentence to conversation history file
