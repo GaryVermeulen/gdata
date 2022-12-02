@@ -3,6 +3,7 @@
 #
 
 import simpConfig as sc
+import simpStuff as ss
 
 
 ################################################
@@ -87,7 +88,7 @@ def process_sObj(s, sObj, sD, inData):
                 wData.append(d)
     if sc.verbose: print('wData: ' + str(wData))
         
-    sObj.sPOS = wData
+    sObj.sPOS = wData # Is this really needed?
 
     sTypLst = sObj.sType.split(',')
 
@@ -99,7 +100,7 @@ def process_sObj(s, sObj, sD, inData):
         verbs = sObj.sVerb.split(',')
         if sc.verbose: print('verbs: ', verbs)
         for v in verbs:
-            vInflects.append(getInflections(v, "VB"))
+            vInflects.append(ss.getInflections(v, "VB"))
 
         if sc.verbose: print('vInflects: ', vInflects)
 
@@ -127,54 +128,17 @@ def process_sObj(s, sObj, sD, inData):
     elif sTypLst[0] == 'imperative':
         if sc.verbose: print('   imperative response')
 
-        sD_verbLst = sD[3].split(',')
+        # Can Simp do any of the verbs?
+        simpCanDo, simpCannotDo = canSimpDo(sD, sObj.sVerb, wData)
 
-        print('   simp verb list: ', sD_verbLst)
+        print('   simpCanDo:    ', simpCanDo)
+        print('   simpCannotDo: ', simpCannotDo)
 
-        sD_verbSet = set(sD_verbLst)
+        # Can the NNP(s) perform any of the verbs?
+        nnp_CanDo, nnp_CannotDo = nnpCanDo(sObj.sSubj, sObj.sVerb, wData)
 
-        if len(sObj.sSubj.split(',')) < 3:
-            sSubj = sObj.sSubj.split(',')
-
-            print('len wData: ', len(wData))
-            print(wData)
-            print('sSubj: ', sSubj)
-            print('-------')
-                
-            for i in wData:
-                print('   i: ', i)
-                
-                if i[0][0] == sSubj[0][0]:
-                    sSubj_verbLst = i[3].split(',')
-                    sSubj_verbSet = set(sSubj_verbLst)
-
-                    print('sSubj_verbSet: ', sSubj_verbSet)
-
-                    sD_intersec = sD_verbSet.intersection(sSubj_verbSet)
-
-                    print('sD_intersec: ', sD_intersec)
-
-                    diff = sSubj_verbSet.difference(sD_verbSet)
-                    diff = sD_verbSet.difference(sSubj_verbSet)
-                        
-                    print('   diff:' , diff)
-
-                    sO_u = sSubj_verbSet.union(sD_verbSet)
-                    print('union: ', sO_u)
-
-                    sVerbSet = set(sObj.sVerb.split(','))
-
-                    print('sVerbSet: ', sVerbSet)
-
-                    sVerbx = sVerbSet.intersection(sSubj_verbSet)
-
-                    print('sVerbx: ' , sVerbx)
-                        
-                    break     
-        else:
-            print('bummer')
-
-        print('wtf')
+        print('   nnp_CanDo: ', nnp_CanDo)
+        print('   nnp_CannotDo: ', nnp_CannotDo)
             
     elif sTypLst[0] == 'interrogative':
         if sc.verbose: print('   interrogative response')
@@ -188,15 +152,98 @@ def process_sObj(s, sObj, sD, inData):
 # End process_sObj()
 
 
-
+################################################
+# Process sPOS
+#
 def process_sPOS(s, sPOS, sD, inData):
 
+    wData = []
+    rel = None
     rels = []
+    vInflects = []
+    
+    for w in s:
+        for d in inData:
+            if w == d[0]:
+                wData.append(d)
+    if sc.verbose: print('wData: ' + str(wData))
 
-    rels.append(' --- s4r --- process_sPOS() stub ---')
+       
+    # Do a basic NP vs VP check on first word
+    # A sudo declarative vs imperative check
+    if wData[0][1] in ['VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ']:
+        # Implies some kind of action, so can Simp do this action?
+        print('   process_sPOS first word: ', wData[0][1])
+        
+    
 
-    print(rels)
 
     return rels
 # End process_sPOS()
 
+
+################################################
+# canSimpDo - Can Simp perform any of the sentence verbs?
+#
+def canSimpDo(sD, sVerbs, wData):
+
+    sentVerbLst = []
+    can = []
+    cannot = []
+
+    simpVerbLst = sD[3].split(',')
+    simpVerbSet = set(simpVerbLst)
+
+    print('   simp verb list: ', simpVerbLst)
+    print('   simp verb set:  ', simpVerbSet)
+
+         
+    for w in wData:
+        print('   w: ', w)
+
+        if w[-1] in ['VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ']:
+            sentVerbLst.append(w[0])
+
+    sentVerbSet = set(sentVerbLst)
+
+    print('   sent verb list: ', sentVerbLst)
+    print('   sent verb set:  ', sentVerbSet)
+
+    intersectionSimpSent = simpVerbSet.intersection(sentVerbSet)
+
+    print('   intersectionSimpSent: ', intersectionSimpSent)
+
+    difference = sentVerbSet.difference(simpVerbSet)
+
+    print('   difference: ', difference)
+
+    can = list(intersectionSimpSent)
+    cannot = list(difference)
+            
+    return can, cannot
+# End  simpCanDo()
+
+
+################################################
+# canSimpDo - Can NNP(s) perform any of the sentence verbs?
+#
+def nnpCanDo(sSubj, sVerb, wData):
+
+    subjLst = []
+    
+    subjects = sSubj.split(',')
+
+    for s in range(len(subjects)):
+        print('subjects[{}]: {}'.format(s, subjects[s])) 
+        if subjects[s] == 'NNP':
+            print('subjects[{}]: {}'.format(s, subjects[s - 1]))
+            subjLst.append(subjects[s - 1])
+
+    print('   subjLst: ', subjLst)
+
+
+    can = 'x'
+    cannot = 'y'
+    
+    return can, cannot
+# End  nnpCanDo()
