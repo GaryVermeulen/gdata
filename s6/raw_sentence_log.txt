@@ -1,0 +1,720 @@
+see pookie run
+(S (VP (VB see) (NP (NP (NNP Pookie)) (VP (VB run)))))
+see mary run
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB run)))))
+see pookie run
+(S (VP (VB see) (NP (NP (NNP Pookie)) (VP (VB run)))))
+see jane fly
+(S (VP (VB see) (NP (NP (NNP Jane)) (VP (VB fly)))))
+see bob fly
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB fly)))))
+see bob walk
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB walk)))))
+see bob eat
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB eat)))))
+see bob run
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+see bob run
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+see bob run
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+see bob run
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+see bob run
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+see bob run
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+see bob run
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+see bob run
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+see bob run
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+see bob run
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+see bob run
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+see bob run
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+see bob run
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+see bob run
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB run)))))
+see bob fly
+(S (VP (VB see) (NP (NP (NNP Bob)) (VP (VB fly)))))
+mary walked pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+mary walk pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VB walk)
+    (NP (NP (NNP Pookie)) (PP (IN in) (NP (DT the) (NN park))))))
+mary walked pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+mary walked pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+mary walked pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+mary walked pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+mary walked pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+mary walked pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+mary walked pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+mary runs in the park
+(S
+  (NP (NNP Mary))
+  (VP (VBZ runs) (PP (IN in) (NP (DT the) (NN park)))))
+mary walked pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+mary walked pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+mary walked pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+mary walked pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+mary walked pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+see pookie run
+(S (VP (VB see) (NP (NP (NNP Pookie)) (VP (VB run)))))
+mary walked pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+pookie flies in the park
+(S
+  (NP (NNP Pookie))
+  (VP (VBZ flies) (PP (IN in) (NP (DT the) (NN park)))))
+see pookie fly in the park
+(S
+  (VP
+    (VB see)
+    (NP
+      (NP (NP (NNP Pookie)) (VP (VB fly)))
+      (PP (IN in) (NP (DT the) (NN park))))))
+see pookie fly
+(S (VP (VB see) (NP (NP (NNP Pookie)) (VP (VB fly)))))
+see pookie fly
+(S (VP (VB see) (NP (NP (NNP Pookie)) (VP (VB fly)))))
+see pookie fly
+(S (VP (VB see) (NP (NP (NNP Pookie)) (VP (VB fly)))))
+see pookie fly
+(S (VP (VB see) (NP (NP (NNP Pookie)) (VP (VB fly)))))
+see pookie fly
+(S (VP (VB see) (NP (NP (NNP Pookie)) (VP (VB fly)))))
+mary walks pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBZ walks)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+mary walked pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+mary walked pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+see mary run
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB run)))))
+see mary fly
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB fly)))))
+see mary fly
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB fly)))))
+see mary fly
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB fly)))))
+see mary fly
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB fly)))))
+see mary fly
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB fly)))))
+see mary fly
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB fly)))))
+see mary fly
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB fly)))))
+see mary fly
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB fly)))))
+see mary fly
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB fly)))))
+see mary fly
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB fly)))))
+see mary run
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB run)))))
+mary walked pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+see mary fly
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB fly)))))
+see mary running
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VBG running)))))
+see mary run
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB run)))))
+see mary run
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB run)))))
+see mary fly
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB fly)))))
+see mary fly
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB fly)))))
+see mary fly
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB fly)))))
+see mary run
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB run)))))
+see mary run
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB run)))))
+see mary run
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB run)))))
+see mary run
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB run)))))
+see mary run
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB run)))))
+see mary run
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB run)))))
+see mary run
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB run)))))
+see mary run
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB run)))))
+see mary run
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB run)))))
+see mary run
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB run)))))
+see mary run
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB run)))))
+see mary run
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB run)))))
+see mary run
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB run)))))
+see simp compute
+(S (VP (VB see) (NP (NP (NNP Simp)) (VP (VB compute)))))
+see simp compute
+(S (VP (VB see) (NP (NP (NNP Simp)) (VP (VB compute)))))
+see simp compute
+(S (VP (VB see) (NP (NP (NNP Simp)) (VP (VB compute)))))
+see simp compute
+(S (VP (VB see) (NP (NP (NNP Simp)) (VP (VB compute)))))
+see simp compute
+(S (VP (VB see) (NP (NP (NNP Simp)) (VP (VB compute)))))
+see mary run
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB run)))))
+see mary fly
+(S (VP (VB see) (NP (NP (NNP Mary)) (VP (VB fly)))))
+mary walked pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN bus))))
+mary ate the duck
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN duck))))
+mary walked pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+mary walked pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+mary walked pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBN walked)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+mary ate the telescope
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN telescope))))
+mary ate duck
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (NN duck))))
+mary ate the duck
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (DT the) (NN duck))))
+mary ate duck
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (NN duck))))
+mary ate bus
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (NN bus))))
+mary ate duck
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (NN duck))))
+mary ate duck
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (NN duck))))
+mary ate duck
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (NN duck))))
+mary ate duck
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (NN duck))))
+mary ate duck
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (NN duck))))
+mary ate duck
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (NN duck))))
+mary ate duck in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NN duck)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate duck in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NN duck)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate duck in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NN duck)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate duck in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NN duck)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate duck in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NN duck)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate duck in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NN duck)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate duck in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NN duck)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate duck in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NN duck)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate duck in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NN duck)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate duck in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NN duck)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate duck in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NN duck)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the parks
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NNS parks))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate duck in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NN duck)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate duck
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (NN duck))))
+mary eats ducks in the duck
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBZ eats)
+    (NP (NNS ducks))
+    (PP (IN in) (NP (DT the) (NN duck)))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary eats duck in the park
+(S
+  (NP (NNP Mary))
+  (VP (VBZ eats) (NP (NN duck)) (PP (IN in) (NP (DT the) (NN park)))))
+mary eats ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBZ eats)
+    (NP (NNS ducks))
+    (PP (IN in) (NP (DT the) (NN park)))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate duck in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NN duck)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate duck
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (NN duck))))
+mary ate duck
+(S (NP (NNP Mary)) (VP (VBD ate) (NP (NN duck))))
+mary ate duck in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NN duck)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate bus in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NN bus)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate bus in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NN bus)) (PP (IN in) (NP (DT the) (NN park))))))
+mary ate ducks in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBD ate)
+    (NP (NP (NNS ducks)) (PP (IN in) (NP (DT the) (NN park))))))
+duck ate mary in the park
+(S
+  (NP (NN duck))
+  (VP
+    (VBD ate)
+    (NP (NP (NNP Mary)) (PP (IN in) (NP (DT the) (NN park))))))
+mary walks pookie in the park
+(S
+  (NP (NNP Mary))
+  (VP
+    (VBZ walks)
+    (NP (NNP Pookie))
+    (PP (IN in) (NP (DT the) (NN park)))))
+mary eats in the park
+(S
+  (NP (NNP Mary))
+  (VP (VBZ eats) (PP (IN in) (NP (DT the) (NN park)))))
+duck eats in the park
+(S
+  (NP (NN duck))
+  (VP (VBZ eats) (PP (IN in) (NP (DT the) (NN park)))))

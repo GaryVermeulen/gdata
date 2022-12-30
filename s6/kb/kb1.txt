@@ -1,0 +1,6 @@
+# root or child; name; attributes; childern
+#
+r; animal; eat, move; bird, mammal
+c; bird; fly, walk;
+c; mammal; walk, run, see; feline, canine, human
+c; feline; ; 

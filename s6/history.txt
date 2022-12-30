@@ -1,0 +1,142 @@
+# Input sentence, Possible relationships, Date; Time
+['see', 'Pookie', 'run']; []; 12/26/2022; 07:00:51
+['see', 'Jane', 'fly']; []; 12/26/2022; 07:12:14
+['see', 'Bob', 'fly']; []; 12/27/2022; 08:44:21
+['see', 'Bob', 'walk']; []; 12/27/2022; 08:46:07
+['see', 'Bob', 'run']; []; 12/27/2022; 09:49:51
+['see', 'Bob', 'run']; []; 12/27/2022; 09:50:54
+['see', 'Bob', 'run']; []; 12/27/2022; 09:52:26
+['see', 'Bob', 'run']; []; 12/27/2022; 09:53:21
+['see', 'Bob', 'run']; []; 12/27/2022; 09:54:35
+['see', 'Bob', 'run']; []; 12/27/2022; 10:03:46
+['see', 'Bob', 'run']; []; 12/27/2022; 10:04:55
+['see', 'Bob', 'run']; []; 12/27/2022; 10:07:39
+['see', 'Bob', 'run']; []; 12/27/2022; 10:12:01
+['see', 'Bob', 'run']; []; 12/27/2022; 10:13:25
+['see', 'Bob', 'run']; []; 12/27/2022; 10:15:54
+['see', 'Bob', 'run']; []; 12/27/2022; 10:21:45
+['see', 'Bob', 'fly']; []; 12/27/2022; 10:21:45
+['Mary', 'walked', 'Pookie', 'in', 'the', 'park']; ['Mary,walk', 'Pookie,walk']; 12/27/2022; 10:21:45
+['Mary', 'walk', 'Pookie', 'in', 'the', 'park']; ['Mary,walk', 'Pookie,walk']; 12/27/2022; 10:21:45
+['Bob', 'walked', 'in', 'the', 'park']; []; 12/27/2022; 11:02:57
+['Mary', 'walked', 'Pookie', 'in', 'the', 'park']; ['Mary,walk', 'Pookie,walk']; 12/27/2022; 11:04:56
+['Mary', 'walked', 'Pookie', 'in', 'the', 'park']; ['Mary,walk', 'Pookie,walk']; 12/27/2022; 11:07:16
+['Mary', 'walked', 'Pookie', 'in', 'the', 'park']; ['Mary,walk', 'Pookie,walk']; 12/27/2022; 11:10:15
+['Mary', 'walked', 'Pookie', 'in', 'the', 'park']; ['Mary,walk', 'Pookie,walk']; 12/27/2022; 11:13:53
+['Mary', 'walked', 'Pookie', 'in', 'the', 'park']; ['Mary,walk', 'Pookie,walk']; 12/27/2022; 11:15:41
+['Mary', 'runs', 'in', 'the', 'park']; ['Mary,run']; 12/27/2022; 11:19:06
+['Mary', 'walked', 'Pookie', 'in', 'the', 'park']; ['Mary,walk', 'Pookie,walk']; 12/27/2022; 11:33:41
+['Mary', 'walked', 'Pookie', 'in', 'the', 'park']; ['Mary,walk', 'Pookie,walk']; 12/27/2022; 11:39:36
+['Mary', 'walked', 'Pookie', 'in', 'the', 'park']; ['Mary,walk', 'Pookie,walk']; 12/27/2022; 11:42:58
+['Mary', 'walked', 'Pookie', 'in', 'the', 'park']; ['Mary,walk', 'Pookie,walk']; 12/27/2022; 12:01:22
+['Pookie', 'flies', 'in', 'the', 'park']; []; 12/27/2022; 13:48:40
+['see', 'Pookie', 'fly']; []; 12/27/2022; 14:05:19
+['see', 'Pookie', 'fly']; []; 12/27/2022; 14:08:14
+['Mary', 'walks', 'Pookie', 'in', 'the', 'park']; ['Mary,walk', 'Pookie,walk']; 12/27/2022; 14:08:14
+['Mary', 'walked', 'Pookie', 'in', 'the', 'park']; ['Mary,walk', 'Pookie,walk']; 12/27/2022; 14:13:09
+['Mary', 'walked', 'Pookie', 'in', 'the', 'park']; ['Mary,walk', 'Pookie,walk']; 12/27/2022; 14:18:29
+['see', 'Mary', 'run']; []; 12/27/2022; 14:18:29
+['see', 'Mary', 'fly']; []; 12/27/2022; 14:18:29
+['see', 'Mary', 'fly']; []; 12/27/2022; 14:24:40
+['see', 'Mary', 'fly']; []; 12/27/2022; 14:25:33
+['see', 'Mary', 'fly']; []; 12/27/2022; 14:27:43
+['see', 'Mary', 'fly']; []; 12/27/2022; 14:28:42
+['see', 'Mary', 'fly']; []; 12/27/2022; 14:30:45
+['see', 'Mary', 'fly']; []; 12/27/2022; 14:32:14
+['see', 'Mary', 'fly']; []; 12/27/2022; 14:48:41
+['see', 'Mary', 'fly']; []; 12/27/2022; 14:51:53
+['see', 'Mary', 'fly']; []; 12/27/2022; 14:55:18
+['see', 'Mary', 'run']; []; 12/27/2022; 14:55:18
+['Mary', 'walked', 'Pookie', 'in', 'the', 'park']; ['Mary,walk', 'Pookie,walk']; 12/27/2022; 14:55:18
+['see', 'Mary', 'fly']; []; 12/28/2022; 07:10:54
+['see', 'Mary', 'running']; []; 12/28/2022; 07:10:54
+['see', 'Mary', 'run']; []; 12/28/2022; 07:21:11
+['see', 'Mary', 'run']; []; 12/28/2022; 07:22:12
+['see', 'Mary', 'fly']; []; 12/28/2022; 07:33:23
+['see', 'Mary', 'fly']; []; 12/28/2022; 07:39:48
+['see', 'Mary', 'fly']; []; 12/28/2022; 07:42:39
+['see', 'Mary', 'run']; []; 12/28/2022; 07:54:25
+['see', 'Mary', 'run']; []; 12/28/2022; 08:05:36
+['see', 'Mary', 'run']; []; 12/28/2022; 08:14:30
+['see', 'Mary', 'run']; []; 12/28/2022; 08:17:15
+['see', 'Mary', 'run']; []; 12/28/2022; 08:19:27
+['see', 'Mary', 'run']; []; 12/28/2022; 08:21:48
+['see', 'Mary', 'run']; []; 12/28/2022; 08:24:03
+['see', 'Mary', 'run']; []; 12/28/2022; 08:27:54
+['see', 'Mary', 'run']; []; 12/28/2022; 08:29:14
+['see', 'Mary', 'run']; []; 12/28/2022; 08:32:26
+['see', 'Mary', 'run']; []; 12/28/2022; 08:34:36
+['see', 'Mary', 'run']; []; 12/28/2022; 08:40:03
+['see', 'Simp', 'compute']; []; 12/28/2022; 08:43:02
+['see', 'Simp', 'compute']; []; 12/28/2022; 08:50:00
+['see', 'Simp', 'compute']; []; 12/28/2022; 08:52:16
+['see', 'Simp', 'compute']; []; 12/28/2022; 09:03:01
+['see', 'Mary', 'run']; []; 12/28/2022; 09:03:01
+['see', 'Mary', 'fly']; []; 12/28/2022; 09:03:01
+['Mary', 'walked', 'Pookie', 'in', 'the', 'park']; ['Mary,walk', 'Pookie,walk']; 12/28/2022; 09:03:01
+['telescope', 'ran', 'in', 'the', 'park']; []; 12/28/2022; 09:03:01
+['Mary', 'ate', 'the', 'bus']; ['Mary,eat']; 12/28/2022; 09:03:01
+['Mary', 'ate', 'the', 'bus']; ['Mary,eat']; 12/28/2022; 09:30:50
+['Mary', 'ate', 'the', 'bus']; ['Mary,eat']; 12/28/2022; 09:33:36
+['Mary', 'ate', 'the', 'bus']; ['Mary,eat']; 12/28/2022; 09:35:36
+['Mary', 'ate', 'the', 'bus']; ['Mary,eat']; 12/28/2022; 09:36:33
+['Mary', 'ate', 'the', 'bus']; ['Mary,eat']; 12/28/2022; 09:37:31
+['Mary', 'ate', 'the', 'bus']; ['Mary,eat']; 12/28/2022; 09:41:06
+['Mary', 'ate', 'the', 'bus']; ['Mary,eat']; 12/28/2022; 09:44:55
+['Mary', 'ate', 'the', 'bus']; ['Mary,eat']; 12/28/2022; 09:46:15
+['Mary', 'ate', 'the', 'bus']; ['Mary,eat']; 12/28/2022; 09:55:47
+['Mary', 'ate', 'the', 'bus']; ['Mary,eat']; 12/28/2022; 09:57:42
+['Mary', 'ate', 'the', 'bus']; ['Mary,eat']; 12/28/2022; 10:02:10
+['Mary', 'ate', 'the', 'bus']; ['Mary,eat']; 12/28/2022; 11:24:33
+['Mary', 'ate', 'the', 'bus']; ['Mary,eat']; 12/28/2022; 11:43:01
+['Mary', 'ate', 'the', 'bus']; ['Mary,eat']; 12/29/2022; 08:35:34
+['Mary', 'ate', 'the', 'bus']; ['Mary,eat']; 12/29/2022; 08:37:36
+['Mary', 'ate', 'the', 'bus']; ['Mary,eat']; 12/29/2022; 08:40:46
+['Mary', 'ate', 'the', 'duck']; ['Mary,eat']; 12/29/2022; 08:40:46
+['Mary', 'walked', 'Pookie', 'in', 'the', 'park']; ['Mary,walk', 'Pookie,walk']; 12/29/2022; 09:07:58
+['Mary', 'ate', 'the', 'telescope']; ['Mary,eat']; 12/29/2022; 09:07:58
+['Mary', 'ate', 'the', 'duck']; ['Mary,eat']; 12/29/2022; 09:58:44
+['Mary', 'ate', 'duck']; ['Mary,eat']; 12/29/2022; 10:05:32
+['Mary', 'ate', 'bus']; ['Mary,eat']; 12/29/2022; 10:05:32
+['Mary', 'ate', 'duck']; ['Mary,eat']; 12/29/2022; 10:35:37
+['Mary', 'ate', 'duck', 'in', 'the', 'park']; ['Mary,eat', 'duck,eat']; 12/29/2022; 10:35:37
+['Mary', 'ate', 'duck', 'in', 'the', 'park']; ['Mary,eat', 'duck,eat']; 12/29/2022; 11:06:33
+['Mary', 'ate', 'duck', 'in', 'the', 'park']; ['Mary,eat', 'duck,eat']; 12/29/2022; 11:35:12
+['Mary', 'ate', 'duck', 'in', 'the', 'park']; ['Mary,eat', 'duck,eat']; 12/29/2022; 11:38:18
+['Mary', 'ate', 'duck', 'in', 'the', 'park']; ['Mary,eat']; 12/30/2022; 07:55:36
+['Mary', 'ate', 'duck', 'in', 'the', 'park']; ['Mary,eat', 'duck,eat']; 12/30/2022; 08:09:55
+['Mary', 'ate', 'duck', 'in', 'the', 'park']; ['Mary,eat', 'duck,eat']; 12/30/2022; 08:22:31
+['Mary', 'ate', 'duck', 'in', 'the', 'park']; ['Mary,eat', 'duck,eat']; 12/30/2022; 08:24:26
+['Mary', 'ate', 'ducks', 'in', 'the', 'park']; ['Mary,eat', 'ducks,eat']; 12/30/2022; 08:35:43
+['Mary', 'ate', 'ducks', 'in', 'the', 'park']; ['Mary,eat', 'ducks,eat']; 12/30/2022; 08:50:30
+['Mary', 'ate', 'ducks', 'in', 'the', 'park']; ['Mary,eat', 'ducks,eat']; 12/30/2022; 08:54:18
+['Mary', 'ate', 'ducks', 'in', 'the', 'park']; ['Mary,eat', 'ducks,eat']; 12/30/2022; 08:56:47
+['Mary', 'ate', 'ducks', 'in', 'the', 'park']; ['Mary,eat', 'ducks,eat']; 12/30/2022; 08:59:07
+['Mary', 'ate', 'ducks', 'in', 'the', 'park']; ['Mary,eat', 'ducks,eat']; 12/30/2022; 09:04:17
+['Mary', 'ate', 'ducks', 'in', 'the', 'park']; ['Mary,eat', 'ducks,eat']; 12/30/2022; 09:08:37
+['Mary', 'ate', 'ducks', 'in', 'the', 'park']; ['Mary,eat', 'ducks,eat']; 12/30/2022; 09:10:15
+['Mary', 'ate', 'duck', 'in', 'the', 'park']; ['Mary,eat', 'duck,eat']; 12/30/2022; 09:10:15
+['Mary', 'ate', 'ducks', 'in', 'the', 'park']; ['Mary,eat', 'ducks,eat']; 12/30/2022; 09:32:46
+['Mary', 'ate', 'ducks', 'in', 'the', 'park']; ['Mary,eat', 'ducks,eat']; 12/30/2022; 09:36:36
+['Mary', 'ate', 'ducks', 'in', 'the', 'park']; ['Mary,eat', 'ducks,eat']; 12/30/2022; 09:38:46
+['Mary', 'ate', 'ducks', 'in', 'the', 'park']; ['Mary,eat', 'ducks,eat']; 12/30/2022; 09:39:57
+['Mary', 'ate', 'duck', 'in', 'the', 'park']; ['Mary,eat', 'duck,eat']; 12/30/2022; 09:42:31
+['Mary', 'ate', 'duck', 'in', 'the', 'park']; ['Mary,eat', 'duck,eat']; 12/30/2022; 09:44:34
+['Mary', 'ate', 'ducks', 'in', 'the', 'park']; ['Mary,eat', 'ducks,eat']; 12/30/2022; 09:44:34
+['Mary', 'ate', 'ducks', 'in', 'the', 'park']; ['Mary,eat', 'ducks,eat']; 12/30/2022; 10:57:49
+['Mary', 'ate', 'ducks', 'in', 'the', 'park']; ['Mary,eat', 'ducks,eat']; 12/30/2022; 11:03:01
+['Mary', 'ate', 'ducks', 'in', 'the', 'park']; ['Mary,eat', 'ducks,eat']; 12/30/2022; 11:07:00
+['Mary', 'ate', 'ducks', 'in', 'the', 'park']; ['Mary,eat', 'ducks,eat']; 12/30/2022; 11:28:57
+['Mary', 'ate', 'duck', 'in', 'the', 'park']; ['Mary,eat', 'duck,eat']; 12/30/2022; 11:33:14
+['Mary', 'ate', 'duck']; ['Mary,eat']; 12/30/2022; 11:33:14
+['Mary', 'eats', 'ducks', 'in', 'the', 'duck']; ['Mary,eat', 'ducks,eat']; 12/30/2022; 11:33:14
+['Mary', 'ate', 'ducks', 'in', 'the', 'park']; ['Mary,eat', 'ducks,eat']; 12/30/2022; 11:33:14
+['Mary', 'eats', 'duck', 'in', 'the', 'park']; ['Mary,eat', 'duck,eat']; 12/30/2022; 11:33:14
+['Mary', 'eats', 'ducks', 'in', 'the', 'park']; ['Mary,eat', 'ducks,eat']; 12/30/2022; 11:33:14
+['Mary', 'ate', 'ducks', 'in', 'the', 'park']; ['Mary,eat', 'ducks,eat']; 12/30/2022; 11:33:14
+['Mary', 'ate', 'duck', 'in', 'the', 'park']; ['Mary,eat', 'duck,eat']; 12/30/2022; 11:33:14
+['Mary', 'ate', 'duck']; ['Mary,eat']; 12/30/2022; 13:10:33
+['Mary', 'ate', 'duck', 'in', 'the', 'park']; ['Mary,eat', 'duck,eat']; 12/30/2022; 13:10:33
+['Mary', 'ate', 'ducks', 'in', 'the', 'park']; ['Mary,eat', 'ducks,eat']; 12/30/2022; 13:38:21
+['Mary', 'walks', 'Pookie', 'in', 'the', 'park']; ['Mary,walk', 'Pookie,walk']; 12/30/2022; 13:44:06
+['Mary', 'eats', 'in', 'the', 'park']; ['Mary,eat']; 12/30/2022; 13:44:06
