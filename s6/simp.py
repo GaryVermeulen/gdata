@@ -181,10 +181,14 @@ while loop:
                     relationFound = True
                     if sc.verbose: print('rel = True: ' + str(rel))
 
+                if validCFG:
+                    kbCan, kbCanNot = skb.testCognizance(sA, simpData)
+                    print("kbCan: ", kbCan)
+                    print("kbCanNot: ", kbCanNot)
 
-                kbCan, kbCanNot = skb.testCognizance(sA, simpData)
-                print("kbCan: ", kbCan)
-                print("kbCanNot: ", kbCanNot)
+                else:
+                    print('--- A valid CFG was not returned. ---')
+                    print('--- testCognizance not ran.')
 #                print(globals())
 
 # Later...

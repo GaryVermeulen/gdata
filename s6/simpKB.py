@@ -184,12 +184,13 @@ def readNNP():
 
     f.close()
 
-    
-
     return
 
 
 def readNN():
+
+    nnList = []
+    nnBaseClassLst = []
     
     with open(nnFile, 'r') as f:
         while (line := f.readline().rstrip()):
@@ -197,62 +198,21 @@ def readNN():
                 line = line.replace(' ', '')
                 ll = line.split(";")
 
-                objName   = ll[0]
-                baseClass = ll[2].capitalize()
-                
-# When needed ensure Class hierarchy
-#
-#                if baseClass == "Human":
-#                    str2Var(objName, Human(objName, 0))
-#               
-#                elif baseClass == "Feline":
-#                    str2Var(objName, Feline(objName, 0))
-#
-#                elif baseClass == "Canine":
-#                    str2Var(objName, Canine(objName, 0))
-#
-#                elif baseClass == "Instrument":
-#                    str2Var(objName, Cat(objName, 0))
-#                    
-#                elif baseClass == "Recreation_ground":
-#                    str2Var(objName, Recreation_ground(objName))
-#
-#                elif baseClass == "Vehicle":
-#                    str2Var(objName, Vehicle(objName))
-#
-#                elif baseClass == "Bird":
-#                    str2Var(objName, Bird(objName, 0))
-#
-#                elif baseClass == "Park":
-#                    str2Var(objName, Park(objName))
-#
-#                elif baseClass == "Mammal":
-#                    str2Var(objName, Mammal(objName, 0))
-#
-#                elif baseClass == "Animal":
-#                    str2Var(objName, Animal(objName, 0))
-#
-#                elif baseClass == "Device":
-#                    str2Var(objName, Device(objName))
-#
-#                elif baseClass == "Thing":
-#                    str2Var(objName, Thing(objName))
+                objName    = ll[0]
+                baseClass  = ll[2].capitalize()
+                objActions = ll[3]
 
+                nnList.append(objName + ';' + baseClass + ';' + objActions)
+                nnBaseClassLst.append(baseClass)
     f.close()
 
-    return
+    print(nnList)
+    print('-----...')
+    print(nnBaseClassLst)
 
-def makeKB():
-
-    readNNP()
-    
-# Already constructed    readNN()
-# Plurals (NNS)...~?
-
-    return
+    return nnList, nnBaseClassLst
 
 
-#
 def testCognizance(sA, sD):
 
     vInflects = []
@@ -310,6 +270,8 @@ def testCognizance(sA, sD):
 
 ###
 
+    nnList, bClassLst = readNN()
+
     sA_sSubjList = sA.sSubj.split(',')
     sA_sObjList =sA.sObj.split(',')
 
@@ -334,6 +296,8 @@ def testCognizance(sA, sD):
     for sSubj in NNxPair:
         print('sSubj: ', sSubj)
         sSubjLst = sSubj.split(',')
+        print('sSubjLst: ', sSubjLst)
+        
         if sSubjLst[0] not in ['NN','NNP','NNS']:
             print('if sSubjLst[0]: ', sSubjLst[0]) 
             if sSubjLst[0].capitalize() in globals():
@@ -342,40 +306,87 @@ def testCognizance(sA, sD):
 
                 if primarySubject == None:
                     primarySubject = sSubjLst[0].capitalize()
+                    print('primarySubject: ', primarySubject)
+                    print(type(primarySubject))
+                    
                 else:
                     secondarySubject = sSubjLst[0].capitalize()
+                    print('secondarySubject: ', secondarySubject)
+                    print(type(secondarySubject))
                 
                 print("Continue...")
             else:
                 print("Subject Not Found: ", sSubjLst[0])
                 print("Exit...")
 
+    print("....................")
+
+
     pSubObj = eval(primarySubject)
-    print('After pri sub: ', str(pSubObj._isFood))
+    print('After pSubObj = eval(primarySubject)   pSubObj._isFood: ', str(pSubObj._isFood))
+
+    
 
     if secondarySubject is not None:
         sSubObj = eval(secondarySubject)
         print('After eval 2nd subj: ', str(sSubObj._isFood))
+        print(type(pSubObj))
 
-                
+    print("....................")            
     print('sA_sObjList: ', sA_sObjList)
-    for sObj in sA_sObjList:
-        print('sObj: ', sObj)
-        if sObj not in ['NN','NNP','NNS']:
-            if sObj.capitalize() in globals():
-                primaryObject = eval(sObj.capitalize())
-                print("Found Object: ", sObj)
-                print("Continue...")
+    print('len(sA_sObjList): ', len(sA_sObjList))
+
+    if len(sA_sObjList) == 2:
+        if sA_sObjList[1] == 'NNS':
+            nonP = ps.stem(tmp)
+        else:
+            nonP = sA_sObjList[0]
+
+        capNonP = nonP.capitalize()
+
+        if capNonP in globals(): 
+            primaryObject = eval(capNonP)
+
+            if hasattr(primaryObject, 'name'):
+                print('primaryObject.name: ', primaryObject.name)
+                print('primaryObject.actions: ', primaryObject.actions)
             else:
-                print("Object Not Found: ", sObj)
-                print("Exit...")
+
+                # test and create NN object
+                print('test and create')
+                print('primaryObject: ', primaryObject)
+
+                if capNonP == 'Cat':
+                    nnCat = capNonP
+                    str2Var(nnCat, Cat({'eats food'}, nnCat))
+                else:
+                    return [], ['ERROR' , ' No object selection for: ', capNonP]
+
+    else:
+        print('Possible more than one sObj--len(sA_sObjList): ', len(sA_sObjList))
+
+
 
     print("....................")
 
     simpDoList = sD[3].split(',')
     simpDoSet = set(simpDoList)
 
-    pSubVerbLst = pSubObj.actions.split(',')
+    try:
+        pSubVerbLst = nnCat.actions.split(',')
+        print('try ok')
+    except AttributeError:
+        print('nnCat: ', nnCat)
+        print(type(nnCat))
+        print('exception...')
+            
+#        pSubInstance   str2Var(objName, Duck(objActions, objName))
+
+    print('primaryObject test: ', primaryObject.name)
+    print('actions:      ', primaryObject.actions)
+    print(type(primaryObject))
+
+        
     pSubVerbSet = set(pSubVerbLst)
 
     verbList = sA.sVerb.split(',')
