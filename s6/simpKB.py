@@ -1,6 +1,7 @@
 #
-# simpReason.py
+# simpKB.py -- Feeble attempt of an OO KB
 #
+
 import simpConfig as sc
 from simpStuff import getInflections as gI
 from nltk.stem import PorterStemmer
@@ -232,7 +233,7 @@ def testCognizance(sA, sD):
     intersectionNNPVerb = "CAN"
     differenceVerbNNP   = "CANNOT"
 
-    print("---- testCognizance ----")
+    print("==== testCognizance ====")
 
 ###    readNNP() 
 

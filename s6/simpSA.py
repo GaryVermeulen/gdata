@@ -46,6 +46,7 @@ def sentAnalysis(t, s, f):
     sIN = ''
     sPP = ''
     sMD = ''
+    sSubjTemp = ''
 
     firstLine = True
 
@@ -63,17 +64,17 @@ def sentAnalysis(t, s, f):
             tmpLst.append(item)
 
     if sc.verbose: print('tmpLst: ', str(tmpLst))
-
     f.write('-------------\n')
+
     for item in tmpLst:
         f.write('item: ' + str(item) + '\n')
 
         iLst = buildItemList(item)
 
         if sc.verbose: 
-            print(item)
-            print('^ item  | iLst ---')
-            print(iLst)
+            print('item:  >>' + item + '<<')
+            print('iLst --->', iLst)
+            
 #        print('---')
         if len(iLst) > 0:
 #            print(type(iLst))
@@ -103,14 +104,15 @@ def sentAnalysis(t, s, f):
                                     sVerb = iLst[3]
                                     if len(iLst) > 3:
                                         print('*** ', iLst)
+                                        print('len(iLst: ', len(iLst))
                                         if sObj == '':
-                                            if iLst[4][0] == 'NP':
-                                                if iLst[4][1] in ['NP','NNP','NN','NNS']:
-                                                    sObj = iLst[5] + ',' + iLst[4][1]
+                                            if iLst[2][0] == 'NP':
+                                                if iLst[2][1] in ['NP','NNP','NN','NNS']:
+                                                    sObj = iLst[3] + ',' + iLst[2][1]
                                         else:
-                                            if iLst[4][0] == 'NP':
-                                                if iLst[4][1] in ['NP','NNP','NN','NNS']:
-                                                    sObj = sObj + ',' + iLst[5] + ',' + iLst[4][1]
+                                            if iLst[2][0] == 'NP':
+                                                if iLst[2][1] in ['NP','NNP','NN','NNS']:
+                                                    sObj = sObj + ';' + iLst[3] + ',' + iLst[2][1]
                     else:
                         if sVerb == '':
                             if sTypLst[0] == 'interrogative':
@@ -123,7 +125,7 @@ def sentAnalysis(t, s, f):
                             if sSubj == '':
                                 sSubj = iLst[1] + ',' + iLst[0][1]
                             else:
-                                sSubj = sSubj + ',' + iLst[1] + ',' + iLst[0][1]
+                                sSubj = sSubj + ';' + iLst[1] + ',' + iLst[0][1]
                                 if sc.verbose: print('who dat ', iLst[1])
                                 
                             if len(iLst) > 2:
@@ -145,10 +147,12 @@ def sentAnalysis(t, s, f):
                                         sVerb = iLst[5]
                     else:
                         sDet = iLst[1]
-                        if len(iLst) > 2:
+                        if len(iLst) > 2:    
                             if iLst[2][0] in ['NN','NNS']:
                                 if sSubj == '':
                                     sSubj = iLst[3] + ',' + iLst[2][0]
+                                else:
+                                    sSubjTemp = iLst[3] + ',' + iLst[2][0] # Hold value and wait to see if we find an sObj
                                     
                 elif iLst[0][1] == 'PRP':
                     if firstLine:
@@ -193,7 +197,7 @@ def sentAnalysis(t, s, f):
                                     if sObj == '':
                                         sObj = iLst[3] + ',' + iLst[2][1]
                                     else:
-                                        sObj = sObj + ',' + iLst[3] + ',' + iLst[2][1]
+                                        sObj = sObj + ';' + iLst[3] + ',' + iLst[2][1]
                                 elif iLst[2][1] == 'DT':
                                     if sDet == '':
                                         sDet = iLst[3]
@@ -204,7 +208,7 @@ def sentAnalysis(t, s, f):
                                             if sObj == '':
                                                 sObj = iLst[5] + ',' + iLst[4][0]
                                             else:
-                                                sObj = sObj + ',' + iLst[5] + ',' + iLst[4][0]
+                                                sObj = sObj + ';' + iLst[5] + ',' + iLst[4][0]
                 firstLine = False
                 
             elif iLst[0][0] in ['VB','VBD','VBG','VBN','VBP','VBZ']:
@@ -280,6 +284,12 @@ def sentAnalysis(t, s, f):
                 print(str(firstLine))
                 
                 firstLine = False
+
+    # Korny where to deal with additional sSubj's
+    if len(sSubjTemp) > 0:
+        if len(sObj) > 0:
+            sSubj = sSubj + ';' + sSubjTemp
+            
     if sc.verbose: 
         print('======================')
         print('Input sentence w/corrected case:')

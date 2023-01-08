@@ -1,5 +1,5 @@
 #
-# simpReason.py
+# simpReason.py -- Attempt to emulate knowledge from linited data
 #
 
 import simpConfig as sc
@@ -13,25 +13,22 @@ import simpStuff as ss
 def s4r(s, sObj, sPOS, sD, inData):
     
     rels = []
-    no_sObj = True
-    no_sPOS = True
     
-    
-    print('--- s4r ---')
+    print('==== s4r ====')
 
     if sObj.inSent == '':
         if sc.verbose:
-            print('no sent obj found')
+            print('No or empty sentence object found')
             print(s)
             print(sPOS)
             print(sD)
             print('---')
-    else:
-        no_sObj = False
+
+        return ['s4r', 'ERROR', 'No or empty sentence object supplied'] 
     
-    if len(sPOS) == 0:
+    else:
         if sc.verbose:
-            print('no sPOS found')
+            print(' Sentence object found for s:')
             print(s)
             print('    inSent: ', sObj.inSent)
             print('    sPOS  : ', sObj.sPOS)
@@ -44,32 +41,16 @@ def s4r(s, sObj, sPOS, sD, inData):
             print('    sPP   : ', sObj.sPP)
             print('    sMD   : ', sObj.sMD)
             print(sD)
-    else:
-        no_sPOS = False
-
-    if no_sObj and no_sPOS:
-        rels.append('--- s4r --- No sObj and No sPOS ---')
-        print(rels)
-        return rels
-
-    if no_sObj:
-        print('--- s4r --- Calling process_sPOS() ---')
-        rels = process_sPOS(s, sPOS, sD, inData)
-        print('--- s4r --- process_sPOS() returned:') 
-        print(rels)
-        return rels
-
-    if no_sPOS:
-        print('--- s4r --- Calling process_sObj() ---')
-        rels = process_sObj(s, sObj, sD, inData)
-        print('--- s4r --- process_sObj() returned:')
-        print(rels)
-        return rels
-
-    if sc.verbose: print('   Technically should not get here, rels: ', str(rels))
-        
+    
+    
+    print('--- s4r --- Calling process_sObj() ---')
+    can, cannot = process_sObj(s, sObj, sD, inData)
+    print('--- s4r --- process_sObj() returned:')
+    print('can: ', can)
+    print('cannot: ', cannot)
     print('--- End s4r ---')
-    return rels
+    
+    return can, cannot
 # End s4r
 
 
@@ -80,8 +61,12 @@ def process_sObj(s, sObj, sD, inData):
 
     wData = []
     rel = None
-    rels = []
+    canDo = []
+    cannotDo = []
     vInflects = []
+
+    justSubjects = []
+    justObjects = []
     
     for w in s:
         for d in inData:
@@ -89,29 +74,65 @@ def process_sObj(s, sObj, sD, inData):
                 wData.append(d)
     if sc.verbose: print('wData: ' + str(wData))
         
-    sObj.sPOS = wData # Is this really needed?
 
-    sTypLst = sObj.sType.split(',')
+    sTypLst = sObj.sType.split(',') # More than one type? What was I thinking?
 
     if sTypLst[0] == 'declarative':
-        if sc.verbose: print('   declarative response')
+        if sc.verbose: print(' declarative response')
         # Does the verb(s) match the actions on the nouns?
         # First get the inflections
             
         verbs = sObj.sVerb.split(',')
-        if sc.verbose: print('verbs: ', verbs)
+        if sc.verbose: print('  verbs: ', verbs)
         for v in verbs:
             vInflects.append(ss.getInflections(v, "VB"))
 
-        if sc.verbose: print('vInflects: ', vInflects)
+        if sc.verbose: print('  vInflects: ', vInflects)
 
-        subjects = sObj.sSubj.split(',')
+        subjects = sObj.sSubj.split(';')
+        objects = sObj.sObj.split(';')
+
+        print('  subjects: ', subjects)
+        print('  objects: ', objects)
+        
+        if len(subjects) > 1:
+            for s in subjects:
+                tmp = s.split(',')
+                justSubjects.append(tmp[0])
+                    
+        else:
+            tmp = subjects[0].split(',')
+            justSubjects.append(tmp[0])
+
+        if len(objects) > 1:
+            for o in objects:
+                tmp = o.split(',')
+                justObjects.append(tmp[0])
+                    
+        else:
+            tmp = objects[0].split(',')
+            justObjects.append(tmp[0])
+
+
+
+        print('  justSubjects: ', justSubjects)
+        print('  justObjects: ', justObjects)
+
+
 
         for w in wData:
-            if w[0] in subjects:
-                if sc.verbose: print('w: ', w)
+#            print(' ---')
+#            if sc.verbose: print('   w: ', w)
+#            if sc.verbose: print('   w[0]: ', w[0])
 
+                
+                
+            if w[0] in justSubjects:
+
+#                print(' checking subjects...')
+                
                 actions = set(w[3].split(','))
+#                print('   actions: ', actions)
                     
                 for v in vInflects:
                     v = v.split(',')
@@ -119,12 +140,35 @@ def process_sObj(s, sObj, sD, inData):
                     inflect.intersection_update(actions)
 
                 if len(inflect) == 0:
-                    if sc.verbose: print(str(w[0]) + ' cannot ' + str(v))
-                    rel = None
+                    
+                    cannotDo.append(w[0] + ',' + str(vInflects))
+                    if sc.verbose: print(str(w[0]) + ' cannot ' + str(vInflects))
                 else:
                     rel = inflect.pop()
-                    rels.append(w[0] + ',' + rel)
+                    canDo.append(w[0] + ',' + rel)
                     if sc.verbose: print(str(w[0]) + ' can ' + rel)
+            elif w[0] in justObjects:
+
+#                print(' checking objects...')
+
+                actions = set(w[3].split(','))
+#                print('   actions: ', actions)
+                    
+                for v in vInflects:
+                    v = v.split(',')
+                    inflect = set(v)
+                    inflect.intersection_update(actions)
+
+                if len(inflect) == 0:
+                    
+                    cannotDo.append(w[0] + ',' + str(vInflects))
+                    if sc.verbose: print(str(w[0]) + ' cannot ' + str(vInflects))
+                else:
+                    rel = inflect.pop()
+                    canDo.append(w[0] + ',' + rel)
+                    if sc.verbose: print(str(w[0]) + ' can ' + rel)
+
+
             
     elif sTypLst[0] == 'imperative':
         if sc.verbose: print('   imperative response')
@@ -135,12 +179,19 @@ def process_sObj(s, sObj, sD, inData):
         print('   simpCanDo:    ', simpCanDo)
         print('   simpCannotDo: ', simpCannotDo)
 
-        # Can the NNP(s) perform any of the verbs?
-        nnp_CanDo, nnp_CannotDo = nnpCanDo(sObj.sSubj, sObj.sVerb, wData)
+        # Can the sentence subject(s) perform any of the verbs?
+        sub_CanDo, sub_CannotDo = subCanDo(sObj.sSubj, sObj.sVerb, wData)
 
-        print('   nnp_CanDo: ', nnp_CanDo)
-        print('   nnp_CannotDo: ', nnp_CannotDo)
-            
+        print('   sub_CanDo: ', sub_CanDo)
+        print('   sub_CannotDo: ', sub_CannotDo)
+
+        # Can the sentence object(s) perform any of the verbs?
+        obj_CanDo, obj_CannotDo = objCanDo(sObj.sObj, sObj.sVerb, wData)
+
+        print('   obj_CanDo: ', obj_CanDo)
+        print('   obj_CannotDo: ', obj_CannotDo)
+
+
     elif sTypLst[0] == 'interrogative':
         if sc.verbose: print('   interrogative response')
             
@@ -149,7 +200,7 @@ def process_sObj(s, sObj, sD, inData):
     else:
         print('   unkonwn senetence type')
 
-    return rels
+    return canDo, cannotDo
 # End process_sObj()
 
 
@@ -226,9 +277,9 @@ def canSimpDo(sD, sVerbs, wData):
 
 
 ################################################
-# nnpCanDo - Can NNP(s) perform any of the sentence verbs?
+# subCanDo - Can sentence subject(s) perform any of the sentence verbs?
 #
-def nnpCanDo(sSubj, sVerb, wData):
+def subCanDo(sSubj, sVerb, wData):
 
     subjLst = []
     
@@ -249,4 +300,28 @@ def nnpCanDo(sSubj, sVerb, wData):
     return can, cannot
 # End  nnpCanDo()
 
+
+################################################
+# objCanDo - Can sentence object(s) perform any of the sentence verbs?
+#
+def objCanDo(sObj, sVerb, wData):
+
+    objLst = []
+    
+    objects = sObj.split(',')
+
+    for o in range(len(objects)):
+        print('objects[{}]: {}'.format(o, objects[o])) 
+        if objects[o] == ['NN', 'NNS']:
+            print('objects[{}]: {}'.format(s, objects[o - 1]))
+            objLst.append(objects[o - 1])
+
+    print('   objLst: ', objLst)
+
+
+    can = 'x'
+    cannot = 'y'
+    
+    return can, cannot
+# End  objCanDo()
 

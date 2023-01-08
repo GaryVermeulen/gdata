@@ -31,9 +31,10 @@ st = startTime.strftime("%m/%d/%Y %H:%M:%S")
 f.write('\n*** START RUN AT: ' + str(st) + ' ***\n')
 f.write('   Reading input data and building CFG file\n')
 
-# Read lexicon & KB data file
+# Read all data (Nx, Vx, etc.)
 inData = ss.getData()
 inDataLen = len(inData)
+if sc.verbose: print("getData() returned {} lines of data.".format(inDataLen))
 f.write('   Read {} items\n'.format(inDataLen))
 
 # Build CFG file from data and cfg_rules
@@ -168,23 +169,27 @@ while loop:
                     print("\n------------")
 
                 if validCFG:
-                    rel = sr.s4r(ccs, sA, sPOS, simpData, inData) # Search for relationships
-                else:
-                    rel = sr.s4r(ccs, sA, sPOS, simpData, inData)
+                    can, cannot = sr.s4r(ccs, sA, sPOS, simpData, inData) # Search for relationships
 
-                f.write('    rel: ' + str(rel) + '\n')
+                    if sc.verbose:
+                        print('can   : ' + str(can))
+                        print('cannot: ' + str(cannot))
 
-                if len(rel) == 0:
-                    relationFound = False
-                    if sc.verbose: print('rel = False: ' + str(rel))
                 else:
-                    relationFound = True
-                    if sc.verbose: print('rel = True: ' + str(rel))
+                    print('No valid CFG returned, so not calling s4r')
+                    print('    we will deal with this later...')
+                    #rel = sr.s4r(ccs, sA, sPOS, simpData, inData)
+
+                #f.write('    rel: ' + str(rel) + '\n')
+
+                
 
                 if validCFG:
-                    kbCan, kbCanNot = skb.testCognizance(sA, simpData)
-                    print("kbCan: ", kbCan)
-                    print("kbCanNot: ", kbCanNot)
+                    #kbCan, kbCanNot = skb.testCognizance(sA, simpData)
+                    #print("skb retruned:")
+                    #print("    kbCan: ", kbCan)
+                    #print("    kbCanNot: ", kbCanNot)
+                    print('Skipping skb.testCognizance()...')
 
                 else:
                     print('--- A valid CFG was not returned. ---')
@@ -201,11 +206,11 @@ while loop:
           
                 # Save sentence to conversation history file
                 # 
-                if sc.verbose: print('Saving history...')
-                t = slt.replace(' ', '; ')
-                fh = open(fhistory, 'a')
-                fh.write('\n' + str(ccs) + '; ' + str(rel) + '; ' + t)
-                fh.close()
+#                if sc.verbose: print('Saving history...')
+#                t = slt.replace(' ', '; ')
+#                fh = open(fhistory, 'a')
+#                fh.write('\n' + str(ccs) + '; ' + str(rel) + '; ' + t)
+#                fh.close()
             
             else:
                 cmd = 'EXIT'
