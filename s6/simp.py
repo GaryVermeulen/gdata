@@ -13,6 +13,7 @@ import simpConfig as sc
 #import simpGuess as sg
 import simpReason as sr
 import simpKB as skb
+import simpX as sx
 
 from datetime import datetime
 
@@ -183,24 +184,34 @@ while loop:
                 #f.write('    rel: ' + str(rel) + '\n')
 
                 
-
+                # Testing various methods to derive knowledge
+                #
                 if validCFG:
+                    print('--- A valid CFG tree was returned, so let us attmpt to find some knowledge')
                     #kbCan, kbCanNot = skb.testCognizance(sA, simpData)
                     #print("skb retruned:")
                     #print("    kbCan: ", kbCan)
                     #print("    kbCanNot: ", kbCanNot)
-                    print('Skipping skb.testCognizance()...')
+                    #print('Skipping skb.testCognizance()...')
+
+                    print('--- Tyring simpX ---')
+                    #nnList, nnpList = sx.extractNN(inData)
+                    sx.buildClasses()
+
+                    Pookie = sx.Cat('Pookie')
+                    print(Pookie)
+                    print(Pookie.name)
 
                 else:
                     print('--- A valid CFG was not returned. ---')
-                    print('--- testCognizance not ran.')
+                    print('--- Knowledge methods not ran.')
 #                print(globals())
 
 # Later...
-                print("Skipping guessing...")
+                print("--- Skipping guessing...")
 #                sg.guess(s) # Make a SWAG with raw input
 
-                print('----- No reply for now...')
+                print('--- No reply for now...')
 #                s????.reply(sA, rel, sc.simpData) # Attempt some kind of coherent output (rule based)
 
           

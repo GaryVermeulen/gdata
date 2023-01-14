@@ -8,7 +8,7 @@ dog; t; canine; see,eat,walk,run
 telescope; t; instrument; magnify
 bus; t; vehicle; transport
 duck; t; bird; see,eat,walk,run,fly
-park; p; recreation-ground; recreation
+park; p; recreation_ground; recreation
 playground; t; park; play
 feline; t; mammal; see,eat,walk,run
 canine; t; mammal; see,eat,walk,run
@@ -17,4 +17,8 @@ mammal; t; animal; see,eat,walk,run
 bird; t; animal; see,eat,walk,run
 computer; t; device; compute
 vehicle; t; thing; TBD
+device; t; thing; TBD
+animal; t; thing; TBD
+recreation_ground; p; thing; TBD
+instrument; t; thing; TBD
 
