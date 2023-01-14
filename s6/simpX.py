@@ -51,6 +51,7 @@ class Animal(Thing):
 # we have NN list and NNP list -- check
 # determine which classes we need to build? -- check
 # build undefined classes -- check
+# add knowledge (properties) to classes
 # build objects
 
 # globals
