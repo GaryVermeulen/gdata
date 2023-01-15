@@ -20,6 +20,7 @@ class Thing:
 class Vehicle(Thing):
 
     _classInfo = 'Vehicle Sub Class -- Of Thing'
+    _canDo = 'TBD'
 
     def __init__(self, name):
         self.name = name
@@ -27,6 +28,7 @@ class Vehicle(Thing):
 class Device(Thing):
 
     _classInfo = 'Device Class Sub -- Of Thing'
+    _canDo = 'TBD'
 
     def __init__(self, name):
         self.name = name
@@ -34,6 +36,7 @@ class Device(Thing):
 class Recreation_ground(Thing):
 
     _classInfo = 'Recreation-ground Sub Class -- Of Thing'
+    _canDo = 'TBD'
 
     def __init__(self, name):
         self.name = name
@@ -41,6 +44,7 @@ class Recreation_ground(Thing):
 class Animal(Thing):
 
     _classInfo = 'Animal Sub-Class -- Of Thing'
+    _canDo = 'see,eat,walk,run'
 
     def __init__(self, name):
         self.name = name
@@ -63,60 +67,108 @@ myVars = globals()
 buildStack = []
 nnList = []
 nnpList = []
+nnpObjLst = []
+nnObjLst = []
 
-def constructor(self, arg):
-    self.constructor_arg = arg
 
 
 def makeObjects(sA):
 
-    names = []
-    objects = {}
+    global nnpObjLst
+    global nnObjLst
+    
+    global nnList
+    global nnpList
 
-    print('--- makeObjects ---')
+
+    subNames = []
+    objNames = []
+
+    nnxList = []
+    
+    nnObjLst.clear()
+    nnpObjLst.clear()
+
+#    print('--- makeObjects ---')
 
     # Make all objects or just sentence objects?
     # Hmmm, let's just make sentence objects for now...
     #
 
-    print('    sA.inSent: ', sA.inSent)
-    print('    building sentence subject object(s)...')
+#    print('    sA.inSent: ', sA.inSent)
+#    print('    building sentence object(s)...')
 
     subjectLst = sA.sSubj.split(';')
 
-    print('    subjectLst: ', subjectLst)
+#    print('    subjectLst: ', subjectLst)
 
     for s in subjectLst:
         sLst = s.split(',')
-        names.append(sLst[0])
+        subNames.append(sLst[0])
 
-    print('    names: ', names)
-#    print('    nnpList: ', nnpList)
+#    print('    subNames: ', subNames)
 
-    for n in nnpList:
 
-        print('    n: ', n)
+    objObjLst = sA.sObj.split(';')
+
+#    print('    objObjLst: ', objObjLst)
+
+    for o in objObjLst:
+        oLst = o.split(',')
+        objNames.append(oLst[0])
+
+    # Make one big noun since nouns can be subjects and objects
+    for i in nnList:
+        nnxList.append(i)
         
-        if n[0] in names:
-            print('    n[0]: ', n[0])
-            print('    n[2]: ', n[2])
-            parentClass = n[2].capitalize()
+    for i in nnpList:
+        nnxList.append(i)
 
-            print('    parentClass: ', parentClass)
+    for nnx in nnxList:
+
+#        print('    nnx: ', nnx)
+        
+        if nnx[0] in subNames:
+#            print('    nnx[0]: ', nnx[0])
+#            print('    nnx[2]: ', nnx[2])
+            name = nnx[0].capitalize()
+            parentClass = nnx[2].capitalize()
+
+#            print('    name: ', name)
+#            print('    parentClass: ', parentClass)
             
-            #myVars.__setitem__(n[0], type(n[0], (eval(parentClass), ), dict(name=n[0])))
-        
-            globals()[n[0]] = type(n[0], (eval(parentClass), ), dict(name=n[0]))
+            nnpObjLst.append(eval(parentClass)(name))
 
-            #objects[n[0]] = type(n[0], (eval(parentClass), ), {})
-            #print(objects)
+            # Update canDo if needed
+            if nnpObjLst[-1]._canDo != nnx[3]:
+#                print('no match')
+#                print('nnpObjLst[-1]._canDo: ', nnpObjLst[-1]._canDo)
+#                print('nnx[3]: ', nnx[3])
+                nnpObjLst[-1]._canDo = nnx[3]
+#                print('updated...')
+#                print('nnpObjLst[-1]._canDo: ', nnpObjLst[-1]._canDo)
+                
+        elif nnx[0] in objNames:
+#            print('    nnx[0]: ', nnx[0])
+#            print('    nnx[2]: ', nnx[2])
+            name = nnx[0].capitalize()
+            parentClass = nnx[2].capitalize()
 
+#            print('    name: ', name)
+#            print('    parentClass: ', parentClass)
+            
+            nnObjLst.append(eval(parentClass)(name))
 
-#    Daffy = Duck('Daffy')                               
-    
+#    print('    nnpObjLst len: ', len(nnpObjLst))    
+#    for o in nnpObjLst:
+#        print('    o.name: ', o.name) 
 
-    print('--- return makeObjects ---')
-    return
+#    print('    nnObjLst len: ', len(nnObjLst))    
+#    for o in nnObjLst:
+#        print('    o.name: ', o.name) 
+
+#    print('--- return makeObjects ---')
+    return nnpObjLst, nnObjLst
 
 
 def makeClass(c):
@@ -126,8 +178,7 @@ def makeClass(c):
 
     try:
         result = inspect.isclass(eval(c[1]))    # result can be used for debugging
-        myVars.__setitem__(c[0], type(c[0], (eval(c[1]), ), {}))
-        
+        myVars.__setitem__(c[0], type(c[0], (eval(c[1]), ), {}))       
     except NameError:
         buildStack.append(c)
 
@@ -240,6 +291,24 @@ if __name__ == "__main__":
     
     buildClasses()  # Define classes from 
 
-    makeObjects(sA)   # Construct objects (instances)
+    nnpObjects, nnObjects = makeObjects(sA)   # Construct objects (instances)
+
+
+    print('    nnObjects len: ', len(nnObjects))
+    
+    for x in nnObjects:
+        print('    x.name: ', x.name)
+
+    print('    nnObjects: ', nnObjects)
+
+
+    print('    ----')
+    print('    nnpObjects len: ', len(nnpObjects))
+    
+    for x in nnpObjects:
+        print('    x.name: ', x.name)
+
+    print('    nnpObjects: ', nnpObjects)
+
 
     Daffy = Duck('Daffy')

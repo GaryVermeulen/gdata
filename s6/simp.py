@@ -169,6 +169,8 @@ while loop:
                     print(sA)
                     print("\n------------")
 
+                # Original funky method to search for relationships (knowledge)
+                #
                 if validCFG:
                     can, cannot = sr.s4r(ccs, sA, sPOS, simpData, inData) # Search for relationships
 
@@ -187,20 +189,33 @@ while loop:
                 # Testing various methods to derive knowledge
                 #
                 if validCFG:
-                    print('--- A valid CFG tree was returned, so let us attmpt to find some knowledge')
+                    print('--- A valid CFG tree was returned, so let us attempt to find some knowledge')
                     #kbCan, kbCanNot = skb.testCognizance(sA, simpData)
                     #print("skb retruned:")
                     #print("    kbCan: ", kbCan)
                     #print("    kbCanNot: ", kbCanNot)
                     #print('Skipping skb.testCognizance()...')
 
-                    print('--- Tyring simpX ---')
-                    #nnList, nnpList = sx.extractNN(inData)
+                    print('--- Tyring simpX ---')   # Baby stepping
+                    print('--- buildClasses ---')
                     sx.buildClasses()
-
                     Pookie = sx.Cat('Pookie')
                     print(Pookie)
                     print(Pookie.name)
+
+                    print('--- Calling makeObjects from simp ---')
+
+                    nnpObjLst, nnObjLst = sx.makeObjects(sA)
+                    print('    nnpObjLst len: ', len(nnpObjLst))
+
+                    for o in nnpObjLst:
+                        print('    o.name: ', o.name) 
+
+                    print('    nnObjLst len: ', len(nnObjLst))
+
+                    for o in nnObjLst:
+                        print('    o.name: ', o.name) 
+
 
                 else:
                     print('--- A valid CFG was not returned. ---')
