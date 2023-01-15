@@ -50,16 +50,6 @@ class Animal(Thing):
         self.name = name
 
 
-
-
-# we have NN list and NNP list -- check
-# determine which classes we need to build? -- check
-# build undefined classes -- check
-# add knowledge (properties) to classes
-# build objects
-
-
-
 # globals
 #
 classes2Build = []
@@ -71,7 +61,6 @@ nnpObjLst = []
 nnObjLst = []
 
 
-
 def makeObjects(sA):
 
     global nnpObjLst
@@ -79,7 +68,6 @@ def makeObjects(sA):
     
     global nnList
     global nnpList
-
 
     subNames = []
     objNames = []
@@ -89,29 +77,13 @@ def makeObjects(sA):
     nnObjLst.clear()
     nnpObjLst.clear()
 
-#    print('--- makeObjects ---')
-
-    # Make all objects or just sentence objects?
-    # Hmmm, let's just make sentence objects for now...
-    #
-
-#    print('    sA.inSent: ', sA.inSent)
-#    print('    building sentence object(s)...')
-
     subjectLst = sA.sSubj.split(';')
-
-#    print('    subjectLst: ', subjectLst)
 
     for s in subjectLst:
         sLst = s.split(',')
         subNames.append(sLst[0])
 
-#    print('    subNames: ', subNames)
-
-
     objObjLst = sA.sObj.split(';')
-
-#    print('    objObjLst: ', objObjLst)
 
     for o in objObjLst:
         oLst = o.split(',')
@@ -124,50 +96,21 @@ def makeObjects(sA):
     for i in nnpList:
         nnxList.append(i)
 
-    for nnx in nnxList:
-
-#        print('    nnx: ', nnx)
-        
+    for nnx in nnxList:        
         if nnx[0] in subNames:
-#            print('    nnx[0]: ', nnx[0])
-#            print('    nnx[2]: ', nnx[2])
             name = nnx[0].capitalize()
             parentClass = nnx[2].capitalize()
-
-#            print('    name: ', name)
-#            print('    parentClass: ', parentClass)
-            
             nnpObjLst.append(eval(parentClass)(name))
 
             # Update canDo if needed
             if nnpObjLst[-1]._canDo != nnx[3]:
-#                print('no match')
-#                print('nnpObjLst[-1]._canDo: ', nnpObjLst[-1]._canDo)
-#                print('nnx[3]: ', nnx[3])
                 nnpObjLst[-1]._canDo = nnx[3]
-#                print('updated...')
-#                print('nnpObjLst[-1]._canDo: ', nnpObjLst[-1]._canDo)
                 
         elif nnx[0] in objNames:
-#            print('    nnx[0]: ', nnx[0])
-#            print('    nnx[2]: ', nnx[2])
             name = nnx[0].capitalize()
-            parentClass = nnx[2].capitalize()
-
-#            print('    name: ', name)
-#            print('    parentClass: ', parentClass)
-            
+            parentClass = nnx[2].capitalize()            
             nnObjLst.append(eval(parentClass)(name))
 
-#    print('    nnpObjLst len: ', len(nnpObjLst))    
-#    for o in nnpObjLst:
-#        print('    o.name: ', o.name) 
-
-#    print('    nnObjLst len: ', len(nnObjLst))    
-#    for o in nnObjLst:
-#        print('    o.name: ', o.name) 
-
-#    print('--- return makeObjects ---')
     return nnpObjLst, nnObjLst
 
 
@@ -233,6 +176,7 @@ def extractNN(inData):
 
     return nnLst, nnpLst
 
+
 if __name__ == "__main__":
 
     ''' Sample test data when running as standalone
@@ -289,26 +233,34 @@ if __name__ == "__main__":
     print('nnpList len: ', len(nnpList))
     print('nnpList type: ', type(nnpList))
     
-    buildClasses()  # Define classes from 
+    buildClasses()  # Define classes from nn file
 
-    nnpObjects, nnObjects = makeObjects(sA)   # Construct objects (instances)
+    nnpObjects, nnObjects = makeObjects(sA)   # Make objects (instances)
 
-
-    print('    nnObjects len: ', len(nnObjects))
-    
+    print('    nnObjects len: ', len(nnObjects))    
     for x in nnObjects:
         print('    x.name: ', x.name)
+        print('    x._canDo: ', x._canDo)
+        print('    x._classInfo: ', x._classInfo)
 
     print('    nnObjects: ', nnObjects)
-
-
     print('    ----')
     print('    nnpObjects len: ', len(nnpObjects))
-    
     for x in nnpObjects:
         print('    x.name: ', x.name)
-
+        print('    x._canDo: ', x._canDo)
+        print('    x._classInfo: ', x._classInfo)
+            
     print('    nnpObjects: ', nnpObjects)
 
-
-    Daffy = Duck('Daffy')
+    print('[0].name: ', nnpObjects[0].name)
+    print('[0] Cat?: ', isinstance(nnpObjects[0], Cat))
+    print('[0] Woamn?: ', isinstance(nnpObjects[0], Woman))
+    print('[0] Human?: ', isinstance(nnpObjects[0], Human))
+    print('[0] Mammal?: ', isinstance(nnpObjects[0], Mammal))
+    print('[1].name: ', nnpObjects[1].name)
+    print('[1] Cat?: ', isinstance(nnpObjects[1], Cat))
+    print('[1] Woman: ', isinstance(nnpObjects[1], Woman))
+    print('[1] Human?: ', isinstance(nnpObjects[1], Human))
+    print('[1] Mammal?: ', isinstance(nnpObjects[1], Mammal))
+    
