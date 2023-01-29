@@ -7,16 +7,134 @@ import simpConfig as sc
 from simpStuff import getData
 
 
-# Abstract class or Thing is our root of the KB
+# Abstract classes
 #
 class Thing:
 
     def __init__(self):
         self.name = None
         self.classInfo = 'Thing Class Root--Topmost Class'
+        self.fly_Behavior = None
+        self.run_Behavior = None
+        self.walk_Behavior = None
+        self.eat_Behavior = None
+        self.see_Behavior = None
 
     def get_name(self):
         return self.name
+
+    def get_classInfo(self):
+        return self.classInfo
+
+    def set_fly_Behavior(self, fly_Behavior):
+        self.fly_Behavior = fly_Behavior
+        
+    def set_run_Behavior(self, run_Behavior):
+        self.run_Behavior = run_Behavior
+
+    def set_walk_Behavior(self, walk_Behavior):
+        self.walk_Behavior = walk_Behavior
+
+    def set_eat_Behavior(self, eat_Behavior):
+        self.eat_Behavior = eat_Behavior
+
+    def set_see_Behavior(self, see_Behavior):
+        self.see_Behavior = see_Behavior
+
+
+
+class seeBehavior:
+
+    def See(self):
+        raise NotImplementedError
+
+class canSee(seeBehavior):
+
+    def See(self):
+        print("I can see")
+
+class cannotSee(seeBehavior):
+
+    def See(self):
+        print("I cannot see")
+
+class eatBehavior:
+
+    def Eat(self):
+        raise NotImplementedError
+
+class canEat(eatBehavior):
+
+    def Eat(self):
+        print("I can eat")
+
+class cannotEat(eatBehavior):
+
+    def Eat(self):
+        print("I cannot eat")
+
+class walkBehavior:
+
+    def Walk(self):
+        raise NotImplementedError
+
+class canWalk(walkBehavior):
+
+    def Walk(self):
+        print("I can walk")
+
+class cannotWalk(walkBehavior):
+
+    def Walk(self):
+        print("I cannot walk")
+
+class runBehavior:
+
+    def Run(self):
+        raise NotImplementedError
+
+class canRun(runBehavior):
+
+    def Run(self):
+        print("I can run")
+
+class cannotRun(runBehavior):
+
+    def Run(self):
+        print("I cannot run")
+
+class flyBehavior:
+
+    def Fly(self):
+        raise NotImplementedError
+
+class canFly(flyBehavior):
+
+    def Fly(self):
+        print("I can fly")
+
+class cannotFly(flyBehavior):
+
+    def Fly(self):
+        print("I cannot fly")
+
+
+class Functions:
+
+    def Magnify(self):
+        raise NotImplementedError
+
+    def Transport(self):
+        raise NotImplementedError
+
+    def Recreation(self):
+        raise NotImplementedError
+
+    def Play(self):
+        raise NotImplementedError
+
+    def Compute(self):
+        raise NotImplementedError
 
 
 # Concrete classes -- L1 (layer 1 of KB)
@@ -190,6 +308,11 @@ class catFelineMammalAnimalThing(felineMammalAnimalThing):
         super().__init__()
         self.name = "catFelineMammalAnimalThing name"
         self.classInfo = "catFelineMammalAnimalThing class info"
+        self.see_Behavior = canSee()
+        self.eat_Behavior = canEat()
+        self.walk_Behavior = canWalk()
+        self.run_Behavior = canRun()
+        self.fly_Behavior = cannotFly()
 
 class dogCanineMammalAnimalThing(canineMammalAnimalThing):
 
@@ -262,7 +385,8 @@ class Cat(ThingMaker):
         }
         return chooser.get(whichThing)
         
-
+#
+#
 
 def extractNN(inData):
 
@@ -337,6 +461,7 @@ if __name__ == "__main__":
     myFeline = Feline()
     myCat = myFeline.prepThing("cat")
     print(f"We made a {myCat.get_name()}\n")
+
 
     myP_Cat = Cat()
     pookie = myP_Cat.prepThing("pookie")
