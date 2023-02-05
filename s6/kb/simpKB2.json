@@ -1,4 +1,5 @@
-{"kb":[{"name":"self", "superclass":"human", "canDo":["see", "eat", "walk", "run"]},
+{"kb":[
+{"name":"self", "superclass":"human", "canDo":["see", "eat", "walk", "run"]},
 {"name":"cat", "superclass":"feline", "canDo":["see", "eat", "walk", "run"]},
 {"name":"man", "superclass":"human", "canDo":["see", "eat", "walk", "run"]},
 {"name":"woman", "superclass":"human", "canDo":["see", "eat", "walk", "run"]},
@@ -18,4 +19,5 @@
 {"name":"device", "superclass":"thing", "canDo":["TBD"]},
 {"name":"animal", "superclass":"thing", "canDo":["see", "eat", "walk", "run"]},
 {"name":"recreation_ground", "superclass":"thing", "canDo":["TBD"]},
-{"name":"instrument", "superclass":"thing", "canDo":["TBD"]}]}
+{"name":"instrument", "superclass":"thing", "canDo":["TBD"]}
+]}
