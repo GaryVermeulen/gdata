@@ -181,6 +181,9 @@ def add2Factory(newKB, name, sClass):
     return newKB
 
 
+def addNewClass:
+
+
 
     
 
