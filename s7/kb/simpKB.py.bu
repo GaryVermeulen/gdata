@@ -1,5 +1,5 @@
-# 
-# simpXnew.py -- Constructed by makeX.py
+#
+# simpKB.py -- Dynamic KB constructed by updateKB.py
 #
 
 import inspect
@@ -26,9 +26,12 @@ class Thing:
     def get_classInfo(self):
         return self.classInfo
 
+    def set_name(self):
+        self.name = name
+
     def set_fly_Behavior(self, fly_Behavior):
         self.fly_Behavior = fly_Behavior
-        
+
     def set_run_Behavior(self, run_Behavior):
         self.run_Behavior = run_Behavior
 
@@ -60,7 +63,7 @@ class cannotSee(seeBehavior):
 
     def See(self):
         print("I cannot see")
-        
+
 
 class eatBehavior:
 
@@ -328,7 +331,7 @@ class dogCanineMammalAnimalThing(canineMammalAnimalThing):
         self.name = "dogCanineMammalAnimalThing name"
         self.classInfo = "dogCanimeMammalAnimalThing class info"
 
-        
+
 # Creator class
 class ThingMaker:
 
@@ -376,6 +379,48 @@ class Recreation_ground(ThingMaker):
         }
         return chooser.get(whichThing)
 
+class Park(ThingMaker):
+
+    def createThing(self, whichThing):
+        chooser ={
+            "playground": playGoundParkRecreation_groundThing()
+        }
+        return chooser.get(whichThing)
+
+class Bird(ThingMaker):
+
+    def createThing(self, whichThing):
+        chooser ={
+            "duck": duckBirdAnimalThing()
+        }
+        return chooser.get(whichThing)
+
+class Mammal(ThingMaker):
+
+    def createThing(self, whichThing):
+        chooser ={
+            "canine": canineMammalAnimalThing(),
+            "feline": felineMammalAnimalThing(),
+            "human": humanMammalAnimalThing()
+        }
+        return chooser.get(whichThing)
+
+class Instrumnet(ThingMaker):
+
+    def createThing(self, whichThing):
+        chooser ={
+            "telescope": instrumentDeviceThing()
+        }
+        return chooser.get(whichThing)
+
+class Canine(ThingMaker):
+
+    def createThing(self, whichThing):
+        chooser = {
+            "dog": canineMammalAnimalThing()
+        }
+        return chooser.get(whichThing)
+
 class Feline(ThingMaker):
 
     def createThing(self, whichThing):
@@ -384,14 +429,17 @@ class Feline(ThingMaker):
         }
         return chooser.get(whichThing)
 
-class Cat(ThingMaker):
+class Human(ThingMaker):
 
     def createThing(self, whichThing):
         chooser = {
-            "pookie": catFelineMammalAnimalThing()
+            "man": humanMammalAnimalThing(),
+            "woman": humanMammalAnimalThing(),
+            "self": humanMammalAnimalThing()
         }
         return chooser.get(whichThing)
-        
+
+
 # Original EOF
 
 

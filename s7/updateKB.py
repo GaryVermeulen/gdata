@@ -181,7 +181,8 @@ def add2Factory(newKB, name, sClass):
     return newKB
 
 
-def addNewClass:
+#def addNewClass: What was I going to add?
+
 
 
 
@@ -189,7 +190,7 @@ def addNewClass:
 
 if __name__ == "__main__":
 
-    # New input sample
+    # Simple new input sample
     name = 'car'
     superclass = 'vehicle'
     canDo = list('transport')

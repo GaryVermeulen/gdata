@@ -26,9 +26,6 @@ class Thing:
     def get_classInfo(self):
         return self.classInfo
 
-    def set_name(self):
-        self.name = name
-
     def set_fly_Behavior(self, fly_Behavior):
         self.fly_Behavior = fly_Behavior
 
@@ -195,12 +192,6 @@ class busVehicleThing(VehicleThing):
         self.name = "busVehicleThing name"
         self.classInfo = "busVehicleThing class info"
 
-class carVehicleThing(VehicleThing):
-    def __int__(self):
-        super().__init__()
-        self.name = "carVehicleThing name"
-        self.classInfo = "carVehicleThing class info"
-
 class computerDeviceThing(DeviceThing):
 
     def __init__(self):
@@ -355,7 +346,6 @@ class Vehicle(ThingMaker):
 
     def createThing(self, whichThing):
         chooser = {
-            "car": carVehicleThing(),
             "bus": busVehicleThing()
         }
         return chooser.get(whichThing)
@@ -413,7 +403,7 @@ class Mammal(ThingMaker):
         return chooser.get(whichThing)
 
 class Instrumnet(ThingMaker):
-
+    
     def createThing(self, whichThing):
         chooser ={
             "telescope": instrumentDeviceThing()
@@ -437,7 +427,7 @@ class Feline(ThingMaker):
         return chooser.get(whichThing)
 
 class Human(ThingMaker):
-
+    
     def createThing(self, whichThing):
         chooser = {
             "man": humanMammalAnimalThing(),
