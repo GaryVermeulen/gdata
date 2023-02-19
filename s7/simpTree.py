@@ -120,22 +120,36 @@ def getNewEntries():
     return newEntries
 
 
+def getStartEntries():
+
+    newEntries = []
+
+    inFile = '/home/gary/src/s7/kb/start.txt'
+
+    with open(inFile, "r") as f:
+        while (line := f.readline().rstrip()):
+            print(type(line))
+            print(line)
+            tmp = eval(line)
+            newEntries.append(tmp)
+    f.close()
+
+    return newEntries
+
+
+
 
 
 if __name__ == "__main__":
 
     tree = N_ary_Tree()
+
+    hb = 'Higgs_boson'
+
+    tree.add(hb) # Root to start from
+    
+
     """
-    tree.add(10)
-    tree.add(20, 10)
-    tree.add(30, 10)
-    tree.add(50, 20)
-    tree.add(40, 20)
-    tree.add(70, 20)
-    tree.add(78, 70)
-    tree.add(11, 30)
-    """
-    hb = 'Higgs Boson'
     thing = 'Thing'
     animal = 'Animal'
     vehicle = 'Vehicle'
@@ -148,13 +162,13 @@ if __name__ == "__main__":
     feline = 'Feline'
     human = 'Human'
     telescope = 'Telescope'
-    man = 'Man'
+    
     woman = 'Woman'
 
     bug = 'bug'
     unknown = 'unknownParent'
         
-    tree.add(hb)
+    
     tree.add(thing, hb)
     tree.add(animal, thing)
     tree.add(vehicle, thing)
@@ -170,12 +184,36 @@ if __name__ == "__main__":
     tree.add(man, human)
     tree.add(woman, human)
     
-#    tree.add(bug, unknown)
-    #"""
+    #    tree.add(bug, unknown)
+    """
+
+    starters = getStartEntries()
+
+    for i in starters:
+        print('i: ', i)
+        keyValue = i["superclass"]
+        newNode = i["name"]
+        
+        print('keyValue: ', keyValue)
+        keyValue = keyValue.capitalize()
+        print('keyValue: ', keyValue)
+
+        print('newNode: ', newNode)
+        newNode = newNode.capitalize()
+        print('newNode: ', newNode)
+            
+        if tree.isNode(keyValue):
+            print('Found: ', keyValue)    
+            tree.add(newNode, keyValue)
+        else:
+            print('No parent/superclass {} found for: {}'.format(keyValue, newNode))
+
 
 
     print('N-ary tree size:', tree.length())
     print(tree)
+
+    man = 'Man'
     print('man: ', man)
     #result = tree.depth(human)
     print(tree.depth(man))
@@ -183,11 +221,11 @@ if __name__ == "__main__":
 
     print(tree.isNode(man))
     print('------')
-    print(tree.isNode(bug))
-    print('------')
-    if tree.isNode(bug) == None:
-        print('Yep, there is no: ', bug)
-    print('------')
+#    print(tree.isNode(bug))
+#    print('------')
+#    if tree.isNode(bug) == None:
+#        print('Yep, there is no: ', bug)
+    print('---getNewEntries---')
     
     results = getNewEntries()
 
@@ -215,4 +253,6 @@ if __name__ == "__main__":
         else:
             print('No parent/superclass {} found for: {}'.format(keyValue, newNode))
 
-
+    print('------')
+    print('N-ary tree size:', tree.length())
+    print(tree)
