@@ -131,6 +131,10 @@ while loop:
                     print('--- A valid CFG tree was returned, so let us attempt to find some knowledge')
 
                     w = simpTree.peruseData(sA)
+
+                    print('peruseData returned:')
+                    print(w)
+                    print('---')
                     
                 else:
                     print('--- A valid CFG was not returned. ---')

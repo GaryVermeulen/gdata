@@ -1,7 +1,8 @@
 #
 # simpTree.py -- An attempt at a n-ary Tree KB 
 #
-from simpConjugations import buildVBs
+#from simpConjugations import buildVBs
+from simpStuff import getInflections
 
 class Node:
     def __init__(self, key, children=None):
@@ -189,22 +190,29 @@ def peruseData(sA):
 
     t = buildKB()
 
-    print(t)
-    print('----')
+#    print(t)
+#    print('----')
 
     sentVerbs = sA.sVerb.split(',')
     # Get the verb conjugations/inflections
     for v in sentVerbs:
-        print('v: ', v)
-        inflections = buildVBs(v)
-        print('inflections: ', inflections)
-        allSentVerbs += inflections
+#        print('v: ', v)
+        v_inflections = getInflections(v, "VB")
+#        print('v_inflections: ', v_inflections)
+#        print(type(v_inflections))
+        tmp = v_inflections.split(',')
+        for i in tmp:
+            allSentVerbs.append(i)
+        #allSentVerbs.append(inflections) # was += insteand of .append
 
     print('ALL VERBS:')
     print(allSentVerbs)
     
+    
     #sentVerbSet = set(sentVerbs)
     sentVerbSet = set(allSentVerbs)
+
+    print('sA.sType: ', sA.sType)
     
     if sA.sType == 'imperative': # Implies Simp to do something, so can Simp do it?
         simpCanDo = t.get_canDo(t.root, 'Simp')
@@ -234,13 +242,23 @@ def peruseData(sA):
         print('canDo: ', sCanDo)
 
         sCanDoSet = set(sCanDo)
-        
-        intersectionSet = sCanDoSet.intersection(sentVerbSet)
-        differenceSet = sentVerbSet.difference(sCanDoSet)
 
-        print('s can: ', intersectionSet)
-        print('s cannot: ', differenceSet)
-    
+        print('sCanDoSet:')
+        print(sCanDoSet)
+        print('sentVerbSet:')
+        print(sentVerbSet)
+        
+        intersectionSet1 = sCanDoSet.intersection(sentVerbSet)
+        intersectionSet2 = sentVerbSet.intersection(sCanDoSet)
+        
+        differenceSet1 = sentVerbSet.difference(sCanDoSet)
+        differenceSet2 = sCanDoSet.difference(sentVerbSet)
+        
+        print('s can 1: ', intersectionSet1)
+        print('s can 2: ', intersectionSet2)
+        
+        print('s cannot 1: ', differenceSet1)
+        print('s cannot 2: ', differenceSet2)
         
 
     return "Some great wizdom"
