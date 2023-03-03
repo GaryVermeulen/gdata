@@ -153,6 +153,11 @@ def sentAnalysis(t, s):
                     if firstLine:
                         sType = 'declarative'
                         sSubj = iLst[1], ',' + iLst[0][1]
+                    else:
+                        if sSubj == '':
+                            sSubj = iLst[1] + ',' + iLst[0][1]
+                        else:
+                            sSubj = sSubj + ';' + iLst[1] + ',' + iLst[0][1] 
                         
                 firstLine = False
 
@@ -265,12 +270,21 @@ def sentAnalysis(t, s):
             elif iLst[0][0] == 'MD':
                 if sc.verbose: 
                     print('iLst[0][0] == MD')
-                    print(str(iLst))
-
+                    print(iLst[0])
+                    print('iLst: ', str(iLst))
+                
+                if firstLine:
+                    sType = 'interrogative'
+                    print('MD firstline: ')
+                else:
+                    print('MD else: ')
+                    
                 if sMD == '':
                     sMD = iLst[1]
                 else:
                     sMD = sMD + ',' + iLst[1]
+
+                
 
                 firstLine = False
             else:

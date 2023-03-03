@@ -190,39 +190,60 @@ def peruseData(sA):
 
     t = buildKB()
 
-#    print(t)
-#    print('----')
-
     sentVerbs = sA.sVerb.split(',')
     # Get the verb conjugations/inflections
     for v in sentVerbs:
-#        print('v: ', v)
         v_inflections = getInflections(v, "VB")
-#        print('v_inflections: ', v_inflections)
-#        print(type(v_inflections))
         tmp = v_inflections.split(',')
         for i in tmp:
             allSentVerbs.append(i)
-        #allSentVerbs.append(inflections) # was += insteand of .append
 
-    print('ALL VERBS:')
+    print('sentVerbs: ', sentVerbs)
+    sentVerbSet = set(sentVerbs)
+
+    print('sentVerbSet: ', sentVerbSet)
+
+    print('ALL VERBS wInflections:')
     print(allSentVerbs)
     
-    
-    #sentVerbSet = set(sentVerbs)
-    sentVerbSet = set(allSentVerbs)
+    allSentVerbSet = set(allSentVerbs)
 
     print('sA.sType: ', sA.sType)
     
     if sA.sType == 'imperative': # Implies Simp to do something, so can Simp do it?
         simpCanDo = t.get_canDo(t.root, 'Simp')
         simpCanDoSet = set(simpCanDo)
+        print('simpCanDoSet: ', simpCanDoSet)
 
-        intersectionSet = simpCanDoSet.intersection(sentVerbSet)
-        differenceSet = sentVerbSet.difference(simpCanDoSet)
+        intersectionSet1 = simpCanDoSet.intersection(allSentVerbSet)
+        intersectionSet2 = allSentVerbSet.intersection(simpCanDoSet)
+        
+        differenceSet1 = allSentVerbSet.difference(simpCanDoSet)
+        differenceSet2 = simpCanDoSet.difference(allSentVerbSet)
 
-        print('Simp can: ', intersectionSet)
-        print('Simp cannot: ', differenceSet)
+        print('Simp can 1: ', intersectionSet1)
+        print('Simp can 2: ', intersectionSet2)
+        
+        print('Simp cannot 1: ', differenceSet1)
+        print('Simp cannot 2: ', differenceSet2)
+
+        if len(intersectionSet1) == 0 or len(intersectionSet2) == 0:
+            intersectionSet3 = sentVerbSet.intersection(simpCanDoSet)
+            intersectionSet4 = simpCanDoSet.intersection(sentVerbSet)
+
+            print('Simp can 3: ', intersectionSet3)
+            print('Simp can 4: ', intersectionSet4)
+
+            differenceSet5 = sentVerbSet.difference(simpCanDoSet)
+            differenceSet6 = simpCanDoSet.difference(sentVerbSet)
+
+            print('Simp cannot 5:', differenceSet5)
+            print('Simp can only 6:', differenceSet6)
+        else:
+            print('set len:', len(intersectionSet1))
+
+    # Let's see what we can glean
+    
 
     # Can the subject(s) do any of the verbs?
     sentSubjectsWithPOS = sA.sSubj.split(';')
@@ -241,18 +262,22 @@ def peruseData(sA):
         print('s: ', s)
         print('canDo: ', sCanDo)
 
-        sCanDoSet = set(sCanDo)
+        if sCanDo == None:
+            sCanDoSet = set()
+        else:
+            sCanDoSet = set(sCanDo)
 
-        print('sCanDoSet:')
-        print(sCanDoSet)
+        print('sCanDoSet:', sCanDoSet)
+        
         print('sentVerbSet:')
         print(sentVerbSet)
+      
+        intersectionSet1 = sCanDoSet.intersection(allSentVerbSet)
+        intersectionSet2 = allSentVerbSet.intersection(sCanDoSet)
         
-        intersectionSet1 = sCanDoSet.intersection(sentVerbSet)
-        intersectionSet2 = sentVerbSet.intersection(sCanDoSet)
         
-        differenceSet1 = sentVerbSet.difference(sCanDoSet)
-        differenceSet2 = sCanDoSet.difference(sentVerbSet)
+        differenceSet1 = sCanDoSet.difference(allSentVerbSet)
+        differenceSet2 = allSentVerbSet.difference(sCanDoSet)
         
         print('s can 1: ', intersectionSet1)
         print('s can 2: ', intersectionSet2)

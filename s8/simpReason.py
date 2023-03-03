@@ -194,9 +194,10 @@ def process_sObj(s, sObj, sD, inData):
 
     elif sTypLst[0] == 'interrogative':
         if sc.verbose: print('   interrogative response')
-            
-        if sObj.sSubj == '':
-            rels.append(sObj.sObj + ',' + wData[2][3])
+
+        print("   Under construction")   
+        #if sObj.sSubj == '':
+        #    rels.append(sObj.sObj + ',' + wData[2][3])
     else:
         print('   unkonwn senetence type')
 
