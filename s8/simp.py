@@ -10,7 +10,7 @@ import simpSA as sa
 #import simpReply as sr
 import simpConfig as sc
 #import simpGuess as sg
-import simpReason as sr
+#import simpReason as sr
 import simpTree
 
 
@@ -70,10 +70,7 @@ while loop:
                     else:
                         continue
 
-                # Has this been said before?
-                print('ccs: ', ccs)
-                print('ccs type: ', type(ccs))
-                
+                # Has this been said before?                
                 hist = ss.chkHistory(ccs)
 
                 if len(hist) > 0:
@@ -113,17 +110,17 @@ while loop:
 
                 # Original funky method to search for relationships (knowledge)
                 #
-                if validCFG:
-                    can, cannot = sr.s4r(ccs, sA, sPOS, simpData, inData) # Search for relationships
-
-                    if sc.verbose:
-                        print('can   : ' + str(can))
-                        print('cannot: ' + str(cannot))
-
-                else:
-                    print('No valid CFG returned, so not calling s4r')
-                    print('    we will deal with this later...')
-                    #rel = sr.s4r(ccs, sA, sPOS, simpData, inData)
+                #if validCFG:
+                #    can, cannot = sr.s4r(ccs, sA, sPOS, simpData, inData) # Search for relationships
+#
+#                    if sc.verbose:
+#                        print('can   : ' + str(can))
+#                        print('cannot: ' + str(cannot))#
+#
+#                else:
+#                    print('No valid CFG returned, so not calling s4r')
+#                    print('    we will deal with this later...')
+#                    #rel = sr.s4r(ccs, sA, sPOS, simpData, inData)
                 
                 # Testing various methods to derive knowledge
                 #
