@@ -8,15 +8,13 @@
     imperative sentence (command)
     exclamative sentence (exclamation)
 """
-#
 
-import sys
 import simpConfig as sc
 
 
 class Sentence:
 
-    def __init__(self, inSent, sPOS, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD):
+    def __init__(self, inSent, sPOS, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT):
         self.inSent = inSent
         self.sPOS = sPOS
         self.sType = sType
@@ -27,9 +25,10 @@ class Sentence:
         self.sIN = sIN
         self.sPP = sPP
         self.sMD = sMD
+        self.sWDT = sWDT
 
         
-def processNP(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD):
+def processNP(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT):
     
     if sc.verbose: 
         print('iLst[0][0] == NP')
@@ -70,8 +69,15 @@ def processNP(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD):
                     if sc.verbose: print('who dat2 ', iLst[1])
             else:
                 if sSubj == '':
-                    sSubj = iLst[1] + ',' + iLst[0][1]
+                    if len(iLst[0]) == 2:
+                        sSubj = iLst[1] + ',' + iLst[0][1]
+                    elif len(iLst[0]) == 3:
+                        sSubj = iLst[1] + ',' + iLst[0][2]
+                    else:
+                        print('NP iLst[0][x] len error')
                 else:
+                    print('sSubj: ', sSubj)
+                    print(type(sSubj))
                     sSubj = sSubj + ';' + iLst[1] + ',' + iLst[0][1]
                     if sc.verbose: print('who dat ', iLst[1])
                                 
@@ -113,10 +119,10 @@ def processNP(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD):
                         
     firstLine = False
 
-    return firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD
+    return firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT
 
 
-def processVP(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD):
+def processVP(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT):
 
     if sc.verbose: 
         print('iLst[0][0] == VP')
@@ -167,10 +173,10 @@ def processVP(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD):
                                     sObj = sObj + ';' + iLst[5] + ',' + iLst[4][0]
     firstLine = False
 
-    return firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD
+    return firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT
 
 
-def processVerbs(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD):
+def processVerbs(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT):
 
     if sc.verbose: 
         print('iLst[0][0] in [VB,VBD,VBG,VBN,VBP,VPZ]')
@@ -186,10 +192,10 @@ def processVerbs(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD
                 
     firstLine = False
 
-    return firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD
+    return firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT
 
 
-def processPP(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD):
+def processPP(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT):
          
     if sc.verbose: 
         print('iLst[0][0] == PP')
@@ -206,40 +212,43 @@ def processPP(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD):
                             sPP = sIN + ',' + sDet + ',' + iLst[5]
     firstLine = False
 
-    return firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD 
+    return firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT 
 
 
-def processWDT(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD):
+def processWDT(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT):
 
     if sc.verbose: 
         print('iLst[0][0] == WDT')
         print(iLst[0])
         print('iLst: ', str(iLst))
                     
-    sType = 'interrogative,' + str(iLst[1])
-    sTypLst = sType.split(',')
-    if sc.verbose:
-        print('sType: {}'.format(sType))
-        print('sTypLst: {}'.format(sTypLst))
-        print('len(iLst): ', len(iLst))
-
-    if len(iLst) > 2:
-        if iLst[2][1] == 'VBZ':
-            sVerb = iLst[3]
-            if len(iLst) > 4:
-                if iLst[4][1] in ['NNP','NN']:
-                    sSubj = iLst[5] + ',' + iLst[4][1]
-                elif iLst[4][1] == 'DT':
-                    sDet = iLst[5]
-                    if len(iLst) > 6:
-                        if iLst[6][0] == 'NN':
-                            sSubj = iLst[7] + ',' + iLst[6][0]
+    if firstLine:
+        sType = 'interrogative'
+        sWDT = iLst[1]
+        
+        if len(iLst) > 2:
+            if iLst[2][1] in ['VP','VB','VBD','VBG','VBN','VBP','VBZ']:
+                sVerb = iLst[3]
+                if len(iLst) > 4:
+                    if iLst[4][1] in ['NNP','NN']:
+                        if sSubj == '':
+                            sSubj = iLst[5] + ',' + iLst[4][1]
+                        else:
+                            sSubj = sSubj + ';' + iLst[5] + ',' + iLst[4][1]
+                    elif iLst[4][1] == 'DT':
+                        sDet = iLst[5]
+                        if len(iLst) > 6:
+                            if iLst[6][0] == 'NN':
+                                if sSubj == '':
+                                    sSubj = iLst[7] + ',' + iLst[6][0]
+                                else:
+                                    sSubj = sSubj + ',' + iLst[7] + ',' + iLst[6][0]
     firstLine = False
 
-    return firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD
+    return firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT
 
 
-def processMD(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD):
+def processMD(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT):
 
     if sc.verbose: 
         print('iLst[0][0] == MD')
@@ -273,7 +282,7 @@ def processMD(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD):
 
     firstLine = False
 
-    return firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD
+    return firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT
 
 
 
@@ -292,9 +301,10 @@ def sentAnalysis(t, s):
     sIN = ''
     sPP = ''
     sMD = ''
+    sWDT = ''
     sSubjTemp = ''
 
-    sent = Sentence(s, sPOS, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD)
+    sent = Sentence(s, sPOS, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT)
 
     firstLine = True
 
@@ -325,27 +335,27 @@ def sentAnalysis(t, s):
 
             if iLst[0][0] == 'NP':
 
-                firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD = processNP(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD)
+                firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT = processNP(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT)
                 
             elif iLst[0][0] == 'VP':
 
-                firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD = processVP(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD)
+                firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT = processVP(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT)
 
             elif iLst[0][0] in ['VB','VBD','VBG','VBN','VBP','VBZ']:
 
-                firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD = processVerbs(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD)
+                firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT = processVerbs(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT)
                                                                                          
             elif iLst[0][0] == 'PP':
 
-                firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD = processPP(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD)
+                firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT = processPP(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT)
 
             elif iLst[0][0] == 'WDT':
 
-                firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD = processWDT(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD)
+                firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT = processWDT(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT)
 
             elif iLst[0][0] == 'MD':
 
-                firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD = processMD(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD)
+                firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT = processMD(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT)
                 
             else:
                 print('sentAnalysis else -- something wrong or not defined?')
@@ -373,6 +383,7 @@ def sentAnalysis(t, s):
         print('sIN =   ', sIN)
         print('sPP =   ',  sPP)
         print('sMD =   ', sMD)
+        print('sWDT =  ', sWDT)
 
 #        sent.inSent = inSent   # Set at init
         sent.sPOS   = sPOS
@@ -384,6 +395,7 @@ def sentAnalysis(t, s):
         sent.sIN    = sIN
         sent.sPP    = sPP
         sent.sMD    = sMD
+        sent.sWDT   = sWDT
 
         print('----------------------')
         print('sent.inSent: ', sent.inSent)
@@ -396,7 +408,7 @@ def sentAnalysis(t, s):
         print('sent.sIN =   ', sent.sIN)
         print('sent.sPP =   ', sent.sPP)
         print('sent.sMD =   ', sent.sMD)
-                
+        print('sent.sWDT =  ', sent.sWDT)
 
     print('--- end sentAnalysis ---')
 

@@ -88,8 +88,7 @@ while loop:
                 hist = ss.chkHistory(ccs)
 
                 if len(hist) > 0:
-                    if sc.verbose:
-                        print('Something old...')
+                    if sc.verbose: print('Something old...')
                     
                     saidBefore = True
                 else:
@@ -109,7 +108,7 @@ while loop:
                     sPOS = ss.getPOS(ccs, inData)
                     if sc.verbose: print('ccs tagged, sPOS: ', sPOS)
 
-                    sA = sa.Sentence('', '', '', '', '', '', '', '', '', '') 
+                    sA = sa.Sentence('', '', '', '', '', '', '', '', '', '', '') 
 
                 else:
                     validCFG = True
