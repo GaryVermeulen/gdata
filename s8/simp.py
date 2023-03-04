@@ -13,6 +13,9 @@ import simpConfig as sc
 #import simpReason as sr
 import simpTree
 
+fConvo = 'convoHist.txt'
+convo = []
+
 
 print("Simple-Ton, A ton of simple things to do.")
 
@@ -51,6 +54,13 @@ while loop:
             s = input("Enter a short sentence: ")
         
             if len(s) > 0: # Now the fun begins
+
+                if len(convo) > 0:
+                    print('Current conversation:') 
+                    for c in convo:
+                        print(c)
+                    print('----')
+                    
                 ccs = ss.correctCase(s, inData)
 
                 # Are all the words in the sentence in our Lex?
@@ -70,7 +80,11 @@ while loop:
                     else:
                         continue
 
-                # Has this been said before?                
+                # Has this been said before?
+
+                print('ccs: ', ccs)
+                print('ccs type: ', type(ccs))
+                
                 hist = ss.chkHistory(ccs)
 
                 if len(hist) > 0:
@@ -108,21 +122,8 @@ while loop:
                     print(sA.inSent)
                     print("\n------------")
 
-                # Original funky method to search for relationships (knowledge)
-                #
-                #if validCFG:
-                #    can, cannot = sr.s4r(ccs, sA, sPOS, simpData, inData) # Search for relationships
-#
-#                    if sc.verbose:
-#                        print('can   : ' + str(can))
-#                        print('cannot: ' + str(cannot))#
-#
-#                else:
-#                    print('No valid CFG returned, so not calling s4r')
-#                    print('    we will deal with this later...')
-#                    #rel = sr.s4r(ccs, sA, sPOS, simpData, inData)
                 
-                # Testing various methods to derive knowledge
+                # Testing various methods/modules to derive knowledge
                 #
                 if validCFG:
                     print('--- A valid CFG tree was returned, so let us attempt to find some knowledge')
@@ -145,13 +146,14 @@ while loop:
 #                s????.reply(sA, rel, sc.simpData) # Attempt some kind of coherent output (rule based)
 
           
-                # Save sentence to conversation history file
+                # Save sentence to list and conversation history file
                 # 
-#                if sc.verbose: print('Saving history...')
-#                t = slt.replace(' ', '; ')
-#                fh = open(fhistory, 'a')
-#                fh.write('\n' + str(ccs) + '; ' + str(rel) + '; ' + t)
-#                fh.close()
+                if sc.verbose: print('Retaining convo history...')
+                convo.append(sA.inSent)
+                
+                f = open(fConvo, 'a')
+                f.write('\n' + str(sA.inSent))
+                f.close()
             
             else:
                 cmd = 'EXIT'

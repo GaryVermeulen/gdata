@@ -21,7 +21,8 @@ fRules = 'cfg_rules.cfg'    # CFG Rules w/o terminals
 fCFG   = 'simp.cfg'         # CFG 
 fLog   = 'simpLog.txt'      # Log file
 fSS    = 'sentStacks.txt'   # Parsed sentences for later analysis
-fHist  = 'history.txt'      # History of all sentences w/findings 
+fHist  = 'rawInput.txt'     # History of raw input sentences
+
 
 ### Classes
 #
@@ -658,7 +659,6 @@ def getInflections(w, pos):
 ################################################
 def chkHistory(s):
 
-    sSet = set(s)
     hist = []
     file = Path(fHist)
 
@@ -682,18 +682,29 @@ def chkHistory(s):
                     tmp = tmp.replace(' ', '')
                     tmp = tmp.replace("'", "")
                     tmp = tmp.split(',')
-
-                    tmpSet = set(tmp)
-
-                    if sSet == tmpSet:
+                                                    
+                    if s == tmp:
                         hist.append(lineLst)
+                        
+        fh.close()
     else:
         print('No history file found, created new history file.')
         fh = open(fHist, 'w')
-        fh.write('# Input sentence, Possible relationships, Date; Time')
+        fh.write('# Raw input sentences without duplicates')
+        fh.close()
+
+    # if new sentence add to history
+    if len(hist) < 1:
+
+        fh = open(fHist, 'a')
+        fh.write('\n' + str(s))
         fh.close()
     
     return hist
+
+
+
+
 # End chkHistory
 
 ################################################
