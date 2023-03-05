@@ -1,14 +1,12 @@
 #
 # simpTree.py -- An attempt at a n-ary Tree KB 
 #
-
+#from simpConjugations import buildVBs
 from simpStuff import getInflections
-
 
 class Node:
     def __init__(self, key, children=None):
         self.key = key
-        self.parentNode = ''
         self.canDo = []
         self.children = children or []
 
@@ -68,7 +66,6 @@ class N_ary_Tree:
     def add(self, new_key, canDo, parent_key=None):
         new_node = Node(new_key)
         new_node.canDo = canDo
-        new_node.parentNode = parent_key
         if parent_key == None:
             self.root = new_node
             self.size = 1
@@ -186,7 +183,6 @@ def peruseData(sA):
 
     sentSubjects = []
     allSentVerbs = []
-    prpFlag = False
 
     print('We be persuing...')
     print(sA.inSent)
@@ -256,106 +252,41 @@ def peruseData(sA):
 
     for s in sentSubjectsWithPOS:
         tmp = s.split(',')
-        
-        if tmp[1] == 'PRP':
-            prpFlag = True
+        sentSubjects.append(tmp[0])
 
-        if tmp[1] in ['NP','NN','NNP']: # We wll deal with NNS later
-            sCanDo = t.get_canDo(t.root, tmp[0])
+    print(sentSubjects)
 
-            print('tmp[0]: ', tmp[0])
-            print('canDo: ', sCanDo)
+    for s in sentSubjects:
+        sCanDo = t.get_canDo(t.root, s)
 
-            if sCanDo == None:
-                sCanDoSet = set()
-            else:
-                sCanDoSet = set(sCanDo)
+        print('s: ', s)
+        print('canDo: ', sCanDo)
 
-            print('sCanDoSet:', sCanDoSet)
-        
-            print('sentVerbSet:')
-            print(sentVerbSet)
-      
-            intersectionSet1 = sCanDoSet.intersection(allSentVerbSet)
-            intersectionSet2 = allSentVerbSet.intersection(sCanDoSet)
-        
-        
-            differenceSet1 = sCanDoSet.difference(allSentVerbSet)
-            differenceSet2 = allSentVerbSet.difference(sCanDoSet)
-        
-            print(' can 1: ', intersectionSet1)
-            print(' can 2: ', intersectionSet2)
-        
-            print(' cannot 1: ', differenceSet1)
-            print(' cannot 2: ', differenceSet2)
-            
-        elif tmp[1] == 'PRP':
-            print('PRP: tmp[0]: ', tmp[0])
-
-            pp = processPronoun(tmp[0])
-
-            print('processPronoun returned: ', pp)
-
+        if sCanDo == None:
+            sCanDoSet = set()
         else:
-            print('sSubj unknown: ', str(sA.sSubj))
+            sCanDoSet = set(sCanDo)
+
+        print('sCanDoSet:', sCanDoSet)
+        
+        print('sentVerbSet:')
+        print(sentVerbSet)
+      
+        intersectionSet1 = sCanDoSet.intersection(allSentVerbSet)
+        intersectionSet2 = allSentVerbSet.intersection(sCanDoSet)
+        
+        
+        differenceSet1 = sCanDoSet.difference(allSentVerbSet)
+        differenceSet2 = allSentVerbSet.difference(sCanDoSet)
+        
+        print('s can 1: ', intersectionSet1)
+        print('s can 2: ', intersectionSet2)
+        
+        print('s cannot 1: ', differenceSet1)
+        print('s cannot 2: ', differenceSet2)
+        
 
     return "Some great wizdom"
-
-
-def processPronoun(prp):
-
-    wc = []
-
-    print('processPronoun: ', prp)
-
-    convo = getConvo()
-
-    print('----')
-
-    t = buildKB()
-
-    if prp == 'she':
-        women = t.find_node(t.root, 'woman')
-
-        for woman in women.children:
-            wk = woman.key
-            if len(convo) > 0:
-                for c in convo:
-                    for w in c:
-                        if w == wk:
-                            wc.append(c)
-                          
-        for i in wc: # All conversation sentences with women in them
-            print('i: ', i)
-
-
-
-
-    return "PRP relation to conversation"
-
-
-
-
-
-def getConvo():
-
-    fConvo = 'convoHist.txt'
-    convo = []
-    
-    with open(fConvo, "r") as f:
-        while (line := f.readline()):
-            line = line.strip()
-            if len(line) > 0:
-                tmp = eval(line)
-                convo.append(tmp)
-    f.close()
-
-    return convo
-
-
-
-
-
 
 #
 #

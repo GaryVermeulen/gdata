@@ -4,7 +4,8 @@
 #   
 #
 
-#import sys
+import os
+
 import simpStuff as ss
 import simpSA as sa
 #import simpReply as sr
@@ -12,6 +13,8 @@ import simpConfig as sc
 #import simpGuess as sg
 #import simpReason as sr
 import simpTree
+
+from datetime import datetime
 
 fConvo = 'convoHist.txt'
 convo = []
@@ -117,9 +120,23 @@ while loop:
                 
                     sA = sa.sentAnalysis(tStr, ccs)
 
+                    print("\n------------")
                     print("sA.inSent: ")
                     print(sA.inSent)
                     print("\n------------")
+
+                    # Save sentence to list and conversation history file
+                    # 
+                    if sc.verbose: print('Retaining convo history...')
+
+                    if sA.inSent != '':
+                        convo.append(sA.inSent)
+                
+                        f = open(fConvo, 'a')
+                        f.write('\n' + str(sA.inSent))
+                        f.close()
+
+
 
                 
                 # Testing various methods/modules to derive knowledge
@@ -145,18 +162,18 @@ while loop:
 #                s????.reply(sA, rel, sc.simpData) # Attempt some kind of coherent output (rule based)
 
           
-                # Save sentence to list and conversation history file
-                # 
-                if sc.verbose: print('Retaining convo history...')
-                convo.append(sA.inSent)
-                
-                f = open(fConvo, 'a')
-                f.write('\n' + str(sA.inSent))
-                f.close()
+
             
             else:
                 cmd = 'EXIT'
                 if sc.verbose: print('    cmd: ' + str(cmd)) 
+
+        # Archiving convo history
+        now = datetime.now()
+        timeStamp = now.strftime("%m%d%y-%H%M%S")
+
+        os.rename('convoHist.txt', 'convoHist.txt' + '.' + timeStamp)
+        
 
     elif cmd == 's' or cmd == 'S': # Speak
         # Randomly generates a sentence from the exiting CFG
