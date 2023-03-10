@@ -19,27 +19,144 @@ from datetime import datetime
 fConvo = 'convoHist.txt'
 convo = []
 
+def simpChat(cmd):
+
+    # Read all data (Nx, Vx, etc.)
+    inData = ss.getData()
+    inDataLen = len(inData)
+    if sc.verbose: print("getData() returned {} lines of data.".format(inDataLen))
+
+    # Build CFG file from data and cfg_rules
+    ss.buildCFG(inData)
+
+    # Develop rudimentary concept of self (I am Simp)
+    simpName = 'Simp'
+    for i in inData:
+        if i[0] == simpName:
+            #sc.simpData = i # What's with the sc. ?
+            simpData = i
+            break
+
+    print("Hello I am: " + simpName)
+    if sc.verbose: print("simpData  : {}: ".format(simpData))
+    
+    while cmd in ['c', 'C']:
+        sPOS = ''
+        s = input("Enter a short sentence: ")
+        
+        if len(s) > 0: # Now the fun begins
+            if len(convo) > 0:
+                print('Current conversation:') 
+                for c in convo:
+                    print(c)
+                    print('----')
+                    
+            ccs = ss.correctCase(s, inData)
+
+            #print('ccs: ', ccs)
+            #print('ccs type: ', type(ccs))
+
+            # Are all the words in the sentence in our Lex?
+            ret = ss.chkWords(ccs, inData)
+
+            if len(ret) > 0:
+                # ss.addWord is under construction...
+                print('chkWords returned: ' + str(ret))
+                ans = input('Learn and add? <y/n>:')
+
+                if ans in ['Y','y']:
+                    if ss.addWord(ret):
+                        inData = ss.getData() # Refresh input data with new word added
+                        if sc.verbose: print('inData refreshed with: ', ret)
+                    else:
+                        print('!!{} was not added!!'.format(ret))
+                else:
+                    continue
+
+            # Has this been said before?                
+            hist = ss.chkHistory(ccs)
+
+            if len(hist) > 0:
+                if sc.verbose: print('Something old...')    
+                saidBefore = True
+            else:
+                if sc.verbose: print('Something new...')                    
+                saidBefore = False
+            
+            # Parse corrected case sentence (input) per grammar
+            # Draw out the grammar tree?
+            draw = False
+            grammarTree = ss.chkGrammar(ccs, draw)
+
+            if grammarTree == None:
+                validCFG = False
+                if sc.verbose: print('grammarTree == none')
+
+                #sPOS = ss.getPOS(ccs, inData)
+                #if sc.verbose: print('ccs tagged, sPOS: ', sPOS)
+
+                #sA = sa.Sentence('', '', '', '', '', '', '', '', '', '', '')
+
+                print('Do we really want to process invalid grammar?')
+                print('--- A valid CFG was not returned. ---')
+                print('--- Knowledge methods not ran.')
+
+            else:
+                validCFG = True
+
+                tStr = grammarTree.pformat_latex_qtree()
+                sA = sa.sentAnalysis(tStr, ccs)
+
+                print("\n------------")
+                print("sA.inSent: ")
+                print(sA.inSent)
+                print("\n------------")
+
+                # Save sentence to list and conversation history file
+                # 
+                if sc.verbose: print('Retaining convo history...')
+
+                if sA.inSent != '':
+                    convo.append(sA.inSent)
+                
+                    f = open(fConvo, 'a')
+                    f.write('\n' + str(sA.inSent))
+                    f.close()
+
+                # Testing various methods/modules to derive knowledge
+                #
+                print('--- A valid CFG tree was returned, so let us attempt to find some knowledge')
+
+                w = simpTree.peruseData(sA)
+
+                print('peruseData returned:')
+                print(w)
+                print('---')
+                        
+
+                print("--- Skipping guessing...")
+                #sg.guess(s) # Make a SWAG with raw input
+
+                print('--- No reply for now...')
+                #s????.reply(sA, rel, sc.simpData) # Attempt some kind of coherent output (rule based)
+            
+        else:
+            if sc.verbose: print('Exiting chat...')
+            cmd = ''
+
+    # Archiving convo history
+    now = datetime.now()
+    timeStamp = now.strftime("%m%d%y-%H%M%S")
+
+    if os.path.isfile('convoHist.txt'):
+        os.rename('convoHist.txt', 'convoHist.txt' + '.' + timeStamp)
+        
+    return
+
 
 print("Simple-Ton, A ton of simple things to do.")
 
-# Read all data (Nx, Vx, etc.)
-inData = ss.getData()
-inDataLen = len(inData)
-if sc.verbose: print("getData() returned {} lines of data.".format(inDataLen))
 
-# Build CFG file from data and cfg_rules
-ss.buildCFG(inData)
-
-# Develop rudimentary concept of self (I am Simp)
-simpName = 'Simp'
-for i in inData:
-    if i[0] == simpName:
-        #sc.simpData = i # What's with the sc. ?
-        simpData = i
-        break
-
-print("Hello I am: " + simpName)
-if sc.verbose: print("simpData  : {}: ".format(simpData))
 
 loop = True
 
@@ -52,146 +169,27 @@ while loop:
     cmd = ss.getInput()
 
     if cmd == 'c' or cmd == 'C': # Chat
-        while cmd in ['c', 'C']:
-            sPOS = ''
-            s = input("Enter a short sentence: ")
+
+        simpChat(cmd)
         
-            if len(s) > 0: # Now the fun begins
-
-                if len(convo) > 0:
-                    print('Current conversation:') 
-                    for c in convo:
-                        print(c)
-                    print('----')
-                    
-                ccs = ss.correctCase(s, inData)
-
-                # Are all the words in the sentence in our Lex?
-                ret = ss.chkWords(ccs, inData)
-
-                if len(ret) > 0:
-                    # ss.addWord is under construction...
-                    print('chkWords returned: ' + str(ret))
-                    ans = input('Learn and add? <y/n>:')
-
-                    if ans in ['Y','y']:
-                        if ss.addWord(ret):
-                            inData = ss.getData() # Refresh input data with new word added
-                            if sc.verbose: print('inData refreshed with: ', ret)
-                        else:
-                            print('!!{} was not added!!'.format(ret))
-                    else:
-                        continue
-
-                # Has this been said before?
-
-                print('ccs: ', ccs)
-                print('ccs type: ', type(ccs))
-                
-                hist = ss.chkHistory(ccs)
-
-                if len(hist) > 0:
-                    if sc.verbose: print('Something old...')
-                    
-                    saidBefore = True
-                else:
-                    if sc.verbose: print('Something new...')
-                    
-                    saidBefore = False
-            
-                # Parse corrected case sentence (input) per grammar
-                # Draw out the grammar tree?
-                draw = False
-                grammarTree = ss.chkGrammar(ccs, draw)
-
-                if grammarTree == None:
-                    validCFG = False
-                    if sc.verbose: print('grammarTree == none')
-
-                    sPOS = ss.getPOS(ccs, inData)
-                    if sc.verbose: print('ccs tagged, sPOS: ', sPOS)
-
-                    sA = sa.Sentence('', '', '', '', '', '', '', '', '', '', '') 
-
-                else:
-                    validCFG = True
-
-                    tStr = grammarTree.pformat_latex_qtree()
-                
-                    sA = sa.sentAnalysis(tStr, ccs)
-
-                    print("\n------------")
-                    print("sA.inSent: ")
-                    print(sA.inSent)
-                    print("\n------------")
-
-                    # Save sentence to list and conversation history file
-                    # 
-                    if sc.verbose: print('Retaining convo history...')
-
-                    if sA.inSent != '':
-                        convo.append(sA.inSent)
-                
-                        f = open(fConvo, 'a')
-                        f.write('\n' + str(sA.inSent))
-                        f.close()
-
-
-
-                
-                # Testing various methods/modules to derive knowledge
-                #
-                if validCFG:
-                    print('--- A valid CFG tree was returned, so let us attempt to find some knowledge')
-
-                    w = simpTree.peruseData(sA)
-
-                    print('peruseData returned:')
-                    print(w)
-                    print('---')
-                    
-                else:
-                    print('--- A valid CFG was not returned. ---')
-                    print('--- Knowledge methods not ran.')
-
-# Later...
-                print("--- Skipping guessing...")
-#                sg.guess(s) # Make a SWAG with raw input
-
-                print('--- No reply for now...')
-#                s????.reply(sA, rel, sc.simpData) # Attempt some kind of coherent output (rule based)
-
-          
-
-            
-            else:
-                cmd = 'EXIT'
-                if sc.verbose: print('    cmd: ' + str(cmd)) 
-
-        # Archiving convo history
-        now = datetime.now()
-        timeStamp = now.strftime("%m%d%y-%H%M%S")
-
-        os.rename('convoHist.txt', 'convoHist.txt' + '.' + timeStamp)
-        
-
     elif cmd == 's' or cmd == 'S': # Speak
+        print('We will return to this (speak) later...')
         # Randomly generates a sentence from the exiting CFG
         # 
-        rules = ss.getRules()
-        relationFound = False
-        
-        while not relationFound:
-            # Most likely returns gibberish
-            s = ss.randomSpeak(rules)
-            
-            # This check also returns a list which is needed
-            ccs = ss.correctCase(s, inData)
-            sPOS = ss.getPOS(ccs, inData)
-            relationFound = ss.s4r(ccs, inData, sPOS)
-            if sc.verbose: print('relationFound: ' + str(relationFound))
-        s = ''
-            
+        #rules = ss.getRules()
+        #relationFound = False
+        #
+        #while not relationFound:
+        #    # Most likely returns gibberish
+        #    s = ss.randomSpeak(rules)
+        #    
+        #    # This check also returns a list which is needed
+        #    ccs = ss.correctCase(s, inData)
+        #    sPOS = ss.getPOS(ccs, inData)
+        #    relationFound = ss.s4r(ccs, inData, sPOS)
+        #    if sc.verbose: print('relationFound: ' + str(relationFound))
+        #s = ''
+        #    
     elif cmd == 't' or cmd == 'T': # Tech mode; Not yet
         # Train
         #

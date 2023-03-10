@@ -491,10 +491,10 @@ def getInput():
         if sc.verbose: print(s)
         print("Entering random Speak mode...")
     elif s == 't' or s == 'T':
-        if sc.vervose: print(s)
+        if sc.verbose: print(s)
         print("Entering Teach mode...")
-    else:
-        print("I do not understand: >>" + str(s) + "<<")
+#    else:
+#        print("I do not understand: >>" + str(s) + "<<")
 
     return s
 # end getInput

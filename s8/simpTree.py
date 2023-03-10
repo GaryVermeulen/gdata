@@ -185,6 +185,7 @@ def add2KB(tree):
 def peruseData(sA):
 
     sentSubjects = []
+    sentObjects  = []
     allSentVerbs = []
     prpFlag = False
 
@@ -193,6 +194,17 @@ def peruseData(sA):
     print('----')
 
     t = buildKB()
+
+    sentSubjectsWithPOS = sA.sSubj.split(';')
+    print('sentSubjectsWithPOS: ', sentSubjectsWithPOS)
+
+    if sA.sObj != '':
+        sentObjectsWithPOS = sA.sObj.split(';')
+        print('sentObjectWithPOS: ', sentObjectsWithPOS)
+    else:
+        sentObjectsWithPOS = []
+        print('No objects found in sentence...')        
+    
 
     sentVerbs = sA.sVerb.split(',')
     # Get the verb conjugations/inflections
@@ -206,7 +218,6 @@ def peruseData(sA):
     sentVerbSet = set(sentVerbs)
 
     print('sentVerbSet: ', sentVerbSet)
-
     print('ALL VERBS wInflections:')
     print(allSentVerbs)
     
@@ -246,14 +257,7 @@ def peruseData(sA):
         else:
             print('set len:', len(intersectionSet1))
 
-    # Let's see what we can glean
-    
-
     # Can the subject(s) do any of the verbs?
-    sentSubjectsWithPOS = sA.sSubj.split(';')
-
-    print(sentSubjectsWithPOS)
-
     for s in sentSubjectsWithPOS:
         tmp = s.split(',')
         
@@ -279,13 +283,11 @@ def peruseData(sA):
             intersectionSet1 = sCanDoSet.intersection(allSentVerbSet)
             intersectionSet2 = allSentVerbSet.intersection(sCanDoSet)
         
-        
             differenceSet1 = sCanDoSet.difference(allSentVerbSet)
             differenceSet2 = allSentVerbSet.difference(sCanDoSet)
         
             print(' can 1: ', intersectionSet1)
             print(' can 2: ', intersectionSet2)
-        
             print(' cannot 1: ', differenceSet1)
             print(' cannot 2: ', differenceSet2)
             
@@ -298,6 +300,18 @@ def peruseData(sA):
 
         else:
             print('sSubj unknown: ', str(sA.sSubj))
+
+    # Checking sentence objects
+
+    for s in sentObjectsWithPOS:
+        tmp = s.split(',')
+        
+        if tmp[1] in ['NP','NN','NNP']: # We wll deal with NNS later
+            objCanDo = t.get_canDo(t.root, tmp[0])
+
+            print('OBJ: tmp[0]: ', tmp[0])
+            print('OBJ: canDo: ', objCanDo)
+
 
     return "Some great wizdom"
 
@@ -327,6 +341,11 @@ def processPronoun(prp):
                           
         for i in wc: # All conversation sentences with women in them
             print('i: ', i)
+
+    elif prp == 'you':
+        simpCanDo = t.get_canDo(t.root, 'Simp')
+        simpCanDoSet = set(simpCanDo)
+        print('simpCanDoSet: ', simpCanDoSet)
 
 
 

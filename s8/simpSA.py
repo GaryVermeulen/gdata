@@ -257,7 +257,7 @@ def processMD(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, s
                 
     if firstLine:
         sType = 'interrogative'
-        print('MD firstline: ')
+        print('MD firstLine: ')
 
         if sMD == '':
             sMD = iLst[1]
@@ -278,7 +278,11 @@ def processMD(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, s
                         else:
                             sVerb = sVerb + ',' + iLst[5]
     else:
-        print('MD else not firstLine: ')
+        print('MD not firstLine: ')
+        if sMD == '':
+            sMD = iLst[1]
+        else:
+            sMD = sMD + ';' + iLst[1]
 
     firstLine = False
 
@@ -381,7 +385,7 @@ def sentAnalysis(t, s):
         print('sObj =  ', sObj)
         print('sDet =  ', sDet)
         print('sIN =   ', sIN)
-        print('sPP =   ',  sPP)
+        print('sPP =   ', sPP)
         print('sMD =   ', sMD)
         print('sWDT =  ', sWDT)
 
