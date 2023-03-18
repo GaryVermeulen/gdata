@@ -1,0 +1,7 @@
+# Raw input sentences without duplicates
+['see', 'Mary']
+['see', 'Bob']
+['Bob', 'sees', 'Mary']
+['see', 'Mary', 'run']
+['see', 'Bob', 'run']
+['see', 'Bob', 'and', 'Mary', 'run']

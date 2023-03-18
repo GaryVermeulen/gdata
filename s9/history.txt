@@ -1,0 +1,6 @@
+['see', 'Bob'];2
+['see', 'Mary'];1
+['see', 'Bob', 'run'];3
+['see', 'Mary', 'run'];1
+['see', 'Bob', 'and', 'Mary', 'run'];1
+['see', 'Bob', 'run', 'fast'];5
