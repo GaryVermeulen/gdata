@@ -1,6 +1,13 @@
-['see', 'Bob'];2
-['see', 'Mary'];1
-['see', 'Bob', 'run'];3
-['see', 'Mary', 'run'];1
-['see', 'Bob', 'and', 'Mary', 'run'];1
-['see', 'Bob', 'run', 'fast'];5
+[['see', 'Mary'], 1]
+[['see', 'Bob'], 5]
+[['see', 'Mary', 'run'], 1]
+[['see', 'Bob', 'run'], 6]
+[['see', 'Bob', 'run', 'fast'], 13]
+[['see', 'Pookie', 'run'], 1]
+[['see'], 1]
+[['run', 'fast'], 2]
+[['Bob', 'run', 'fast'], 2]
+[['Bob', 'runs', 'fast'], 6]
+[['Mary', 'ran', 'fast'], 7]
+[['see', 'dog', 'fly', 'fast'], 1]
+[['see', 'dog', 'run'], 1]

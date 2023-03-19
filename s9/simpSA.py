@@ -291,7 +291,6 @@ def processMD(firstLine, iLst, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, s
     return firstLine, sType, sSubj, sVerb, sObj, sDet, sIN, sPP, sMD, sWDT
 
 
-
 # Attempt to analyze the sentence per CFG (find SVO)
 ####################################################
 def sentAnalysis(t, s):
@@ -459,5 +458,4 @@ def buildItemList(s):
             tags = []
             
     return wordTags
-
 

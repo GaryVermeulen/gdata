@@ -11,20 +11,17 @@ class History(object):
 
     def add(self, sent):
         """
-        Adds the given sentence with current weight to the history.
+        Adds the given sentence with current weight to the history list.
         """
         self.weightedSentences.append(sent)
 
 
     def load_history(fpath):
-        """
-        Loads the history from file
-        """
-
         history = History()
                 
         with open(fpath) as f:
             for line in f:
+                newSent = []                
                 line = line.strip()
 
                 if len(line) == 0:
@@ -32,66 +29,62 @@ class History(object):
 
                 if line == '#':
                     continue
+
+                line = line.replace('[', '', 1)
+                line = line.rstrip(']')
                 
-                entries = line.split(';')
-                sentence = entries[0].strip()
-                weight = entries[1].strip()
-                history.add(sentence + ';' + weight)
+                entries = line.split(',')
+
+                weight = eval(entries.pop(-1))
+
+                for e in entries:
+                    e = e.strip()
+                    e = e.replace('"', '')
+                    e = e.replace("'", "")
+                    e = e.replace('[', '')
+                    e = e.replace(']', '')
+                    newSent.append(e)
+                
+                history.add(list((newSent, weight)))
+                
         f.close()
         return history
 
 
     def save_history(self, fpath, sents):
-        """
-        Loads the history from file
-        """
-                
         with open(fpath, 'w') as f:
             for s in sents:
-                f.write(s + '\n')
+                f.write(str(s) + '\n')
         f.close()
 
 
     def updateWeight(self, sent, weight):
-
-        sent = sent.replace('[', '')
-        sent = sent.replace(']', '')
-        ws = self.weightedSentences
-        
-        for i in range(len(ws)):
-            tmp = ws[i]
-            tmp = tmp.replace('[', '')
-            tmp = tmp.replace(']', '')
-            tmp = tmp.split(';')
-            if tmp[0] == sent:
-                newWS = '[' + tmp[0] + '];' + str(weight)
-                ws[i] = newWS
+        for s in self.weightedSentences:
+            if s[0] == sent:
+                s[1] = weight
                 
-        self.weightedSentences = ws
-
 
     def incrementWeight(self, sent):
-        sent = sent.replace('[', '')
-        sent = sent.replace(']', '')
-        ws = self.weightedSentences
-        
-        for i in range(len(ws)):
-            tmp = ws[i]
-            tmp = tmp.replace('[', '')
-            tmp = tmp.replace(']', '')
-            tmp = tmp.split(';')
-            if tmp[0] == sent:
-                weight = eval(tmp[1]) + 1
-                newWS = '[' + tmp[0] + '];' + str(weight)
-                ws[i] = newWS
-                
-        self.weightedSentences = ws
-
-
+        for s in self.weightedSentences:
+            if s[0] == sent:
+                s[1] = s[1] + 1
 
     def __str__(self):
         return self.weightedSentences
 
+
+    def sentence_exist(self, sent):
+        for s in self.weightedSentences:
+            if s[0] == sent:
+                return True
+        return False
+
+
+    def get_weight(self, sent):
+        for s in self.weightedSentences:
+            if s[0] == sent:
+                return s[1]
+        return -1
 
 
 if __name__ == "__main__":
@@ -102,33 +95,39 @@ if __name__ == "__main__":
 
     for s in history.weightedSentences:
         print(s)
-        print(type(s))
-
-    newSent = "['see', 'Bob', 'run', 'fast']"
-    newWeight = 5
-    history.add(newSent + ';' + str(newWeight))
+#        print(type(s))
 
     print('-' * 5)
+    
+    newSent = ['see', 'Bob', 'run', 'fast']
+    newWeight = 5
+    history.add(list((newSent, int(newWeight))))
 
     for s in history.weightedSentences:
         print(s)
+
     
     history.save_history(hFile, history.weightedSentences)
 
     print('-' * 5)
 
-    history.updateWeight("['see', 'Bob', 'run']", 3)
+    
+    history.updateWeight(['see', 'Bob', 'run'], 3)
 
     for s in history.weightedSentences:
         print(s)
 
     print('-' * 5)
 
-    history.incrementWeight("['see', 'Bob']")
+    history.incrementWeight(['see', 'Bob'])
 
     for s in history.weightedSentences:
         print(s)    
 
     history.save_history(hFile, history.weightedSentences)
+
+    print(history.sentence_exist(['see', 'Mary']))
+
+    print(history.sentence_exist(['see', 'Pookie', 'run']))
 
     print("ok")

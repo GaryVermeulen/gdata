@@ -2,7 +2,6 @@
 # Simpleton -- simp.py
 #   Simple-Ton: A ton of simple things to do.
 #
-#   This version will concentrate on grammar
 #
 
 import os
@@ -10,40 +9,25 @@ import os
 import simpStuff as ss
 import simpSA as sa
 import simpConfig as sc
+import history as h
+import simpTree
 
 
 from datetime import datetime
 
 fConvo = 'convoHist.txt'
+hFile = 'history.txt'
 convo = []
 
 
-def getInput():
-
-    s = input("Enter a command <[C]hat, [S]peak, or [T]each>: ")
-
-    if s == 'c' or s == 'C':
-        if sc.verbose: print(s)
-        print("Entering Chat mode...")
-#    elif s == 's' or s == 'S':
-#        if sc.verbose: print(s)
-#        print("Entering random Speak mode, but not today...")
-#    elif s == 't' or s == 'T':
-#        if sc.verbose: print(s)
-#        print("Entering Teach mode, but not today...")
-#    else:
-#        print("I do not understand: >>" + str(s) + "<<")
-
-    return s
 
 def showData(data):
     print('- showData -')
     for d in data: print(d)
     print('- End showData -')
 
-def lowerCase(s, data): 
-# Currently only lowers NNPs case
-# The PRP 'I' is unchanged...
+def adjustCase(s, data): 
+# Adjusts case to match lex data
 
     slist = s.split(' ')
     ccs = []
@@ -79,11 +63,14 @@ def getPOS(s, data):
     for w in s:
         for d in data:
             if w == d[0]:
-                sPOS.append((w,d[1]))
+                sPOS.append((w,d[-1]))
     return(sPOS)
 
 
-def simpChat(cmd):
+def simpChat():
+
+    validCFG = False
+    cfgOverride = True
 
     # Read all data (Nx, Vx, etc.)
     inData = ss.getData()
@@ -92,6 +79,15 @@ def simpChat(cmd):
         print("getData() returned {} lines of data.".format(inDataLen))
         showData(inData)
 
+    
+    # Load weighted sentence history
+    print('-history-')
+    history = h.History.load_history(hFile)
+
+    for s in history.weightedSentences:
+        print(s)
+    print('---------')
+    
     # Build CFG file from data and cfg_rules
     ss.buildCFG(inData)
 
@@ -99,14 +95,14 @@ def simpChat(cmd):
     simpName = 'Simp'
     for i in inData:
         if i[0] == simpName:
-            #sc.simpData = i # What's with the sc. ?
             simpData = i
             break
 
     print("Hello I am: " + simpName)
     if sc.verbose: print("simpData  : {}: ".format(simpData))
-    
-    while cmd in ['c', 'C']:
+
+    loop = True
+    while loop:
         sPOS = ''
         s = input("Enter a short sentence: ")
         
@@ -117,10 +113,10 @@ def simpChat(cmd):
                     print(c)
                 print('----')
                     
-            lowerS = lowerCase(s, inData) 
+            adjustedS = adjustCase(s, inData) 
 
             # Are all the words in the sentence in our Lex?
-            ret = chkWords(lowerS, inData)
+            ret = chkWords(adjustedS, inData)
 
             if len(ret) > 0:
                 # ss.addWord is under construction...
@@ -137,7 +133,7 @@ def simpChat(cmd):
                     continue
 
             # Has this been said before?   Need to revamp...             
-            hist = ss.chkHistory(lowerS)
+            hist = ss.chkHistory(adjustedS)
 
             if len(hist) > 0:
                 if sc.verbose: print('Something old...')    
@@ -149,20 +145,21 @@ def simpChat(cmd):
             # Parse corrected case sentence (input) per grammar
             # Draw out the grammar tree?
             draw = False
-            grammarTree = ss.chkGrammar(lowerS, draw)
+            grammarTree = ss.chkGrammar(adjustedS, draw)
 
             if grammarTree == None:
                 validCFG = False
                 if sc.verbose: print('grammarTree == none')
 
-                #sPOS = ss.getPOS(ccs, inData)
-                #if sc.verbose: print('ccs tagged, sPOS: ', sPOS)
+                sPOS = getPOS(adjustedS, inData)
+                if sc.verbose: print('ccs tagged, sPOS: ', sPOS)
 
-                #sA = sa.Sentence('', '', '', '', '', '', '', '', '', '', '')
+                sA = sa.Sentence('', '', '', '', '', '', '', '', '', '', '')
+                
+                sA.inSent = adjustedS
+                sA.sPOS = sPOS
 
-                print('Do we really want to process invalid grammar?')
                 print('--- A valid CFG was not returned. ---')
-                print('--- Knowledge methods not ran.')
 
             else:
                 validCFG = True
@@ -173,26 +170,82 @@ def simpChat(cmd):
                 print(tStr)
                 print("\n------------")
                 
-                sA = sa.sentAnalysis(tStr, lowerS)
+                sA = sa.sentAnalysis(tStr, adjustedS)
                 print("\n------------")
                 print("sA.inSent: ")
                 print(sA.inSent)
+                print(type(sA.inSent))
                 print("\n------------")
 
-                # Save sentence to list and conversation history file
-                # 
-                if sc.verbose: print('Retaining convo history...')
+            # Check input sentence with previous sentences in weighted history file/class
+            print('Checking weighted history...')
+            if history.sentence_exist(adjustedS):
+                print('adjustedS found in weighted history, weight: ', history.get_weight(adjustedS))
+                history.incrementWeight(adjustedS)
 
-                if sA.inSent != '':
-                    convo.append(sA.inSent)
+                print('increamented weight to: ', history.get_weight(adjustedS))
+            else:
+                history.add(list((adjustedS, 1)))
+                print('Added adjustedS to weighted history w/weight of : ', history.get_weight(adjustedS))
+
+            print('-' * 5)
+            if not validCFG and (history.get_weight(adjustedS) > 5):
+                print('{} has been mentioned over 5 times, checking CFG...'.format(adjustedS))
+
+                cfgOverride = True
                 
-                    f = open(fConvo, 'a')
-                    f.write('\n' + str(sA.inSent))
-                    f.close()
+                chkCFGResults = chkCFG(adjustedS)
+
+                for r in chkCFGResults:
+                    print(r)
+            elif not validCFG and (history.get_weight(adjustedS) <= 5):
+                cfgOverride = False
+                
+            print('-' * 5)
+            
+            # Add data/KB stuff here...~?
+            if cfgOverride:
+                print('--- cfgOverride = True, so let us attempt to find some knowledge')
+
+                print('----------------------')
+                print('sA.inSent: ', sA.inSent)
+                print('sA.sPOS:   ', sA.sPOS)
+                print('sA.sType:  ', sA.sType)
+                print('sA.sSubj:  ', sA.sSubj)
+                print('sA.sVerb:  ', sA.sVerb)
+                print('sA.sObj:   ', sA.sObj)
+                print('sA.sDet:   ', sA.sDet)
+                print('sA.sIN:    ', sA.sIN)
+                print('sA.sPP:    ', sA.sPP)
+                print('sA.sMD:    ', sA.sMD)
+                print('sA.sWDT:   ', sA.sWDT)
+
+                if validCFG:
+                    w = simpTree.peruseData(sA)
+                else:
+                    w = simpTree.peruseDataNoCFG(sA)
+
+                print('peruseData returned:')
+                print(w)
+                print('---')
+                
+
+            # Save sentence to list and conversation history file
+            # 
+            if sc.verbose: print('Retaining convo and weighted history files...')
+
+            if sA.inSent != '':
+                convo.append(sA.inSent)
+                
+                f = open(fConvo, 'a')
+                f.write('\n' + str(sA.inSent))
+                f.close()
+
+            history.save_history(hFile, history.weightedSentences)
 
         else:
             if sc.verbose: print('Exiting chat...')
-            cmd = ''
+            loop = False
 
     # Archiving convo history
     now = datetime.now()
@@ -203,27 +256,28 @@ def simpChat(cmd):
         
     return
 
+def chkCFG(sent):
 
+    draw = False
+    idx = 0
+    chkSent = []
+    chkSentResults = []
+    
+    for w in sent:
+        print('Checking: ', sent[idx])
+        chkSent.append(sent[idx])
+        grammarTree = ss.chkGrammar(chkSent, draw)
+        chkSentResults.append(grammarTree)
+        idx += 1
+
+    return chkSentResults
 
 
 if __name__ == "__main__":
 
     print("Simple-Ton, A ton of simple things to do.")
 
-    loop = True
-
-    # Main loop
-    #
-    while loop:
-   
-        # Get user command input
-        #
-        cmd = getInput()
-
-        if cmd == 'c' or cmd == 'C': # Chat only; Others have been removed
-            simpChat(cmd)
-        else:
-            loop = False
+    simpChat()
         
     print('End Simple-Ton.')
-    # end simp.py
+    
