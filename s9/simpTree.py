@@ -369,13 +369,60 @@ def getConvo():
 
 def peruseDataNoCFG(sA):
 
+    nouns  = []
+    verbs  = []
+    others = []
+
+    nCanDo    = []
+    allVerbs  = []
+    allOthers = []
+
+    t = buildKB()
+
     print('We be persuing without valid CFG returned or sentance analysis...')
     print(sA.inSent)
     print(sA.sPOS)
     print('...so for now just find simple noun verb relationships.')
     print('----')
 
+    # Gather nouns, verbs, and others
+    for w in sA.sPOS:
+        if w[1] in ['NNP', 'NN', 'NNS']:
+            nouns.append(w)
+        elif w[1] in ['VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ']:
+            verbs.append(w)
+        else:
+            others.append(w)
 
+    print('nouns: ', nouns)
+    print('----')
+    print('verbs: ', verbs)
+    print('----')
+    print('others: ', others)
+    print('----')
+
+
+    for i in range(len(nouns)):
+        name = nouns[i][0]
+        pos  = nouns[i][1]
+        canDo = t.get_canDo(t.root, name)
+        nCanDo.append(list((list((name, pos)), canDo)))
+
+    for c in nCanDo:
+        print('c: ', c)
+
+    for i in range(len(verbs)):
+        name = verbs[i][0]
+        pos  = verbs[i][1]
+
+        v_inflections = getInflections(name, "VB")
+       
+        allVerbs.append(list((list((name,pos)), v_inflections)))
+
+    for v in allVerbs:
+        print('v: ', v)
+
+        
 
     return "a mess"
 
