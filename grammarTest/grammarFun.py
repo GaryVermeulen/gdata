@@ -2,14 +2,16 @@
 # grammarFun.py
 #
 
+import re
 import os
+import sys
 import pickle
 import spacy
 from pathlib import Path
 from buildDict import buildSentences
 from collections import defaultdict # Used in Grammar class
 from nltk.tree import Tree # Used in EarleyParse class
-import simpStuff as ss
+#import simpStuff as ss
 
 
 class Rule(object):
@@ -302,19 +304,24 @@ class EarleyParse(object):
 
 
 
-def loadPickles():
+def loadPickle(whichP):
 
-    with open('myDict.pkl', 'rb') as fp:
-        newDict = pickle.load(fp)
-        print('loaded dictionary pickle')
-    fp.close()
+    if whichP == 'lex':
+        with open('myDict.pkl', 'rb') as fp:
+            newDict = pickle.load(fp)
+            print('loaded dictionary pickle')
+        fp.close()
+        return newDict
+    elif whichP == 'tWords':
+        with open('taggedWords.pkl', 'rb') as fp:
+            newTaggedWords = pickle.load(fp)
+            print('loaded taggedWords pickle')
+        fp.close()
+        return newTaggedWords
+    else:
+        print('Unkonwn pickle name: ', whichP)
 
-    with open('taggedWords.pkl', 'rb') as fp:
-        newTaggedWords = pickle.load(fp)
-        print('loaded taggedWords pickle')
-    fp.close()
-
-    return newDict, newTaggedWords
+    return None
 
 
 def getCFGRules():
@@ -415,16 +422,20 @@ def chkGrammar(sentence, d):
 
 
 
+
 if __name__ == "__main__":
 
 
-    lexDict, taggedWords = loadPickles()
+    lexDict = loadPickle('lex')
+    if lexDict == None:
+        sys.exit('Bad pickle name.')
+        
 
     print(type(lexDict))
-    print(type(taggedWords))
+#    print(type(taggedWords))
 
-#    for x, y in lexDict.items():
-#        print(x, y)
+    for x, y in lexDict.items():
+        print(x, y)
 
 #    print('keys:')
 #    for k in lexDict:
@@ -451,33 +462,42 @@ if __name__ == "__main__":
 #        print(t)
 #    print(len(tagsFound))
 
-
+    
     sentences = buildSentences()
 
     print(len(sentences))
 
-#    for s in sentences:
-#        print(s)
+    #for s in sentences:
+        #print(s)
 
     testSentences = sentences[110:130]
 
+    
     print(len(testSentences))
 
     for s in testSentences:
         print('=' * 10)
         print(s)
-    
+        
         testSent = str(s)
         testSent = testSent.lower()
+        """
+        testSent = testSent.replace(',', '')
         testSent = testSent.replace('.', '')
-    
+        testSent = testSent.replace('"', ' ')
+        """
 
-        testSent = testSent.split()
+        res = re.sub(r'[^\w\s]', ' ', testSent)
+
+        #testSent = testSent.split()
+        testSent = res.split()
         print(testSent)
 
+        
+    """
         draw = False
         
-        grammarTree = ss.chkGrammar(testSent, draw)
+        grammarTree = chkGrammar(testSent, draw)
 
         if grammarTree == None:
             print('NONE returned, working through sentence...')
@@ -485,7 +505,7 @@ if __name__ == "__main__":
             test = []
             for w in testSent:
                 test.append(w)                   
-                grammarTree = ss.chkGrammar(test, draw)
+                grammarTree = chkGrammar(test, draw)
                  
                 if grammarTree == None:
                     print('NONE returned for: ', test)
@@ -502,3 +522,4 @@ if __name__ == "__main__":
             print(tStr)
             print("\n------------")
                 
+    """

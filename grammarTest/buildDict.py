@@ -71,6 +71,8 @@ def buildList(corpus):
 
 def buildDict(words):
 
+    nlp = spacy.load("en_core_web_sm")
+
     myDict = {}
 
     strWords = str(words)
@@ -104,12 +106,48 @@ def buildSentences():
 
     return sentences
 
+def vetSentences(sents):
+
+    vettedSentences = []
+
+    print('len sents in vS: ', len(sents))
+    print('type sents: ', type(sents))
+
+    tmpSents = str(sents).split('\n')
+
+    for s in tmpSents:
+        i = 0
+
+        print('len s: ', len(s))
+        print('type: ', type(s))
+        
+        for c in s:
+            tmpS = ''
+            if len(c) >= (i + 2):
+                if c[i - 1] == 'n' and c[i] == "'" and c[i + 1] == 't':
+                    tmpS += 'o'
+                else:
+                    tmpS += c
+            i += 1
+
+        vettedSentences.append(tmpS)
+
+    return vettedSentences
+
+
+def buildTaggedSentences(vSents):
+
+    taggedSentences = []
+
+
+    return taggedSentences
+
 
 if __name__ == "__main__":
 
 #    nlp = spacy.load("en_core_web_sm")
 #    verbose = True
-#    text_corpus = getData()
+    text_corpus = getData()
 
 #    print('nlp type: ', type(nlp))
 #    
@@ -121,7 +159,7 @@ if __name__ == "__main__":
 #        for t in text_corpus:
 #            print(t)
 
-#    words = buildList(text_corpus)
+    words = buildList(text_corpus)
 
 #    print('words:')
 #    print(len(words))
@@ -135,7 +173,7 @@ if __name__ == "__main__":
 #        attributes = {"POS": token.pos_, "Tag": token.tag_, "TagExplain": spacy.explain(token.tag_), "Lemma": str(token.lemma_)}
 #        myDict.update({token.text: attributes})
 
-#    myDict, taggedWords = buildDict(words)
+    myDict, taggedWords = buildDict(words)
 
 #    print('myDict len: ', len(myDict))
 #    print('taggedWords type: ', type(taggedWords))
@@ -174,8 +212,16 @@ if __name__ == "__main__":
     
     sentences = buildSentences()
 
+    vettedSentences = vetSentences(sentences)
+
+    taggedSentences = buildTaggedSentences(vettedSentences)
+
     print(len(sentences))
     print(type(sentences))
 
-    for s in sentences:
+    print(len(vettedSentences))
+    print(type(vettedSentences))
+
+
+    for s in vettedSentences:
         print(s)
