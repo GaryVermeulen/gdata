@@ -4,7 +4,6 @@
 #
 
 import os
-import spacy
 import pickle
 from simpConfig import simple_contractions
 from simpConfig import verbose
