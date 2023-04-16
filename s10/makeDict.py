@@ -1,16 +1,8 @@
 #
-# Construct small dictionary w/POS tags and short description
-#       -- This is very rudimentary and imcomplete
-#       -- makeDict.py
+# makeDict.py
 #
-# Input: Small dictionary text file created by lorenza12 (4/18/2018)
-#       -- No or imcomplete NNPs, NNS, and no verb tense
+# Make a starter Pyton dictionary of CFG terminals from a text file.
 #
-# Output:
-#   attributes = {'Word': Word, 'POS':PoS, 'Tag': PoSTag, 'Description': Description}
-#   myDict.update({word_text_n: attributes}) Where n = entry number
-#
-
 import pickle
 
 
@@ -18,36 +10,15 @@ def readInput():
 
     dictList = []
     
-    with open('data/wordDictionary.txt', 'r') as f:
+    with open('data/starterDictionary.txt', 'r') as f:
         while (line := f.readline().rstrip()):
-                dictList.append(line)
+            tmpLine = []
+            if line[0] != '#':
+                dictList.append(line.split(','))
+                
     f.close()
 
     return dictList
-
-
-def getTag(pos):
-
-    posTag = 'Unknown'
-
-    if pos == 'noun':
-        posTag = 'NN'
-    elif pos == 'pronoun':
-        posTag = 'PRP'
-    elif pos == 'verb':
-        posTag = 'VB'
-    elif pos == 'adjective':
-        posTag = 'JJ'
-    elif pos == 'adverb':
-        posTag = 'RB'
-    elif pos == 'preposition': # Didn't see any in file
-        posTag = 'IN'           
-    elif pos == 'conjunction': # Didn't see any in file
-        posTag = 'CC'
-    elif pos == 'interjection': # Didn't see any in file
-        posTag = 'UH'
-        
-    return posTag
 
 
 def makeDict(dictList):
@@ -57,17 +28,16 @@ def makeDict(dictList):
     wordCount = 1
     
     for line in dictList:
-
-        tmpLineList = []
-        tmpLineList = line.split('|')
-        word = tmpLineList[0]
+        
+        word = line[0]
+        tag = line[1]
 
         if word != lastWord:
             wordCount = 1
             
         word_n = word + '_' + str(wordCount)
-        PoSTag = getTag(tmpLineList[1])
-        attributes = {'Word': word, 'POS': tmpLineList[1], 'Tag': PoSTag, 'Description': tmpLineList[2]}
+        
+        attributes = {'Word': word, 'Tag': tag}
         ourDict.update({word_n: attributes})
 
         wordCount += 1
@@ -91,16 +61,18 @@ if __name__ == "__main__":
 
     rawDictList = readInput()
 
+    print(type(rawDictList))
     print('len rawDictList:', len(rawDictList))
+    print(rawDictList)
     
     ourDict = makeDict(rawDictList)
 
     print('len type ourDict:', len(rawDictList), type(ourDict))
-
-#    for k, v in ourDict.items():
-#        print('k: ', k)
-#        print('v: ', v)
-
+    """
+    for k, v in ourDict.items():
+        print('k: ', k)
+        print('v: ', v)
+    """
     makeDictPickle(ourDict)   
 
     

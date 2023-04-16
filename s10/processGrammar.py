@@ -10,6 +10,7 @@ import grammarTools
 from grammarTools import Grammar
 from grammarTools import EarleyParse
 from grammarTools import chkGrammar
+#from processCorpus import verifyWords
 from pathlib import Path
 
 
@@ -18,18 +19,27 @@ cfgFile = 'test.cfg'
 
 def getPickles():
 
+    with open('data/ourDict.pkl', 'rb') as fp:
+        ourDict = pickle.load(fp)
+        print('Aunt Bee loaded ourDict.pkl')
+    fp.close()
+
     with open('data/newDict.pkl', 'rb') as fp:
-        topicalDict = pickle.load(fp)
+        newDict = pickle.load(fp)
         print('Aunt Bee loaded newDict.pkl')
     fp.close()
 
     with open('data/ourCorpus.pkl', 'rb') as fp:
-        topicalCorpus = pickle.load(fp)
+        ourCorpus = pickle.load(fp)
         print('Aunt Bee loaded ourCorpus.pkl')
     fp.close()
-    
 
-    return topicalDict, topicalCorpus
+    with open('data/taggedCorpus.pkl', 'rb') as fp:
+        taggedCorpus = pickle.load(fp)
+        print('Aunt Bee loaded taggedCorpus.pkl')
+    fp.close()
+
+    return ourDict, newDict, ourCorpus, taggedCorpus
 
 
 def getCFGRules():
@@ -53,20 +63,25 @@ def getCFGRules():
     return(rules)
 
 
-def buildCFG(data):
+def buildCFG(dataDict):
 
     rules = getCFGRules()
 
     firstLine = True
     
-    for d in data:
+    for key, value in dataDict.items():
+        word = dataDict[key]['Word']
+        tag = dataDict[key]['Tag']
+        word = word.strip()
+        tag = tag.strip()
+            
         if firstLine:
-            rules = rules + d[1] + ' -> ' + d[0]
+            rules = rules + tag + ' -> ' + word
             firstLine = False
-        elif rules.find(d[0]) == -1:
-            rules = rules + '\n' + d[-1] + ' -> ' + d[0]
+        elif rules.find(word) == -1:
+            rules = rules + '\n' + tag + ' -> ' + word
 
-    cf = open('testGrammar.cfg', 'w')
+    cf = open('test.cfg', 'w')
     cf.write(rules)
     cf.close()
 
@@ -77,7 +92,7 @@ def buildTaggedDocs(topicalCorpus):
 
     taggedDocs = []
 
-    print('topicalCorpus: ', topicalCorpus)
+#    print('topicalCorpus: ', topicalCorpus)
 
     nlp = spacy.load("en_core_web_lg") # Going for the best accuracy
     for sentence in topicalCorpus:
@@ -97,6 +112,57 @@ def buildTaggedDocs(topicalCorpus):
         taggedDocs.append(tmpDoc)
 
     return taggedDocs
+
+
+def chkWords(testSents):
+
+    wordsFound = []
+    wordsNotFound = []
+
+    with open('data/newDict.pkl', 'rb') as fp:
+            newDict = pickle.load(fp)
+            print('Aunt Bee loaded newDict.pkl')
+    fp.close()
+
+#    for key, value in ourDict.items():
+#        print('key: {} value: {}'.format(key, value))
+#    
+#    print('input expandedCorpusSents: ', expandedCorpusSents)
+    
+    for s in testSents:
+#        print('s: ', s)
+        for w in s:
+            for key, value in newDict.items():
+#                print(key, value)
+                if w == newDict[key]['Word']:
+                    print('key: ', key)
+                    print('word: ', newDict[key]['Word'])
+                    print('tag: ', newDict[key]['Tag'])
+                    wordsFound.append(w)
+                    
+    for s in testSents:
+        for w in s:
+            if w not in wordsFound:
+                wordsNotFound.append(w)
+
+
+            
+#            print('w: ', w)
+#            for key in newDict:
+#                
+#                if w == key[:-2]:
+#                    print('found: ', key[:-2])
+#                    wordsFound.append(w)
+#                else:
+#                    if w not in wordsFound:
+#                    print('not found: ', key[:-2])
+#                        wordsNotFound.append(w)
+                            
+    # Remove duplicates
+#    wordsFound = list(dict.fromkeys(wordsFound))
+#    wordsNotFound = list(dict.fromkeys(wordsNotFound))                     
+
+    return wordsFound, wordsNotFound
 
 
 def buildTokenDocs(taggedDocs):
@@ -124,29 +190,27 @@ def buildTokenDocs(taggedDocs):
 
 if __name__ == "__main__":
 
-    
+    draw = False
     
     print('Processing grammar...')
 
-    topicalDict, topicalCorpus = getPickles()
+    ourDict, newDict, ourCorpus, taggedCorpus = getPickles()
 
-    print('len topicalDict: ', len(topicalDict))
-    print('type topicalDict: ', type(topicalDict))
+    print('len ourDict: ', len(ourDict))
+    print('type ourDict: ', type(ourDict))
+    print('len newDict: ', len(newDict))
+    print('type newDict: ', type(newDict))
+    print('-' * 5)
 #    for x, y in topicalDict.items():
 #        print('x: {} y: {}'.format(x,y))
     
-    print('len topicalCorpus: ', len(topicalCorpus))
-    print('type topicalCorpus: ', type(topicalCorpus))
+    print('len ourCorpus: ', len(ourCorpus))
+    print('type ourCorpus: ', type(ourCorpus))
+    print('len taggedCorpus: ', len(taggedCorpus))
+    print('type taggedCorpus: ', type(taggedCorpus))
     print('-' * 5)
 
-
-
-    taggedDocs = buildTaggedDocs(topicalCorpus)
-    print('len taggedDocs: ', len(taggedDocs))
-    print('type taggedDocs: ', type(taggedDocs))
-
-
-    tokenDocs = buildTokenDocs(taggedDocs)
+    tokenDocs = buildTokenDocs(taggedCorpus)
     print('len tokenDocs: ', len(tokenDocs))
     print('type tokenDocs: ', type(tokenDocs))
     print('-' * 5)
@@ -158,10 +222,31 @@ if __name__ == "__main__":
         pickle.dump(tokenDocs, fp)
         print('Aunt Bee made a tokenDocs pickle')
     fp.close()
-        
-#    buildCFG(docs)
 
-    testSent = [['see', 'jimmy', 'run']]
+    print('-' * 5)
+    buildCFG(newDict)
+    print('cfg built')
+    
+#    testSent = [['see', 'jimmy', 'run', 'in', 'the', 'park', 'with', 'engelbert']]
+    testSent = [['see', 'jimmy', 'run', 'in', 'the', 'park', 'with', 'pookie']]
+
+    testWordsFound, testWordsNotFound = chkWords(testSent)
+
+    print('testWordsFound:')
+    print(len(testWordsFound))
+    print(type(testWordsFound))
+    print(testWordsFound)
+    for w in testWordsFound:
+        print(w)
+    
+    print('testWordsNotFound:')
+    print(len(testWordsNotFound))
+    print(type(testWordsNotFound))
+    print(testWordsNotFound)
+    for w in testWordsNotFound:
+        print(w)
+
+    print('-' * 5)
 
     taggedInputDocs = buildTaggedDocs(testSent)
     print('len taggedDocs: ', len(taggedInputDocs))
@@ -170,11 +255,11 @@ if __name__ == "__main__":
     for test in taggedInputDocs:
         print(test)
     
-
+    tree = chkGrammar(' '.join(testSent[0]), draw)
 
 
     """
-    draw = False
+    
 
     for sentence in topicalCorpus:
         print('-' * 10)

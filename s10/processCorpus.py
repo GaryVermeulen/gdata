@@ -5,6 +5,8 @@
 
 import os
 import pickle
+import spacy
+
 from simpConfig import simple_contractions
 from simpConfig import verbose
 
@@ -68,30 +70,52 @@ def expandSents(corpusSents):
 
     return expandedSents
 
-def getPickle():
+def getPickle(whichPickle):
 
-    with open('data/ourDict.pkl', 'rb') as fp:
-        ourDict = pickle.load(fp)
-        print('Aunt Bee loaded ourDict.pkl')
-    fp.close()
-
+    if whichPickle == 'ourDict.pkl':
+        with open('data/ourDict.pkl', 'rb') as fp:
+            ourDict = pickle.load(fp)
+            print('Aunt Bee loaded ourDict.pkl')
+        fp.close()
+    elif whichPickle == 'newDict.pkl':
+        with open('data/newDict.pkl', 'rb') as fp:
+            ourDict = pickle.load(fp)
+            print('Aunt Bee loaded newDict.pkl')
+        fp.close()
+    else:
+        print('Unknown pickle problem: ', whichPickle)
+        ourDict = None
+        
     return ourDict
 
 
-def verifyWords(expandedCorpusSents):
+def verifyWords(expandedCorpusSents, whichPickle):
 
     wordsFound = []
     wordsNotFound = []
 
-    ourDict = getPickle()
+    print('whichPickle: ', whichPickle)
 
+    ourDict = getPickle(whichPickle)
+
+#    for key, value in ourDict.items():
+#        print('key: {} value: {}'.format(key, value))
+#    
+#    print('input expandedCorpusSents: ', expandedCorpusSents)
+    
     for s in expandedCorpusSents:
+#        print('s: ', s)
         for w in s:
-            if w in ourDict.keys():
-                wordsFound.append(w)
-            else:
-                wordsNotFound.append(w)
+#            print('w: ', w)
+            for key in ourDict:
                 
+                if w == key[:-2]:
+#                    print('found: ', key[:-2])
+                    wordsFound.append(w)
+                else:
+#                    print('not found: ', key[:-2])
+                    wordsNotFound.append(w)
+                            
     # Remove duplicates
     wordsFound = list(dict.fromkeys(wordsFound))
     wordsNotFound = list(dict.fromkeys(wordsNotFound))                     
@@ -214,20 +238,51 @@ def getTag(pos):
     return posTag
 
 
-def updateDict(newWords):
+def tagCorpus(expandedCorpusSents):
+
+    taggedDocs = []
+
+    nlp = spacy.load("en_core_web_lg") # Going for the best accuracy
+
+    for sentence in expandedCorpusSents:
+        strSentence = ' '.join(sentence)
+#        print(strSentence)
+#        if len(strSentence) > 10:
+#            testSent = strSentence
+        doc = nlp(strSentence)
+#        print('doc: ', doc)
+        tmpDoc = []
+        for token in doc:            
+#            print('token.text: ', token.text)    
+#            print(f'{token.text:{8}} {token.pos_:{6}} {token.tag_:{6}} {token.dep_:{6}} {spacy.explain(token.pos_):{20}} {spacy.explain(token.tag_)}')
+            tmpToken = ((str(token.text)), (str(token.tag_)))
+            tmpDoc.append(tmpToken)
+
+        taggedDocs.append(tmpDoc)
+
+    return taggedDocs
+
+def updateDict(newWords, taggedCorpus):
     # It is assumed these words are new (not in existing dict)
     # And that there one entry per list
+    # newWords.append(word + ';' + pos + ';' + txt4)
+    
     wordCount = 1
-    oldDict = getPickle()
+    oldDict = getPickle('ourDict.pkl')
 
     print('oldDict len: ', len(oldDict))
 
     for word in newWords:
         wordList = word.split(';')
         newWord = wordList[0]
-        PoSTag = getTag(wordList[1])
-        newWord_n = newWord + '_' + str(wordCount)
-        attributes = {'Word': newWord, 'POS': wordList[1], 'Tag': PoSTag, 'Description': wordList[2]}
+
+        for s in taggedCorpus:
+            for w in s:
+                if w[0] == newWord:
+                    newTag = w[1]
+
+                    newWord_n = newWord + '_' + str(wordCount)
+                    attributes = {'Word': newWord, 'Tag': newTag}
         oldDict.update({newWord_n: attributes})
         
     return oldDict
@@ -259,11 +314,13 @@ if __name__ == "__main__":
     print('expandedCorpusSents:')
     print(len(expandedCorpusSents))
     print(type(expandedCorpusSents))
-#    for s in expandedCorpusSents:
-#        print(s)
+    for s in expandedCorpusSents:
+        for w in s:
+            if w == "knowif":
+                print('bad s: ', s)
     print('-' * 5)
 
-    wordsFound, wordsNotFound = verifyWords(expandedCorpusSents)
+    wordsFound, wordsNotFound = verifyWords(expandedCorpusSents, 'ourDict.pkl')
 
     print('wordsFound:')
     print(len(wordsFound))
@@ -271,15 +328,6 @@ if __name__ == "__main__":
     print('wordsNotFound:')
     print(len(wordsNotFound))
     print(type(wordsNotFound))
-    
-    
-#    if verbose:
-#        for w in wordsNotFound:
-#            print('>>', w, '<<')
-#            print('len w: ', len(w))
-#            print('--')
-#    
-    print('-' * 5)
 
     newWords, notFound = getWordsNotFound(wordsNotFound)
 
@@ -292,14 +340,34 @@ if __name__ == "__main__":
     print('-' * 5)
 
     goodSents = rejectNotFound(expandedCorpusSents, notFound) # Drop sents with unknown words
+    
     print('goodSents:')
     print(len(goodSents))
     print(type(goodSents))
-    
-#    for s in goodSents:
-#            print('>>', s, '<<')
-#            print('len w: ', len(w))
-    print('-' * 5)
+    for s in goodSents:
+        for w in s:
+            if w == "knowif":
+                print('bad s: ', s)
+    print('-' * 5)    
+
+    taggedCorpus = tagCorpus(goodSents)
+
+    print('taggedCorpus:')
+    print(len(taggedCorpus))
+    print(type(taggedCorpus))
+    for s in taggedCorpus:
+        for token in s:
+            if token[0] == "knowif":
+                print(s)
+
+    # Save cleaned corpus to pickle
+    with open('data/taggedCorpus.pkl', 'wb') as fp:
+        pickle.dump(taggedCorpus, fp)
+        print('Aunt Bee made a taggedCorpus pickle')
+    fp.close()
+
+    print('-' * 5)                           
+ 
 
     # Save cleaned corpus to pickle
     with open('data/ourCorpus.pkl', 'wb') as fp:
@@ -309,8 +377,15 @@ if __name__ == "__main__":
 
     print('-' * 5)
 
+    ourDict = getPickle('ourDict.pkl')
 
-    newDict = updateDict(newWords)
+    print('ourDict:')
+    print(len(ourDict))
+    print(type(ourDict))
+
+   
+    # Needed for processing new words from user input
+    newDict = updateDict(newWords, taggedCorpus)
 
     print('newDict:')
     print(len(newDict))

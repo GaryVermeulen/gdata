@@ -407,9 +407,10 @@ def chkGrammar(sentence, d):
 
 if __name__ == "__main__":
 
+    draw = False
 
     testSentence = 'see jimmy run in the park' #'see Pookie run'
-    draw = False
+    
     tree = chkGrammar(testSentence, draw)
 
     print(tree)
