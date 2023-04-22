@@ -92,20 +92,12 @@ def buildTaggedDocs(topicalCorpus):
 
     taggedDocs = []
 
-#    print('topicalCorpus: ', topicalCorpus)
-
     nlp = spacy.load("en_core_web_lg") # Going for the best accuracy
     for sentence in topicalCorpus:
         strSentence = ' '.join(sentence)
-#        print(strSentence)
-#        if len(strSentence) > 10:
-#            testSent = strSentence
         doc = nlp(strSentence)
-#        print('doc: ', doc)
         tmpDoc = []
         for token in doc:            
-#            print('token.text: ', token.text)    
-#            print(f'{token.text:{8}} {token.pos_:{6}} {token.tag_:{6}} {token.dep_:{6}} {spacy.explain(token.pos_):{20}} {spacy.explain(token.tag_)}')
             tmpToken = ((str(token.text)), (str(token.tag_)))
             tmpDoc.append(tmpToken)
 
@@ -114,53 +106,29 @@ def buildTaggedDocs(topicalCorpus):
     return taggedDocs
 
 
-def chkWords(testSents):
+def chkWords(testSents, newDict):
 
     wordsFound = []
     wordsNotFound = []
 
-    with open('data/newDict.pkl', 'rb') as fp:
-            newDict = pickle.load(fp)
-            print('Aunt Bee loaded newDict.pkl')
-    fp.close()
-
-#    for key, value in ourDict.items():
-#        print('key: {} value: {}'.format(key, value))
-#    
-#    print('input expandedCorpusSents: ', expandedCorpusSents)
+#    with open('data/newDict.pkl', 'rb') as fp:
+#            newDict = pickle.load(fp)
+#            print('Aunt Bee loaded newDict.pkl')
+#    fp.close()
     
     for s in testSents:
-#        print('s: ', s)
         for w in s:
             for key, value in newDict.items():
-#                print(key, value)
                 if w == newDict[key]['Word']:
-                    print('key: ', key)
-                    print('word: ', newDict[key]['Word'])
-                    print('tag: ', newDict[key]['Tag'])
+#                    print('key: ', key)
+#                    print('word: ', newDict[key]['Word'])
+#                    print('tag: ', newDict[key]['Tag'])
                     wordsFound.append(w)
                     
     for s in testSents:
         for w in s:
             if w not in wordsFound:
-                wordsNotFound.append(w)
-
-
-            
-#            print('w: ', w)
-#            for key in newDict:
-#                
-#                if w == key[:-2]:
-#                    print('found: ', key[:-2])
-#                    wordsFound.append(w)
-#                else:
-#                    if w not in wordsFound:
-#                    print('not found: ', key[:-2])
-#                        wordsNotFound.append(w)
-                            
-    # Remove duplicates
-#    wordsFound = list(dict.fromkeys(wordsFound))
-#    wordsNotFound = list(dict.fromkeys(wordsNotFound))                     
+                wordsNotFound.append(w)                     
 
     return wordsFound, wordsNotFound
 
@@ -170,8 +138,6 @@ def buildTokenDocs(taggedDocs):
     tokenDocs = []
 
     for doc in taggedDocs:
-#        print('---')
-#        print('doc: ', doc)
         rawSent = ''
         tokenDoc = []
         for tokens in doc:
@@ -180,17 +146,58 @@ def buildTokenDocs(taggedDocs):
             else:
                 rawSent = rawSent + ' ' + tokens[0]
             tokenDoc.append(tokens[1])
-#        print('rawSent: ', rawSent)
-#        print('tokDoc: ', tokenDoc)
         tokenDocs.append(tokenDoc)
 
     return tokenDocs
+
+
+def processInput(testSents):
+
+    endTrim = []
+    frontTrim = []
+    
+    tree = chkGrammar(' '.join(testSents[0]), draw)
+
+    # Save tree to pickle
+    with open('data/tree.pkl', 'wb') as fp:
+        pickle.dump(tree, fp)
+        print('Aunt Bee made a tree pickle')
+    fp.close()
+
+    if tree == None:
+        # Check sentecne by removing end word(s)
+
+        for sentence in testSents:
+            tree = chkGrammar(' '.join(sentence), draw)
+            i = 0
+            tmp = sentence.copy()
+            while i < len(sentence):
+                tmp.pop()
+                tree = chkGrammar(' '.join(tmp), draw)
+                if tree != None:
+                    endTrim.append(tmp.copy())
+                i += 1
+
+        # Check sentence by removing front word(s)
+        for sentence in testSents:
+            tree = chkGrammar(' '.join(sentence), draw)
+            i = 0
+            tmp = sentence.copy()
+            while i < len(sentence):
+                tmp.pop(0)
+                tree = chkGrammar(' '.join(tmp), draw)
+                if tree != None:
+                    frontTrim.append(tmp.copy())
+                i += 1
+
+    return tree, endTrim, frontTrim
 
 
 
 if __name__ == "__main__":
 
     draw = False
+    foundMatch = False
     
     print('Processing grammar...')
 
@@ -227,49 +234,113 @@ if __name__ == "__main__":
     buildCFG(newDict)
     print('cfg built')
     
-#    testSent = [['see', 'jimmy', 'run', 'in', 'the', 'park', 'with', 'engelbert']]
-    testSent = [['see', 'jimmy', 'run', 'in', 'the', 'park', 'with', 'pookie']]
+#    testSents = [['see', 'jimmy', 'run', 'in', 'the', 'park', 'with', 'engelbert']]
+    testSents = [['see', 'jimmy', 'run', 'in', 'the', 'park', 'with', 'pookie']]
+#    testSents = [['jimmy', 'and', 'pookie', 'ran', 'in', 'the', 'park']]
+#    testSents = [['pookie', 'ran', 'in', 'the', 'park']]
 
-    testWordsFound, testWordsNotFound = chkWords(testSent)
+    print('-' * 5)
+    print('len testSents: ', len(testSents))
+    print('type testSents: ', type(testSents))
+    print('testSents:')
+    for sent in testSents:
+        print(sent)
+    
+    testWordsFound, testWordsNotFound = chkWords(testSents, newDict)
 
     print('testWordsFound:')
     print(len(testWordsFound))
     print(type(testWordsFound))
     print(testWordsFound)
-    for w in testWordsFound:
-        print(w)
+#    for w in testWordsFound:
+#        print(w)
     
     print('testWordsNotFound:')
     print(len(testWordsNotFound))
     print(type(testWordsNotFound))
     print(testWordsNotFound)
-    for w in testWordsNotFound:
-        print(w)
+#    for w in testWordsNotFound:
+#        print(w)
+
+    # Save testWordsFound to pickle
+    with open('data/testWordsFound.pkl', 'wb') as fp:
+        pickle.dump(testWordsFound, fp)
+        print('Aunt Bee made a testWordsFound pickle')
+    fp.close()
+
+    # Save testWordsNotFound to pickle
+    with open('data/testWordsNotFound.pkl', 'wb') as fp:
+        pickle.dump(testWordsNotFound, fp)
+        print('Aunt Bee made a testWordsNotFound pickle')
+    fp.close()
+    
 
     print('-' * 5)
 
-    taggedInputDocs = buildTaggedDocs(testSent)
+    taggedInputDocs = buildTaggedDocs(testSents)
     print('len taggedDocs: ', len(taggedInputDocs))
     print('type taggedDocs: ', type(taggedInputDocs))
-
     for test in taggedInputDocs:
         print(test)
-    
-    tree = chkGrammar(' '.join(testSent[0]), draw)
+    print('-' * 5)
+
+    # Save taggedInputDocs to pickle
+    with open('data/taggedInputDocs.pkl', 'wb') as fp:
+        pickle.dump(taggedInputDocs, fp)
+        print('Aunt Bee made a taggedInputDocs pickle')
+    fp.close()    
+                   
+    tree, endTrim, frontTrim = processInput(testSents)
 
 
-    """
-    
 
-    for sentence in topicalCorpus:
-        print('-' * 10)
-        print(sentence)
-        tree = chkGrammar(' '.join(sentence), draw)
-        while tree == None:
-            if len(sentence) > 0:
-                sentence.pop()
-                tree = chkGrammar(' '.join(sentence), draw)
-            elif len(sentence) < 1:
-                break
+    if tree == None:
+        print('len endTrim: ', len(endTrim))
+        print('type endTrim: ', type(endTrim))
+        for test in endTrim:
+            print(test)
 
-    """
+        print('len frontTrim: ', len(frontTrim))
+        print('type frontTrim: ', type(frontTrim))
+        for test in frontTrim:
+            print(test)
+
+        print('-' * 5)
+
+        # Save endTrim to pickle
+        with open('data/endTrim.pkl', 'wb') as fp:
+            pickle.dump(endTrim, fp)
+            print('Aunt Bee made a endTrim pickle')
+        fp.close()
+
+        # Save frontTrim to pickle
+        with open('data/frontTrim.pkl', 'wb') as fp:
+            pickle.dump(frontTrim, fp)
+            print('Aunt Bee made a frontTrim pickle')
+        fp.close()
+
+        # Compare taggedInputDocs to tokenDocs
+        tmp_taggedInputDocs = [['PRP', 'VBP', 'RB', 'JJ']]
+        for doc in tokenDocs:
+            for inDoc in taggedInputDocs:
+#            for inDoc in tmp_taggedInputDocs:
+                tmpDoc = []
+                for w in inDoc:
+                    tmpDoc.append(w[1])
+                
+                if doc == tmpDoc:
+#                if doc == inDoc:
+                    print('*** match: ')
+                    print('doc: ', doc)
+                    print('inDoc: ', tmpDoc)
+                    foundMatch = True
+#                else:
+#                    print('NO match: ')
+#                    print('doc: ', doc)
+#                    print('inDoc: ', inDoc)
+        if not foundMatch:
+            print('tmpDoc {} not found in tokenDocs'.format(tmpDoc))
+        print('foundMatch: ', foundMatch)    
+    else:
+        print(tree)
+

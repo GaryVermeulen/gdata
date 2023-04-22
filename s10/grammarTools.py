@@ -363,12 +363,12 @@ def chkGrammar(sentence, d):
     grammar = Grammar.load_grammar(cfgFile)
 
 #    print('grammar len: ', len(grammar))
-    print('grammar type: ', type(grammar))
+#    print('grammar type: ', type(grammar))
 #    print(grammar.__str__)
 
     def run_parse(sentence):
         parse = EarleyParse(sentence, grammar)
-        print('parse: ', parse)
+#        print('parse: ', parse)
         parse.parse()
         return parse.get()
   
