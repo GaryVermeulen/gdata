@@ -5,6 +5,7 @@ but, CC
 or, CC
 yet, CC
 so, CC
+than, CC
 one, CD
 two, CD
 three, CD

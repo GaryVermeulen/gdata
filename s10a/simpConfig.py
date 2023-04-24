@@ -128,6 +128,7 @@ extended_contractions = {
 }
 
 
+# Note case...
 simple_contractions = { 
 "ain't": "am not",
 "aren't": "are not",
@@ -148,10 +149,10 @@ simple_contractions = {
 "how'd'y": "how do you",
 "how'll": "how will",
 "how's": "how is",
-"I'd": "I would",
-"I'll": "I will",
-"I'm": "I am",
-"I've": "I have",
+"i'd": "i would",
+"i'll": "i will",
+"i'm": "i am",
+"i've": "i have",
 "isn't": "is not",
 "it'd": "it would",
 "it'll": "it will",

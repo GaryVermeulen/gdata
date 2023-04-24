@@ -1,18 +1,23 @@
 # POS tag: NNS; Noun, plural
 # Word; <P>erson, <p>lace, or <t>hing; isA; actions (can do)
-selves; P; human; see,eat,walk,run
-cats; t; feline; see,eat,walk,run
-men; t; human; see,eat,walk,run
-dogs; t; canine; see,eat,walk,run
-telescopes; t; instrument; magnify
-parks; p; recreation_ground; recreation
-buses; t; vehicle; transport
-ducks; t; bird; see,eat,walk,run,fly
-women; t; human; see,eat,walk,run
-playgrounds; t; park; play
-felines; t; mammal; see,eat,walk,run
-canines; t; mammal; see,eat,walk,run
-humans; t; mammal; see,eat,walk,run
-mammals; t; animal; see,eat,walk,run
-birds; t; animal; see,eat,walk,run
-computers; t; device; compute
+selves;P;human;see,eat,walk,run
+cats;t;feline;see,eat,walk,run
+men;t;human;see,eat,walk,run
+women;t;human;see,eat,walk,run
+dogs;t;canine;see,eat,walk,run
+telescopes;t;instrument;magnify
+buses;t;vehicle;transport
+ducks;t;bird;see,eat,walk,run,fly
+parks;p;recreation_ground;recreation
+playgrounds;t;park;play
+felines;t;mammal;see,eat,walk,run
+canines;t;mammal;see,eat,walk,run
+humans;t;mammal;see,eat,walk,run
+mammals;t;animal;see,eat,walk,run
+birds;t;animal;see,eat,walk,run
+computers;t;device;compute
+vehicles;t;thing;TBD
+devices;t;thing;TBD
+animals;t;thing;see,eat,walk,run
+recreation_grounds;p;thing;TBD
+instruments;t;thing;TBD
