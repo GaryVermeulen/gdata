@@ -68,8 +68,10 @@ class N_ary_Tree:
         #return 1 + max(children_max_depth)
         return len(children_max_depth) + 1
 
-    def add(self, new_key, canDo, parent_key=None):
+    def add(self, new_key, ppt, tag, canDo, parent_key=None):
         new_node = Node(new_key)
+        new_node.ppt = ppt
+        new_node.tag = tag
         new_node.canDo = canDo
         new_node.parentNode = parent_key
         if parent_key == None:
@@ -114,9 +116,9 @@ class NodeNotFoundException(Exception):
 def buildKB_Tree(kb):
 
     tree = N_ary_Tree()
-    hb = 'Higgs_Boson'
+    root = 'thing'
 
-    tree.add(hb, ["TBD"]) # Root to start from
+    tree.add(root, '', '', ["TBD"]) # Root to start from
 
     for tmpDict in kb:
         newNodeParent = tmpDict["superclass"]
@@ -124,11 +126,27 @@ def buildKB_Tree(kb):
         ppt = tmpDict["ppt"]
         tag = tmpDict["tag"]
         canDo = tmpDict["canDo"]
+
+        print('Adding: ', newNode, ppt, tag, canDo, newNodeParent)
                        
         if tree.isNode(newNodeParent):
+            print('Adding: ', newNode, ppt, tag, canDo, newNodeParent)
             tree.add(newNode, ppt, tag, canDo, newNodeParent)
         else:
-            print('starters: No parent/superclass {} found for: {}'.format(newNodeParent, newNode))
+            print('! No parent/superclass {} found for: {}'.format(newNodeParent, newNode))
+            stack = getSuperClassList(kb, newNode, [])
+            for r in range(len(stack)):
+                s = stack.pop()
+                newNodeParent = s["superclass"]
+                newNode = s["name"]
+                ppt = s["ppt"]
+                tag = s["tag"]
+                canDo = s["canDo"]
+                print('..Adding: ', newNode, ppt, tag, canDo, newNodeParent)
+                tree.add(newNode, ppt, tag, canDo, newNodeParent)
+                
+            
+            
     """
     results = getEntries('nnp')
     
@@ -188,6 +206,31 @@ def loadKB():
     return nnpList + nnxList
 
 
+def getSuperClassList(kb, node, stack):
+
+#    print('kb:')
+#    print(len(kb))
+#    print(type(kb))
+#    print('node: ', node)
+#    print('stack:')
+#    print(len(stack))
+#    print(type(stack))
+
+    for k in kb:
+#        print(k)
+#        print('k[name]: ', k['name'])
+        name       = k['name']
+        superclass = k['superclass']
+        
+        if node == name:
+            stack.append(k)
+            kb.pop(0)
+            
+            return getSuperClassList(kb, superclass, stack)
+            
+    return stack
+
+
 def saveKB(kb):
     # Save new working KB...
     with open('newKB.pkl', 'wb') as fp:
@@ -202,17 +245,47 @@ if __name__ == "__main__":
 
     print('Processing KB...')
     
-    kb = loadKB()
+    kb = loadKB() 
     print('kb:')
     print(len(kb))
     print(type(kb))
     for k in kb:
         print(k)
+    
+
+    
+    """
+    name = 'pookie'
+    kbCopy = kb.copy()
+
+    stack = getSuperClassList(kbCopy, name, [])
+    print('stack:')
+    print(len(stack))
+    print(type(stack))
+    for s in stack:
+        print(s)
+
     print('-' * 5)
+
+    for r in range(len(stack)):
+        print(stack.pop())
+    
+    
+    
+    for k in kb:
+        print(k)
+    
+        
+    print('-' * 5)
+    
 
     saveKB(kb)
     print('-' * 5)
+    """
 
-    t = buildKB_Tree(kb)
+    t = buildKB_Tree(kb)    # KB needs to be ordered by root class to leaf!
     print('-' * 5)
+
+    
+
     print('processKB Complete.')
