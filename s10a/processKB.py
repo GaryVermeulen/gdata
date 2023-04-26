@@ -128,22 +128,25 @@ def buildKB_Tree(kb):
         canDo = tmpDict["canDo"]
 
         print('Adding: ', newNode, ppt, tag, canDo, newNodeParent)
-                       
-        if tree.isNode(newNodeParent):
-            print('Adding: ', newNode, ppt, tag, canDo, newNodeParent)
-            tree.add(newNode, ppt, tag, canDo, newNodeParent)
+
+        if tree.isNode(newNode):
+            print('Node already exist: ', newNode)
         else:
-            print('! No parent/superclass {} found for: {}'.format(newNodeParent, newNode))
-            stack = getSuperClassList(kb, newNode, [])
-            for r in range(len(stack)):
-                s = stack.pop()
-                newNodeParent = s["superclass"]
-                newNode = s["name"]
-                ppt = s["ppt"]
-                tag = s["tag"]
-                canDo = s["canDo"]
-                print('..Adding: ', newNode, ppt, tag, canDo, newNodeParent)
+            if tree.isNode(newNodeParent):
+                print('Adding: ', newNode, ppt, tag, canDo, newNodeParent)
                 tree.add(newNode, ppt, tag, canDo, newNodeParent)
+            else:
+                print('! No parent/superclass {} found for: {}'.format(newNodeParent, newNode))
+                stack = getSuperClassList(kb, newNode, [])
+                for r in range(len(stack)):
+                    s = stack.pop()
+                    newNodeParent = s["superclass"]
+                    newNode = s["name"]
+                    ppt = s["ppt"]
+                    tag = s["tag"]
+                    canDo = s["canDo"]
+                    print('...Adding: ', newNode, ppt, tag, canDo, newNodeParent)
+                    tree.add(newNode, ppt, tag, canDo, newNodeParent)
                 
             
             
