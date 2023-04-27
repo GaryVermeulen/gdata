@@ -117,7 +117,6 @@ def buildKB_Tree(kb):
 
     tree = N_ary_Tree()
     root = 'thing'
-
     tree.add(root, '', '', ["TBD"]) # Root to start from
 
     for tmpDict in kb:
@@ -127,8 +126,6 @@ def buildKB_Tree(kb):
         tag = tmpDict["tag"]
         canDo = tmpDict["canDo"]
 
-        print('Adding: ', newNode, ppt, tag, canDo, newNodeParent)
-
         if tree.isNode(newNode):
             print('Node already exist: ', newNode)
         else:
@@ -136,6 +133,7 @@ def buildKB_Tree(kb):
                 print('Adding: ', newNode, ppt, tag, canDo, newNodeParent)
                 tree.add(newNode, ppt, tag, canDo, newNodeParent)
             else:
+                # Doesn't work correctly and not needed if input is ordered
                 print('! No parent/superclass {} found for: {}'.format(newNodeParent, newNode))
                 stack = getSuperClassList(kb, newNode, [])
                 for r in range(len(stack)):
@@ -146,35 +144,17 @@ def buildKB_Tree(kb):
                     tag = s["tag"]
                     canDo = s["canDo"]
                     print('...Adding: ', newNode, ppt, tag, canDo, newNodeParent)
-                    tree.add(newNode, ppt, tag, canDo, newNodeParent)
-                
-            
-            
-    """
-    results = getEntries('nnp')
-    
-    for i in results:
-        newNodeParent = i["superclass"]
-        newNode = i["name"]
-        canDo = i["canDo"]
-                    
-        if tree.isNode(newNodeParent):
-            tree.add(newNode, canDo, newNodeParent)
-        else:
-            print('No parent/superclass {} found for: {}'.format(newNodeParent, newNode))
-    """
+                    tree.add(newNode, ppt, tag, canDo, newNodeParent)                
     return tree
 
 
-
-def loadKB():
-    # Read the starter kb files
+def loadKB_Text():
+    # Read the ordered starter kb file
     # For now only handling NNPs and NNs--we'll deal with plurals later
 
-    nnpList = []
     nnxList = []
     
-    with open('kb/nnp', 'r') as f:
+    with open('kb/orderedInput.txt', 'r') as f:
         while (line := f.readline().rstrip()):
             if line[0] == '#': # Skip comments
                 continue
@@ -183,42 +163,18 @@ def loadKB():
                 tmpDict = {
                     "name":tmp[0],
                     "ppt":tmp[1],
-                    "tag":'NNP',
-                    "superclass":tmp[2],
-                    "canDo":tmp[3]
-                }
-                nnpList.append(tmpDict)
-    f.close()
-
-    with open('kb/nn', 'r') as f:
-        while (line := f.readline().rstrip()):
-            if line[0] == '#': # Skip comments
-                continue
-            else:
-                tmp = line.split(';')
-                tmpDict = {
-                    "name":tmp[0],
-                    "ppt":tmp[1],
-                    "tag":'NN',
-                    "superclass":tmp[2],
-                    "canDo":tmp[3]
+                    "tag":tmp[2],
+                    "canDo":tmp[3],
+                    "superclass":tmp[4],
                 }
                 nnxList.append(tmpDict)
-    f.close()               
+    f.close()
                                    
-    return nnpList + nnxList
+    return nnxList
 
 
 def getSuperClassList(kb, node, stack):
-
-#    print('kb:')
-#    print(len(kb))
-#    print(type(kb))
-#    print('node: ', node)
-#    print('stack:')
-#    print(len(stack))
-#    print(type(stack))
-
+    # Logic is incorrect
     for k in kb:
 #        print(k)
 #        print('k[name]: ', k['name'])
@@ -227,68 +183,57 @@ def getSuperClassList(kb, node, stack):
         
         if node == name:
             stack.append(k)
-            kb.pop(0)
-            
+            kb.pop(0)            
             return getSuperClassList(kb, superclass, stack)
             
     return stack
 
 
-def saveKB(kb):
+def saveKB_Dict(kb):
     # Save new working KB...
-    with open('newKB.pkl', 'wb') as fp:
+    with open('newKB_Dict.pkl', 'wb') as fp:
         pickle.dump(kb, fp)
-        print('Aunt Bee made a newKB pickle')
+        print('Aunt Bee made a newKB_Dict pickle')
+    fp.close()
+
+    return
+
+
+def saveKB_Tree(kbTree):
+    # Save new working KB...
+    with open('newKB_Tree.pkl', 'wb') as fp:
+        pickle.dump(kbTree, fp)
+        print('Aunt Bee made a newKB_Tree pickle')
     fp.close()
 
     return 
+
 
 
 if __name__ == "__main__":
 
     print('Processing KB...')
     
-    kb = loadKB() 
+    kb = loadKB_Text() 
     print('kb:')
     print(len(kb))
     print(type(kb))
     for k in kb:
-        print(k)
-    
-
-    
-    """
-    name = 'pookie'
-    kbCopy = kb.copy()
-
-    stack = getSuperClassList(kbCopy, name, [])
-    print('stack:')
-    print(len(stack))
-    print(type(stack))
-    for s in stack:
-        print(s)
-
-    print('-' * 5)
-
-    for r in range(len(stack)):
-        print(stack.pop())
-    
-    
-    
-    for k in kb:
-        print(k)
-    
+        print(k)    
         
     print('-' * 5)
-    
 
-    saveKB(kb)
-    print('-' * 5)
-    """
-
-    t = buildKB_Tree(kb)    # KB needs to be ordered by root class to leaf!
+    saveKB_Dict(kb)
     print('-' * 5)
 
+    t = buildKB_Tree(kb)
+    print('t len: ', t.length())
+    print('t:')
+    print(t.print_tree(t.root, ''))
+    print('-' * 5)
+
+    saveKB_Tree(t)
+    print('-' * 5)
     
 
     print('processKB Complete.')
