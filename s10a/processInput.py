@@ -14,19 +14,107 @@ def getCorpus():
     return corpus
 
 
+def getNewTaggedList():
+
+    with open('newTaggedList.pkl', 'rb') as fp:
+        newTaggedList = pickle.load(fp)
+        print('Aunt Bee loaded newTaggedList.pkl')
+    fp.close()
+
+    return newTaggedList
+
+
+def isNNx(w):
+
+    for t in newTaggedList:
+#        print('t:::: ', t)
+#        print(t[0], t[1])
+        if w == t[0]:
+            if t[1] in ['NN', 'NNP', 'NNS']:
+                print('found {} at {}'.format(w, t))
+                return True
+
+    return False
+
+
+def isVBx(w):
+
+    for t in newTaggedList:
+#        print('t:::: ', t)
+#        print(t[0], t[1])
+        if w == t[0]:
+            if t[1] in ['VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ']:
+                print('found {} at {}'.format(w, t))
+                return True
+
+    return False
+
+
 def checkCorpus(uI):
 
+    print('Processing checkCorpus...')
+
     uI_List = uI.split()
-    print(uI_List)
+    print('uI: ', uI_List)
 
     wordSents = []
     xMatch = []
+    wordFound = []
 
-    for w in uI_List:
-        for sent in corpus:
+    # Look for input sentence nouns in the corpus
+    for sent in corpus:
+        for w in uI_List:
+            
+            print(w)
+            print(type(w))
+            print(sent)
+            t = []
             if w in sent:
-                wordSents.append(sent)
+                if isNNx(w):
+                    t.append(w)
+                    t.append(sent)
+                    wordFound.append(t)
+
+                
+    print('len wordFound: ', len(wordFound))
+    print('len wordFound: ', len(wordFound))
+
+    # Of the above what are the verbs?
+    for s in wordFound:
+        for s_1 in s:
+            for x in s_1:
+                if isVBx(x):
+                    print('found x: {} at: {} and isVBx {}'.format(x, s_1, isVBx(x)))
+
+        
+        
+
+
+    
+
+    """
+    for w in uI_List:
+        print('w: ', w)
+        tmp_wordSent = []
+#        tmp_wordSent.append(w)
+        for sent in corpus:
+            if w in sent and isNNx(w): # Only capture nouns
+                tSent = []
+                print('found w: {} at: {} and isNNx {}'.format(w, sent, isNNx(w)))
+                tSent.append(w)
+                tSent.append(sent)
+                tmp_wordSent.append(tSent)
+                wordSents.append(tmp_wordSent)
+        
+#    print('len corpus: ', len(corpus))
     print('len wordSents: ', len(wordSents))
+
+    for s in wordSents:
+        print(s)
+
+    """
+
+    """
 
     for s in wordSents: # works when uI is shorter then s
         s_str = ' '.join(s)
@@ -110,21 +198,46 @@ def checkCorpus(uI):
             print(uI_list)
             print(xMatch[0])
 
+    """
 
     return wordSents
 
 
 if __name__ == "__main__":
 
+    print('Processing processInput...')
+
     corpus = getCorpus()
+    newTaggedList = getNewTaggedList()
 
     print('len corpus: ', len(corpus))
+    print('type corpus: ', type(corpus))
 #    for s in corpus:
 #        print(s)
-
+    print('-' * 5)
+    print('len newTaggedList: ', len(newTaggedList))
+    print('type newTaggedList: ', type(newTaggedList))
+#    for t in newTaggedList:
+#        print(t)
+    print('-' * 5)
+    
     uI = input('Please enter a sentence: ')
     print(uI)
 
+    print('-' * 5)
+    
     xyz = checkCorpus(uI)
+
+    print('-' * 5)
+    print('len xyz: ', len(xyz))
+    print('type xyz: ', type(xyz))
+    for x in xyz:
+        print('len x: ', len(x))
+        print('type x: ', type(x))
+        print(x[0])
+        for y in x:
+            print('   len y: ', len(y))
+            print('   type y: ', type(y))
+            print('   ', y)
 
 #    print(xyz)

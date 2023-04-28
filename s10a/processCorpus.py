@@ -5,7 +5,7 @@
 
 import os
 import pickle
-# import spacy
+import spacy
 
 from simpConfig import simple_contractions
 from simpConfig import verbose
@@ -239,6 +239,35 @@ def mergeCorpus(cleanerCorpus, starterCorpus):
     return cleanerCorpus + starterCorpus
 
 
+def tagCleanerCorpus(cleanerCorpus):
+
+    taggedCorpus = []
+
+    nlp = spacy.load("en_core_web_lg") # lg has best accuracy
+
+
+    for sentence in cleanerCorpus:
+        strSentence = ' '.join(sentence)
+#        print(strSentence)
+#        if len(strSentence) > 10:
+#            testSent = strSentence
+        doc = nlp(strSentence)
+#        print('doc: ', doc)
+##        tmpDoc = []
+        for token in doc:            
+#            print('token.text: ', token.text)    
+#            print(f'{token.text:{8}} {token.pos_:{6}} {token.tag_:{6}} {token.dep_:{6}} {spacy.explain(token.pos_):{20}} {spacy.explain(token.tag_)}')
+##            tmpToken = ((str(token.text)), (str(token.tag_)))
+##            tmpDoc.append(tmpToken)
+
+            tmpToken = ((str(token.text)), (str(token.tag_)))
+            taggedCorpus.append(tmpToken)
+
+    taggedCorpus = list(dict.fromkeys(taggedCorpus)) # Remove duplicates
+
+    return taggedCorpus
+
+
 if __name__ == "__main__":
 
     print('Processing corpus...')
@@ -255,12 +284,18 @@ if __name__ == "__main__":
     print('starterDictList:')
     print(len(starterDictList))
     print(type(starterDictList))
-    """
+    
     for w in starterDictList:
         print(w)
   
+    # Save new working dictionary...
+    with open('starterDictList.pkl', 'wb') as fp:
+        pickle.dump(starterDictList, fp)
+        print('Aunt Bee made a starterDictList pickle')
+    fp.close()
+
     print('-' * 5)
-    """
+    
     corpusSents = corpusString.split('.')
 
     print('corpusSents:')
@@ -296,6 +331,35 @@ if __name__ == "__main__":
     """
     print('-' * 5)
 
+    taggedCorpus = tagCleanerCorpus(cleanerCorpus)
+
+    print('taggedCorpus:')
+    print(len(taggedCorpus))
+    print(type(taggedCorpus))
+
+    for t in taggedCorpus:
+        print(t)
+
+    # Merge starter and corpus dictionaries
+    newTaggedList = taggedCorpus + starterDictList
+
+    print('newTaggedList:')
+    print(len(newTaggedList))
+    print(type(newTaggedList))
+
+    for t in newTaggedList:
+        print(t)
+    
+
+    # Save new tagged corpus w/starter...
+    with open('newTaggedList.pkl', 'wb') as fp:
+        pickle.dump(newTaggedList, fp)
+        print('Aunt Bee made a newTaggedList pickle')
+    fp.close()
+
+    
+    print('-' * 5)
+
     starterCorpus = loadStarterSentences()
 
     print('starterCorpus:')
@@ -308,8 +372,8 @@ if __name__ == "__main__":
     print('newCorpus:')
     print(len(newCorpus))
     print(type(newCorpus))
-    for s in newCorpus:
-        print(s)
+#    for s in newCorpus:
+#        print(s)
 
     # Save new working corpus...
     with open('newCorpus.pkl', 'wb') as fp:
