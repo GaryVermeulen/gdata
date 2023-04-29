@@ -3,6 +3,7 @@
 #
 
 import pickle
+import simpConfig as sC
 
 def getCorpus():
 
@@ -31,7 +32,7 @@ def isNNx(w):
 #        print(t[0], t[1])
         if w == t[0]:
             if t[1] in ['NN', 'NNP', 'NNS']:
-                print('found {} at {}'.format(w, t))
+#                print('found {} at {}'.format(w, t))
                 return True
 
     return False
@@ -44,10 +45,34 @@ def isVBx(w):
 #        print(t[0], t[1])
         if w == t[0]:
             if t[1] in ['VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ']:
-                print('found {} at {}'.format(w, t))
+#                print('found {} at {}'.format(w, t))
                 return True
 
     return False
+
+
+def getVBx(w):
+
+
+    for t in newTaggedList:
+#        print('---t: ', t)
+#        print('---t: {} {}'.format(t[0], t[1]))
+#        print('w: ', w)
+        if w == t[0]:
+            if t[1] == sC.vb:
+                return sC.vb
+            if t[1] == sC.vbd:
+                return sC.vbd
+            if t[1] == sC.vbg:
+                return sC.vbg
+            if t[1] == sC.vbn:
+                return sC.vbn
+            if t[1] == sC.vbp:
+                return sC.vbp
+            if t[1] == sC.vbz:
+                return sC.vbz
+
+    return sC.unk
 
 
 def checkCorpus(uI):
@@ -59,37 +84,138 @@ def checkCorpus(uI):
 
     wordSents = []
     xMatch = []
-    wordFound = []
+    sentsFound = []
 
-    # Look for input sentence nouns in the corpus
+    # Pull sentences from the corpus that match input senetence nouns
     for sent in corpus:
         for w in uI_List:
             
-            print(w)
-            print(type(w))
-            print(sent)
+#            print(w)
+#            print(type(w))
+#            print(sent)
             t = []
             if w in sent:
                 if isNNx(w):
                     t.append(w)
                     t.append(sent)
-                    wordFound.append(t)
+                    sentsFound.append(t)
 
                 
-    print('len wordFound: ', len(wordFound))
-    print('len wordFound: ', len(wordFound))
+    print('len sentsFound: ', len(sentsFound))
+    print('type sentsFound: ', type(sentsFound))
 
+    sentsFound_wVBs = []
     # Of the above what are the verbs?
-    for s in wordFound:
-        for s_1 in s:
-            for x in s_1:
-                if isVBx(x):
-                    print('found x: {} at: {} and isVBx {}'.format(x, s_1, isVBx(x)))
+    for s in sentsFound:
+#        print('s: ', s)
+#        print('len s: ', len(s))
+#        print('type s: ', type(s))
+#        print('s[0]: ', s[0])
+        tmp = []
+        verb = []
+        verbFound = False
+        for s1 in s[1]:
+#            print('s1: ', s1)
+#            print('len s1: ', len(s1))
+#            print('type s1: ', type(s1))
+            
+            if isVBx(s1):
+#                print('found verb: {} in: {} '.format(s1, s[1]))
+                v = getVBx(s1)
+#                print(v)
+                verb.append(s1)
+                verb.append(v)
+#                print(verb)
+                verbFound = True
+            
+        
+        tmp.append(s[0])
+        tmp.append(s[1])
+        tmp.append(verb)
+        
+            
+        sentsFound_wVBs.append(tmp)
+        
+
+    print('len sentsFound_wVBs: ', len(sentsFound_wVBs))
+    print('type sentsFound_wVBs: ', type(sentsFound_wVBs))
+
+
+    # Words from corpus sentence that match input sentence
+    newSents = []
+    for s in sentsFound_wVBs:
+        newS = []
+#        print(s)
+#        print(uI_List)
+        cnt = 0
+        for w in s[1]:
+#            print(w)
+            counted = []
+            for i in uI_List:
+                if i == w and i not in counted:
+#                    print('match i: {} w: {}'.format(i, w))
+                    cnt += 1
+                    counted.append(i)
+#                    print('cnt: ', cnt)
+            #cnt = 0
+#        print('w cnt: ', cnt)
+        s0 = s[0]
+        s2 = s[1]
+        s3 = s[2]
+        newS.append(s0)
+        newS.append(cnt)
+        newS.append(s2)
+        newS.append(s3)
+
+        newSents.append(newS)
+
+    
+    print('len newSents: ', len(newSents))
+    print('type newSents: ', type(newSents))
+
+    for s in newSents:
+        print(s)
+    
+    print('--' * 5)
+
+    sentsWithMatchVerbs = []
+    # Matching verbs?
+    for s in newSents:
+#        print('s: ', s)
+        for uI in uI_List:
+#            print('s[3]: ', s[3])
+#            print('uI: ', uI)
+            if uI in s[3]:
+#                print('verb match {} in {}'.format(uI, v))
+                sentsWithMatchVerbs.append(s)
+        
+    
+    print('--' * 5)
+
+    print('len sentsWithMatchVerbs: ', len(sentsWithMatchVerbs))
+    print('type sentsWithMatchVerbs: ', type(sentsWithMatchVerbs))
+
+    for vs in sentsWithMatchVerbs:
+        print(vs)
 
         
+
+    """
+    # Group by s[0]
+    groups = {}
+    for s in newSents:
+        groups.setdefault(s[0], []).append(s)
+
+    sortList = list(groups.values())
+
+    for s in sortList:
+        for si in s:
+            print(si)
         
-
-
+        print('-' * 5)
+     """   
+     
+     
     
 
     """
@@ -203,6 +329,29 @@ def checkCorpus(uI):
     return wordSents
 
 
+def validInput(uI):
+
+    uI_List = uI.split()
+    valid_uI = []
+    unknown_uI = []
+
+    for word in newTaggedList:
+#        print('word: ', word)
+#        print()
+        if word[0] in uI_List:
+            if word[0] not in valid_uI:
+                valid_uI.append(word[0])
+
+    uI_Set = set(uI_List)
+    valid_uI_Set = set(valid_uI)
+
+    diff = uI_Set.difference(valid_uI)
+    intr = uI_Set.intersection(valid_uI)
+    
+    
+    return valid_uI, diff, intr
+
+
 if __name__ == "__main__":
 
     print('Processing processInput...')
@@ -225,6 +374,19 @@ if __name__ == "__main__":
     print(uI)
 
     print('-' * 5)
+
+    valid_uI, diff, intr = validInput(uI)  # Is the input in out list?
+
+    print('len valid_uI: ', len(valid_uI))
+    print('type valid_uI: ', type(valid_uI))
+    for v in valid_uI:
+        print(v)
+
+    print('diff: ', diff)
+    print('intr: ', intr)
+    print('-' * 5)
+
+    
     
     xyz = checkCorpus(uI)
 
@@ -235,9 +397,7 @@ if __name__ == "__main__":
         print('len x: ', len(x))
         print('type x: ', type(x))
         print(x[0])
-        for y in x:
-            print('   len y: ', len(y))
-            print('   type y: ', type(y))
-            print('   ', y)
 
-#    print(xyz)
+    print(xyz)
+    print('-' * 5)
+    print(uI)

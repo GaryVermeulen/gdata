@@ -6,6 +6,15 @@
 verbose = True
 debug   = True
 
+vb  = 'VB'
+vbd = 'VBD'
+vbg = 'VBG'
+vbn = 'VBN'
+vbp = 'VBP'
+vbz = 'VBZ'
+
+unk = 'UNK'
+
 
 extended_contractions = { 
 "ain't": "am not / are not / is not / has not / have not",

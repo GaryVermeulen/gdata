@@ -347,11 +347,15 @@ if __name__ == "__main__":
     print(len(newTaggedList))
     print(type(newTaggedList))
 
+    newTaggedList = list(dict.fromkeys(newTaggedList)) # Remove duplicates
+
+    counter = 0
     for t in newTaggedList:
-        print(t)
+        counter += 1
+        print(counter, t)
     
 
-    # Save new tagged corpus w/starter...
+    # Save new tagged list w/starter...
     with open('newTaggedList.pkl', 'wb') as fp:
         pickle.dump(newTaggedList, fp)
         print('Aunt Bee made a newTaggedList pickle')
