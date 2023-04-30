@@ -3,6 +3,9 @@
 #
 
 import pickle
+## import pyinflect # For use as an extension of Spacy
+### from pyinflect import getAllInflections, getInflection # Standalone
+from pyinflect import getAllInflections, getInflection
 import simpConfig as sC
 
 def getCorpus():
@@ -28,11 +31,8 @@ def getNewTaggedList():
 def isNNx(w):
 
     for t in newTaggedList:
-#        print('t:::: ', t)
-#        print(t[0], t[1])
         if w == t[0]:
             if t[1] in ['NN', 'NNP', 'NNS']:
-#                print('found {} at {}'.format(w, t))
                 return True
 
     return False
@@ -41,11 +41,8 @@ def isNNx(w):
 def isVBx(w):
 
     for t in newTaggedList:
-#        print('t:::: ', t)
-#        print(t[0], t[1])
         if w == t[0]:
             if t[1] in ['VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ']:
-#                print('found {} at {}'.format(w, t))
                 return True
 
     return False
@@ -53,11 +50,7 @@ def isVBx(w):
 
 def getVBx(w):
 
-
     for t in newTaggedList:
-#        print('---t: ', t)
-#        print('---t: {} {}'.format(t[0], t[1]))
-#        print('w: ', w)
         if w == t[0]:
             if t[1] == sC.vb:
                 return sC.vb
@@ -89,76 +82,51 @@ def checkCorpus(uI):
     # Pull sentences from the corpus that match input senetence nouns
     for sent in corpus:
         for w in uI_List:
-            
-#            print(w)
-#            print(type(w))
-#            print(sent)
             t = []
             if w in sent:
                 if isNNx(w):
                     t.append(w)
                     t.append(sent)
                     sentsFound.append(t)
-
+                    #i = (getInflections(wTag[0][0], 'NN')) # Not yet
                 
     print('len sentsFound: ', len(sentsFound))
     print('type sentsFound: ', type(sentsFound))
-
-    sentsFound_wVBs = []
+    
     # Of the above what are the verbs?
+    sentsFound_wVBs = []
     for s in sentsFound:
-#        print('s: ', s)
-#        print('len s: ', len(s))
-#        print('type s: ', type(s))
-#        print('s[0]: ', s[0])
         tmp = []
         verb = []
         verbFound = False
-        for s1 in s[1]:
-#            print('s1: ', s1)
-#            print('len s1: ', len(s1))
-#            print('type s1: ', type(s1))
-            
+        for s1 in s[1]:            
             if isVBx(s1):
-#                print('found verb: {} in: {} '.format(s1, s[1]))
                 v = getVBx(s1)
-#                print(v)
                 verb.append(s1)
                 verb.append(v)
-#                print(verb)
                 verbFound = True
             
-        
         tmp.append(s[0])
         tmp.append(s[1])
         tmp.append(verb)
         
-            
         sentsFound_wVBs.append(tmp)
         
-
     print('len sentsFound_wVBs: ', len(sentsFound_wVBs))
     print('type sentsFound_wVBs: ', type(sentsFound_wVBs))
 
-
-    # Words from corpus sentence that match input sentence
+    # Number of words from corpus sentence that match input sentence
     newSents = []
     for s in sentsFound_wVBs:
         newS = []
-#        print(s)
-#        print(uI_List)
         cnt = 0
         for w in s[1]:
-#            print(w)
             counted = []
             for i in uI_List:
                 if i == w and i not in counted:
-#                    print('match i: {} w: {}'.format(i, w))
                     cnt += 1
                     counted.append(i)
-#                    print('cnt: ', cnt)
-            #cnt = 0
-#        print('w cnt: ', cnt)
+
         s0 = s[0]
         s2 = s[1]
         s3 = s[2]
@@ -168,7 +136,6 @@ def checkCorpus(uI):
         newS.append(s3)
 
         newSents.append(newS)
-
     
     print('len newSents: ', len(newSents))
     print('type newSents: ', type(newSents))
@@ -178,17 +145,12 @@ def checkCorpus(uI):
     
     print('--' * 5)
 
+    # Matching verbs input and corpus? W/O inflections.
     sentsWithMatchVerbs = []
-    # Matching verbs?
     for s in newSents:
-#        print('s: ', s)
         for uI in uI_List:
-#            print('s[3]: ', s[3])
-#            print('uI: ', uI)
             if uI in s[3]:
-#                print('verb match {} in {}'.format(uI, v))
                 sentsWithMatchVerbs.append(s)
-        
     
     print('--' * 5)
 
@@ -198,6 +160,30 @@ def checkCorpus(uI):
     for vs in sentsWithMatchVerbs:
         print(vs)
 
+    print('--' * 5)
+
+    sentsInflectionVerbs = []
+    # Matching verbs input and corpus? With inflections.
+    for s in newSents:
+        tmp = []
+        i = (getInflections(s[3], 'V'))
+
+        #if len(i) > 0:
+        tmp.append(s[0])
+        tmp.append(s[1])
+        tmp.append(s[2])
+        tmp.append(s[3])
+        tmp.append(i)
+        sentsInflectionVerbs.append(tmp)
+        
+    
+    print('--' * 5)
+
+    print('len sentsInflectionVerbs: ', len(sentsInflectionVerbs))
+    print('type sentsInflectionVerbs: ', type(sentsInflectionVerbs))
+
+    for vs in sentsInflectionVerbs:
+        print(vs)
         
 
     """
@@ -217,114 +203,6 @@ def checkCorpus(uI):
      
      
     
-
-    """
-    for w in uI_List:
-        print('w: ', w)
-        tmp_wordSent = []
-#        tmp_wordSent.append(w)
-        for sent in corpus:
-            if w in sent and isNNx(w): # Only capture nouns
-                tSent = []
-                print('found w: {} at: {} and isNNx {}'.format(w, sent, isNNx(w)))
-                tSent.append(w)
-                tSent.append(sent)
-                tmp_wordSent.append(tSent)
-                wordSents.append(tmp_wordSent)
-        
-#    print('len corpus: ', len(corpus))
-    print('len wordSents: ', len(wordSents))
-
-    for s in wordSents:
-        print(s)
-
-    """
-
-    """
-
-    for s in wordSents: # works when uI is shorter then s
-        s_str = ' '.join(s)
-        print(s_str)
-        res = s_str.find(uI)
-        if res > -1:
-            xMatch.append(s_str)
-    print('xMatch: ', xMatch)
-
-    if len(xMatch) == 0:
-        for s in wordSents:
-            sSet = set(s)
-            uISet = set(uI_List)
-            print('sSet: ', sSet)
-            print('uISet: ', uISet)
-            intersection = sSet.intersection(uISet)
-            if len(intersection) > 0:
-                xMatch.append(' '.join(s))
-            
-            
-    print('intersection: ', intersection)
-        
-
-    if len(xMatch) > 0:
-
-        windowStart = 0
-        windowStop = len(uI_List)
-        windowStep = 1
-        windowCount = 0
-        windowSize = len(uI_List)
-
-        print('len uI_List: ', len(uI_List))
-        print(uI_List)
-        print('len xMatch: ', len(xMatch))
-        print(xMatch)
-        print('-' * 5)
-                                        # Input sentence is longer than matched sentence
-        if len(uI_List) <= len(xMatch): # All words in uI_List are in xMatch
-            tmpList = xMatch[0].split()
-        
-            window = tmpList[windowStart:windowStop:windowStep]
-
-            print('tmpList: ', tmpList)
-            print('window: ', window)
-
-        
-            if len(uI_List) == len(window) and len(uI_List) == sum([1 for i, j in zip(uI_List, window) if i == j]):
-                print("The lists are identical")
-                print(uI_List)
-                print('=')
-                print(window)
-            else:
-                # Move window and try again
-                print('moving on...')
-                windowStart += 1
-                windowStop += 1
-                windowCount += 1
-                searchedLen = windowCount + windowSize
-            
-                while searchedLen <= len(tmpList):
-                    window = tmpList[windowStart:windowStop:windowStep]
-                    if len(uI_List) == len(window) and len(uI_List) == sum([1 for i, j in zip(uI_List, window) if i == j]):
-                        print("The lists are identical")
-                        print(uI_List)
-                        print('=')
-                        print(window)
-                        break
-                    else:
-                        print("The lists are not identical")
-                        print(uI_List)
-                        print('!=')
-                        print(window)
-                        print('moving on again...')
-                        windowStart += 1
-                        windowStop += 1
-                        windowCount += 1
-                        searchedLen = windowCount + windowSize
-                        
-        elif len(uI_List) >= len(xMatch):   # Input sentence is longer than matched sentence
-            print('input sentence longer then xMatch[0]')
-            print(uI_list)
-            print(xMatch[0])
-
-    """
 
     return wordSents
 
@@ -350,6 +228,37 @@ def validInput(uI):
     
     
     return valid_uI, diff, intr
+
+
+def getInflections(verbList, pos):
+    # verbList => [word, tag, verb, tag,...]
+
+    iList = []
+
+    if pos == "V":
+        odd = True 
+        for v in verbList:
+            if odd:
+#                print('odd T word: ', v)
+                word = v
+                odd = False
+            else:
+#                print('even: ', v)
+                odd = True
+#                print('odd: {} even: {}'.format(word, v))
+
+                i = getAllInflections(word, pos)
+
+                if len(i) > 0:
+                    iList.append(i)
+                     
+    elif pos == "N":
+        print(" No NNs yet")
+    else:
+        print("Unknown inflection pos tag: ", pos)
+    
+    return iList
+
 
 
 if __name__ == "__main__":

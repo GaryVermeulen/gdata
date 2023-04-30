@@ -23,12 +23,16 @@ def getPickles():
         print('Aunt Bee loaded newDict.pkl')
     fp.close()
     """
-
+    """
     with open('newTaggedList.pkl', 'rb') as fp:
         ourPickle = pickle.load(fp)
         print('Aunt Bee loaded newTaggedList.pkl')
     fp.close()
-    
+    """
+    with open('inflections.pkl', 'rb') as fp:
+        ourPickle = pickle.load(fp)
+        print('Aunt Bee loaded inflections.pkl')
+    fp.close()
     return ourPickle
 
 
@@ -63,7 +67,7 @@ if __name__ == "__main__":
     print('ourPickle:')
     print(len(ourPickle))
     print(type(ourPickle))
-
+    """
     newList = []
     for p in ourPickle:
         #print(p)
@@ -85,3 +89,13 @@ if __name__ == "__main__":
         pickle.dump(newList, fp)
         print('Aunt Bee made a newTaggedList pickle')
     fp.close()
+    """
+
+    cnt = 1
+    testWord = 'walked'
+    print('looking for: ', testWord)
+    for p in ourPickle:
+        if testWord in p:
+            print('found {} at {} {}'.format(testWord, cnt, p))
+        cnt += 1
+        
