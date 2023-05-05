@@ -46,7 +46,7 @@ if __name__ == "__main__":
     i = loadInflFile()
 
     # Save inflection pickle...
-    with open('inflections.pkl', 'wb') as fp:
+    with open('pickles/inflections.pkl', 'wb') as fp:
         pickle.dump(i, fp)
         print('Aunt Bee made a inflections pickle')
     fp.close()

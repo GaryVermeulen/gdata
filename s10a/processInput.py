@@ -5,12 +5,12 @@
 import pickle
 ## import pyinflect # For use as an extension of Spacy
 ### from pyinflect import getAllInflections, getInflection # Standalone
-from pyinflect import getAllInflections, getInflection
+#from pyinflect import getAllInflections, getInflection
 import simpConfig as sC
 
 def getCorpus():
 
-    with open('newCorpus.pkl', 'rb') as fp:
+    with open('pickles/newCorpus.pkl', 'rb') as fp:
         corpus = pickle.load(fp)
         print('Aunt Bee loaded newCorpus.pkl')
     fp.close()
@@ -20,12 +20,22 @@ def getCorpus():
 
 def getNewTaggedList():
 
-    with open('newTaggedList.pkl', 'rb') as fp:
+    with open('pickles/newTaggedList.pkl', 'rb') as fp:
         newTaggedList = pickle.load(fp)
         print('Aunt Bee loaded newTaggedList.pkl')
     fp.close()
 
     return newTaggedList
+
+
+def getInflectionsPickle():
+    
+    with open('pickles/inflections.pkl', 'rb') as fp:
+        inflects = pickle.load(fp)
+        print('Aunt Bee loaded inflections.pkl')
+    fp.close()
+
+    return inflects
 
 
 def isNNx(w):
@@ -42,13 +52,14 @@ def isVBx(w):
 
     for t in newTaggedList:
         if w == t[0]:
-            if t[1] in ['VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ']:
+#            if t[1] in ['VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ']:
+            if t[1] in [sC.vb, sC.vbd, sC.vbg, sC.vbn, sC.vbp, sC.vbz]:
                 return True
 
     return False
 
 
-def getVBx(w):
+def getVBxTag(w):
 
     for t in newTaggedList:
         if w == t[0]:
@@ -90,8 +101,8 @@ def checkCorpus(uI):
                     sentsFound.append(t)
                     #i = (getInflections(wTag[0][0], 'NN')) # Not yet
                 
-    print('len sentsFound: ', len(sentsFound))
-    print('type sentsFound: ', type(sentsFound))
+    print('len (NNx) sentsFound: ', len(sentsFound))
+    print('type (NNx) sentsFound: ', type(sentsFound))
     
     # Of the above what are the verbs?
     sentsFound_wVBs = []
@@ -101,9 +112,13 @@ def checkCorpus(uI):
         verbFound = False
         for s1 in s[1]:            
             if isVBx(s1):
-                v = getVBx(s1)
+                vTag = getVBxTag(s1)
                 verb.append(s1)
-                verb.append(v)
+                verb.append(vTag)
+                print('searching inflections for: ', s1) 
+                i = getInflections(s1, vTag)
+                print('inflections found: ', i)
+                verb.append(i)
                 verbFound = True
             
         tmp.append(s[0])
@@ -128,7 +143,7 @@ def checkCorpus(uI):
                     counted.append(i)
 
         s0 = s[0]
-        s2 = s[1]
+        s2 = s[1] # Re-orders entries
         s3 = s[2]
         newS.append(s0)
         newS.append(cnt)
@@ -137,13 +152,15 @@ def checkCorpus(uI):
 
         newSents.append(newS)
     
-    print('len newSents: ', len(newSents))
-    print('type newSents: ', type(newSents))
+    print('len newSents (NNx, VBx, and cnt): ', len(newSents))
+    print('type newSents (NNx, VBx, and cnt): ', type(newSents))
 
     for s in newSents:
         print(s)
     
     print('--' * 5)
+
+    """
 
     # Matching verbs input and corpus? W/O inflections.
     sentsWithMatchVerbs = []
@@ -184,7 +201,8 @@ def checkCorpus(uI):
 
     for vs in sentsInflectionVerbs:
         print(vs)
-        
+
+    """ 
 
     """
     # Group by s[0]
@@ -230,34 +248,18 @@ def validInput(uI):
     return valid_uI, diff, intr
 
 
-def getInflections(verbList, pos):
-    # verbList => [word, tag, verb, tag,...]
+def getInflections(word, tag):
+    cnt = 1
+    print('searching for word: {} tag: {}'.format(word, tag)) 
+    for line in allInflections:
+        if word in line:
+            print('found {} at {} {}'.format(word, cnt, line))
+            if line[1] == tag:
+                print('found v {} with tag {} at {} {}'.format(word, tag, cnt, line))
+                return line
+        cnt += 1
 
-    iList = []
-
-    if pos == "V":
-        odd = True 
-        for v in verbList:
-            if odd:
-#                print('odd T word: ', v)
-                word = v
-                odd = False
-            else:
-#                print('even: ', v)
-                odd = True
-#                print('odd: {} even: {}'.format(word, v))
-
-                i = getAllInflections(word, pos)
-
-                if len(i) > 0:
-                    iList.append(i)
-                     
-    elif pos == "N":
-        print(" No NNs yet")
-    else:
-        print("Unknown inflection pos tag: ", pos)
-    
-    return iList
+    return []
 
 
 
@@ -295,7 +297,11 @@ if __name__ == "__main__":
     print('intr: ', intr)
     print('-' * 5)
 
-    
+    allInflections = getInflectionsPickle()
+
+    print('len allInflections: ', len(allInflections))
+    print('type allInflections: ', type(allInflections))
+    print('-' * 5)
     
     xyz = checkCorpus(uI)
 

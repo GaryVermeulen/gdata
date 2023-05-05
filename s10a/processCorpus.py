@@ -289,7 +289,7 @@ if __name__ == "__main__":
         print(w)
   
     # Save new working dictionary...
-    with open('starterDictList.pkl', 'wb') as fp:
+    with open('pickles/starterDictList.pkl', 'wb') as fp:
         pickle.dump(starterDictList, fp)
         print('Aunt Bee made a starterDictList pickle')
     fp.close()
@@ -356,7 +356,7 @@ if __name__ == "__main__":
     
 
     # Save new tagged list w/starter...
-    with open('newTaggedList.pkl', 'wb') as fp:
+    with open('pickles/newTaggedList.pkl', 'wb') as fp:
         pickle.dump(newTaggedList, fp)
         print('Aunt Bee made a newTaggedList pickle')
     fp.close()
@@ -380,7 +380,7 @@ if __name__ == "__main__":
 #        print(s)
 
     # Save new working corpus...
-    with open('newCorpus.pkl', 'wb') as fp:
+    with open('pickles/newCorpus.pkl', 'wb') as fp:
         pickle.dump(newCorpus, fp)
         print('Aunt Bee made a newCorpus pickle')
     fp.close()

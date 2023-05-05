@@ -191,7 +191,7 @@ def getSuperClassList(kb, node, stack):
 
 def saveKB_Dict(kb):
     # Save new working KB...
-    with open('newKB_Dict.pkl', 'wb') as fp:
+    with open('pickles/newKB_Dict.pkl', 'wb') as fp:
         pickle.dump(kb, fp)
         print('Aunt Bee made a newKB_Dict pickle')
     fp.close()
@@ -201,7 +201,7 @@ def saveKB_Dict(kb):
 
 def saveKB_Tree(kbTree):
     # Save new working KB...
-    with open('newKB_Tree.pkl', 'wb') as fp:
+    with open('pickles/newKB_Tree.pkl', 'wb') as fp:
         pickle.dump(kbTree, fp)
         print('Aunt Bee made a newKB_Tree pickle')
     fp.close()
