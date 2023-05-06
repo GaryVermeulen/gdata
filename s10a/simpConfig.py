@@ -6,6 +6,12 @@
 verbose = True
 debug   = True
 
+nn  = 'NN'
+nnp = 'NNP'
+nns = 'NNS'
+
+prp = 'PRP'
+
 vb  = 'VB'
 vbd = 'VBD'
 vbg = 'VBG'

@@ -7,6 +7,7 @@ import pickle
 ### from pyinflect import getAllInflections, getInflection # Standalone
 #from pyinflect import getAllInflections, getInflection
 import simpConfig as sC
+from processKB import *
 
 def getCorpus():
 
@@ -36,6 +37,25 @@ def getInflectionsPickle():
     fp.close()
 
     return inflects
+
+
+def getKB():
+
+    with open('pickles/newKB_Tree.pkl', 'rb') as fp:
+        t = pickle.load(fp)
+        print('Aunt Bee loaded newKB_Tree.pkl')
+    fp.close()
+
+    return t
+
+
+def getWordTag(word):
+
+    for t in newTaggedList:
+        if word == t[0]:
+            return t[1]
+
+    return None
 
 
 def isNNx(w):
@@ -79,15 +99,23 @@ def getVBxTag(w):
     return sC.unk
 
 
+def getInflectionTag(vTag):
+
+    if vTag in [sC.vb, sC.vbd, sC.vbg, sC.vbn, sC.vbp, sC.vbz]:
+        return 'v'
+
+    return 'x'
+
+
 def checkCorpus(uI):
+
+    baseWordSearch = True
 
     print('Processing checkCorpus...')
 
     uI_List = uI.split()
-    print('uI: ', uI_List)
+    print('uI_List: ', uI_List)
 
-    wordSents = []
-    xMatch = []
     sentsFound = []
 
     # Pull sentences from the corpus that match input senetence nouns
@@ -115,9 +143,22 @@ def checkCorpus(uI):
                 vTag = getVBxTag(s1)
                 verb.append(s1)
                 verb.append(vTag)
-                print('searching inflections for: ', s1) 
-                i = getInflections(s1, vTag)
-                print('inflections found: ', i)
+                iTag = getInflectionTag(vTag)
+                i = []
+                if iTag != 'x': # Trying to solve the see/saw/saw problem
+                    if len(s[1]) > 2:
+                        beforeWordTag = getWordTag(s[1][0])
+                        afterWordTag = getWordTag(s[1][2])
+                        if (beforeWordTag in [sC.nn, sC.nnp, sC.nns, sC.prp]) and (afterWordTag in [sC.nn, sC.nnp, sC.nns, sC.prp]):
+                            baseWordSearch = False
+                        else:
+                            baseWordSearch = True
+                    else:
+                        print('else len(s[1]) > 2: ', len(s[1]))
+
+                    i = getInflections(s1, iTag, baseWordSearch)
+                else:
+                    print('unknown inflection tag: ', iTag)
                 verb.append(i)
                 verbFound = True
             
@@ -143,7 +184,7 @@ def checkCorpus(uI):
                     counted.append(i)
 
         s0 = s[0]
-        s2 = s[1] # Re-orders entries
+        s2 = s[1] # Re-orders list entries
         s3 = s[2]
         newS.append(s0)
         newS.append(cnt)
@@ -159,70 +200,52 @@ def checkCorpus(uI):
         print(s)
     
     print('--' * 5)
+    print('Do any of the verbs in the senetences found match the input sentence?')
+    # Do any of the verbs in the senetences found match the input sentence?
+    verbsMatch = []
+    for w_uI in uI_List:
+        if isVBx(w_uI):
+#            print('w_uI: ', w_uI)
+            for nS in newSents:
+#                print('nS: ', nS)
+                # direct match (non-inflection)
+                tmp = []
+                if w_uI in nS[2]:
+#                    print('direct verb match w_uI {} found in nS[2] {}'.format(w_uI, nS[2]))
+                    tmp.append(w_uI)
+                    tmp.append(nS)
+                    verbsMatch.append(tmp)
+                else:
+                    for v in nS[3]:
+#                        print('v: ', v)                       
+                        if isinstance(v, str):
+#                            print('string found: ', v)
+#                            print('w_uI: ', w_uI)
+                            if w_uI == v:
+#                                print('baseword match v {} and w_uI {}'.format(v, w_uI))
+                                tmp.append(w_uI)
+                                tmp.append(nS)
+                                verbsMatch.append(tmp)
+                        elif isinstance(v, list):
+                            if w_uI in v:
+#                                print('non-baseword match v {}'.format(v))
+                                tmp.append(w_uI)
+                                tmp.append(nS)
+                                verbsMatch.append(tmp)
+                        else:
+                            print('unknown type found')
+                
+    print('len verbsMatch: ', len(verbsMatch))
+    print('type verbsMatch: ', type(verbsMatch))
 
-    """
+    for v in verbsMatch:
+        print(v)
+            
 
-    # Matching verbs input and corpus? W/O inflections.
-    sentsWithMatchVerbs = []
-    for s in newSents:
-        for uI in uI_List:
-            if uI in s[3]:
-                sentsWithMatchVerbs.append(s)
     
-    print('--' * 5)
+    return newSents
 
-    print('len sentsWithMatchVerbs: ', len(sentsWithMatchVerbs))
-    print('type sentsWithMatchVerbs: ', type(sentsWithMatchVerbs))
 
-    for vs in sentsWithMatchVerbs:
-        print(vs)
-
-    print('--' * 5)
-
-    sentsInflectionVerbs = []
-    # Matching verbs input and corpus? With inflections.
-    for s in newSents:
-        tmp = []
-        i = (getInflections(s[3], 'V'))
-
-        #if len(i) > 0:
-        tmp.append(s[0])
-        tmp.append(s[1])
-        tmp.append(s[2])
-        tmp.append(s[3])
-        tmp.append(i)
-        sentsInflectionVerbs.append(tmp)
-        
-    
-    print('--' * 5)
-
-    print('len sentsInflectionVerbs: ', len(sentsInflectionVerbs))
-    print('type sentsInflectionVerbs: ', type(sentsInflectionVerbs))
-
-    for vs in sentsInflectionVerbs:
-        print(vs)
-
-    """ 
-
-    """
-    # Group by s[0]
-    groups = {}
-    for s in newSents:
-        groups.setdefault(s[0], []).append(s)
-
-    sortList = list(groups.values())
-
-    for s in sortList:
-        for si in s:
-            print(si)
-        
-        print('-' * 5)
-     """   
-     
-     
-    
-
-    return wordSents
 
 
 def validInput(uI):
@@ -248,18 +271,60 @@ def validInput(uI):
     return valid_uI, diff, intr
 
 
-def getInflections(word, tag):
-    cnt = 1
-    print('searching for word: {} tag: {}'.format(word, tag)) 
+def getInflections(word, tag, baseWordSearch):
+    # This is really going to be fun, ex: saw (to cut) vs. past tense of see
+#    cnt = 1
+#    print('searching for word: {} tag: {}'.format(word, tag)) 
     for line in allInflections:
         if word in line:
-            print('found {} at {} {}'.format(word, cnt, line))
+#            print('found {} at {} {}'.format(word, cnt, line))
             if line[1] == tag:
-                print('found v {} with tag {} at {} {}'.format(word, tag, cnt, line))
-                return line
-        cnt += 1
+#                print('found v {} with tag {} at {} {}'.format(word, tag, cnt, line))
+                if baseWordSearch:
+#                    print('base word match {} at {} {}'.format(word, cnt, line))
+                    return line
+                else: # Search inflections only
+                    idx = 0
+                    for i in line:
+                        if idx > 1:
+                            if i == word:
+#                                print('i: ', i)
+#                                print('idx: ', idx)
+#                                print('Non-base word match {} at {} {}'.format(word, cnt, line))
+                                return line
+                        idx += 1
+#        cnt += 1
 
     return []
+
+
+def checkKB():
+
+    foundList = []
+
+    for s in xyz:
+        tmp = []
+        if t.isNode(s[0]):
+#            print('found node s[0]: ', s[0])
+            cDo = t.get_canDo(t.root, s[0])
+            tmp.append(s[0])
+            tmp.append(cDo)
+            foundList.append(tmp)
+        else:
+            print('node s[0] not found: ', s[0])
+
+    noDupFoundList = []
+    for i in foundList:
+        if i not in noDupFoundList:
+            noDupFoundList.append(i)
+    foundList = noDupFoundList
+
+    print('len foundList: ', len(foundList))
+    print('type foundList: ', type(foundList))    
+    for f in foundList:
+        print(f)
+
+    return "KB Check Complete"
 
 
 
@@ -305,14 +370,15 @@ if __name__ == "__main__":
     
     xyz = checkCorpus(uI)
 
-    print('-' * 5)
     print('len xyz: ', len(xyz))
     print('type xyz: ', type(xyz))
-    for x in xyz:
-        print('len x: ', len(x))
-        print('type x: ', type(x))
-        print(x[0])
-
-    print(xyz)
+#    print(xyz)
     print('-' * 5)
-    print(uI)
+
+    print('KB Tree check...')
+
+    t = getKB()
+
+    kbResults = checkKB()
+    
+#    print(uI)

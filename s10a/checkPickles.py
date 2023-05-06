@@ -23,18 +23,18 @@ def getPickles():
         print('Aunt Bee loaded newDict.pkl')
     fp.close()
     """
-    
+    """
     with open('pickles/newTaggedList.pkl', 'rb') as fp:
         ourPickle = pickle.load(fp)
         print('Aunt Bee loaded newTaggedList.pkl')
     fp.close()
-    
     """
+    
     with open('pickles/inflections.pkl', 'rb') as fp:
         ourPickle = pickle.load(fp)
         print('Aunt Bee loaded inflections.pkl')
     fp.close()
-    """
+    
     
     return ourPickle
     
@@ -110,10 +110,10 @@ if __name__ == "__main__":
         cnt += 1
         
     """
-    """
+    
     # Checking inflections...
     #print(ourPickle[2000:2020:]) # Just look at some
-    testWord = 'see' # 'run'
+    testWord = 'saw' # 'run'
     cnt = 1
     for line in ourPickle:
         if testWord in line:
@@ -122,6 +122,8 @@ if __name__ == "__main__":
                 print('found v {} at {} {}'.format(testWord, cnt, line))
 
         cnt += 1
+    
+
     """
     # newTaggedList
     print(ourPickle[0:20:]) # Just look at some
@@ -137,3 +139,4 @@ if __name__ == "__main__":
 #                print('found v {} at {} {}'.format(testWord, cnt, line))
 
         cnt += 1
+    """
