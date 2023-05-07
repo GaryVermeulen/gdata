@@ -29,12 +29,12 @@ def getPickles():
 if __name__ == "__main__":
 
     ourDict, ourCorpus, newDict = getPickles()
-
+    """
     print('ourDict:')
     print(len(ourDict))
     print(type(ourDict))
-    print(ourDict.get("pookie_1"))
-    print(ourDict.get("jimmy_1"))
+    print(ourDict.get("eat_1"))
+    print(ourDict.get("do_1"))
     
     for key, value in ourDict.items():
         print(key, value)
@@ -45,8 +45,9 @@ if __name__ == "__main__":
     print(len(ourCorpus))
     print(type(ourCorpus))
     print('-' * 5)
+    """
     print('newDict:')
     print(len(newDict))
     print(type(newDict))
-    print(newDict.get("pookie_1"))
-    print(newDict.get("jimmy_1"))
+    print(newDict.get("eat_1"))
+    print(newDict.get("do_1"))

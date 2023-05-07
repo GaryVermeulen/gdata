@@ -176,12 +176,18 @@ def sentenceGrinder(taggedInputDocs):
 
             elif token[1] in ['WDT']:
                 print('found WDT {} at {}'.format(token, tokenIndex))
+                if tokenIndex == 0:
+                    sentObj.sType.append('interrogative')
 
             elif token[1] in ['WP']:
                 print('found WP {} at {}'.format(token, tokenIndex))
+                if tokenIndex == 0:
+                    sentObj.sType.append('interrogative')
 
             elif token[1] in ['WRB']:
                 print('found WRB {} at {}'.format(token, tokenIndex))
+                if tokenIndex == 0:
+                    sentObj.sType.append('interrogative')
 
             else:
                 print('UNKOWN TOKEN found {} at {}'.format(token, tokenIndex))
@@ -242,6 +248,16 @@ def getMyData(me):
 
 def saySomething(sentObj):
 
+    questionFlag = False
+    questionsFound = []
+    factsFound = []
+
+    firstWord   = ''
+    secondWord  = ''
+    sentenceObj = ''
+
+    tmpSent = []
+
     simpAttr = getMyData('simp')
 
     print('simpAttr: ', simpAttr)
@@ -262,6 +278,84 @@ def saySomething(sentObj):
 
     for subj, attr in zip(sentObj.sSubj, sentObj.sSubjAttr):
         print(subj, attr)
+        tmpFact = []
+        if attr == None:
+            print('I do not know anything about ', subj)
+            questionsFound.append(subj)
+            questionFlag = True
+        else:            
+            subjAttributes = attr.split(';')
+            tmpFact.append(subj)
+            for v in sentObj.sVerb:
+                if v in subjAttributes[3]:
+                    print('{} can {}'.format(subj, v))
+                    tmpFact.append(v)
+            factsFound.append(tmpFact)
+
+    print('factsFound: ', factsFound)
+    print('questionsFound: ', questionsFound)
+
+    if questionFlag:
+        print('questionFlag true: ', questionFlag)
+        # What is the tag of the unknow?
+        for q in questionsFound:
+            print('q: ', q)
+            for word in sentObj.inSent:
+                print('word: ', word)
+                if q == word[0]:
+                    print('word[1]: ', word[1])
+                    if word[1] == 'NNP':
+                        firstWord = 'WP' # What or who
+                        secondWord = 'VBZ' # Is, does, and others that may not make sence
+                        
+
+        print(firstWord, secondWord)
+        tmpSent.append(firstWord)
+        tmpSent.append(secondWord)
+        
+        print(tmpSent)
+
+        words = []
+        f = open('test.cfg', "r")
+        for entry in f:
+            tmpWord = []
+            if entry[0] == '#': # Skip
+                continue
+            else:
+                entryList = entry.split('->')
+                tag = entryList[0].strip()
+                word = entryList[1].strip()
+                if tag in tmpSent:
+                    tmpWord.append(word)
+                    tmpWord.append(tag)
+            if len(tmpWord) > 0:
+                words.append(tmpWord)
+        f.close()
+ 
+        print(words)
+
+        # Now how to extract nonsensical words and form a sentence from 'words'
+        # Knowing we have three types let's cheat...
+        VBZs = []
+        WPs = []
+        obj = [] # ?
+
+        for word in words:
+            print(word)
+            if word[1] in 'WP':
+                WPs.append(word)
+            elif word[1] in 'VBZ':
+                VBZs.append(word)
+
+        print(WPs)
+        print(VBZs)
+            
+            
+        
+            
+        
+
+        
 
 
     return 'the cow says moo'

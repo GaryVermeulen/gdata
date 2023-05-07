@@ -63,22 +63,32 @@ def getCFGRules():
     return(rules)
 
 
-def buildCFG(dataDict):
+def buildCFG(newDict):
 
     rules = getCFGRules()
 
     firstLine = True
+
+    print(len(newDict))
+    print(type(newDict))
+    print(newDict.get("eat_1"))
+    print(newDict.get("do_1"))
+
     
-    for key, value in dataDict.items():
-        word = dataDict[key]['Word']
-        tag = dataDict[key]['Tag']
+    
+    for key, value in newDict.items():
+        word = newDict[key]['Word']
+        tag = newDict[key]['Tag']
         word = word.strip()
         tag = tag.strip()
             
         if firstLine:
             rules = rules + tag + ' -> ' + word
             firstLine = False
-        elif rules.find(word) == -1:
+#        elif rules.find(word) == -1: # unfortunately blocks "do" if there's a "dog"
+        else: # Blindly processes everything
+            if word == 'do':
+                print('FOUND {} with tag {}'.format(word, tag))
             rules = rules + '\n' + tag + ' -> ' + word
 
     cf = open('test.cfg', 'w')
@@ -235,9 +245,12 @@ if __name__ == "__main__":
     print('cfg built')
     
 #    testSents = [['see', 'jimmy', 'run', 'in', 'the', 'park', 'with', 'engelbert']]
-    testSents = [['see', 'jimmy', 'run', 'in', 'the', 'park', 'with', 'pookie']]
+#    testSents = [['see', 'jimmy', 'run', 'in', 'the', 'park', 'with', 'pookie']]
 #    testSents = [['jimmy', 'and', 'pookie', 'ran', 'in', 'the', 'park']]
 #    testSents = [['pookie', 'ran', 'in', 'the', 'park']]
+#    testSents = [['who', 'is', 'jimmy']]
+#    testSents = [['what', 'can', 'jimmy', 'do']]
+    testSents = [['jimmy', 'can', 'not', 'run', 'in', 'the', 'park']]
 
     print('-' * 5)
     print('len testSents: ', len(testSents))

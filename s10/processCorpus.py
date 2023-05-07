@@ -94,7 +94,7 @@ def verifyWords(expandedCorpusSents, whichPickle):
     wordsFound = []
     wordsNotFound = []
 
-    print('whichPickle: ', whichPickle)
+    print('verifyWords - whichPickle: ', whichPickle)
 
     ourDict = getPickle(whichPickle)
 
