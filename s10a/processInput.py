@@ -243,9 +243,7 @@ def checkCorpus(uI):
             
 
     
-    return newSents
-
-
+    return newSents, verbsMatch
 
 
 def validInput(uI):
@@ -298,34 +296,243 @@ def getInflections(word, tag, baseWordSearch):
     return []
 
 
-def checkKB():
+def checkKB(nounsMatch, tagged_uI):
 
-    foundList = []
+    kb_Nouns = []
+    kb_uI = []
 
-    for s in xyz:
+    # sloppy...
+    # List of matched corpus nouns
+    for s in nounsMatch:
         tmp = []
         if t.isNode(s[0]):
 #            print('found node s[0]: ', s[0])
             cDo = t.get_canDo(t.root, s[0])
             tmp.append(s[0])
             tmp.append(cDo)
-            foundList.append(tmp)
+            kb_Nouns.append(tmp)
         else:
             print('node s[0] not found: ', s[0])
 
     noDupFoundList = []
-    for i in foundList:
+    for i in kb_Nouns:
         if i not in noDupFoundList:
             noDupFoundList.append(i)
-    foundList = noDupFoundList
+    kb_Nouns = noDupFoundList
 
-    print('len foundList: ', len(foundList))
-    print('type foundList: ', type(foundList))    
-    for f in foundList:
-        print(f)
+    # uI
+    for s in tagged_uI:
+        tmp = []
+        if t.isNode(s[0]):
+#            print('found node s[0]: ', s[0])
+            cDo = t.get_canDo(t.root, s[0])
+            tmp.append(s[0])
+            tmp.append(cDo)
+            kb_uI.append(tmp)
+        else:
+            print('node s[0] not found: ', s[0])
 
-    return "KB Check Complete"
+    noDupFoundList = []
+    for i in kb_uI:
+        if i not in noDupFoundList:
+            noDupFoundList.append(i)
+    kb_uI = noDupFoundList
 
+    return kb_Nouns, kb_uI
+
+
+def inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI):
+
+    conclusion = []
+
+    print('start inferConclusion...')
+    print('len tagged_uI: ', len(tagged_uI))
+    print('type tagged_uI: ', type(tagged_uI))
+    print('len nounsMatch: ', len(nounsMatch))
+    print('type nounsMatch: ', type(nounsMatch))
+    print('len verbsMatch: ', len(verbsMatch))
+    print('type verbsMatch: ', type(verbsMatch))
+    print('len kb_Nouns: ', len(kb_Nouns))
+    print('type kb_Nouns: ', type(kb_Nouns))
+    print('len kb_uI: ', len(kb_uI))
+    print('type kb_uI: ', type(kb_uI))
+    
+    
+
+    return conclusion
+
+
+def tagSentence(sentence):
+
+    taggedSentence = []
+
+    if isinstance(sentence, str):
+        sentList = sentence.split()
+    elif isinstance(sentence, list):
+        sentList = sentence
+    else:
+        print('Unknown sentence type: ', type(sentence))
+        return None
+
+    for w in sentList:
+        tmp = []
+        tag = getWordTag(w)
+        tmp.append(w)
+        tmp.append(tag)
+        taggedSentence.append(tmp)
+
+    return taggedSentence
+
+
+def getMatchedTags(corpus, tagged_uI):
+
+    matchedTags = []
+    allTags = []
+    tagOnly_uI = []
+    
+    for t in tagged_uI:
+        tagOnly_uI.append(t[1])
+
+    for sent in corpus:
+        tagSent = []
+        for word in sent:
+            tmp = []
+            tag = getWordTag(word)
+            tmp.append(word)
+            tmp.append(tag)
+            tagSent.append(tmp)
+        allTags.append(tagSent)
+
+    for taggedSent in allTags:
+        tags = []
+        for t in taggedSent:
+            tags.append(t[1])
+
+        if tagOnly_uI == tags: # Wow a direct match!
+            matchedTags.append(taggedSent)
+
+    return matchedTags
+
+
+def inferGrammar(tagged_uI, nounsMatch, verbsMatch, matchedTags):
+
+    taggedNounsMatched = []
+    taggedVerbsMatched = []
+    pseudoGrammar = []
+
+    print('start inferGrammar...')
+    print('len tagged_uI: ', len(tagged_uI))
+    print('type tagged_uI: ', type(tagged_uI))
+    print('len nounsMatch: ', len(nounsMatch))
+    print('type nounsMatch: ', type(nounsMatch))
+    print('len verbsMatch: ', len(verbsMatch))
+    print('type verbsMatch: ', type(verbsMatch))
+    print('len matchedTags: ', len(matchedTags))
+    print('type matchedTags: ', type(matchedTags))
+
+
+    for s in nounsMatch:
+        sent = []
+        for entry in s[2]:
+            tmp = []
+            tag = getWordTag(entry)
+            tmp.append(entry)
+            tmp.append(tag)
+            sent.append(tmp)
+        taggedNounsMatched.append(sent)
+
+
+    noDupFoundList = []
+    for i in taggedNounsMatched:
+        if i not in noDupFoundList:
+            noDupFoundList.append(i)
+    taggedNounsMatched = noDupFoundList
+
+    print('nouns')
+    for i in taggedNounsMatched:
+        print(i)
+
+
+    for s in verbsMatch:
+        sent = []
+        for entry in s[1][2]:
+            tmp = []
+            tag = getWordTag(entry)
+            tmp.append(entry)
+            tmp.append(tag)
+            sent.append(tmp)
+        taggedVerbsMatched.append(sent)
+
+
+    noDupFoundList = []
+    for i in taggedVerbsMatched:
+        if i not in noDupFoundList:
+            noDupFoundList.append(i)
+    taggedVerbsMatched = noDupFoundList
+
+    print('verbs')
+    for i in taggedVerbsMatched:
+        print(i)
+
+    print('\ntagged uI: ', tagged_uI)
+
+
+    # Based on the assumption the corpus has correct grammar...
+    # Does our input match and of the noun matched sentences?
+
+    # low hanging furit
+    if len(matchedTags) > 0:
+        for t in matchedTags:
+            print(t)
+
+    for n in taggedNounsMatched:
+        if len(tagged_uI) != len(n):
+            if len(tagged_uI) < len(n):
+                print('tagged_uI is shorter than n')
+                print(tagged_uI)
+                print(n)
+                if tagged_uI[0] == n[0]:
+                    print('tagged_uI[0] == n[0]')
+                    print(tagged_uI[0])
+                    print(n[0])
+                else:
+                    print('tagged_uI[0] != n[0]')
+                    print(tagged_uI[0])
+                    print(n[0])
+                    
+            elif len(tagged_uI) > len(n):
+                print('tagged_uI is longer than n')
+                print(tagged_uI)
+                print(n)
+                if tagged_uI[0] == n[0]:
+                    print('tagged_uI[0] == n[0]')
+                    print(tagged_uI[0])
+                    print(n[0])
+                else:
+                    print('tagged_uI[0] != n[0]')
+                    print(tagged_uI[0])
+                    print(n[0])
+            else:
+                print('tagged_uI has unkown len compared to n')
+                print(tagged_uI)
+                print(n)
+        else:
+            print('tagged_uI is equal to n')
+            print(tagged_uI)
+            print(n)
+            if tagged_uI[0] == n[0]:
+                print('tagged_uI[0] == n[0]')
+                print(tagged_uI[0])
+                print(n[0])
+            else:
+                print('tagged_uI[0] != n[0]')
+                print(tagged_uI[0])
+                print(n[0])
+    
+        
+
+
+    return pseudoGrammar
 
 
 if __name__ == "__main__":
@@ -368,17 +575,64 @@ if __name__ == "__main__":
     print('type allInflections: ', type(allInflections))
     print('-' * 5)
     
-    xyz = checkCorpus(uI)
+    nounsMatch, verbsMatch = checkCorpus(uI)
 
-    print('len xyz: ', len(xyz))
-    print('type xyz: ', type(xyz))
+    print('len nounsMatch: ', len(nounsMatch))
+    print('type nounsMatch: ', type(nounsMatch))
+    print('len verbsMatch: ', len(verbsMatch))
+    print('type verbsMatch: ', type(verbsMatch))
+
 #    print(xyz)
+    print('-' * 5)
+
+
+    tagged_uI = tagSentence(uI)
+
+    print('len tagged_uI: ', len(tagged_uI))
+    print('type tagged_uI: ', type(tagged_uI))
+    print(tagged_uI)
+
+    print('-' * 5)
+
+    # Are there sentences in the corpus where the tags match?
+    # But where the words may be different...
+
+    matchedTags = getMatchedTags(corpus, tagged_uI)
+
+    print('len matchedTags: ', len(matchedTags))
+    print('type matchedTags: ', type(matchedTags))
+    print(matchedTags)
+
+    
+
     print('-' * 5)
 
     print('KB Tree check...')
 
     t = getKB()
 
-    kbResults = checkKB()
+    kb_Nouns, kb_uI = checkKB(nounsMatch, tagged_uI)
+
+    print('len kb_Nouns: ', len(kb_Nouns))
+    print('type kb_Nouns: ', type(kb_Nouns))    
+    for n in kb_Nouns:
+        print(n)
+
+    print('len kb_uI: ', len(kb_uI))
+    print('type kb_uI: ', type(kb_uI))    
+    for n in kb_uI:
+        print(n)
+
+    print('-' * 5)
+    print('Can we learn any grammar?')
+
+    pseudoGrammar = inferGrammar(tagged_uI, nounsMatch, verbsMatch, matchedTags)
+
+    print('len pseudoGrammar: ', len(pseudoGrammar))
+    print('type pseudoGrammar: ', type(pseudoGrammar))
+
+    print('-' * 5)
+    print('inferConclusion...')
+
+    conclusion = inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI)
     
-#    print(uI)
