@@ -436,11 +436,11 @@ def getMatchedTags(corpus, tagged_uI):
     return matchedTags
 
 
-def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags, allVerbs):
+def previousGrammar(tagged_uI, nounsMatch, verbsMatch, matchedTags, allVerbs):
 
     taggedNounsMatched = []
     taggedVerbsMatched = []
-    fragmentMatches = []
+    previousGrammar = []
 
     print('start inferGrammar...')
     print('len tagged_uI: ', len(tagged_uI))
@@ -544,42 +544,49 @@ def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags, allVerbs):
                 print('tagged_uI is shorter than n')
                 print(tagged_uI)
                 print(n)
+                if tagged_uI[0] == n[0]:
+                    print('tagged_uI[0] == n[0]')
+                    print(tagged_uI[0])
+                    print(n[0])
+                else:
+                    print('tagged_uI[0] != n[0]')
+                    print(tagged_uI[0])
+                    print(n[0])
 
-                winSize_i = 3
-                winSize_j = 3
-                for i in range(len(n) - winSize_i + 1):
-                    window_i = n[i:i+winSize_i]
-#                    print('window_i: ', window_i)
-                    for j in range(len(tagged_uI) - winSize_j + 1):
-                        window_j = tagged_uI[j:j+winSize_j]
-#                        print('window_j: ', window_j)
-                        if window_i == window_j:
-                            print(' < Match Found: ', window_i)
-                            fragmentMatches.append(n)
-                            break
+                winSize = 3
+                for i in range(len(n) - winSize + 1):
+                    window = n[i:i+winSize]
+                    print('window: ', window)
+                    if tagged_uI[i:i+winSize] == window:
+                        print(' Match Found: ', tagged_uI[i:i+winSize])
                     
             elif len(tagged_uI) > len(n):
                 print('tagged_uI is longer than n')
                 print(tagged_uI)
                 print(n)
+                if tagged_uI[0] == n[0]:
+                    print('tagged_uI[0] == n[0]')
+                    print(tagged_uI[0])
+                    print(n[0])
+                else:
+                    print('tagged_uI[0] != n[0]')
+                    print(tagged_uI[0])
+                    print(n[0])
 
-                winSize_i = 3
-                winSize_j = 3
-                for i in range(len(tagged_uI) - winSize_i + 1):
-                    window_i = tagged_uI[i:i+winSize_i]
-#                    print('window_i: ', window_i)
-                    for j in range(len(n) - winSize_j + 1):
-                        window_j = n[j:j+winSize_j]
-#                        print('window_j: ', window_j)
-                        if window_i == window_j:
-                            print(' > Match Found: ', window_i)
-                            fragmentMatches.append(n)
-                            break
+                winSize = 3
+                for i in range(len(tagged_uI) - winSize + 1):
+                    window = tagged_uI[i:i+winSize]
+                    print('window: ', window)
+                    print('n[i:i+winSize]: ', n[i:i+winSize])
+                    if n[i:i+winSize] == window:
+                        print(' Match Found: ', n[i:i+winSize])
             else:
                 print('tagged_uI has unkown len compared to n')
                 print(tagged_uI)
                 print(n)
         else:
+            # This should never be reached and should be caught
+            # via matchedTags (above)
             print('tagged_uI is equal to n')
             print(tagged_uI)
             print(n)
@@ -590,18 +597,15 @@ def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags, allVerbs):
             else:
                 print('window search...')
                 
-                for i in range(len(tagged_uI) - winSize_i + 1):
-                    window_i = tagged_uI[i:i+winSize_i]
-#                    print('window_i: ', window_i)
-                    for j in range(len(n) - winSize_j + 1):
-                        window_j = n[j:j+winSize_j]
-#                        print('window_j: ', window_j)
-                        if window_i == window_j:
-                            print(' = Match Found: ', window_i)
-                            fragmentMatches.append(n)
-                            break
+                winSize = 3
+                for i in range(len(tagged_uI) - winSize + 1):
+                    window = tagged_uI[i:i+winSize]
+                    print('window: ', window)
+                    if n[i:i+winSize] == window:
+                        print(' Match Found: ', n[i:i+winSize])
 
-    return fragmentMatches
+
+    return previousGrammar
 
 
 if __name__ == "__main__":
@@ -698,15 +702,13 @@ if __name__ == "__main__":
     print('-' * 5)
     print('Can we learn any grammar?')
 
-    fragmentMatches = fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags, allVerbs)
+    previousGrammarMatch = previousGrammar(tagged_uI, nounsMatch, verbsMatch, matchedTags, allVerbs)
 
-    print('len fragmentMatches: ', len(fragmentMatches))
-    print('type fragmentMatches: ', type(fragmentMatches))
-    for f in fragmentMatches:
-        print('f: ', f)
+    print('len previousGrammarMatch: ', len(previousGrammarMatch))
+    print('type previousGrammarMatch: ', type(previousGrammarMatch))
 
-#    print('-' * 5)
-#    print('inferConclusion...')
-#
-#    conclusion = inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI)
+    print('-' * 5)
+    print('inferConclusion...')
+
+    conclusion = inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI)
     

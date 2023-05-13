@@ -230,3 +230,14 @@ simple_contractions = {
 "you're": "you are",
 "you've": "you have"
 }
+
+
+def listDepth(lst):
+
+    d = 0
+
+    for item in lst:
+        if isinstance(item, list):
+            d = max(listDepth(item), d)
+
+    return d + 1
