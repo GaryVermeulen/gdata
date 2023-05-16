@@ -363,8 +363,20 @@ def checkKB(nounsMatch, tagged_uI):
     return kb_Nouns, kb_uI
 
 
-def inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI):
+def inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragmentMatches):
 
+    """
+        declarative sentence (statement)
+        interrogative sentence (question)
+        imperative sentence (command)
+        exclamative sentence (exclamation)
+    """
+
+    firstWord = True
+    sentSubject = ''
+    sentObject = ''
+    nMatch = []
+    vMatch = []
     conclusion = []
 
     print('start inferConclusion...')
@@ -378,8 +390,78 @@ def inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI):
     print('type kb_Nouns: ', type(kb_Nouns))
     print('len kb_uI: ', len(kb_uI))
     print('type kb_uI: ', type(kb_uI))
-    
-    
+
+    simpCanDo = t.get_canDo(t.root, simp)
+    simpCanDo = simpCanDo.split(',')
+
+    print('simpCanDo: ', simpCanDo)
+            
+
+    # Sentence analysis... do we really want to do this?
+    # Or just catch commands and do a simp check?
+    for word in tagged_uI:
+        if word[1] in [vb, vbd, vbg, vbn, vbp, vbz]: # Assuming imperative
+            if firstWord:
+                if word[0] in simpCanDo:
+                    print('YES, simp can: ', word[0])
+                else:
+                    print('NO, simp cannot: ', word[0])
+            #else:
+#        elif word[1] in [nn, nnp, nns]:
+#            if sentSubj == '':
+#                sentSubj = word[0]        
+        firstWord = False
+
+    for f_sent in fragmentMatches:
+        print('f_sent:')
+        print(f_sent)
+        for f_word in f_sent:
+            for uI_Word in tagged_uI:
+                if f_word[0] == uI_Word[0]:
+                    if f_word[1] in [nnp]:
+                        nMatch.append(f_sent)
+
+    print('nMatch:')
+    print(nMatch)
+
+    for n_match in nMatch:
+        for n_word in n_match:
+            for uI_Word in tagged_uI:
+                if n_word[0] == uI_Word[0]: # Direct verb match
+                    if n_word[1] in [vb, vbd, vbg, vbn, vbz]:
+                        vMatch.append(n_match)
+                else: # run or ran?
+
+
+
+#                vTag = getVBxTag(s1)
+#                verb.append(s1)
+#                verb.append(vTag)
+#                iTag = getInflectionTag(vTag)
+                    i = []
+                    if iTag != 'x': # Trying to solve the see/saw/saw problem
+                        if len(n_match[1]) > 2:
+                            beforeWordTag = getWordTag(n_match[1][0])
+                            afterWordTag = getWordTag(n_match[1][2])
+                        if (beforeWordTag in [nn, nnp, nns, prp]) and (afterWordTag in [nn, nnp, nns, prp]):
+                            baseWordSearch = False
+                        else:
+                            baseWordSearch = True
+                    else:
+                        print('else len(n_match[1]) > 2: ', len(n_match[1]))
+
+                    i = getInflections(n_word[0], n_word[1], baseWordSearch)
+
+                    
+                
+                    vMatch.append(n_match)
+
+                    
+                    
+
+    print('vMatch:')
+    print(vMatch)
+                        
 
     return conclusion
 
@@ -442,7 +524,7 @@ def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags, allVerbs):
     taggedVerbsMatched = []
     fragmentMatches = []
 
-    print('start inferGrammar...')
+    print('start fragmentMatcher...')
     print('len tagged_uI: ', len(tagged_uI))
     print('type tagged_uI: ', type(tagged_uI))
     print('len nounsMatch: ', len(nounsMatch))
@@ -473,7 +555,7 @@ def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags, allVerbs):
             noDupFoundList.append(i)
     taggedNounsMatched = noDupFoundList
 
-    print('nouns')
+    print('nouns taggedNounsMatched:')
     for i in taggedNounsMatched:
         print(i)
 
@@ -495,7 +577,7 @@ def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags, allVerbs):
             noDupFoundList.append(i)
     taggedVerbsMatched = noDupFoundList
 
-    print('verbs')
+    print('verbs taggedVerbsMatched')
     for i in taggedVerbsMatched:
         print(i)
 
@@ -513,37 +595,15 @@ def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags, allVerbs):
     if len(matchedTags) > 0:
         return matchedTags
     
-        """
-        uI_matched_matchedTags = []
-        for t in matchedTags:
-            print('t1: ', t)
-            for x in t:
-                print('x: ', x)
-
-            for x, u in zip(t, tagged_uI):
-                print('x: ', x)
-                print('u2: ', u)
-                if x[0] == u[0]:
-                    uI_matched_matchedTags.append(x)
-                else:
-                    tmp = []
-                    tmp.append('x')
-                    tmp.append(x[1])
-                    uI_matched_matchedTags.append(tmp)
-        
-        for m in uI_matched_matchedTags:
-            print('m: ', m)
-        """ 
-            
 
     print('---')
 
     for n in taggedNounsMatched:
         if len(tagged_uI) != len(n):
             if len(tagged_uI) < len(n):
-                print('tagged_uI is shorter than n')
-                print(tagged_uI)
-                print(n)
+#                print('tagged_uI is shorter than n')
+#                print(tagged_uI)
+#                print(n)
 
                 winSize_i = 3
                 winSize_j = 3
@@ -554,14 +614,14 @@ def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags, allVerbs):
                         window_j = tagged_uI[j:j+winSize_j]
 #                        print('window_j: ', window_j)
                         if window_i == window_j:
-                            print(' < Match Found: ', window_i)
+#                            print(' < Match Found: ', window_i)
                             fragmentMatches.append(n)
                             break
                     
             elif len(tagged_uI) > len(n):
-                print('tagged_uI is longer than n')
-                print(tagged_uI)
-                print(n)
+#                print('tagged_uI is longer than n')
+#                print(tagged_uI)
+#                print(n)
 
                 winSize_i = 3
                 winSize_j = 3
@@ -572,7 +632,7 @@ def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags, allVerbs):
                         window_j = n[j:j+winSize_j]
 #                        print('window_j: ', window_j)
                         if window_i == window_j:
-                            print(' > Match Found: ', window_i)
+#                            print(' > Match Found: ', window_i)
                             fragmentMatches.append(n)
                             break
             else:
@@ -580,9 +640,9 @@ def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags, allVerbs):
                 print(tagged_uI)
                 print(n)
         else:
-            print('tagged_uI is equal to n')
-            print(tagged_uI)
-            print(n)
+#            print('tagged_uI is equal to n')
+#            print(tagged_uI)
+#            print(n)
             if tagged_uI == n:
                 print('   Exact match: tagged_uI == n')
                 return n
@@ -597,7 +657,7 @@ def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags, allVerbs):
                         window_j = n[j:j+winSize_j]
 #                        print('window_j: ', window_j)
                         if window_i == window_j:
-                            print(' = Match Found: ', window_i)
+#                            print(' = Match Found: ', window_i)
                             fragmentMatches.append(n)
                             break
 
@@ -696,7 +756,7 @@ if __name__ == "__main__":
         print(n)
 
     print('-' * 5)
-    print('Can we learn any grammar?')
+    print('Any fragement matches?')
 
     fragmentMatches = fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags, allVerbs)
 
@@ -705,8 +765,8 @@ if __name__ == "__main__":
     for f in fragmentMatches:
         print('f: ', f)
 
-#    print('-' * 5)
-#    print('inferConclusion...')
-#
-#    conclusion = inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI)
+    print('-' * 5)
+    print('inferConclusion...')
+
+    conclusion = inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragmentMatches)
     

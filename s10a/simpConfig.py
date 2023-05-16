@@ -21,6 +21,8 @@ vbz = 'VBZ'
 
 unk = 'UNK'
 
+simp = 'simp'
+
 
 extended_contractions = { 
 "ain't": "am not / are not / is not / has not / have not",
