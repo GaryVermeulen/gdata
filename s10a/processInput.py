@@ -3,10 +3,6 @@
 #
 
 import pickle
-## import pyinflect # For use as an extension of Spacy
-### from pyinflect import getAllInflections, getInflection # Standalone
-#from pyinflect import getAllInflections, getInflection
-#import simpConfig as sC
 from simpConfig import *
 from processKB import *
 
@@ -73,8 +69,6 @@ def isVBx(w):
 
     for t in newTaggedList:
         if w == t[0]:
-#            if t[1] in ['VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ']:
-#            if t[1] in [sC.vb, sC.vbd, sC.vbg, sC.vbn, sC.vbp, sC.vbz]:
             if t[1] in [vb, vbd, vbg, vbn, vbp, vbz]:
                 return True
 
@@ -101,10 +95,12 @@ def getVBxTag(w):
     return unk
 
 
-def getInflectionTag(vTag):
+def getInflectionTag(tag):
 
-    if vTag in [vb, vbd, vbg, vbn, vbp, vbz]:
+    if tag in [vb, vbd, vbg, vbn, vbp, vbz]:
         return 'v'
+    elif tag in [nns]:
+        return 'n'
 
     return 'x'
 
@@ -133,26 +129,7 @@ def checkCorpus(uI):
                     #i = (getInflections(wTag[0][0], 'NN')) # Not yet
                 
     print('len (NNx) sentsFound: ', len(sentsFound))
-    print('type (NNx) sentsFound: ', type(sentsFound))
-
-
-
-
-
-    # Pull sentences from the corpus that match input senetence verbs
-    for sent in corpus:
-        for w in uI_List:
-            t = []
-            if w in sent:
-                if isVBx(w):
-                    t.append(w)
-                    t.append(sent)
-                    allVerbs.append(t)
-                    #i = (getInflections(wTag[0][0], 'NN')) # Not yet
-                
-    print('len (VBx) allVerbs: ', len(allVerbs))
-    print('type (VBx) allVerbs: ', type(allVerbs))
-    
+    print('type (NNx) sentsFound: ', type(sentsFound))    
     
     # Of the above noun matching sentences what are the verbs?
     sentsFound_wVBs = []
@@ -192,34 +169,6 @@ def checkCorpus(uI):
         
     print('len sentsFound_wVBs: ', len(sentsFound_wVBs))
     print('type sentsFound_wVBs: ', type(sentsFound_wVBs))
-
-    # Number of words from corpus sentence that match input sentence
-    newSents = []
-    for s in sentsFound_wVBs:
-        newS = []
-        cnt = 0
-        for w in s[1]:
-            counted = []
-            for i in uI_List:
-                if i == w and i not in counted:
-                    cnt += 1
-                    counted.append(i)
-
-        s0 = s[0]
-        s2 = s[1] # Re-orders list entries
-        s3 = s[2]
-        newS.append(s0)
-        newS.append(cnt)
-        newS.append(s2)
-        newS.append(s3)
-
-        newSents.append(newS)
-    
-    print('len newSents (NNx, VBx, and cnt): ', len(newSents))
-    print('type newSents (NNx, VBx, and cnt): ', type(newSents))
-
-    for s in newSents:
-        print(s)
     
     print('--' * 5)
     print('Do any of the verbs in the senetences found match the input sentence?')
@@ -228,17 +177,18 @@ def checkCorpus(uI):
     for w_uI in uI_List:
         if isVBx(w_uI):
 #            print('w_uI: ', w_uI)
-            for nS in newSents:
+##            for nS in newSents:
+            for nS in sentsFound_wVBs:
 #                print('nS: ', nS)
                 # direct match (non-inflection)
                 tmp = []
-                if w_uI in nS[2]:
+                if w_uI in nS[1]: # was 2
 #                    print('direct verb match w_uI {} found in nS[2] {}'.format(w_uI, nS[2]))
                     tmp.append(w_uI)
                     tmp.append(nS)
                     verbsMatch.append(tmp)
                 else:
-                    for v in nS[3]:
+                    for v in nS[2]: # was 3
 #                        print('v: ', v)                       
                         if isinstance(v, str):
 #                            print('string found: ', v)
@@ -260,23 +210,19 @@ def checkCorpus(uI):
     print('len verbsMatch: ', len(verbsMatch))
     print('type verbsMatch: ', type(verbsMatch))
 
-    for v in verbsMatch:
-        print(v)
-            
-
-    
-    return newSents, verbsMatch, allVerbs
+#    for v in verbsMatch:
+#        print(v)
+               
+    return sentsFound_wVBs, verbsMatch
 
 
 def validInput(uI):
 
     uI_List = uI.split()
     valid_uI = []
-    unknown_uI = []
+    tmp = []
 
     for word in newTaggedList:
-#        print('word: ', word)
-#        print()
         if word[0] in uI_List:
             if word[0] not in valid_uI:
                 valid_uI.append(word[0])
@@ -286,9 +232,13 @@ def validInput(uI):
 
     diff = uI_Set.difference(valid_uI)
     intr = uI_Set.intersection(valid_uI)
+
+    # Cheesy way to keep order but drop unknown words
+    for i in uI_List:
+        if i in valid_uI:
+            tmp.append(i)
     
-    
-    return valid_uI, diff, intr
+    return tmp, diff, intr
 
 
 def getInflections(word, tag, baseWordSearch):
@@ -298,6 +248,7 @@ def getInflections(word, tag, baseWordSearch):
     for line in allInflections:
         if word in line:
 #            print('found {} at {} {}'.format(word, cnt, line))
+#            print('tag: ', tag)
             if line[1] == tag:
 #                print('found v {} with tag {} at {} {}'.format(word, tag, cnt, line))
                 if baseWordSearch:
@@ -318,23 +269,50 @@ def getInflections(word, tag, baseWordSearch):
     return []
 
 
-def checkKB(nounsMatch, tagged_uI):
+def checkKB(sents):
 
     kb_Nouns = []
-    kb_uI = []
+    baseWordSearch = False
+    inflect = []
 
-    # sloppy...
-    # List of matched corpus nouns
-    for s in nounsMatch:
+#    print('checkKB::::::')
+#    print('len sents: ', len(sents))
+#    print('type sents: ', type(sents))
+    
+    for s in sents:
+#        print('s: ', s)
+        sWord = s[0]
+        sTag  = s[1]
+#        if is_uI:
+#            sTag  = s[1]
+#        else:
+#            sTag = s[2][
+        if sTag == nns:
+#            print('sWord: {} sTag: {}'.format(sWord, sTag))
+            tag = getInflectionTag(sTag)
+#            print('tag: ', tag)
+            inflect = getInflections(sWord, tag, baseWordSearch)        
+#            print('inflect:')
+#            print(inflect)
+
+        if len(inflect) > 0:
+            sWord = inflect[0]
+            inflect = []
+            
         tmp = []
-        if t.isNode(s[0]):
-#            print('found node s[0]: ', s[0])
-            cDo = t.get_canDo(t.root, s[0])
-            tmp.append(s[0])
+        if t.isNode(sWord):
+#            print('found node sWord: ', s[0])
+            cDo = t.get_canDo(t.root, sWord)
+            tmp.append(sWord)
             tmp.append(cDo)
             kb_Nouns.append(tmp)
         else:
-            print('node s[0] not found: ', s[0])
+#            print('node sWord not found: ', sWord)
+#            print('sTag: ', sTag)
+            if sTag in [nn, nns]:
+                tmp.append(sWord)
+                tmp.append('unknown')
+                kb_Nouns.append(tmp)
 
     noDupFoundList = []
     for i in kb_Nouns:
@@ -342,28 +320,10 @@ def checkKB(nounsMatch, tagged_uI):
             noDupFoundList.append(i)
     kb_Nouns = noDupFoundList
 
-    # uI
-    for s in tagged_uI:
-        tmp = []
-        if t.isNode(s[0]):
-#            print('found node s[0]: ', s[0])
-            cDo = t.get_canDo(t.root, s[0])
-            tmp.append(s[0])
-            tmp.append(cDo)
-            kb_uI.append(tmp)
-        else:
-            print('node s[0] not found: ', s[0])
-
-    noDupFoundList = []
-    for i in kb_uI:
-        if i not in noDupFoundList:
-            noDupFoundList.append(i)
-    kb_uI = noDupFoundList
-
-    return kb_Nouns, kb_uI
+    return kb_Nouns
 
 
-def inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragmentMatches):
+def inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_uI, fragmentMatches):
 
     """
         declarative sentence (statement)
@@ -382,14 +342,34 @@ def inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragment
     print('start inferConclusion...')
     print('len tagged_uI: ', len(tagged_uI))
     print('type tagged_uI: ', type(tagged_uI))
+    print(tagged_uI)
+    
     print('len nounsMatch: ', len(nounsMatch))
     print('type nounsMatch: ', type(nounsMatch))
+    for n in nounsMatch:
+        print(n)
+        
     print('len verbsMatch: ', len(verbsMatch))
     print('type verbsMatch: ', type(verbsMatch))
-    print('len kb_Nouns: ', len(kb_Nouns))
-    print('type kb_Nouns: ', type(kb_Nouns))
+    for v in verbsMatch:
+        print(v)
+        
+#    print('len kb_Nouns: ', len(kb_Nouns))
+#    print('type kb_Nouns: ', type(kb_Nouns))
+#    for kbN in kb_Nouns:
+#        print(kbN)
+        
     print('len kb_uI: ', len(kb_uI))
     print('type kb_uI: ', type(kb_uI))
+    for kbUI in kb_uI:
+        print(kbUI)
+        
+    print('len fragmentMatches: ', len(fragmentMatches))
+    print('type fragmentMatches: ', type(fragmentMatches))
+    for f in fragmentMatches:
+        print(f)
+
+
 
     simpCanDo = t.get_canDo(t.root, simp)
     simpCanDo = simpCanDo.split(',')
@@ -412,6 +392,8 @@ def inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragment
 #                sentSubj = word[0]        
         firstWord = False
 
+        
+    """
     for f_sent in fragmentMatches:
         print('f_sent:')
         print(f_sent)
@@ -420,9 +402,11 @@ def inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragment
                 if f_word[0] == uI_Word[0]:
                     if f_word[1] in [nnp]:
                         nMatch.append(f_sent)
+    """
 
-    print('nMatch:')
-    print(nMatch)
+#    print('nMatch:')
+#    for n in nMatch:
+#        print(n)
 
     for n_match in nMatch:
         for n_word in n_match:
@@ -437,7 +421,8 @@ def inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragment
 #                vTag = getVBxTag(s1)
 #                verb.append(s1)
 #                verb.append(vTag)
-#                iTag = getInflectionTag(vTag)
+                    """
+                    iTag = getInflectionTag(vTag)
                     i = []
                     if iTag != 'x': # Trying to solve the see/saw/saw problem
                         if len(n_match[1]) > 2:
@@ -456,7 +441,7 @@ def inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragment
                 
                     vMatch.append(n_match)
 
-                    
+                    """
                     
 
     print('vMatch:')
@@ -518,7 +503,7 @@ def getMatchedTags(corpus, tagged_uI):
     return matchedTags
 
 
-def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags, allVerbs):
+def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags):
 
     taggedNounsMatched = []
     taggedVerbsMatched = []
@@ -534,13 +519,9 @@ def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags, allVerbs):
     print('len matchedTags: ', len(matchedTags))
     print('type matchedTags: ', type(matchedTags))
 
-    print('len allVerbs: ', len(allVerbs))
-    print('type allVerbs: ', type(allVerbs))
-
-
     for s in nounsMatch:
         sent = []
-        for entry in s[2]:
+        for entry in s[1]:
             tmp = []
             tag = getWordTag(entry)
             tmp.append(entry)
@@ -562,7 +543,7 @@ def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags, allVerbs):
 
     for s in verbsMatch:
         sent = []
-        for entry in s[1][2]:
+        for entry in s[1][1]:
             tmp = []
             tag = getWordTag(entry)
             tmp.append(entry)
@@ -691,9 +672,9 @@ if __name__ == "__main__":
 
     print('len valid_uI: ', len(valid_uI))
     print('type valid_uI: ', type(valid_uI))
-    for v in valid_uI:
-        print(v)
-
+#    for v in valid_uI:
+#        print(v)
+    print('valid_uI: ', valid_uI)
     print('diff: ', diff)
     print('intr: ', intr)
     print('-' * 5)
@@ -704,15 +685,15 @@ if __name__ == "__main__":
     print('type allInflections: ', type(allInflections))
     print('-' * 5)
     
-    nounsMatch, verbsMatch, allVerbs = checkCorpus(uI)
+    nounsMatch, verbsMatch = checkCorpus(uI)
 
     print('len nounsMatch: ', len(nounsMatch))
     print('type nounsMatch: ', type(nounsMatch))
     print('len verbsMatch: ', len(verbsMatch))
     print('type verbsMatch: ', type(verbsMatch))
 
-    print('len allVerbs: ', len(allVerbs))
-    print('type allVerbs: ', type(allVerbs))
+#    print('len allVerbs: ', len(allVerbs))
+#    print('type allVerbs: ', type(allVerbs))
 
 #    print(xyz)
     print('-' * 5)
@@ -743,12 +724,14 @@ if __name__ == "__main__":
 
     t = getKB()
 
-    kb_Nouns, kb_uI = checkKB(nounsMatch, tagged_uI)
+    # Do we care about nouns in the corpus which are not in the kb?
+#    kb_Nouns = checkKB(matchedTags) 
+    kb_uI = checkKB(tagged_uI)
 
-    print('len kb_Nouns: ', len(kb_Nouns))
-    print('type kb_Nouns: ', type(kb_Nouns))    
-    for n in kb_Nouns:
-        print(n)
+#    print('len kb_Nouns: ', len(kb_Nouns))
+#    print('type kb_Nouns: ', type(kb_Nouns))    
+#    for n in kb_Nouns:
+#        print(n)
 
     print('len kb_uI: ', len(kb_uI))
     print('type kb_uI: ', type(kb_uI))    
@@ -758,7 +741,7 @@ if __name__ == "__main__":
     print('-' * 5)
     print('Any fragement matches?')
 
-    fragmentMatches = fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags, allVerbs)
+    fragmentMatches = fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags)
 
     print('len fragmentMatches: ', len(fragmentMatches))
     print('type fragmentMatches: ', type(fragmentMatches))
@@ -768,5 +751,5 @@ if __name__ == "__main__":
     print('-' * 5)
     print('inferConclusion...')
 
-    conclusion = inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragmentMatches)
+    conclusion = inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_uI, fragmentMatches)
     
