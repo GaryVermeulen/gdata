@@ -1,7 +1,14 @@
 #
 # simpConfig.py
 #
-## Global var's
+# Global var's
+#
+# Notes:
+#    declarative sentence (statement)
+#    interrogative sentence (question)
+#    imperative sentence (command)
+#    exclamative sentence (exclamation)
+#
 
 verbose = True
 debug   = True
@@ -22,6 +29,13 @@ vbz = 'VBZ'
 unk = 'UNK'
 
 simp = 'simp'
+
+# Imperative sentence (command) start words
+see = 'see'
+
+# Interrogative sentence (question) start words
+can = 'can'
+do = 'do'
 
 
 extended_contractions = { 
@@ -233,6 +247,38 @@ simple_contractions = {
 "you've": "you have"
 }
 
+
+class Sentence:
+
+    def __init__(self, inSent, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC):
+        self.inSent = inSent
+        self.sType = sType
+        self.sSubj = sSubj
+        self.sVerb = sVerb
+        self.sObj = sObj
+        self.sInObj = sInObj
+        self.sAdj = sAdj
+        self.sDet = sDet
+        self.sIN = sIN
+        self.sPP = sPP
+        self.sMD = sMD
+        self.sWDT = sWDT
+        self.sCC = sCC
+
+    def printAll(self):
+        print(self.inSent)
+        print(self.sType)
+        print(self.sSubj)
+        print(self.sVerb)
+        print(self.sObj)
+        print(self.sInObj)
+        print(self.sAdj)
+        print(self.sDet)
+        print(self.sIN)
+        print(self.sPP)
+        print(self.sMD)
+        print(self.sWDT)
+        print(self.sCC)
 
 def listDepth(lst):
 

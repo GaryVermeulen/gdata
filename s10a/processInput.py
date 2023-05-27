@@ -5,6 +5,7 @@
 import pickle
 from simpConfig import *
 from processKB import *
+from simpSA import *
 
 def getCorpus():
 
@@ -323,7 +324,7 @@ def checkKB(sents):
     return kb_Nouns
 
 
-def inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_uI, fragmentMatches):
+def inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragmentMatches):
 
     """
         declarative sentence (statement)
@@ -337,7 +338,7 @@ def inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_uI, fragmentMatches):
     sentObject = ''
     nMatch = []
     vMatch = []
-    conclusion = []
+    conclusion = ['i', 'do', 'not', 'have', 'a', 'clue']
 
     print('start inferConclusion...')
     print('len tagged_uI: ', len(tagged_uI))
@@ -354,10 +355,10 @@ def inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_uI, fragmentMatches):
     for v in verbsMatch:
         print(v)
         
-#    print('len kb_Nouns: ', len(kb_Nouns))
-#    print('type kb_Nouns: ', type(kb_Nouns))
-#    for kbN in kb_Nouns:
-#        print(kbN)
+    print('len kb_Nouns: ', len(kb_Nouns))
+    print('type kb_Nouns: ', type(kb_Nouns))
+    for kbN in kb_Nouns:
+        print(kbN)
         
     print('len kb_uI: ', len(kb_uI))
     print('type kb_uI: ', type(kb_uI))
@@ -377,7 +378,7 @@ def inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_uI, fragmentMatches):
     print('simpCanDo: ', simpCanDo)
             
 
-    # Sentence analysis... do we really want to do this?
+    # Sentence analysis...~? Do we really want to do this?
     # Or just catch commands and do a simp check?
     for word in tagged_uI:
         if word[1] in [vb, vbd, vbg, vbn, vbp, vbz]: # Assuming imperative
@@ -392,63 +393,16 @@ def inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_uI, fragmentMatches):
 #                sentSubj = word[0]        
         firstWord = False
 
-        
-    """
-    for f_sent in fragmentMatches:
-        print('f_sent:')
-        print(f_sent)
-        for f_word in f_sent:
-            for uI_Word in tagged_uI:
-                if f_word[0] == uI_Word[0]:
-                    if f_word[1] in [nnp]:
-                        nMatch.append(f_sent)
-    """
-
-#    print('nMatch:')
-#    for n in nMatch:
-#        print(n)
-
-    for n_match in nMatch:
-        for n_word in n_match:
-            for uI_Word in tagged_uI:
-                if n_word[0] == uI_Word[0]: # Direct verb match
-                    if n_word[1] in [vb, vbd, vbg, vbn, vbz]:
-                        vMatch.append(n_match)
-                else: # run or ran?
 
 
+    sA_Obj = sentAnalysis(tagged_uI)
 
-#                vTag = getVBxTag(s1)
-#                verb.append(s1)
-#                verb.append(vTag)
-                    """
-                    iTag = getInflectionTag(vTag)
-                    i = []
-                    if iTag != 'x': # Trying to solve the see/saw/saw problem
-                        if len(n_match[1]) > 2:
-                            beforeWordTag = getWordTag(n_match[1][0])
-                            afterWordTag = getWordTag(n_match[1][2])
-                        if (beforeWordTag in [nn, nnp, nns, prp]) and (afterWordTag in [nn, nnp, nns, prp]):
-                            baseWordSearch = False
-                        else:
-                            baseWordSearch = True
-                    else:
-                        print('else len(n_match[1]) > 2: ', len(n_match[1]))
+    print(sA_Obj)
 
-                    i = getInflections(n_word[0], n_word[1], baseWordSearch)
-
-                    
-                
-                    vMatch.append(n_match)
-
-                    """
-                    
-
-    print('vMatch:')
-    print(vMatch)
                         
 
-    return conclusion
+#    return conclusion
+    return sA_Obj
 
 
 def tagSentence(sentence):
@@ -725,13 +679,14 @@ if __name__ == "__main__":
     t = getKB()
 
     # Do we care about nouns in the corpus which are not in the kb?
-#    kb_Nouns = checkKB(matchedTags) 
+    # Yes...~?
+    kb_Nouns = checkKB(matchedTags) 
     kb_uI = checkKB(tagged_uI)
 
-#    print('len kb_Nouns: ', len(kb_Nouns))
-#    print('type kb_Nouns: ', type(kb_Nouns))    
-#    for n in kb_Nouns:
-#        print(n)
+    print('len kb_Nouns: ', len(kb_Nouns))
+    print('type kb_Nouns: ', type(kb_Nouns))    
+    for n in kb_Nouns:
+        print(n)
 
     print('len kb_uI: ', len(kb_uI))
     print('type kb_uI: ', type(kb_uI))    
@@ -749,7 +704,10 @@ if __name__ == "__main__":
         print('f: ', f)
 
     print('-' * 5)
-    print('inferConclusion...')
+    print('inferConclusion (main)...')
 
-    conclusion = inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_uI, fragmentMatches)
+#    conclusion = inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragmentMatches)
+    sA_Obj = inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragmentMatches)
+    
+    sA_Obj.printAll()
     

@@ -7,12 +7,13 @@ import pickle
 
 def getPickles():
 
-    """
-    with open('data/ourDict.pkl', 'rb') as fp:
-        ourDict = pickle.load(fp)
-        print('Aunt Bee loaded ourDict.pkl')
+    
+    with open('pickles/starterDictList.pkl', 'rb') as fp:
+        ourPickle = pickle.load(fp)
+        print('Aunt Bee loaded startedDictList.pkl')
     fp.close()
-
+    
+    """
     with open('data/ourCorpus.pkl', 'rb') as fp:
         ourCorpus = pickle.load(fp)
         print('Aunt Bee loaded ourCorpus.pkl')
@@ -23,12 +24,12 @@ def getPickles():
         print('Aunt Bee loaded newDict.pkl')
     fp.close()
     """
-    
+    """
     with open('pickles/newTaggedList.pkl', 'rb') as fp:
         ourPickle = pickle.load(fp)
         print('Aunt Bee loaded newTaggedList.pkl')
     fp.close()
-    
+    """
 
     """
     with open('pickles/inflections.pkl', 'rb') as fp:
@@ -46,24 +47,20 @@ if __name__ == "__main__":
     print('Pickle checker...')
     
     ourPickle = getPickles()
+
+    print('ourPickle:')
+    print(len(ourPickle))
+    print(type(ourPickle))
+
+#    print(ourPickle)
+
+    for p in ourPickle:
+        print(p)
+
     
-    """
-    print('ourDict:')
-    print(len(ourDict))
-    print(type(ourDict))
-    print(ourDict.get("eat_1"))
-    print(ourDict.get("do_1"))
+
+#    print('-' * 5)
     
-    for key, value in ourDict.items():
-        print(key, value)
-        print(ourDict[key]['Word'])
-        print(ourDict[key]['Tag'])
-    print('-' * 5)
-    print('ourCorpus:')
-    print(len(ourCorpus))
-    print(type(ourCorpus))
-    print('-' * 5)
-    """
     """
     print('newDict:')
     print(len(newDict))
@@ -71,10 +68,6 @@ if __name__ == "__main__":
     print(newDict.get("eat_1"))
     print(newDict.get("do_1"))
     """
-    print('ourPickle:')
-    print(len(ourPickle))
-    print(type(ourPickle))
-
     
     """
     # Temp fix for the hammy problem
@@ -126,7 +119,7 @@ if __name__ == "__main__":
         cnt += 1
     """
 
-    
+    """    
     # newTaggedList
     print(ourPickle[0:60:]) # Just look at some
     testWord = 'saw' # 'run'
@@ -141,4 +134,6 @@ if __name__ == "__main__":
 #                print('found v {} at {} {}'.format(testWord, cnt, line))
 
         cnt += 1
+    
+    """
     
