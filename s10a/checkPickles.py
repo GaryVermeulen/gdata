@@ -7,12 +7,12 @@ import pickle
 
 def getPickles():
 
-    
+    """
     with open('pickles/starterDictList.pkl', 'rb') as fp:
         ourPickle = pickle.load(fp)
         print('Aunt Bee loaded startedDictList.pkl')
     fp.close()
-    
+    """
     """
     with open('data/ourCorpus.pkl', 'rb') as fp:
         ourCorpus = pickle.load(fp)
@@ -24,12 +24,12 @@ def getPickles():
         print('Aunt Bee loaded newDict.pkl')
     fp.close()
     """
-    """
+    
     with open('pickles/newTaggedList.pkl', 'rb') as fp:
         ourPickle = pickle.load(fp)
         print('Aunt Bee loaded newTaggedList.pkl')
     fp.close()
-    """
+    
 
     """
     with open('pickles/inflections.pkl', 'rb') as fp:
@@ -55,7 +55,8 @@ if __name__ == "__main__":
 #    print(ourPickle)
 
     for p in ourPickle:
-        print(p)
+        if p[0] == 'not' or p[0] == 'fast':
+            print(p)
 
     
 

@@ -1,0 +1,23 @@
+ s10a -- Current iteration of Simpleton
+ 
+This version is a series of Python files w/o a main file.
+
+Process order:
+	1) processCorpus.py	-- Read, process, and pickle output.
+	2) convertInfl.py	-- Read raw inflection data, and pickle output.
+	3) processKB.py		-- Builds rudimentary KB, and pickle output.
+	4) processInput.py	-- Get input and try to make sense of it.
+
+Utilities:
+	checkPickles.py		-- Read a given pickle
+	simpSA.py		-- Rudimentary sentence analysis
+
+Configuration:
+	simpConfig.py		-- Global variables
+
+Sub-Folders:
+	Corpus			-- Input docs
+	data			-- Starter data and test input
+	kb			-- Starter KB data
+	pickles			-- Processed data pickles
+

@@ -266,19 +266,19 @@ class Sentence:
         self.sCC = sCC
 
     def printAll(self):
-        print(self.inSent)
-        print(self.sType)
-        print(self.sSubj)
-        print(self.sVerb)
-        print(self.sObj)
-        print(self.sInObj)
-        print(self.sAdj)
-        print(self.sDet)
-        print(self.sIN)
-        print(self.sPP)
-        print(self.sMD)
-        print(self.sWDT)
-        print(self.sCC)
+        print('inSent: ', self.inSent)
+        print('sType : ', self.sType)
+        print('sSubj : ', self.sSubj)
+        print('sVerb : ', self.sVerb)
+        print('sObj  : ', self.sObj)
+        print('sInObj: ', self.sInObj)
+        print('sAdj  : ', self.sAdj)
+        print('sDet  : ', self.sDet)
+        print('sIN   : ', self.sIN)
+        print('sPP   : ', self.sPP)
+        print('sMD   : ', self.sMD)
+        print('sWDT  : ', self.sWDT)
+        print('sCC   : ', self.sCC)
 
 def listDepth(lst):
 

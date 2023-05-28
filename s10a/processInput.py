@@ -49,11 +49,15 @@ def getKB():
 
 def getWordTag(word):
 
+    tags = ''
+    
     for t in newTaggedList:
         if word == t[0]:
-            return t[1]
-
-    return None
+            if tags == '':
+                tags = t[1]
+            else:
+                tags = tags + ', ' + t[1]
+    return tags
 
 
 def isNNx(w):
@@ -214,7 +218,7 @@ def checkCorpus(uI):
 #    for v in verbsMatch:
 #        print(v)
                
-    return sentsFound_wVBs, verbsMatch
+    return sentsFound, sentsFound_wVBs, verbsMatch
 
 
 def validInput(uI):
@@ -396,8 +400,15 @@ def inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragment
 
 
     sA_Obj = sentAnalysis(tagged_uI)
+    sA_Obj.printAll()
+    print('-' * 8)
 
-    print(sA_Obj)
+    saList = []
+    for nMatch in nounsMatch:
+        tagged = tagSentence(nMatch[1])
+        sa = sentAnalysis(tagged)
+        sa.printAll()
+        saList.append(sa)
 
                         
 
@@ -639,8 +650,10 @@ if __name__ == "__main__":
     print('type allInflections: ', type(allInflections))
     print('-' * 5)
     
-    nounsMatch, verbsMatch = checkCorpus(uI)
+    taggedNounsMatch, nounsMatch, verbsMatch = checkCorpus(uI)
 
+    print('---len taggedNounsMatch: ', len(taggedNounsMatch))
+    print('---type taggedNounsMatch: ', type(taggedNounsMatch))
     print('len nounsMatch: ', len(nounsMatch))
     print('type nounsMatch: ', type(nounsMatch))
     print('len verbsMatch: ', len(verbsMatch))
@@ -707,7 +720,8 @@ if __name__ == "__main__":
     print('inferConclusion (main)...')
 
 #    conclusion = inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragmentMatches)
-    sA_Obj = inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragmentMatches)
-    
+    sA_Obj = inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragmentMatches)    
     sA_Obj.printAll()
+
+
     

@@ -4,7 +4,7 @@
 #   Sentence analysis--determine SVO
 #   This version takes a tagged input sentence instead of
 #   a CFG tree
-"""
+""" Notes:
     declarative sentence (statement)
     interrogative sentence (question)
     imperative sentence (command)
@@ -18,13 +18,12 @@ def processNPP(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAd
 
     tmpInObj = []
     tmpSubj = []
-    
+    """
     if verbose: 
         print('taggedInput to processNNP:')
         print(taggedInput)
         print('wordPosition: ', wordPosition)
-
-        
+    """ 
     if wordPosition == 1:
         sType = 'declarative'
 
@@ -59,12 +58,12 @@ def processNPP(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAd
 def processNN(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC):
 
     tmpInObj = []
-    
+    """
     if verbose: 
         print('taggedInput to processNN:')
         print(taggedInput)
         print('wordPosition: ', wordPosition)
-
+    """
     if wordPosition == 1:
         sType = 'declarative'
 
@@ -99,12 +98,12 @@ def processNN(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj
 def processVerbs(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC):
 
     tmpVerbs = []
-
+    """
     if verbose: 
         print('taggedInput to processVerbs:')
         print(taggedInput)
         print('wordPosition: ', wordPosition)
-
+    """
     if wordPosition == 1:
         sType = 'imperative'
         sVerb = taggedInput[0]
@@ -121,11 +120,13 @@ def processVerbs(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, s
 
 def processAdj(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC):
 
+    tmp = []
+    """
     if verbose: 
         print('taggedInput to processAdj:')
         print(taggedInput)
         print('wordPosition: ', wordPosition)
-
+    """
     if wordPosition == 1:
         sType = 'declarative'
         sAdj = taggedInput[0]
@@ -133,7 +134,9 @@ def processAdj(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAd
         if sAdj == '':
             sAdj = taggedInput[wordPosition - 1]
         else:
-            sAdj = sAdj + ';' + taggedInput[wordPosition - 1]
+            tmp.append(sAdj)
+            tmp.append(taggedInput[wordPosition - 1])
+            sAdj = tmp
 
     return sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC
 
@@ -141,12 +144,12 @@ def processAdj(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAd
 def processDT(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC):
 
     tmpDet = []
-
+    """
     if verbose: 
         print('taggedInput to processDT:')
         print(taggedInput)
         print('wordPosition: ', wordPosition)
-
+    """
     if wordPosition == 1:
         sType = 'declarative'
         sDet = taggedInput[0]
@@ -164,12 +167,12 @@ def processDT(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj
 def processIN(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC):
 
     tmpIN = []
-
+    """
     if verbose: 
         print('taggedInput to processIN:')
         print(taggedInput)
         print('wordPosition: ', wordPosition)
-
+    """
     if wordPosition == 1:
         sType = 'declarative'
         sIN = taggedInput[0]
@@ -187,12 +190,12 @@ def processIN(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj
 def processMD(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC):
 
     tmpMD = []
-
+    """
     if verbose: 
         print('taggedInput to processMD:')
         print(taggedInput)
         print('wordPosition: ', wordPosition)
-
+    """
     if wordPosition == 1:
         sType = 'declarative'
         sMD = taggedInput[0]
@@ -210,12 +213,12 @@ def processMD(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj
 def processWDT(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC):
 
     tmpWDT = []
-
+    """
     if verbose: 
         print('taggedInput to processWDT:')
         print(taggedInput)
         print('wordPosition: ', wordPosition)
-
+    """
     if wordPosition == 1:
         sType = 'interrogative'
         sWDT = taggedInput[0]
@@ -233,12 +236,12 @@ def processWDT(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAd
 def processCC(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC):
 
     tmpCC = []
-
+    """
     if verbose: 
         print('taggedInput to processCC:')
         print(taggedInput)
         print('wordPosition: ', wordPosition)
-
+    """
     if wordPosition == 1:
         sType = 'declarative?'
         sCC = taggedInput[0]
@@ -283,56 +286,41 @@ def sentAnalysis(taggedInput):
 
     sent = Sentence(taggedInput, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
     
-    print('taggedInput to sentAnalysis:')
-    print(taggedInput)
+#    print('taggedInput to sentAnalysis:')
+#    print(taggedInput)
     
     for item in taggedInput:
 
         wordPosition += 1
 
-        print('item: ', item)
-        print(len(item))
-        print(type(item))
-        print('item[0]: ', item[0])
-        print('item[1]: ', item[1])
+#        print('item: ', item)
+#        print(len(item))
+#        print(type(item))
+#        print('item[0]: ', item[0])
+#        print('item[1]: ', item[1])
 
         if item[1] == 'NNP':
-
             sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processNPP(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-
         elif item[1] in ['NN', 'NNS']:
-
             sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processNN(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-
         elif item[1] in ['VB','VBD','VBG','VBN','VBP','VBZ']:
-
             sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processVerbs(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-
         elif item[1] in ['JJ', 'JJR', 'JJS']:
-
             sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processAdj(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-
         elif item[1] in ['DT']:
-
             sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processDT(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-
         elif item[1] in ['IN']:
-
             sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processIN(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-
         elif item[1] in ['MD']:
-
             sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processMD(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-
         elif item[1] in ['CC']:
-
             sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processCC(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-
-
+        elif item[1] in ['WDT', 'WP', 'WRB']:
+            sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processWDT(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
         else:
             print('sentAnalysis else -- something wrong or not defined?')
             print(item)
-                            
+    """
     if verbose: 
         print('--_-_-_-_-_-_-_-_-_-_--')
         print('Tagged Input Sentence:')
@@ -350,21 +338,22 @@ def sentAnalysis(taggedInput):
         print('sMD =   ', sMD)
         print('sWDT =  ', sWDT)
         print('sCC =  ', sCC)
-
+    """
 #        sent.inSent = inSent   # Set at init
-        sent.sType  = sType
-        sent.sSubj  = sSubj
-        sent.sVerb  = sVerb
-        sent.sObj   = sObj
-        sent.sInObj = sInObj
-        sent.sAdj   = sAdj
-        sent.sDet   = sDet
-        sent.sIN    = sIN
-        sent.sPP    = sPP
-        sent.sMD    = sMD
-        sent.sWDT   = sWDT
-        sent.sCC    = sCC
-
+    sent.sType  = sType
+    sent.sSubj  = sSubj
+    sent.sVerb  = sVerb
+    sent.sObj   = sObj
+    sent.sInObj = sInObj
+    sent.sAdj   = sAdj
+    sent.sDet   = sDet
+    sent.sIN    = sIN
+    sent.sPP    = sPP
+    sent.sMD    = sMD
+    sent.sWDT   = sWDT
+    sent.sCC    = sCC
+    """
+    if verbose:
         print('----------------------')
         print('sent.inSent: ', sent.inSent)
         print('sent.sType  = ', sent.sType)
@@ -379,7 +368,7 @@ def sentAnalysis(taggedInput):
         print('sent.sMD    = ', sent.sMD)
         print('sent.sWDT   = ', sent.sWDT)
         print('sent.sCC    = ', sent.sCC)
-
+    """
     print('--- end sentAnalysis ---')
 
     return sent
