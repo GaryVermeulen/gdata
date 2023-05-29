@@ -9,6 +9,7 @@ import spacy
 
 from simpConfig import simple_contractions
 from simpConfig import verbose
+from commonUtils import chkUnkownWords
 
 
 
@@ -153,66 +154,6 @@ def cleanCorpus(expandedCorpusSents, starterDictList):
     cleanerCorpus = rejectNotFound(expandedCorpusSents, badWords)
     
     return cleanerCorpus
-
-
-def chkUnkownWords(wordsNotFound):
-    from urllib.request import Request, urlopen
-    from bs4 import BeautifulSoup
-
-    newWords = []
-    notFound = []
-	
-    print("Starting scrape for {} words".format(len(wordsNotFound)))
-    for word in wordsNotFound:
-        print('.', end='')
-
-        req = Request(
-            url = "http://www.dictionary.com/browse/" + word.strip() + "",
-            headers={'User-Agent': 'Mozilla/5.0'}
-        )
-
-        try:
-            htmlFile = urlopen(req).read()
-            found = True
-        except:
-            notFound.append(word)
-            found = False
-            continue
-          
-        soup = BeautifulSoup(htmlFile, 'html.parser')
-        soup1 = soup.find("meta", attrs={'name':'description'})
-
-        try:
-            soup1 = soup1.get_text()
-            found = True
-        except AttributeError:
-            found = False
-            continue
-        if found:            
-            soup2 =soup.find(class_="luna-pos")
-            txt = soup2.get_text()
-            pos = os.linesep.join([s for s in txt.splitlines() if s])
-            pos = pos.replace(',', '')
-
-            soup3 = soup.find("meta", attrs={'name':'description'})                        
-            txt3 = str(soup3)
-            txt4 = removeHTML(txt3) # Soup get_text not working or I can't figure it our :-(
-
-        newWords.append(word + ';' + pos + ';' + txt4)
-	
-    print("\nScraping Completed.")
-
-    return newWords, notFound
-
-
-def removeHTML(txt):
-
-    txt = txt.replace('<meta content="', '') # Start of htmp string
-    txt = txt.replace('See additional meanings and similar words.', '')
-    txt = txt.replace('See more.', '')
-    txt = txt.replace('" name="description"/>', '')
-
-    return txt
 
 
 def rejectNotFound(expandedCorpusSents, notFound):

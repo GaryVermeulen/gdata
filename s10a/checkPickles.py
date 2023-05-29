@@ -3,6 +3,7 @@
 #
 
 import pickle
+from simpConfig import FANBOYS
 
 
 def getPickles():
@@ -13,17 +14,21 @@ def getPickles():
         print('Aunt Bee loaded startedDictList.pkl')
     fp.close()
     """
+    
     """
-    with open('data/ourCorpus.pkl', 'rb') as fp:
-        ourCorpus = pickle.load(fp)
-        print('Aunt Bee loaded ourCorpus.pkl')
+    with open('pickles/newCorpus.pkl', 'rb') as fp:
+        ourPickle = pickle.load(fp)
+        print('Aunt Bee loaded newCorpus.pkl')
     fp.close()
+    """
 
+    """
     with open('data/newDict.pkl', 'rb') as fp:
         newDict = pickle.load(fp)
         print('Aunt Bee loaded newDict.pkl')
     fp.close()
     """
+    
     
     with open('pickles/newTaggedList.pkl', 'rb') as fp:
         ourPickle = pickle.load(fp)
@@ -39,6 +44,34 @@ def getPickles():
     """
     
     return ourPickle
+
+
+def fixPickle(ourPickle):
+
+    betterPickle = []
+
+    print('Before fix: ', len(ourPickle))
+
+    # Correct CC to only FANBOYS
+    for p in ourPickle:
+        if p[1] == 'CC':
+            if p[0] in FANBOYS:
+                tmpToken = (p[0], p[1])
+                betterPickle.append(tmpToken)
+        else:
+            betterPickle.append(p)
+                
+    print('After fix: ', len(betterPickle))
+
+    return betterPickle
+
+
+def savePickle(p):
+
+    with open('pickles/newTaggedList.pkl', 'wb') as fp:
+        pickle.dump(p, fp)
+        print('Aunt Bee made a newTaggedList pickle')
+    fp.close()
     
 
 
@@ -55,10 +88,28 @@ if __name__ == "__main__":
 #    print(ourPickle)
 
     for p in ourPickle:
+        print(p)
+#        if p[0] == 'riding':
+#            print(p)
+        
+    print(len(ourPickle))
+    print(type(ourPickle))
+        
+    """
         if p[0] == 'not' or p[0] == 'fast':
-            print(p)
+            print('not | fast: ', p)
+        if p[1] == 'CC':
+            print('CC: ', p)
+            
+    bP = fixPickle(ourPickle)
 
-    
+    for p in bP:
+        if p[0] == 'not' or p[0] == 'fast':
+            print('not | fast: ', p)
+        if p[1] == 'CC':
+            print('CC: ', p)
+    """
+#    savePickle(bP)
 
 #    print('-' * 5)
     

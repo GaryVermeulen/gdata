@@ -30,12 +30,7 @@ unk = 'UNK'
 
 simp = 'simp'
 
-# Imperative sentence (command) start words
-see = 'see'
-
-# Interrogative sentence (question) start words
-can = 'can'
-do = 'do'
+FANBOYS = ['for', 'and', 'not', 'but', 'or', 'yet', 'so']
 
 
 extended_contractions = { 
@@ -280,12 +275,24 @@ class Sentence:
         print('sWDT  : ', self.sWDT)
         print('sCC   : ', self.sCC)
 
-def listDepth(lst):
 
-    d = 0
+class wordEntry:
 
-    for item in lst:
-        if isinstance(item, list):
-            d = max(listDepth(item), d)
+    def __init__(self, word, pos, count, definition, inflections):
+        self.word = word
+        self.pos = pos
+        self.count = count
+        self.definition = definition
+        self.inflections = inflections
 
-    return d + 1
+    def printWord(self):
+        print(' word       : ', self.word)
+        print(' pos        : ', self.pos)
+        print(' count      : ', self.count)
+        print(' definition : ', self.definition)
+        print(' inflections: ', self.inflections)
+
+        
+    
+
+

@@ -3,6 +3,8 @@
 #
 
 import pickle
+
+from commonUtils import *
 from simpConfig import *
 from processKB import *
 from simpSA import *
@@ -405,18 +407,17 @@ def inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragment
 
     saList = []
     for nMatch in nounsMatch:
-        tagged = tagSentence(nMatch[1])
+        tagged = tagSentence(nMatch[1], [])
         sa = sentAnalysis(tagged)
         sa.printAll()
         saList.append(sa)
-
-                        
+                      
 
 #    return conclusion
     return sA_Obj
 
 
-def tagSentence(sentence):
+def tagSentence(sentence, newWords):
 
     taggedSentence = []
 
@@ -431,6 +432,8 @@ def tagSentence(sentence):
     for w in sentList:
         tmp = []
         tag = getWordTag(w)
+        if tag == '':
+            tag = newWordTag(w, newWords)
         tmp.append(w)
         tmp.append(tag)
         taggedSentence.append(tmp)
@@ -644,6 +647,26 @@ if __name__ == "__main__":
     print('intr: ', intr)
     print('-' * 5)
 
+    if len(diff) > 0:
+        newWords, notFound = chkUnkownWords(diff)
+
+        print('newWords: ', newWords)
+        print('notFound: ', notFound)
+    else:
+        print('All input words known...')
+        newWords = []
+        
+    print('-' * 5)
+
+    tagged_uI = tagSentence(uI, newWords)
+
+    print('len tagged_uI: ', len(tagged_uI))
+    print('type tagged_uI: ', type(tagged_uI))
+    print(tagged_uI)
+
+    print('-' * 5)
+
+
     allInflections = getInflectionsPickle()
 
     print('len allInflections: ', len(allInflections))
@@ -654,10 +677,10 @@ if __name__ == "__main__":
 
     print('---len taggedNounsMatch: ', len(taggedNounsMatch))
     print('---type taggedNounsMatch: ', type(taggedNounsMatch))
-    print('len nounsMatch: ', len(nounsMatch))
-    print('type nounsMatch: ', type(nounsMatch))
-    print('len verbsMatch: ', len(verbsMatch))
-    print('type verbsMatch: ', type(verbsMatch))
+    print('--len nounsMatch: ', len(nounsMatch))
+    print('--type nounsMatch: ', type(nounsMatch))
+    print('-len verbsMatch: ', len(verbsMatch))
+    print('-type verbsMatch: ', type(verbsMatch))
 
 #    print('len allVerbs: ', len(allVerbs))
 #    print('type allVerbs: ', type(allVerbs))
@@ -666,13 +689,6 @@ if __name__ == "__main__":
     print('-' * 5)
 
 
-    tagged_uI = tagSentence(uI)
-
-    print('len tagged_uI: ', len(tagged_uI))
-    print('type tagged_uI: ', type(tagged_uI))
-    print(tagged_uI)
-
-    print('-' * 5)
 
     # Are there sentences in the corpus where the tags match?
     # But where the words may be different...
