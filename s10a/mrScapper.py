@@ -19,7 +19,8 @@ def seleniumSoup(word):
     page_source = driver.page_source
 
     soup = BeautifulSoup(page_source, 'html.parser')
-    element = soup.find('div', id='kidsdictionary')
+#    element = soup.find('div', id='kidsdictionary')
+    element = soup.find('div', id='left-content')
 
     if element == None:
         print('no kids dictionary found...')
@@ -34,75 +35,124 @@ def seleniumSoup(word):
 
 def parseAndPackage(word, text):
 
-    curDef = 0
-    maxDef = 0
-    pos = ''
-    nextLineIsPOS = False
+    cleanedList = []
     defs = []
+    pos = []
+    nextLineIsPOS = False
+    tmp = []
+    inflections = []
 
     textList = text.split('\n')
 
-    print('len textList: ', len(textList))
+#    print('len textList: ', len(textList))
+#    print(textList)
 
-    for line in textList:
+    for line in textList:   # Remove blanks lines
         l = line.strip()
-
         if len(l) > 0:
+            cleanedList.append(l)
 
-            print('len l: ', len(l))
-            print('L>>{}<<'.format(l))
+#    print('len cleanedList: ', len(cleanedList))
+#    for c in cleanedList:
+#        print(c)
 
-            if nextLineIsPOS:
-                pos = l
-                print('POS: ', pos)
-                nextLineIsPOS = False
+    for i in range(len(cleanedList)):
+        curLine = cleanedList[i]
+        curLineLst = curLine.split()
         
-            if curDef == 0:
-                if l[0].isnumeric():
-                    if len(l) == 6: # '1 of 2' or '2 of 2' 
-                        lineLst = l.split()
-                        print('>: ', lineLst)
-                        if lineLst[1] == 'of':
-                            print('>: def: {} {} {}'.format(lineLst[0], lineLst[1], lineLst[2]))
-                            if curDef == 0:
-                                curDef = int(lineLst[0])
-                                maxDef = int(lineLst[2])
-                                print('>: ', type(curDef))
-                                print(curDef)
-                                print('>: ', type(maxDef))
-                                print('>: ', maxDef)
-                                nextLineIsPOS = True
+        """
+        print('-' * 5)
+        print('curLine:')
+        print(curLine)
+        print('curLineLst:')
+        print(curLineLst)
+        """
+        if nextLineIsPOS:
+            pos = curLineLst[0]
+            if pos == 'verb':
+                inflections = cleanedList[i + 1].split(';')
+            nextLineIsPOS = False
+            continue
 
-            if curDef > 0 and curDef < maxDef:
-                if l[0] == ':':
-                    defs.append(l[0])
-                    curDef += 1
-            
-                            
-            if             
+        # '1 of 2' of '4 of 4'
+        if len(curLineLst) == 3: 
+            if curLineLst[0].isnumeric() and (curLineLst[1] == 'of') and curLineLst[2].isnumeric():
+                nextLineIsPOS = True
+                continue
+
+        # No '1 of 2'
+        if curLineLst[0] in ['noun', 'pronoun', 'adjective', 'adverb', 'verb', 'preposition', 'conjunction', 'interjection']:
+            pos = curLineLst[0]
+            if pos == 'verb':
+                inflections = cleanedList[i + 1].split(';')
+            continue
+
+        if curLineLst[0] == 'plural':
+                inflections.append(curLineLst[1])
+                continue
+
+        if curLineLst[0] == ':':
+            tmp.append([word])
+            tmp.append([pos])
+            tmp.append(inflections)
+            tmp.append(curLineLst)
+            defs.append(tmp)
+            tmp = []
+            inflections = []
+            continue
+
+        # No need to continue once we reach the Synonyms
+        if len(curLineLst) == 1:
+            if curLineLst[0] == 'Synonyms':
+                break
 
 
-
-    return 'someStrucure'
+#    print('len(defs): ', len(defs))
+#    print('defs:')
+#    print(defs)
+    
+    # Assume special case 'past of': Ex: ran
+    if len(defs) == 0:
+        pastOf = []
+        tmp = []
+        for line in cleanedList:
+            lLst = line.split()
+            if lLst[0] == 'past':  
+                pastOf = lLst
+                continue
+            if len(pastOf) > 0:
+                tmp.append([word])
+                tmp.append([])     # Depends on the past of word
+                tmp.append(pastOf)
+                tmp.append(lLst)
+                defs.append(tmp)
+                pastOf = []
+                tmp = []
+                
+    return defs
 
 
 if __name__ == "__main__":
 
-    word = 'finish'
+    word = 'i'
 
     print('scrapping for : ', word)
 
     rawText = seleniumSoup(word)
 
-    print('-' * 10)
-    print('rawText:')
-    print(rawText)
+#    print('-' * 10)
+#    print('rawText:')
+#    print(rawText)
 
-    someStrucure = parseAndPackage(word, rawText)
+    someStructure = parseAndPackage(word, rawText)
 
     print('-' * 10)
-    print('someStrucure:')
-    print(someStrucure)
+    print('someStructure:')
+    print(type(someStructure))
+    print(len(someStructure))
+    
+    for structure in someStructure:
+        print(structure)
 
 
     
