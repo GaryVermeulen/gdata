@@ -5,17 +5,14 @@
 
 
 
-dance
-1 of 2
-verb 
+why
+1 of 4
+adverb 
 
 
 
 
-ˈdan(t)s How to pronounce dance (audio)
-
-
-ˈdän(t)s
+ˈ(h)wī How to pronounce why (audio)
 
 
 
@@ -27,11 +24,7 @@ verb
 
 
 
-
-danced; dancing 
-
-
-Synonyms of dancenext
+Synonyms of whynext
 
 
 
@@ -44,7 +37,36 @@ Synonyms of dancenext
 
 
 
-intransitive verb
+
+
+
+
+
+: for what cause, reason, or purpose
+why did you do it?
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+why
+2 of 4
+conjunction 
+
+
+
+
+
+
 
 1 
 
@@ -52,8 +74,8 @@ intransitive verb
 
 
 
-: to move one's body rhythmically usually to music : to engage in or perform a dance (see dance entry 2 sense 2)
-dancing to our favorite song Shall we dance?
+: the cause, reason, or purpose for which
+know why you did it that is why you did it
 
 
  
@@ -66,54 +88,8 @@ dancing to our favorite song Shall we dance?
 
 
 
-: to move or seem to move up and down or about in a quick or lively manner
-dance for joy leaves dancing in the wind
-
-
- 
-
- 
-
-
-
-transitive verb
-
-1 
-
-
-
-
-
-: to perform or take part in as a dancer
-dance the waltz
-
-
- 
-
- 
-
-2 
-
-
-
-
-
-: to cause to dance
-danced the baby on her knee
-
-
- 
-
- 
-
-3 
-
-
-
-
-
-: to bring into a specified condition by dancing
-danced his way into her heart
+: for which : on account of which
+know the reason why you did it
 
 
  
@@ -124,37 +100,23 @@ danced his way into her heart
 
 
 
-danceable
-
-ˈdan(t)-sə-bəl How to pronounce dance (audio)
-
-
-
-adjective
 
 
 
 
-dancer
-noun
-
-
-
-
-
-
-
-
-
-
-dance
-2 of 2
+why
+3 of 4
 noun 
 
 
 
 
-often attributive
+
+
+
+ plural whys 
+
+
 
 
 
@@ -164,8 +126,8 @@ often attributive
 
 
 
-: an act or instance of moving one's body rhythmically usually to music : an act or instance of dancing (see dance entry 1 sense 1)
-the couple's first dance as husband and wife May I have this dance?
+: reason, cause
+wants to know the whys and wherefores
 
 
  
@@ -178,49 +140,7 @@ the couple's first dance as husband and wife May I have this dance?
 
 
 
-: a series of rhythmic and patterned bodily movements usually performed to music
-slow dances dance moves
-
-
- 
-
- 
-
-3 
-
-
-
-
-
-: a social gathering for dancing
-a high school dance
-
-
- 
-
- 
-
-4 
-
-
-
-
-
-: a piece of music by which dancing may be guided
-
-
- 
-
- 
-
-5 
-
-
-
-
-
-: the art of dancing
-studied dance in college
+: a baffling problem : enigma
 
 
  
@@ -233,18 +153,25 @@ studied dance in college
 
 
 
-Phrases
-
-dance attendance
 
 
-
-
+why
+4 of 4
+interjection 
 
 
 
-: to attend in an eager and servile manner
-a celebrity used to having people dance attendance on him
+
+
+
+
+
+
+
+
+
+
+—used to express mild surprise, hesitation, approval, disapproval, or impatience why, here's what I was looking for
 
 
  
@@ -261,19 +188,27 @@ a celebrity used to having people dance attendance on him
 Synonyms
 
 
-Verb 
-
-foot (it) 
-hoof (it) 
-step
 Noun 
 
-ball 
-cotillion 
- cotillon 
-formal 
-hop 
-prom
+account 
+authority 
+grounds 
+motive 
+reason 
+subject 
+wherefore
+Interjection 
+
+ah 
+aha 
+come on 
+fie 
+indeed 
+my word 
+no 
+pshaw 
+well 
+what
 
 See all Synonyms & Antonyms in Thesaurus 
 
@@ -289,72 +224,76 @@ Example Sentences
 
 
 
-Verb
+Adverb
 
 
 
 
 
-         
-                        He never learned how to dance.      
+Why did you quit your job? 
 
 
 
 
-         
-                        She has always loved to dance.      
+Why is the sky blue? 
 
 
 
 
-         
-                        I like the song but it's really hard to dance to.      
+Why didn't you call me? 
 
 
 
 
-         
-                        He danced her across the floor.      
+Why didn't I think of that? 
 
 
 
          
-                        She dances with a famous ballet company.      
+                        “I can't go out tonight.” “Why not?”      
+Conjunction
+
+
+         
+                        I know why he did it.      
 
 
 
          
-                        She's a great actress, and she can dance and sing, too.      
+                        It's easy to see why she fell in love with him.      
+
+
+
+         
+                        He's a very good player. That's why he made the team.      
+
+
+
+         
+                        The reason why they succeeded is obvious. They worked really hard.      
+
+
+
+         
+                        Give me one good reason why I should stay.      
 Noun
 
 
          
-                        They can do all the popular dances.      
+                        asked the whys behind the surprising decision      
 
 
 
          
-                        The only dance he knows how to do is the twist.      
+                        how one decides that a certain he or she is “the one” is one of the great whys of life      
+Interjection
+
+
+why, what a strange thing to say! 
 
 
 
-         
-                        How about one more dance?      
 
-
-
-         
-                        He stopped right in the middle of the dance to tie his shoe.      
-
-
-
-         
-                        He did a celebration dance in the end zone after scoring the touchdown.      
-
-
-
-         
-                        She studied dance in college.      
 
 
 
@@ -364,25 +303,9 @@ See More
 
 
 
-Recent Examples on the WebVerb 
+Recent Examples on the WebAdverb 
 
-However, the Suns don’t have much in the way of assets to offer the Blazers, who would be dancing a fine line while trying to both accommodate Lillard and acquire a reasonable haul of assets in the process.
-
-
-—
-
-
-
-
-
-
-
-Afentres, oregonlive, 9 June 2023        	
-
-
-
-
-The principal cast is rounded out with Eduardo Enrikez, Jacob Hoff and Tracey Freeman-Shaw, and there’s a multitalented 13-member ensemble who dance, sing and alternate in dozens of roles in the 2-1/2-hour show.
+Several wanted to know why the Chinese airship was allowed to float all the way to the Atlantic Ocean before it was shot down.
 
 
 —
@@ -393,27 +316,12 @@ The principal cast is rounded out with Eduardo Enrikez, Jacob Hoff and Tracey Fr
 
 
 
-Pam Kragen, San Diego Union-Tribune, 8 June 2023        	
+Ellen Nakashima, Washington Post, 11 Feb. 2023        	
 
 
 
 
-Saldaña shared an Instagram video of their adventures, which included boating excursions, dancing and lots of family time.
-
-
-—
-
-
-
-
-
-
-
-Hannah Sacks, Peoplemag, 7 June 2023        	
-
-
-
-This event is so much more than a party that includes hula dancing.
+Police did not say how or why the shooting took place and, as of Friday, no arrests had been made.
 
 
 —
@@ -424,26 +332,12 @@ This event is so much more than a party that includes hula dancing.
 
 
 
-Julia Warren, Travel + Leisure, 7 June 2023        	
-
-
-
-The day will include entertainment, games, shopping, activities, food, resources, giveaways, dancing and live music from Nikki Holland and the Dirty Elizabeths.
-
-
-—
+Natalie Neysa Alund, USA TODAY, 10 Feb. 2023        	
 
 
 
 
-
-
-
-Duante Beddingfield, Detroit Free Press, 2 June 2023        	
-
-
-
-A couple holding cocktails by the bar shimmy; two women heading for the restrooms are compelled to dance their way through the crowd.
+At a separate Senate subcommittee hearing, lawmakers repeatedly pressed administration officials, including Pentagon military leaders, about why the balloon was not shot down over sparsely populated areas of Alaska.
 
 
 —
@@ -454,26 +348,11 @@ A couple holding cocktails by the bar shimmy; two women heading for the restroom
 
 
 
-Sophia Solano, Washington Post, 1 June 2023        	
+Matthew Lee And Eric Tucker, ajc, 10 Feb. 2023        	
 
 
 
-If the dad in your life likes music but might not be so keen on dancing, there is a jazz brunch happening at the Silo Auto Club on Sunday at 11:35.
-
-
-—
-
-
-
-
-
-
-
-Joe Mutascio, The Indianapolis Star, 1 June 2023        	
-
-
-
-Low- to mid-intensity aerobic workouts may include walking, jogging, swimming, biking, or dancing.
+That continuance prompted Bolden to use profanity on the courthouse steps when speaking at a news conference, and is part of why Griggsby is seeking to hold him in criminal contempt.
 
 
 —
@@ -484,11 +363,71 @@ Low- to mid-intensity aerobic workouts may include walking, jogging, swimming, b
 
 
 
-Elizabeth Woolley, Verywell Health, 1 June 2023        	
+Lee O. Sanderlin, Baltimore Sun, 10 Feb. 2023        	
+
+
+
+This is also a population-level study, so there is no way to pinpoint exactly why people exposed to these kinds of air pollutions would have a higher risk of depression.
+
+
+—
+
+
+
+
+
+
+
+Jen Christensen, CNN, 10 Feb. 2023        	
+
+
+
+If your dentist wants to X-ray your teeth, Dr. Hershkowitz recommends asking them why.
+
+
+—
+
+
+
+
+
+
+
+Drew Schwartz, SELF, 10 Feb. 2023        	
+
+
+
+The notes do not go into detail on why the Archives would have sought the material that was sent to Boston.
+
+
+—
+
+
+
+
+
+
+
+Colleen Long, BostonGlobe.com, 10 Feb. 2023        	
+
+
+
+That helps explain why so many of Home Title Lock's ads and promotional materials have featured high-profile conservative personalities such as Gingrich and Giuliani.
+
+
+—
+
+
+
+
+
+
+
+Mike Levine, ABC News, 10 Feb. 2023        	
 
 Noun
 
-Josh Brolin Shares Rare Photo of Dad James with Daughter Westlyn at Her First Dance Recital In May, Brolin shared a few photos of his daughters with their grandfathers on his Instagram Story at Westlyn's first dance recital.
+There’s got to be a why.
 
 
 —
@@ -499,26 +438,11 @@ Josh Brolin Shares Rare Photo of Dad James with Daughter Westlyn at Her First Da
 
 
 
-Hannah Sacks, Peoplemag, 9 June 2023        	
+Vulture, 29 Mar. 2023        	
 
 
 
-On June 17, community members can enjoy breakfast, crafts, and a dance party at Watertown Free Public Library.
-
-
-—
-
-
-
-
-
-
-
-Abigail Lee, BostonGlobe.com, 9 June 2023        	
-
-
-
-This impressive dance with materiality in the show probably comes to a peak in Oluwamuyiwa’s posters, meant to be taken away by visitors.
+The show never aims its considerable wit and girl power vibe to get a firm grip on the troubling tributaries that flow just underneath the why-ness of the show: These women, nobility be damned, are one and all inextricably tied to a fundamentally-flawed man.
 
 
 —
@@ -529,26 +453,11 @@ This impressive dance with materiality in the show probably comes to a peak in O
 
 
 
-Yinka Elujoba, New York Times, 9 June 2023        	
+Rod Stafford Hagwood, Sun Sentinel, 12 Oct. 2022        	
 
 
 
-And inside, along with the NAACP headquarters, the Washington Jazz Arts Institute and a pair of dance schools — the Ailey School and the VIVA School — plan to open studio or training spaces.
-
-
-—
-
-
-
-
-
-
-
-Meagan Flynn, Washington Post, 9 June 2023        	
-
-
-
-At one point seen by many Americans as just a dance app for kids, TikTok has faced intense federal scrutiny over its possible implications for national security because of its Chinese ownership.
+Cain opines on the why-and-how of private mega-yachts, which have grown mind-bogglingly massive (such as the 533-foot-long Eclipse, replete with submarine, owned by Russian business mogul Roman Abramovich).
 
 
 —
@@ -559,26 +468,11 @@ At one point seen by many Americans as just a dance app for kids, TikTok has fac
 
 
 
-Ella Lee, USA TODAY, 8 June 2023        	
+Laura Manske, Forbes, 27 Oct. 2021        	
 
 
 
-It’s considered an essential for trans and nonbinary people who play sports, dance or have active jobs.
-
-
-—
-
-
-
-
-
-
-
-Colleen Hamilton, Los Angeles Times, 7 June 2023        	
-
-
-
-Party at a poolside day or night club:Hotels and clubs throughout the Valley host summertime pool parties where people can cool down in the water, drink specialty cocktails and dance to music from some of the world’s biggest DJs.
+Not everyone may want to abandon teaching manners altogether, but these insights do suggest rethinking our approach, focusing as much on the why of courtesy as the how.
 
 
 —
@@ -589,11 +483,11 @@ Party at a poolside day or night club:Hotels and clubs throughout the Valley hos
 
 
 
-Bill Goodykoontz, The Arizona Republic, 6 June 2023        	
+BostonGlobe.com, 23 Oct. 2019        	
 
 
 
-Taylor’s partnership is a brand strategist’s wet dream as the musician is as well known for her sultry pipes and precise dance moves as her fashion-forward street style.
+Worst of all, the cult of lethality attempts to divorce the how of killing from the why, an insane proposition given that military force is deployed in the service of political outcomes.
 
 
 —
@@ -604,13 +498,73 @@ Taylor’s partnership is a brand strategist’s wet dream as the musician is as
 
 
 
-Jasmine Browley, Essence, 6 June 2023        	
+Jared Keller, The New Republic, 9 Sep. 2019        	
+
+
+
+And the why is that it’s, unfortunately, human nature that has presented itself in so many, many ways.
+
+
+—
+
+
+
+
+
+
+
+Howard Reich, chicagotribune.com, 13 July 2018        	
+
+
+
+History doesn’t often remember the why, just the what.
+
+
+—
+
+
+
+
+
+
+
+Philip Elliott, Time, 26 Sep. 2017        	
+
+
+
+But instead of getting bogged down by the calories consumed or the grams of fat encountered, Alpert turned the conversation to the why.
+
+
+—
+
+
+
+
+
+
+
+Logan Sykes, Town & Country, 2 Jan. 2017        	
+
+Interjection
+
+Why, oh why, do the Rangers keep throwing away almost certain victories in the final minutes of playoff games?
+
+
+—
+
+
+
+
+
+
+
+Filip Bondy, New York Times, 30 Apr. 2017        	
 
 
 See More
 
 
-                                        These examples are programmatically compiled from various online sources to illustrate current usage of the word 'dance.' Any opinions expressed in the examples do not represent those of Merriam-Webster or its editors. Send us feedback about these examples.
+                                        These examples are programmatically compiled from various online sources to illustrate current usage of the word 'why.' Any opinions expressed in the examples do not represent those of Merriam-Webster or its editors. Send us feedback about these examples.
                                     
 
 
@@ -625,19 +579,21 @@ Word History
 
 
 Etymology
-Verb and Noun
+Adverb
 
-                Middle English dauncen, from Anglo-French dancer 
+                Middle English, from Old English hwȳ, instrumental case of hwæt what  — more at what entry 1 
 
 
 First Known Use
-Verb
-14th century, in the meaning defined at intransitive sense 1 Noun
-14th century, in the meaning defined at sense 1 
+Adverb
+before the 12th century, in the meaning defined above Conjunction
+before the 12th century, in the meaning defined at sense 1 Noun
+13th century, in the meaning defined at sense 1 Interjection
+1519, in the meaning defined above 
 
 Time Traveler
-The first known use of dance was 
-                                        in the 14th century
+The first known use of why was 
+                                        before the 12th century
 
 See more words from the same century
 
@@ -648,37 +604,24 @@ See more words from the same century
 
 
 
-Phrases Containing dance
+Phrases Containing why
 
 
 
 
 
-contra dance
-belly dance
-dance attendance
-dance hall
-dance floor
-country-dance
-dance my heart out
-dance card
-dance the night away
-make a song and dance about (something)line danceround danceshadow dancelead (someone) a (merry) dancesquare dancestep dancesun dancesword dancetap dancetoe dancedance to someone's tuneballroom dancering dancebarn dancewar danceclog dancetea dancedance-offsong and dancesnake danceSaint Vitus's dancedance to the tune of (someone)St. Vitus's danceSaint Vitus' dance
+how/why should I/we know
+not see why not
+why bother
 
-See More
  
 
 
 
-contra dance
-belly dance
-dance attendance
-dance hall
-dance floor
-country-dance
-dance my heart outdance carddance the night awaymake a song and dance about (something)line danceround danceshadow dancelead (someone) a (merry) dancesquare dancestep dancesun dancesword dancetap dancetoe dancedance to someone's tuneballroom dancering dancebarn dancewar danceclog dancetea dancedance-offsong and dancesnake danceSaint Vitus's dancedance to the tune of (someone)St. Vitus's danceSaint Vitus' dance
+how/why should I/we know
+not see why not
+why bother
 
-See More
   
 
 
@@ -686,7 +629,7 @@ See More
 
 
 
-Articles Related to dance
+Articles Related to why
 
 
 
@@ -695,20 +638,9 @@ Articles Related to dance
 
  
 
-7 Phrases from the World of Dance
+How Come People Say 'How Come'?
 
-From the sprightly world of dance
-
-
-
-
-
-
- 
-
-Your Grandparents' Dirty Dancing
-
-A history of once-banned dance crazes
+And is there anything wrong with it?
 
 
 
@@ -717,11 +649,9 @@ A history of once-banned dance crazes
 
  
 
-8 Ways to Face the Music
+What Does 'Wherefore Art Thou Romeo'...
 
-'Shimmy', 'waltz', & 6 more words from dance
-
-
+Not where, but why
 
 
 
@@ -731,17 +661,19 @@ A history of once-banned dance crazes
 
 
 
-Dictionary Entries Near dance
+
+
+Dictionary Entries Near why
 
 
 
-Danbury
+whvs
 
 
-dance
+why
 
 
-danceability
+why bother
 
 
 See More Nearby Entries 
@@ -774,7 +706,7 @@ Merriam-Webster
 
 
 
-                                                “Dance.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/dance. Accessed 11 Jun. 2023.                                            
+                                                “Why.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/why. Accessed 11 Jun. 2023.                                            
 
 Copy Citation
 
@@ -796,7 +728,7 @@ Share
 
 
 
-Post the Definition of dance to Facebook
+Post the Definition of why to Facebook
 Facebook
 
 
@@ -810,7 +742,7 @@ Facebook
 
 
 
-Share the Definition of dance on Twitter
+Share the Definition of why on Twitter
 Twitter
 
 
@@ -840,14 +772,17 @@ Kids Definition
 
 
 
-dance
-1 of 2
-verb 
+why
+1 of 4
+adverb 
 
 
 
 
-ˈdan(t)s How to pronounce dance (audio)
+(ˈ)hwī How to pronounce why (audio)
+
+
+(ˈ)wī
 
 
 
@@ -860,7 +795,31 @@ verb
 
 
 
-danced; dancing 
+
+
+
+: for what cause or reason
+why did you do it
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+why
+2 of 4
+conjunction 
+
+
 
 
 
@@ -872,7 +831,8 @@ danced; dancing
 
 
 
-: to engage in or perform a dance
+: the cause or reason for which
+know why you did it
 
 
  
@@ -885,20 +845,8 @@ danced; dancing
 
 
 
-: to move quickly up and down or about
-
-
- 
-
- 
-
-3 
-
-
-
-
-
-: to perform or take part in as a dancer
+: for which : on account of which
+the reason why she did it
 
 
  
@@ -909,104 +857,88 @@ danced; dancing
 
 
 
-danceable
-
-ˈdan(t)-sə-bəl How to pronounce dance (audio)
-
-
-
-adjective
-
-
-
-
-dancer
-noun
 
 
 
 
 
-
-
-
-
-
-
-dance
-2 of 2
+why
+3 of 4
 noun 
 
 
 
 
-
-
-
-1 
-
-
-
-
-
-: an act or instance of dancing
-
-
- 
-
- 
-
-2 
+ˈhwī,
+ˈwī
 
 
 
 
 
-: a series of rhythmic and patterned bodily movements usually performed to music
-
-
- 
-
- 
-
-3 
 
 
 
 
 
-: a social gathering for dancing
+ plural whys 
+
+
+
+
+
+
+
+
+
+
+: reason entry 1 sense 1a
+explained the whys and wherefores of the sudden price increase
 
 
  
 
+
+
+
+
+
+
+
+
+
+
+
+why
+4 of 4
+interjection 
+
+
+
+
+(ˌ)wī,
+(ˌ)hwī
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+—used to express surprise, indecision, approval, disapproval, or impatience why, I didn't know that
+
+
  
 
-4 
-
-
-
-
-
-: a piece of music by which dancing may be guided
-
-
- 
-
- 
-
-5 
-
-
-
-
-
-: the art of dancing
-
-
- 
-
- 
 
 
 
@@ -1022,18 +954,15 @@ noun
 
 
 
-More from Merriam-Webster on dance
+
+More from Merriam-Webster on why
 
 
-Nglish: Translation of dance for Spanish Speakers
-Britannica English: Translation of dance for Arabic Speakers
-Britannica.com: Encyclopedia article about dance
+Nglish: Translation of why for Spanish Speakers
+Britannica English: Translation of why for Arabic Speakers
 
 
 
-Last Updated:
-10 Jun 2023
- - Updated example sentences
 
 Love words? Need even more definitions?
 Subscribe to America's largest dictionary and get thousands more definitions and advanced search—ad free!

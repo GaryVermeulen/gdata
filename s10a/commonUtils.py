@@ -188,3 +188,40 @@ def getInflections(word, tag, baseWordSearch):
 
     return []
 
+
+def savePickle(whichPickle, p):
+
+    if whichPickle == 'sA_Obj':
+        f = open('sA_Obj.pkl', 'wb')
+        pickle.dump(p, f)
+        f.close()
+        print('Aunt Bee saved sA_Obj.pkl')
+    else:
+        print('Unrecognized pickle name')
+
+
+def loadPickle(whichPickle):
+
+    if whichPickle == 'sA_Obj':
+        f = open('sA_Obj.pkl', 'rb')
+        obj = pickle.load(f)
+        f.close()
+        print('Aunt Bee loaded sA_Obj.pkl')
+        return obj
+    elif whichPickle == 'taggedList':
+        f = open('pickles/newTaggedList.pkl', 'rb')
+        obj = pickle.load(f)
+        f.close()
+        print('Aunt Bee loaded pickles/newTaggedList.pkl')
+        return obj
+
+    elif whichPickle == 'newCorpus':
+        f = open('pickles/newCorpus.pkl', 'rb')
+        obj = pickle.load(f)
+        f.close()
+        print('Aunt Bee loaded pickles/newCorpus.pkl')
+        return obj
+    else:
+        print('Unrecognized pickle name')
+
+    return None

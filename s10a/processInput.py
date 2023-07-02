@@ -8,7 +8,9 @@ from commonUtils import *
 from simpConfig import *
 from processKB import *
 from simpSA import *
+from processOutput import prattle
 
+"""
 def getCorpus():
 
     with open('pickles/newCorpus.pkl', 'rb') as fp:
@@ -17,8 +19,8 @@ def getCorpus():
     fp.close()
 
     return corpus
-
-
+"""
+"""
 def getNewTaggedList():
 
     with open('pickles/newTaggedList.pkl', 'rb') as fp:
@@ -27,6 +29,7 @@ def getNewTaggedList():
     fp.close()
 
     return newTaggedList
+"""
 
 
 def getKB():
@@ -284,7 +287,7 @@ def checkKB(sents):
     return kb_Nouns
 
 
-def inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragmentMatches):
+def sentenceAnalysis(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragmentMatches):
 
     """
         declarative sentence (statement)
@@ -300,7 +303,7 @@ def inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragment
     vMatch = []
     conclusion = ['i', 'do', 'not', 'have', 'a', 'clue']
 
-    print('start inferConclusion...')
+    print('------ start sentenceAnalysis ------')
     print('len tagged_uI: ', len(tagged_uI))
     print('type tagged_uI: ', type(tagged_uI))
     print(tagged_uI)
@@ -367,7 +370,8 @@ def inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragment
         saList.append(sa)
                       
 
-#    return conclusion
+    print('------ end sentenceAnalysis ------')
+
     return sA_Obj
 
 
@@ -431,15 +435,15 @@ def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags):
     taggedVerbsMatched = []
     fragmentMatches = []
 
-    print('start fragmentMatcher...')
-    print('len tagged_uI: ', len(tagged_uI))
-    print('type tagged_uI: ', type(tagged_uI))
-    print('len nounsMatch: ', len(nounsMatch))
-    print('type nounsMatch: ', type(nounsMatch))
-    print('len verbsMatch: ', len(verbsMatch))
-    print('type verbsMatch: ', type(verbsMatch))
-    print('len matchedTags: ', len(matchedTags))
-    print('type matchedTags: ', type(matchedTags))
+    print('------ start fragmentMatcher ------')
+    print(' len tagged_uI: ', len(tagged_uI))
+    print(' type tagged_uI: ', type(tagged_uI))
+    print(' len nounsMatch: ', len(nounsMatch))
+    print(' type nounsMatch: ', type(nounsMatch))
+    print(' len verbsMatch: ', len(verbsMatch))
+    print(' type verbsMatch: ', type(verbsMatch))
+    print(' len matchedTags: ', len(matchedTags))
+    print(' type matchedTags: ', type(matchedTags))
 
     for s in nounsMatch:
         sent = []
@@ -563,16 +567,20 @@ def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags):
 #                            print(' = Match Found: ', window_i)
                             fragmentMatches.append(n)
                             break
+                        
+    print('------ end fragmentMatcher ------')
 
     return fragmentMatches
 
 
 if __name__ == "__main__":
 
-    print('Processing processInput...')
+    print('Processing processInput (main)...')
 
-    corpus = getCorpus()
-    newTaggedList = getNewTaggedList()
+#    corpus = getCorpus()
+#    newTaggedList = getNewTaggedList()
+    corpus = loadPickle('newCorpus')
+    newTaggedList = loadPickle('taggedList')
 
     print('len corpus: ', len(corpus))
     print('type corpus: ', type(corpus))
@@ -687,11 +695,21 @@ if __name__ == "__main__":
         print('f: ', f)
 
     print('-' * 5)
-    print('inferConclusion (main)...')
+    print('sentenceAnalysis (main)...')
 
 #    conclusion = inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragmentMatches)
-    sA_Obj = inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragmentMatches)    
+    sA_Obj = sentenceAnalysis(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragmentMatches)    
     sA_Obj.printAll()
 
+    # save sA_Obj pickle
+    savePickle('sA_Obj', sA_Obj)
+
+    print('prattle (main)...')
+
+    outSent = prattle(sA_Obj)
+    outSent.printAll()
+
+
+    
 
     

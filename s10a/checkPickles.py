@@ -93,13 +93,13 @@ if __name__ == "__main__":
 
 #    print(ourPickle)
 
-    """
+    
     for p in ourPickle:
         if limit > 100:
             break
         print(p)
         limit += 1
-    """
+    
 #        if p[0] == 'riding':
 #            print(p)
     """
@@ -166,16 +166,15 @@ if __name__ == "__main__":
     fp.close()
     """
 
-    
+    """
     cnt = 1
     testWord = 'pookie'
     print('looking for: ', testWord)
     for p in ourPickle:
         if testWord in p:
             print('found {} at {} {}'.format(testWord, cnt, p))
-        cnt += 1
-        
-    
+        cnt += 1 
+    """
 
     """
     # Checking inflections...

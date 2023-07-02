@@ -55,6 +55,33 @@ def processNPP(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAd
     return sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC
 
 
+def processPRP(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC):
+
+    tmpInObj = []
+    tmpSubj = []
+    """
+    if verbose: 
+        print('taggedInput to processPRP:')
+        print(taggedInput)
+        print('wordPosition: ', wordPosition)
+    """ 
+    if wordPosition == 1:
+        sType = 'declarative'
+
+        if sSubj == '':
+            sSubj = taggedInput[0]                        
+    else:
+        if sType == '':
+            sType = 'declarative'
+            
+        if sSubj == '':
+            sSubj = taggedInput[wordPosition - 1]                        
+
+                    
+    return sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC
+
+
+
 def processNN(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC):
 
     tmpInObj = []
@@ -256,8 +283,24 @@ def processCC(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj
     return sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC
 
 
+def getTag(item):
 
+    currentWord = item[0]
 
+    tempWords = currentWord.split(',')
+    if len(tempWords) != 1:
+        print(' ** tempWords len err **')
+        
+    currentTag = item[1]
+
+    tempTags = currentTag.split(',')
+    if len(tempTags) == 0:
+        print(' ** tempTags cannot eq 0 **')
+    elif len(tempTags) > 1:
+        print(' ** tempTags greater then 1 -- returning first tag found **')
+        currentTag = tempTags[0]        
+
+    return currentWord, currentTag
 
 
 
@@ -293,33 +336,39 @@ def sentAnalysis(taggedInput):
 
         wordPosition += 1
 
-#        print('item: ', item)
-#        print(len(item))
-#        print(type(item))
+        print('item: ', item)
+        print(len(item))
+        print(type(item))
+
+        currentWord, currentTag = getTag(item)
+
+        
 #        print('item[0]: ', item[0])
 #        print('item[1]: ', item[1])
 
-        if item[1] == 'NNP':
+        if currentTag == 'NNP':
             sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processNPP(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-        elif item[1] in ['NN', 'NNS']:
+        elif currentTag in ['PRP', 'PRP$']:
+            sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processPRP(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
+        elif currentTag in ['NN', 'NNS']:
             sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processNN(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-        elif item[1] in ['VB','VBD','VBG','VBN','VBP','VBZ']:
+        elif currentTag in ['VB','VBD','VBG','VBN','VBP','VBZ']:
             sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processVerbs(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-        elif item[1] in ['JJ', 'JJR', 'JJS']:
+        elif currentTag in ['JJ', 'JJR', 'JJS']:
             sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processAdj(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-        elif item[1] in ['DT']:
+        elif currentTag in ['DT']:
             sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processDT(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-        elif item[1] in ['IN']:
+        elif currentTag in ['IN']:
             sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processIN(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-        elif item[1] in ['MD']:
+        elif currentTag in ['MD']:
             sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processMD(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-        elif item[1] in ['CC']:
+        elif currentTag in ['CC']:
             sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processCC(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-        elif item[1] in ['WDT', 'WP', 'WRB']:
+        elif currentTag in ['WDT', 'WP', 'WRB']:
             sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processWDT(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
         else:
-            print('sentAnalysis else -- something wrong or not defined?')
-            print(item)
+            print('sentAnalysis else -- something wrong or tag not defined?')
+            print(currentTag)
     """
     if verbose: 
         print('--_-_-_-_-_-_-_-_-_-_--')
