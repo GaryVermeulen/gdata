@@ -12,6 +12,7 @@ Utilities:
 	commonUtils.py		-- Common functions
 	checkPickles.py		-- Read and/or modify a given pickle
 	simpSA.py		-- Rudimentary sentence analysis
+	simpGA.py		-- Rudimentary grammar analysis
 
 Configuration:
 	simpConfig.py		-- Global variables

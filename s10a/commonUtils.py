@@ -8,15 +8,6 @@ import pickle
 from simpConfig import *
 
 
-def getInflectionsPickle():
-    
-    with open('pickles/inflections.pkl', 'rb') as fp:
-        inflects = pickle.load(fp)
-        print('Aunt Bee loaded inflections.pkl')
-    fp.close()
-
-    return inflects
-
 
 def listDepth(lst):
 
@@ -158,12 +149,13 @@ def getInflectionTag(tag):
     return 'x'
 
 
-def getInflections(word, tag, baseWordSearch):
+def getInflections(word, tag, baseWordSearch, allInflections):
     # This is really going to be fun, ex: saw (to cut) vs. past tense of see
 #    cnt = 1
 #    print('searching for word: {} tag: {}'.format(word, tag))
 
-    allInflections = getInflectionsPickle()
+    if len(allInflections) == 0:
+        allInflections = loadPickle('inflections')
     
     for line in allInflections:
         if word in line:
@@ -208,6 +200,7 @@ def loadPickle(whichPickle):
         f.close()
         print('Aunt Bee loaded sA_Obj.pkl')
         return obj
+    
     elif whichPickle == 'taggedList':
         f = open('pickles/newTaggedList.pkl', 'rb')
         obj = pickle.load(f)
@@ -221,6 +214,21 @@ def loadPickle(whichPickle):
         f.close()
         print('Aunt Bee loaded pickles/newCorpus.pkl')
         return obj
+
+    elif whichPickle == 'kb':
+        f = open('pickles/newKB_Tree.pkl', 'rb')
+        obj = pickle.load(f)
+        f.close()
+        print('Aunt Bee loaded pickles/newKB_Tree.pkl')
+        return obj
+
+    elif whichPickle == 'inflections':
+        f = open('pickles/inflections.pkl', 'rb')
+        obj = pickle.load(f)
+        f.close()
+        print('Aunt Bee loaded pickles/inflections.pkl')
+        return obj
+    
     else:
         print('Unrecognized pickle name')
 

@@ -7,12 +7,14 @@
 from nltk.tag import pos_tag
 from nltk.tokenize import word_tokenize
 from commonUtils import *
+from simpConfig import verbose
 
-if __name__ == "__main__":
 
+def getCorpusTags():
     taggedCorpus = []
-    firstMatch = []
-    noDups = []
+    extractedTags = []
+    corpusTags = []
+    cnt = 0
 
     corpus = loadPickle('newCorpus')
 
@@ -25,39 +27,58 @@ if __name__ == "__main__":
     for s in corpus:
         tags = pos_tag(s)
         taggedCorpus.append(tags)
-
-    pos = 0
+    
     copyTaggedCorpus = taggedCorpus.copy()
 
-    print('len taggedCorpus: ', len(taggedCorpus))
-    print('----------------------')
+    if verbose:
+        print('len taggedCorpus: ', len(taggedCorpus))
+        print('----------------------')
 
+    # Extract just the tags
     for s in taggedCorpus:
-#        print(s)
         taggedS = []
         for w in s:
             taggedS.append(w[1])
         if len(taggedS) > 0:
-            firstMatch.append(taggedS)
-    print('len firstMatch: ', len(firstMatch))
-    print('----------------------')
+            extractedTags.append(taggedS)
+    if verbose:
+        print('len extractedTags: ', len(extractedTags))
+        print('----------------------')
 
-    for m in firstMatch:
-#        print(m)
-        if m not in noDups:
-            noDups.append(m)
+    # Remove dups
+    for m in extractedTags: 
+        if m not in corpusTags:
+            corpusTags.append(m)
 
-    print('len noDups: ', len(noDups))
-    print('----------------------')
+    if verbose:
+        print('len corpusTags: ', len(corpusTags))
+        print('----------------------')
+        for n in corpusTags:
+            cnt += 1        
+            print('{} : {}'.format(cnt, n))
 
-#    for n in noDups:
-#        print(n)
+    return corpusTags
 
+def chk4Grammar(inputSentence):
+
+
+    return tagMatch
+
+
+if __name__ == "__main__":
+
+#    verbose = False
+
+    # Test input
     testInput = 'i am very fine'
     testInputlist = testInput.split()
 
     taggedTestInput = pos_tag(testInputlist)
 
+    corpusTags = getCorpusTags()
+
+    print('-------')
+    print(testInput)
     print(taggedTestInput)
 
     tagTest = []
@@ -66,11 +87,15 @@ if __name__ == "__main__":
     print('-------')
     print(tagTest)
     print('-------')
-    for n in noDups:
+
+    # Is the tag pattern of the test input within the corpus tags?
+    for n in corpusTags:
         if tagTest == n:
             print('exact match')
             print('tagTest: ', tagTest)
             print('      n: ', n)
 
-        if n[0] == tagTest[0]:
-            print(n)
+
+
+
+        

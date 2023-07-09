@@ -6,9 +6,10 @@ import pickle
 
 from commonUtils import *
 from simpConfig import *
+from simpGA import chk4Grammar 
 
 
-def prattle(sA_Obj):
+def buildOutputObj(sA_Obj):
 
     osType = 'output'
     osSubj = ''
@@ -26,7 +27,7 @@ def prattle(sA_Obj):
     outSent = Sentence(sA_Obj.inSent, osType, osSubj, osVerb, osObj, osInObj, osAdj, osDet, osIN, osPP, osMD, osWDT, osCC)
     
 
-    print(' --- start prattle ---')
+    print(' --- start buildOutputObj ---')
 
     if sA_Obj.sType == 'interrogative':
         print(' sType should be interrogative:')
@@ -50,7 +51,7 @@ def prattle(sA_Obj):
         print(sA_Obj.sType)
         
 
-    print(' --- end prattle ---')
+    print(' --- end buildOutputObj ---')
 
     return outSent
 
@@ -62,7 +63,7 @@ def processInterrogative(sA_Obj, outSent):
     if sA_Obj.sWDT[0] == 'how':
         processHow(sA_Obj, outSent)
     else:
-        print(' Inrecognized sWDT:')
+        print(' Unrecognized sWDT:')
         print(sA_Obj.sWDT[0])
 
 
@@ -84,13 +85,46 @@ def processHow(sA_Obj, outSent):
                 if sA_Obj.sObj != '':
                     outSent.sObj = sA_Obj.sObj
                     
-                    return
-        if len(sA_Obj.inSent) == 3:
-            if sA_Obj.sVerb[0] == 'are':
-                outSent.sVerb = 'good'
-                return
+                    #return
+                
+        if sA_Obj.sVerb[0] == 'are':
+            outSent.sVerb = 'good'
+
+        if sA_Obj.sObj != '':
+            outSent.sObj = sA_Obj.sObj[0]
+            
+            #return
 
     print(' --- end processHow ---')
+
+
+def prattle(sA_Obj):
+
+    print('---- start prattle ----')
+    print('--- outObj ---')
+    outSent = buildOutputObj(sA_Obj)
+    outSent.printAll()
+
+
+    if outSent.sSubj == '':
+        sentSubject = '>Unknown subject<'
+    else:
+        sentSubject = outSent.sSubj
+
+    if outSent.sVerb == '':
+        sentVerb = '>Unknown verb<'
+    else:
+        sentVerb = outSent.sVerb
+
+    if outSent.sObj == '':
+        sentObject = '>Unknown or no object<'
+    else:
+        sentObject = outSent.sObj
+
+    outSent = sentSubject + ' ' + sentVerb + ' ' + sentObject 
+
+    print('---- end prattle ----')
+    return outSent
     
     
 
@@ -100,9 +134,16 @@ if __name__ == "__main__":
 
     sA_Obj = loadPickle('sA_Obj')
     sA_Obj.printAll()
-    
-    outSent = prattle(sA_Obj)
-    outSent.printAll()
 
+    print('--- outObj ---')
+    outObj = buildOutputObj(sA_Obj)
+    outobj.printAll()
+
+    outSent = prattle(outObj)
+
+    print('----')
+    print('outSent:')
+    print(outSent)
+    
     print(' ------ End processOutput ------')
     

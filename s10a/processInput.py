@@ -10,39 +10,10 @@ from processKB import *
 from simpSA import *
 from processOutput import prattle
 
-"""
-def getCorpus():
-
-    with open('pickles/newCorpus.pkl', 'rb') as fp:
-        corpus = pickle.load(fp)
-        print('Aunt Bee loaded newCorpus.pkl')
-    fp.close()
-
-    return corpus
-"""
-"""
-def getNewTaggedList():
-
-    with open('pickles/newTaggedList.pkl', 'rb') as fp:
-        newTaggedList = pickle.load(fp)
-        print('Aunt Bee loaded newTaggedList.pkl')
-    fp.close()
-
-    return newTaggedList
-"""
 
 
-def getKB():
 
-    with open('pickles/newKB_Tree.pkl', 'rb') as fp:
-        t = pickle.load(fp)
-        print('Aunt Bee loaded newKB_Tree.pkl')
-    fp.close()
-
-    return t
-
-
-def getWordTag(word):
+def getWordTag(word, newTaggedList):
 
     tags = ''
     
@@ -95,9 +66,7 @@ def getVBxTag(w):
     return unk
 
 
-
-
-def checkCorpus(uI):
+def checkCorpus(uI, allInflections):
 
     baseWordSearch = True
 
@@ -138,8 +107,8 @@ def checkCorpus(uI):
                 i = []
                 if iTag != 'x': # Trying to solve the see/saw/saw problem
                     if len(s[1]) > 2:
-                        beforeWordTag = getWordTag(s[1][0])
-                        afterWordTag = getWordTag(s[1][2])
+                        beforeWordTag = getWordTag(s[1][0], newTaggedList)
+                        afterWordTag = getWordTag(s[1][2], newTaggedList)
                         if (beforeWordTag in [nn, nnp, nns, prp]) and (afterWordTag in [nn, nnp, nns, prp]):
                             baseWordSearch = False
                         else:
@@ -147,7 +116,7 @@ def checkCorpus(uI):
                     else:
                         print('else len(s[1]) > 2: ', len(s[1]))
 
-                    i = getInflections(s1, iTag, baseWordSearch)
+                    i = getInflections(s1, iTag, baseWordSearch, allInflections)
                 else:
                     print('unknown inflection tag: ', iTag)
                 verb.append(i)
@@ -204,11 +173,13 @@ def checkCorpus(uI):
 
 #    for v in verbsMatch:
 #        print(v)
+
+    print('-- end checkCorpus ---' * 5)
                
     return sentsFound, sentsFound_wVBs, verbsMatch
 
 
-def validInput(uI):
+def validInput(uI, newTaggedList):
 
     uI_List = uI.split()
     valid_uI = []
@@ -233,7 +204,7 @@ def validInput(uI):
     return tmp, diff, intr
 
 
-def checkKB(sents):
+def checkKB(sents, kbTree):
 
     kb_Nouns = []
     baseWordSearch = False
@@ -264,9 +235,9 @@ def checkKB(sents):
             inflect = []
             
         tmp = []
-        if t.isNode(sWord):
+        if kbTree.isNode(sWord):
 #            print('found node sWord: ', s[0])
-            cDo = t.get_canDo(t.root, sWord)
+            cDo = kbTree.get_canDo(kbTree.root, sWord)
             tmp.append(sWord)
             tmp.append(cDo)
             kb_Nouns.append(tmp)
@@ -287,7 +258,7 @@ def checkKB(sents):
     return kb_Nouns
 
 
-def sentenceAnalysis(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragmentMatches):
+def sentenceAnalysis(tagged_uI, kbTree):
 
     """
         declarative sentence (statement)
@@ -308,34 +279,9 @@ def sentenceAnalysis(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragmen
     print('type tagged_uI: ', type(tagged_uI))
     print(tagged_uI)
     
-    print('len nounsMatch: ', len(nounsMatch))
-    print('type nounsMatch: ', type(nounsMatch))
-    for n in nounsMatch:
-        print(n)
-        
-    print('len verbsMatch: ', len(verbsMatch))
-    print('type verbsMatch: ', type(verbsMatch))
-    for v in verbsMatch:
-        print(v)
-        
-    print('len kb_Nouns: ', len(kb_Nouns))
-    print('type kb_Nouns: ', type(kb_Nouns))
-    for kbN in kb_Nouns:
-        print(kbN)
-        
-    print('len kb_uI: ', len(kb_uI))
-    print('type kb_uI: ', type(kb_uI))
-    for kbUI in kb_uI:
-        print(kbUI)
-        
-    print('len fragmentMatches: ', len(fragmentMatches))
-    print('type fragmentMatches: ', type(fragmentMatches))
-    for f in fragmentMatches:
-        print(f)
 
 
-
-    simpCanDo = t.get_canDo(t.root, simp)
+    simpCanDo = kbTree.get_canDo(kbTree.root, simp)
     simpCanDo = simpCanDo.split(',')
 
     print('simpCanDo: ', simpCanDo)
@@ -360,22 +306,13 @@ def sentenceAnalysis(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragmen
 
     sA_Obj = sentAnalysis(tagged_uI)
     sA_Obj.printAll()
-    print('-' * 8)
-
-    saList = []
-    for nMatch in nounsMatch:
-        tagged = tagSentence(nMatch[1], [])
-        sa = sentAnalysis(tagged)
-        sa.printAll()
-        saList.append(sa)
-                      
 
     print('------ end sentenceAnalysis ------')
 
     return sA_Obj
 
 
-def tagSentence(sentence, newWords):
+def tagSentence(sentence, newWords, newTaggedList):
 
     taggedSentence = []
 
@@ -389,7 +326,7 @@ def tagSentence(sentence, newWords):
 
     for w in sentList:
         tmp = []
-        tag = getWordTag(w)
+        tag = getWordTag(w, newTaggedList)
         if tag == '':
             tag = newWordTag(w, newWords)
         tmp.append(w)
@@ -412,7 +349,7 @@ def getMatchedTags(corpus, tagged_uI):
         tagSent = []
         for word in sent:
             tmp = []
-            tag = getWordTag(word)
+            tag = getWordTag(word, newTaggedList)
             tmp.append(word)
             tmp.append(tag)
             tagSent.append(tmp)
@@ -449,7 +386,7 @@ def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags):
         sent = []
         for entry in s[1]:
             tmp = []
-            tag = getWordTag(entry)
+            tag = getWordTag(entry, newTaggedList)
             tmp.append(entry)
             tmp.append(tag)
             sent.append(tmp)
@@ -471,7 +408,7 @@ def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags):
         sent = []
         for entry in s[1][1]:
             tmp = []
-            tag = getWordTag(entry)
+            tag = getWordTag(entry, newTaggedList)
             tmp.append(entry)
             tmp.append(tag)
             sent.append(tmp)
@@ -492,7 +429,7 @@ def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags):
 
 
     # Based on the assumption the corpus has correct grammar...
-    # Does our input match and of the noun matched sentences?
+    # Does our input match any of the noun matched sentences?
 
     # low hanging furit
     print('matchedTags found:')
@@ -573,24 +510,13 @@ def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags):
     return fragmentMatches
 
 
-if __name__ == "__main__":
+def processUserInput():
 
-    print('Processing processInput (main)...')
-
-#    corpus = getCorpus()
-#    newTaggedList = getNewTaggedList()
     corpus = loadPickle('newCorpus')
     newTaggedList = loadPickle('taggedList')
+    allInflections = loadPickle('inflections')
+    kbTree = loadPickle('kb')
 
-    print('len corpus: ', len(corpus))
-    print('type corpus: ', type(corpus))
-#    for s in corpus:
-#        print(s)
-    print('-' * 5)
-    print('len newTaggedList: ', len(newTaggedList))
-    print('type newTaggedList: ', type(newTaggedList))
-#    for t in newTaggedList:
-#        print(t)
     print('-' * 5)
     
     uI = input('Please enter a sentence: ')
@@ -598,7 +524,7 @@ if __name__ == "__main__":
 
     print('-' * 5)
 
-    valid_uI, diff, intr = validInput(uI)  # Is the input in out list?
+    valid_uI, diff, intr = validInput(uI, newTaggedList)  # Is the input in out list?
 
     print('len valid_uI: ', len(valid_uI))
     print('type valid_uI: ', type(valid_uI))
@@ -618,7 +544,72 @@ if __name__ == "__main__":
         print('All input words known...')
         newWords = []
         
+    print('-' * 10)
+
+    tagged_uI = tagSentence(uI, newWords, newTaggedList)
+
+    print('len tagged_uI: ', len(tagged_uI))
+    print('type tagged_uI: ', type(tagged_uI))
+    print(tagged_uI)
+
+    print('-' * 10)
+
+    sA_Obj = sentenceAnalysis(tagged_uI, kbTree)    
+    sA_Obj.printAll()
+
+    # save sA_Obj pickle
+    savePickle('sA_Obj', sA_Obj)
+
+    print('prattle (from processInput.py)...')
+
+    outSent = prattle(sA_Obj)
+    print('from processInput.py; outSent:')
+    print(outSent)
+
+    return
+
+#
+#######
+#
+if __name__ == "__main__":
+
+    print('Processing processInput (main)...')
+
+    processUserInput()
+
+    """
+    corpus = loadPickle('newCorpus')
+    newTaggedList = loadPickle('taggedList')
+    allInflections = loadPickle('inflections')
+
     print('-' * 5)
+    
+    uI = input('Please enter a sentence: ')
+    print(uI)
+
+    print('-' * 5)
+
+    valid_uI, diff, intr = validInput(uI, newTaggedList)  # Is the input in out list?
+
+    print('len valid_uI: ', len(valid_uI))
+    print('type valid_uI: ', type(valid_uI))
+#    for v in valid_uI:
+#        print(v)
+    print('valid_uI: ', valid_uI)
+    print('diff: ', diff)
+    print('intr: ', intr)
+    print('-' * 5)
+
+    if len(diff) > 0:
+        newWords, notFound = chkUnkownWords(diff)
+
+        print('newWords: ', newWords)
+        print('notFound: ', notFound)
+    else:
+        print('All input words known...')
+        newWords = []
+        
+    print('-' * 10)
 
     tagged_uI = tagSentence(uI, newWords)
 
@@ -626,16 +617,10 @@ if __name__ == "__main__":
     print('type tagged_uI: ', type(tagged_uI))
     print(tagged_uI)
 
-    print('-' * 5)
+    print('-' * 10)
 
-
-    allInflections = getInflectionsPickle()
-
-    print('len allInflections: ', len(allInflections))
-    print('type allInflections: ', type(allInflections))
-    print('-' * 5)
-    
-    taggedNounsMatch, nounsMatch, verbsMatch = checkCorpus(uI)
+    # Check corpus for similar sentences...    
+    taggedNounsMatch, nounsMatch, verbsMatch = checkCorpus(uI, allInflections)
 
     print('---len taggedNounsMatch: ', len(taggedNounsMatch))
     print('---type taggedNounsMatch: ', type(taggedNounsMatch))
@@ -649,6 +634,12 @@ if __name__ == "__main__":
 
 #    print(xyz)
     print('-' * 5)
+
+
+
+
+
+
 
 
 
@@ -667,12 +658,13 @@ if __name__ == "__main__":
 
     print('KB Tree check...')
 
-    t = getKB()
+#    t = getKB()
+    kbTree = loadPickle('kb')
 
     # Do we care about nouns in the corpus which are not in the kb?
     # Yes...~?
-    kb_Nouns = checkKB(matchedTags) 
-    kb_uI = checkKB(tagged_uI)
+    kb_Nouns = checkKB(matchedTags, kbTree) 
+    kb_uI = checkKB(tagged_uI, kbTree)
 
     print('len kb_Nouns: ', len(kb_Nouns))
     print('type kb_Nouns: ', type(kb_Nouns))    
@@ -698,18 +690,19 @@ if __name__ == "__main__":
     print('sentenceAnalysis (main)...')
 
 #    conclusion = inferConclusion(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragmentMatches)
-    sA_Obj = sentenceAnalysis(tagged_uI, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragmentMatches)    
+    sA_Obj = sentenceAnalysis(tagged_uI, kbTree, nounsMatch, verbsMatch, kb_Nouns, kb_uI, fragmentMatches)    
     sA_Obj.printAll()
 
     # save sA_Obj pickle
     savePickle('sA_Obj', sA_Obj)
 
-    print('prattle (main)...')
+    print('prattle (from processInput.py)...')
 
     outSent = prattle(sA_Obj)
-    outSent.printAll()
+    print('from processInput.py; outSent:')
+    print(outSent)
 
-
+    """
     
 
     
