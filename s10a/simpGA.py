@@ -62,27 +62,21 @@ def getCorpusTags():
 def chk4Grammar(inputSentence):
 
 
-    return tagMatch
+    print('------ start chk4Grammar ------')
 
 
-if __name__ == "__main__":
-
-#    verbose = False
-
-    # Test input
-    testInput = 'i am very fine'
-    testInputlist = testInput.split()
-
-    taggedTestInput = pos_tag(testInputlist)
-
+    if len(inputSentence) < 1:
+        inputSentence = [('i', 'NN'), ('am', 'VBP'), ('very', 'RB'), ('fine', 'JJ')] # Dummy test input
+        
     corpusTags = getCorpusTags()
 
     print('-------')
-    print(testInput)
-    print(taggedTestInput)
-
+    print('tagged?')
+    print(inputSentence)
+    
+    # Extract just the tags
     tagTest = []
-    for x in taggedTestInput:
+    for x in inputSentence:
         tagTest.append(x[1])
     print('-------')
     print(tagTest)
@@ -94,8 +88,19 @@ if __name__ == "__main__":
             print('exact match')
             print('tagTest: ', tagTest)
             print('      n: ', n)
+            return (True, tagTest)
+        elif n[0] == 'PRP':
+            print('PRP: ', n)
+
+    print('------ end chk4Grammar ------')
+    return (False, tagTest)
 
 
+if __name__ == "__main__":
 
+#    verbose = False
+
+
+    print(chk4Grammar(''))
 
         

@@ -8,6 +8,7 @@ from commonUtils import *
 from simpConfig import *
 from processKB import *
 from simpSA import *
+from simpGA import chk4Grammar
 from processOutput import prattle
 
 
@@ -137,31 +138,21 @@ def checkCorpus(uI, allInflections):
     verbsMatch = []
     for w_uI in uI_List:
         if isVBx(w_uI):
-#            print('w_uI: ', w_uI)
-##            for nS in newSents:
             for nS in sentsFound_wVBs:
-#                print('nS: ', nS)
-                # direct match (non-inflection)
                 tmp = []
                 if w_uI in nS[1]: # was 2
-#                    print('direct verb match w_uI {} found in nS[2] {}'.format(w_uI, nS[2]))
                     tmp.append(w_uI)
                     tmp.append(nS)
                     verbsMatch.append(tmp)
                 else:
-                    for v in nS[2]: # was 3
-#                        print('v: ', v)                       
+                    for v in nS[2]: # was 3                      
                         if isinstance(v, str):
-#                            print('string found: ', v)
-#                            print('w_uI: ', w_uI)
                             if w_uI == v:
-#                                print('baseword match v {} and w_uI {}'.format(v, w_uI))
                                 tmp.append(w_uI)
                                 tmp.append(nS)
                                 verbsMatch.append(tmp)
                         elif isinstance(v, list):
                             if w_uI in v:
-#                                print('non-baseword match v {}'.format(v))
                                 tmp.append(w_uI)
                                 tmp.append(nS)
                                 verbsMatch.append(tmp)
@@ -170,9 +161,6 @@ def checkCorpus(uI, allInflections):
                 
     print('len verbsMatch: ', len(verbsMatch))
     print('type verbsMatch: ', type(verbsMatch))
-
-#    for v in verbsMatch:
-#        print(v)
 
     print('-- end checkCorpus ---' * 5)
                
@@ -209,41 +197,26 @@ def checkKB(sents, kbTree):
     kb_Nouns = []
     baseWordSearch = False
     inflect = []
-
-#    print('checkKB::::::')
-#    print('len sents: ', len(sents))
-#    print('type sents: ', type(sents))
     
     for s in sents:
-#        print('s: ', s)
         sWord = s[0]
         sTag  = s[1]
-#        if is_uI:
-#            sTag  = s[1]
-#        else:
-#            sTag = s[2][
         if sTag == nns:
-#            print('sWord: {} sTag: {}'.format(sWord, sTag))
             tag = getInflectionTag(sTag)
-#            print('tag: ', tag)
             inflect = getInflections(sWord, tag, baseWordSearch)        
-#            print('inflect:')
-#            print(inflect)
 
         if len(inflect) > 0:
             sWord = inflect[0]
             inflect = []
             
         tmp = []
+        
         if kbTree.isNode(sWord):
-#            print('found node sWord: ', s[0])
             cDo = kbTree.get_canDo(kbTree.root, sWord)
             tmp.append(sWord)
             tmp.append(cDo)
             kb_Nouns.append(tmp)
         else:
-#            print('node sWord not found: ', sWord)
-#            print('sTag: ', sTag)
             if sTag in [nn, nns]:
                 tmp.append(sWord)
                 tmp.append('unknown')
@@ -301,8 +274,6 @@ def sentenceAnalysis(tagged_uI, kbTree):
 #            if sentSubj == '':
 #                sentSubj = word[0]        
         firstWord = False
-
-
 
     sA_Obj = sentAnalysis(tagged_uI)
     sA_Obj.printAll()
@@ -414,7 +385,6 @@ def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags):
             sent.append(tmp)
         taggedVerbsMatched.append(sent)
 
-
     noDupFoundList = []
     for i in taggedVerbsMatched:
         if i not in noDupFoundList:
@@ -427,7 +397,6 @@ def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags):
 
     print('\ntagged uI: ', tagged_uI)
 
-
     # Based on the assumption the corpus has correct grammar...
     # Does our input match any of the noun matched sentences?
 
@@ -439,7 +408,6 @@ def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags):
     if len(matchedTags) > 0:
         return matchedTags
     
-
     print('---')
 
     for n in taggedNounsMatched:
@@ -560,6 +528,12 @@ def processUserInput():
     # save sA_Obj pickle
     savePickle('sA_Obj', sA_Obj)
 
+    grammarResults = chk4Grammar(tagged_uI)
+
+    print('Results from chk4Grammar:')
+    print(grammarResults)
+    
+    print('-' * 10)
     print('prattle (from processInput.py)...')
 
     outSent = prattle(sA_Obj)

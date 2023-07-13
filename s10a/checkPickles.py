@@ -180,8 +180,14 @@ if __name__ == "__main__":
 
     # Checking for a word
     for p in ourPickle:
-        if p[0] == 'ate':
+        
+        if p[0] == 'hammy':
             print(p)
+        
+        """
+        if 'hammy' in p:
+            print(p)
+        """
     """
     for w, d in ourPickle.items():
         if limit > 100:
