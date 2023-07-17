@@ -528,7 +528,21 @@ def sentAnalysis(taggedInput, kbTree):
     
     print('--- end sentAnalysis ---')
     """
-    return sent
+
+
+    # Sanity check:
+    #
+    error = []
+    
+    if sent.sSubj == '':
+        print('*Error* No subect found: ')
+        error.append('No subect found')
+        
+    if sent.sVerb == '':
+        print('*Error* No verb found: ')
+        error.append('No verb found')
+    
+    return sent, error
 # End sentAnalysis
 
 
@@ -544,6 +558,10 @@ if __name__ == "__main__":
 #    tagged_uI = [['bob', 'NNP'], ['and', 'CC'], ['mary', 'NNP'], ['walked', 'VBD'], ['in', 'IN'], ['the', 'DT'], ['park', 'NN'], ['with', 'IN'], ['pookie', 'NNP']]
 #    tagged_uI = [['bob', 'NNP'], ['is', 'VBZ'], ['in', 'IN'], ['the', 'DT'], ['park', 'NN'], ['with', 'IN'], ['pookie', 'NNP'], ['and', 'CC'], ['hammy', 'NNP']]
 
-    sA_Obj = sentAnalysis(tagged_uI, kbTree)
+    sA_Obj, error = sentAnalysis(tagged_uI, kbTree)
+
+    if len(error) > 0:
+        for e in error:
+            print(e)
 
     sA_Obj.printAll()

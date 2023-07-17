@@ -3,10 +3,7 @@
 #
 
 import pickle
-from simpConfig import FANBOYS
-from simpConfig import Node
-from simpConfig import N_ary_Tree
-from simpConfig import NodeNotFoundException
+import collections
 
 
 def getPickle():
@@ -136,28 +133,6 @@ def savePickle(p):
     fp.close()
 
 
-def addArr(tagFreqArr, s):
-
-    print('start addArr', )
-    print(s)
-    if len(tagFreqArr) == 0:
-        print('first add s: ', s)
-        tagFreqArr.append(((s, 1)))
-        
-    else:
-        print('else add s:', s)
-        for i in tagFreqArr:
-            print('i: ', i)
-            if s in i[0]:
-                cnt = i[1] + 1
-                i[1] = cnt
-            
-            else:
-                print('new else add s:', s)
-                tagFreqArr.append(((s, 1)))
-            
-    
-    return tagFreqArr
 
 if __name__ == "__main__":
 
@@ -183,13 +158,25 @@ if __name__ == "__main__":
     print(len(tags))
     print(type(tags))
 
-    # tagFreq: <list>
-    # (['NNP', 'MD', 'VB'], count)
-    #
-    for s in tags:
-        tagFreqArr = addArr(tagFreqArr, s)
+    tagDash = []
+    for t in tags:
+        tmp = '-'.join(t)
+        tagDash.append(tmp)
+
+    print('tagDash:')
+    print(len(tagDash))
+    print(type(tagDash))
+        
+
+    tstLst = ['nnp', 'nn', 'nnp', 'vb', 'vbp', 'vb', 'nnp', 'vb', 'md', 'in', 'wdt', 'vb']
     
-    print('\ntagFreqArr:')
-    print(len(tagFreqArr))
-    print(type(tagFreqArr))
+    counter = collections.Counter(tagDash)
+    
+    
+    print('counter:')
+    print(len(counter))
+    print(type(counter))
+
+    for k, v in counter.items():
+        print('v: {}, k: {}'.format(v, k))
 

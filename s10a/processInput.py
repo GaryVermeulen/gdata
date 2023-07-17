@@ -14,6 +14,7 @@ from simpGA import chk4Grammar
 from processOutput import prattle
 
 nlp = spacy.load("en_core_web_lg") # lg has best accuracy
+#nlp = spacy.load("en_core_web_sm") # 
 
 
 
@@ -236,33 +237,11 @@ def checkKB(sents, kbTree):
 
 def sentenceAnalysis(tagged_uI, kbTree):
 
-    """
-        declarative sentence (statement)
-        interrogative sentence (question)
-        imperative sentence (command)
-        exclamative sentence (exclamation)
-    """
-
-    firstWord = True
-    sentSubject = ''
-    sentObject = ''
-    nMatch = []
-    vMatch = []
-    conclusion = ['i', 'do', 'not', 'have', 'a', 'clue']
-
     print('------ start sentenceAnalysis ------')
-    print('len tagged_uI: ', len(tagged_uI))
-    print('type tagged_uI: ', type(tagged_uI))
-    print(tagged_uI)
-    
-
-
-    simpCanDo = kbTree.get_canDo(kbTree.root, simp)
-    simpCanDo = simpCanDo.split(',')
-
-    print('simpCanDo: ', simpCanDo)
-            
-
+#    print('len tagged_uI: ', len(tagged_uI))
+#    print('type tagged_uI: ', type(tagged_uI))
+#    print(tagged_uI)     
+#
     # Sentence analysis...~? Do we really want to do this?
     # Or just catch commands and do a simp check?
     for word in tagged_uI:
@@ -278,7 +257,12 @@ def sentenceAnalysis(tagged_uI, kbTree):
 #                sentSubj = word[0]        
         firstWord = False
 
-    sA_Obj = sentAnalysis(tagged_uI, kbTree)
+    sA_Obj, error = sentAnalysis(tagged_uI, kbTree)
+
+    if len(error) > 0:
+        print('*** sentAnalysis returned errors:')
+        for e in error:
+            print(e)
 #    print('back to processInput, sA_Obj:')
 #    sA_Obj.printAll()
 
@@ -497,7 +481,6 @@ def processUserInput():
         if uI == '':
             sys.exit('Nothing entered.')
 
-
         print('-' * 5)
 
         doc = nlp(uI)
@@ -511,6 +494,10 @@ def processUserInput():
         print(taggedInput)
 
         print('-' * 5)
+        print('Checking KB for simp...')
+        simpCanDo = kbTree.get_canDo(kbTree.root, simp)
+        simpCanDo = simpCanDo.split(',')
+        print('simpCanDo: ', simpCanDo)
 
         print('-' * 10)
 
@@ -524,10 +511,28 @@ def processUserInput():
 
         print('-' * 10)
 
+        if sA_Obj.sSubj == '':
+            print('Something is wrong: No subject returned.')
+        else:
+            print('Checking KB for sentence subject:', sA_Obj.sSubj[0])
+            sentSubjectCanDo = kbTree.get_canDo(kbTree.root, sA_Obj.sSubj[0])
+            if sentSubjectCanDo == None:
+                print('{} retunred None from KB.'.format(sA_Obj.sSubj[0]))
+            else:
+                sentSubjectCanDo = sentSubjectCanDo.split(',')
+                print('sentSubjectCanDo: ', sentSubjectCanDo)
+
+        print('-' * 10)
+
         grammarResults = chk4Grammar(taggedInput, taggedCorpus)
 
         print('Results from chk4Grammar:')
         print(grammarResults)
+        print('-' * 10)
+        print('Check KB...')
+
+
+
 
         print('-' * 10)
         print('prattle (from processInput.py)...')
