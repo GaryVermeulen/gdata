@@ -163,7 +163,6 @@ if __name__ == "__main__":
                 
                 print('-' * 5)
 
-
                 orgCN = kbTree.find_node(kbTree.root, child_Node)
                 print('orgCN.key: ', orgCN.key)
                 print('orgCN.parentNode: ', orgCN.parentNode)
