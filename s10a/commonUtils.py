@@ -206,7 +206,13 @@ def savePickle(whichPickle, p):
         pickle.dump(p, f)
         f.close()
         print('Aunt Bee saved taggedBoW.pkl')
-        
+
+    elif whichPickle == 'kbTree':
+        f = open('pickles/kbTree.pkl', 'wb')
+        pickle.dump(p, f)
+        f.close()
+        print('Aunt Bee saved kbTree.pkl')
+ 
     else: 
         print('Unrecognized pickle name: ', whichPickle)
 

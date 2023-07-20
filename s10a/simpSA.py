@@ -90,7 +90,7 @@ def processNPP(wordPosition, sent):
                         sent.sInObj = sent.inSent[wordPosition - 1] #    taggedInput[wordPosition - 1]
                     else:
                         tmpInObj.append(sent.sObj)
-                        sent.sInObj = tmInpObj
+                        sent.sInObj = tmpInObj
                         sent.sInObj.append(sent.inSent[wordPosition - 1]) # taggedInput[wordPosition - 1])
         else:
             if sent.sCC != '':

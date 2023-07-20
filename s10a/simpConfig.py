@@ -350,6 +350,43 @@ class N_ary_Tree:
                 return return_node.canDo
         return None
 
+    def get_parent(self, node, key):
+        if node == None or node.key == key:
+            return node.parentNode
+        for child in node.children:
+            return_node = self.find_node(child, key)
+            if return_node:
+                return return_node.parentNode
+        return None
+
+    def get_ppt(self, node, key):
+        if node == None or node.key == key:
+            return node.ppt
+        for child in node.children:
+            return_node = self.find_node(child, key)
+            if return_node:
+                return return_node.ppt
+        return None
+
+    def get_tag(self, node, key):
+        if node == None or node.key == key:
+            return node.tag
+        for child in node.children:
+            return_node = self.find_node(child, key)
+            if return_node:
+                return return_node.tag
+        return None
+
+    def get_children(self, node, key):
+        if node == None or node.key == key:
+            return node.children
+        for child in node.children:
+            return_node = self.find_node(child, key)
+            if return_node:
+                return return_node.children
+        return None
+
+
     def depth(self, key):
         node = self.find_node(self.root, key)
         if not(node):
@@ -385,6 +422,9 @@ class N_ary_Tree:
     def print_tree(self, node, str_aux):
         if node == None: return ""
         str_aux += str(node) + '('
+#        print('node: ', node)
+#        print(node.key)
+#        print(node.children)
         for i in range(len(node.children)):
             child = node.children[i]
             end = ',' if i < len(node.children) - 1 else ''

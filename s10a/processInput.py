@@ -195,7 +195,7 @@ def validInput(uI, taggedBoW):
     
     return tmp, diff, intr
 
-
+"""
 def checkKB(sents, kbTree):
 
     kb_Nouns = []
@@ -233,29 +233,11 @@ def checkKB(sents, kbTree):
     kb_Nouns = noDupFoundList
 
     return kb_Nouns
-
+"""
 
 def sentenceAnalysis(tagged_uI, kbTree):
 
     print('------ start sentenceAnalysis ------')
-#    print('len tagged_uI: ', len(tagged_uI))
-#    print('type tagged_uI: ', type(tagged_uI))
-#    print(tagged_uI)     
-#
-    # Sentence analysis...~? Do we really want to do this?
-    # Or just catch commands and do a simp check?
-    for word in tagged_uI:
-        if word[1] in [vb, vbd, vbg, vbn, vbp, vbz]: # Assuming imperative
-            if firstWord:
-                if word[0] in simpCanDo:
-                    print('YES, simp can: ', word[0])
-                else:
-                    print('NO, simp cannot: ', word[0])
-            #else:
-#        elif word[1] in [nn, nnp, nns]:
-#            if sentSubj == '':
-#                sentSubj = word[0]        
-        firstWord = False
 
     sA_Obj, error = sentAnalysis(tagged_uI, kbTree)
 
@@ -263,8 +245,6 @@ def sentenceAnalysis(tagged_uI, kbTree):
         print('*** sentAnalysis returned errors:')
         for e in error:
             print(e)
-#    print('back to processInput, sA_Obj:')
-#    sA_Obj.printAll()
 
     print('------ end sentenceAnalysis ------')
 
