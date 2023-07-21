@@ -52,7 +52,8 @@ if __name__ == "__main__":
     node = kbTree.find_node(kbTree.root, testName)
 
     print('node.key: ', node.key)
-    print('---')
+    print('--- Add, rodent, hamster, and hammy')
+    
 
     # Test add new node
     #
@@ -102,76 +103,67 @@ if __name__ == "__main__":
 
 
     print(kbTree.print_tree(kbTree.root, ''))
-    print('-' * 10)
+    print('-' * 20)
 
 
     # We can easily add if you know the parent(s)...
     # Now let's try inserting a node between existing nodes...~?
     # Simple insert between parent and child
     # Ex: rodent - hamsterX - hamster
-    i_Node = 'hamsterX'
-    i_Parent = 'rodent'
-    i_ppt = 'x'
-    i_tag = 'XXX'
-    i_canDo = 'x,y,z'
+    new_Node = 'hamsterX'
+    new_Parent = 'rodent'
+    new_ppt = 'x'
+    new_tag = 'XXX'
+    new_canDo = 'x,y,z'
     child_Node = 'hamster'
     
     # Does parnet class exist?
-    p_node = kbTree.find_node(kbTree.root, i_Parent)
+    parent_node = kbTree.find_node(kbTree.root, new_Parent)
     
-    if p_node == None:
+    if parent_node == None:
         print('Parent node not found.')
     else:
-        # Get the children of the parent class in order to
-        childrenNodes = p_node.children
-        print('p_node.key: ', p_node.key)
-        print('Existing children is/are:', childrenNodes)
-        for n in childrenNodes:
-            print('n.key: ', n.key)
-            if n.key == child_Node:
-                print('Found the child of the parent to make child of new node...')
-                print(n.key)
-                n.parent = i_Node 
-                print('Adding: ', i_Node, i_ppt, i_tag, i_canDo, i_Parent)
-                kbTree.add(i_Node, i_ppt, i_tag, i_canDo, i_Parent)
+        print('parent_node.key: ', parent_node.key)
+        print('Existing children is/are:', parent_node.children)
 
-                print('-' * 5)
-                print(kbTree.print_tree(kbTree.root, ''))
-                print('-' * 5)
-
-                iNode = kbTree.find_node(kbTree.root, i_Node)
-                print('iNode.key: ', iNode.key)
-                print('iNode.parentNode: ', iNode.parentNode)
-                print('iNode.children: ', iNode.children)
+        if len(parent_node.children) == 1: # Assuming only "hamster"
+            print('parent_node.children[0].key: ', parent_node.children[0].key)
+            print('-' * 5)
+            print('Adding/inserting new node: ', new_Node, new_ppt, new_tag, new_canDo, parent_node.key)
+            kbTree.add(new_Node, new_ppt, new_tag, new_canDo, parent_node.key)
+            insertedNode = kbTree.find_node(kbTree.root, new_Node)
+            childNode  = kbTree.find_node(kbTree.root, child_Node)
+            
+            print('insertedNode.key: ', insertedNode.key)
+            print('insertedNode.parentNode: ', insertedNode.parentNode)
+            print('children mess:')
+            print(insertedNode.children)
+            print(len(insertedNode.children))
+            print(type(insertedNode.children))
+            
+            for c in insertedNode.children:
+                print(c)
                 
+            print('-' * 5)
+            insertedNode.children.append(childNode) 
+            print(insertedNode.children)
+            print('insertedNode.children[0]: ', insertedNode.children[0])
+            print(len(insertedNode.children))
+            print(type(insertedNode.children))
 
-                orgChildNode = kbTree.find_node(kbTree.root, child_Node)
-                print('orgChildNode.key: ', orgChildNode.key)
-                print('orgChildNode.parentNode: ', orgChildNode.parentNode)
-                print('orgChildNode.children: ', orgChildNode.children)
+            for c in insertedNode.children:
+                print(c)
 
-                for c in orgChildNode.children:
-                    print(c)
 
-                print('-' * 5)
+            print('-' * 5) # Now remove old child node from parent
 
-                orgChildNode.parentNode = iNode.key
+            
+            del parent_node.children[0] # only works for this example
+            
+        else:
+            print('length greater then 1: ', len(parent_node.children))
 
-                print('orgChildNode.key: ', orgChildNode.key)
-                print('orgChildNode.parentNode: ', orgChildNode.parentNode)
-                print('orgChildNode.children: ', orgChildNode.children)
-                
-                print('-' * 5)
-
-                orgCN = kbTree.find_node(kbTree.root, child_Node)
-                print('orgCN.key: ', orgCN.key)
-                print('orgCN.parentNode: ', orgCN.parentNode)
-                print('orgCN.children: ', orgCN.children)
-                
-                
-#                iNode.children = ''
-#                iNode.children = [orgChildNode.parentNode]
-#                print('new iNode.children: ', iNode.children)
+        
 
 
     
@@ -193,6 +185,6 @@ if __name__ == "__main__":
     savePickle('kbTree', kbTree)
     """
 
-    print('-' * 10)
+    print('-' * 20)
     print(kbTree.print_tree(kbTree.root, ''))
     print('\n --- checkKB Complete ---')
