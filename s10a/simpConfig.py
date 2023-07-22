@@ -307,7 +307,7 @@ class Node:
     def __init__(self, key, children=None):
         self.key = key
         self.parentNode = ''
-        self.ppt = ''
+        self.similar = []
         self.tag = ''
         self.canDo = []
         self.children = children or []
@@ -359,13 +359,13 @@ class N_ary_Tree:
                 return return_node.parentNode
         return None
 
-    def get_ppt(self, node, key):
+    def get_similar(self, node, key):
         if node == None or node.key == key:
-            return node.ppt
+            return node.similar
         for child in node.children:
             return_node = self.find_node(child, key)
             if return_node:
-                return return_node.ppt
+                return return_node.similar
         return None
 
     def get_tag(self, node, key):
@@ -402,9 +402,9 @@ class N_ary_Tree:
         #return 1 + max(children_max_depth)
         return len(children_max_depth) + 1
 
-    def add(self, new_key, ppt, tag, canDo, parent_key=None):
+    def add(self, new_key, similar, tag, canDo, parent_key=None):
         new_node = Node(new_key)
-        new_node.ppt = ppt
+        new_node.similar = similar
         new_node.tag = tag
         new_node.canDo = canDo
         new_node.parentNode = parent_key

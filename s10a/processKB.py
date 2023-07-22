@@ -18,7 +18,7 @@ def buildKB_Tree(kb):
     for tmpDict in kb:
         newNodeParent = tmpDict["superclass"]
         newNode = tmpDict["name"]
-        ppt = tmpDict["ppt"]
+        similar = tmpDict["similar"]
         tag = tmpDict["tag"]
         canDo = tmpDict["canDo"]
 
@@ -26,8 +26,8 @@ def buildKB_Tree(kb):
             print('Node already exist: ', newNode)
         else:
             if tree.isNode(newNodeParent):
-                print('Adding: ', newNode, ppt, tag, canDo, newNodeParent)
-                tree.add(newNode, ppt, tag, canDo, newNodeParent)
+                print('Adding: ', newNode, similar, tag, canDo, newNodeParent)
+                tree.add(newNode, similar, tag, canDo, newNodeParent)
             else:
                 # Doesn't work correctly and not needed if input is ordered
                 print('! No parent/superclass {} found for: {}'.format(newNodeParent, newNode))
@@ -36,10 +36,10 @@ def buildKB_Tree(kb):
                     s = stack.pop()
                     newNodeParent = s["superclass"]
                     newNode = s["name"]
-                    ppt = s["ppt"]
+                    similar = s["similar"]
                     tag = s["tag"]
                     canDo = s["canDo"]
-                    print('...Adding: ', newNode, ppt, tag, canDo, newNodeParent)
+                    print('...Adding: ', newNode, similar, tag, canDo, newNodeParent)
                     tree.add(newNode, ppt, tag, canDo, newNodeParent)                
     return tree
 
@@ -50,15 +50,16 @@ def loadKB_Text():
 
     nnxList = []
     
-    with open('kb/orderedInput.txt', 'r') as f:
+    with open('kb/orderedInputLong.txt', 'r') as f:
         while (line := f.readline().rstrip()):
             if line[0] == '#': # Skip comments
                 continue
             else:
                 tmp = line.split(';')
+                print(tmp)
                 tmpDict = {
                     "name":tmp[0],
-                    "ppt":tmp[1],
+                    "similar":tmp[1],
                     "tag":tmp[2],
                     "canDo":tmp[3],
                     "superclass":tmp[4],

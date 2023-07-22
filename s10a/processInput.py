@@ -11,6 +11,7 @@ from simpConfig import *
 from processKB import *
 from simpSA import *
 from simpGA import chk4Grammar
+from checkKB import chkKB
 from processOutput import prattle
 
 nlp = spacy.load("en_core_web_lg") # lg has best accuracy
@@ -508,10 +509,11 @@ def processUserInput():
 
         print('Results from chk4Grammar:')
         print(grammarResults)
+        
         print('-' * 10)
         print('Check KB...')
 
-
+        results = chkKB(sA_Obj, kbTree)
 
 
         print('-' * 10)

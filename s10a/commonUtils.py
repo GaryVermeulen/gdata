@@ -274,10 +274,10 @@ def insertKBNode(kbTree, node2Insert):
         print(node2Insert)
         return None
     print(node2Insert)
-    new_Node  = node2Insert[0]
-    new_ppt   = node2Insert[1]
-    new_tag   = node2Insert[2]
-    new_canDo = node2Insert[3]
+    new_Node    = node2Insert[0]
+    new_similar = node2Insert[1]
+    new_tag     = node2Insert[2]
+    new_canDo   = node2Insert[3]
     
     # Ensure parent node exists
     parentNode = kbTree.find_node(kbTree.root, node2Insert[-1])
@@ -288,7 +288,7 @@ def insertKBNode(kbTree, node2Insert):
 
     print('Parent node {} for new node {} found.'.format(node2Insert[-1], new_Node))
     print(parentNode.key)
-    print(parentNode.ppt)
+    print(parentNode.similar)
     print(parentNode.tag)
     print(parentNode.canDo)
     print(parentNode.children)
@@ -306,8 +306,8 @@ def insertKBNode(kbTree, node2Insert):
     for c in parentNode.children:
         parentNodeChildren.append(c)
 
-    print('Adding/inserting new node: ', new_Node, new_ppt, new_tag, new_canDo, parentNode.key)
-    kbTree.add(new_Node, new_ppt, new_tag, new_canDo, parentNode.key)
+    print('Adding/inserting new node: ', new_Node, new_similar, new_tag, new_canDo, parentNode.key)
+    kbTree.add(new_Node, new_similar, new_tag, new_canDo, parentNode.key)
 
     insertedNode = kbTree.find_node(kbTree.root, new_Node)
 

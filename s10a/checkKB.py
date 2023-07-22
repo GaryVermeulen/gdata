@@ -13,11 +13,39 @@ from simpConfig import N_ary_Tree
 from simpConfig import NodeNotFoundException
 
 
+def chkKB(sA_Obj, kbTree):
 
+    print('---- chkKB ----')
+
+    print(sA_Obj.inSent)
+    NNs = []
+    for n in sA_Obj.inSent:
+        if n[1] in ['NNP', 'NN', 'NNS']: # No NNS at this time but thinking ahead ;-)
+            NNs.append(n)
+
+    nnNodes = []
+    for n in NNs:
+        node = kbTree.find_node(kbTree.root, n[0])
+        if node != None:
+            nnNodes.append(node)
+        else:
+            print('{} is not in the current KB!'.format(n))
+
+    for node in nnNodes:
+        print(node.key)
+
+
+    print('---- chkKB complete ----')
+
+    return 'something~?'
+
+    
 
 if __name__ == "__main__":
 
-    print(' --- checkKB ---')
+    print(' --- checkKB __main__ ---')
+
+    """
     node2Insert = []
     kbTree = None
     #kbTree = loadPickle('kbTree')
@@ -35,7 +63,7 @@ if __name__ == "__main__":
     node2Insert.append(canDo)
     node2Insert.append(newNodeParent)
 
-    
+    """
     
     """
     testName = 'pookie'
@@ -296,9 +324,6 @@ if __name__ == "__main__":
 
     """
 
-
-    
-
     # Modify canDo
     #
     """
@@ -316,6 +341,7 @@ if __name__ == "__main__":
     savePickle('kbTree', kbTree)
     """
 
+    """
     kbTree = insertKBNode(kbTree, node2Insert)
     print('-' * 20)
     
@@ -323,7 +349,10 @@ if __name__ == "__main__":
         print('insertKBNode returned None.')
     else:
         print(kbTree.print_tree(kbTree.root, ''))
-        
-    print('\n --- checkKB Complete ---')
+    """
+
+    chkKB()
+    
+    print('\n --- checkKB Complete __main__ ---')
     
     
