@@ -415,7 +415,7 @@ class N_ary_Tree:
             parent_node = self.find_node(self.root, parent_key)
             if not(parent_node):
                 print(' ' + str(parent_key) + ' Is not a parent--cannot add: ' + new_key)
-                raise NodeNotFoundException('Add: No element was found with the informed parent key.')
+                raise NodeNotFoundException('Add: No element was found with the given parent key.')
             parent_node.children.append(new_node)
             self.size += 1
 

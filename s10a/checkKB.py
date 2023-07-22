@@ -6,6 +6,7 @@ import pickle
 
 from commonUtils import loadPickle
 from commonUtils import savePickle
+from commonUtils import insertKBNode
 
 from simpConfig import Node
 from simpConfig import N_ary_Tree
@@ -13,10 +14,30 @@ from simpConfig import NodeNotFoundException
 
 
 
+
 if __name__ == "__main__":
 
     print(' --- checkKB ---')
+    node2Insert = []
+    kbTree = None
+    #kbTree = loadPickle('kbTree')
 
+    # Test new node to insert/add
+    nodeKey = 'mammalX'
+    ppt = 't'
+    tag = 'NN'
+    canDo = 'see,eat,walk,run'
+    newNodeParent = 'animal2' 
+
+    node2Insert.append(nodeKey)
+    node2Insert.append(ppt)
+    node2Insert.append(tag)
+    node2Insert.append(canDo)
+    node2Insert.append(newNodeParent)
+
+    
+    
+    """
     testName = 'pookie'
 
     kbTree = loadPickle('kbTree')
@@ -231,9 +252,10 @@ if __name__ == "__main__":
 #            print(c)
 
 #        del parentNode.children[0] # I don't like just bindly removing [0]
-        
 
-        """
+    """    
+
+    """
 
         if len(parent_node.children) == 1: # Assuming only "hamster"
             print('parent_node.children[0].key: ', parent_node.children[0].key)
@@ -272,7 +294,7 @@ if __name__ == "__main__":
         else:
             print('length greater then 1: ', len(parent_node.children))
 
-        """
+    """
 
 
     
@@ -294,6 +316,14 @@ if __name__ == "__main__":
     savePickle('kbTree', kbTree)
     """
 
+    kbTree = insertKBNode(kbTree, node2Insert)
     print('-' * 20)
-    print(kbTree.print_tree(kbTree.root, ''))
+    
+    if kbTree == None:
+        print('insertKBNode returned None.')
+    else:
+        print(kbTree.print_tree(kbTree.root, ''))
+        
     print('\n --- checkKB Complete ---')
+    
+    

@@ -258,3 +258,69 @@ def loadPickle(whichPickle):
         print('Unrecognized pickle name')
 
     return None
+
+
+def insertKBNode(kbTree, node2Insert):
+
+    print('  --- insertKBNode ---')
+
+    if kbTree == None:
+        kbTree = loadPickle('kbTree')
+
+    print(kbTree.print_tree(kbTree.root, ''))
+    print('---')
+    if len(node2Insert) != 5:
+        print('node2Insert length error:')
+        print(node2Insert)
+        return None
+    print(node2Insert)
+    new_Node  = node2Insert[0]
+    new_ppt   = node2Insert[1]
+    new_tag   = node2Insert[2]
+    new_canDo = node2Insert[3]
+    
+    # Ensure parent node exists
+    parentNode = kbTree.find_node(kbTree.root, node2Insert[-1])
+
+    if parentNode == None:
+        print('Parent node {} for new node {} does not exist.'.format(node2Insert[-1], new_Node))
+        return None
+
+    print('Parent node {} for new node {} found.'.format(node2Insert[-1], new_Node))
+    print(parentNode.key)
+    print(parentNode.ppt)
+    print(parentNode.tag)
+    print(parentNode.canDo)
+    print(parentNode.children)
+    for c in parentNode.children:
+        print(c)
+
+    print('Warning: ')
+    print('This will insert a new node {} between {} node and the above childern.'.format(new_Node, parentNode.key))
+    result = input('Continue <Y/N>? ')
+    if result not in ['Y', 'y']:
+        return None
+
+    # Keep a copy of the parent children
+    parentNodeChildren = [] 
+    for c in parentNode.children:
+        parentNodeChildren.append(c)
+
+    print('Adding/inserting new node: ', new_Node, new_ppt, new_tag, new_canDo, parentNode.key)
+    kbTree.add(new_Node, new_ppt, new_tag, new_canDo, parentNode.key)
+
+    insertedNode = kbTree.find_node(kbTree.root, new_Node)
+
+    # Add the orignal parent children to inserted node
+    for c in parentNodeChildren:
+        insertedNode.children.append(c)
+
+    # Keep the newly added child and clear the old children
+    keepChild = parentNode.children[-1]
+    parentNode.children.clear()
+    parentNode.children.append(keepChild)
+
+
+    print('  --- insertKBNode Complete ---')
+    return kbTree
+
