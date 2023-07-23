@@ -129,6 +129,7 @@ def processPRP(wordPosition, sent):
 def processNN(wordPosition, sent):
 
     tmpInObj = []
+    tmpObj = []
     """
     if verbose: 
         print('taggedInput to processNN:')
@@ -146,21 +147,29 @@ def processNN(wordPosition, sent):
 
         if sent.sVerb != '':
             if sent.sSubj == '':
-                sent.sSubj = sent.inSent[wordPosition - 1] # taggedInput[wordPosition - 1]
+                sent.sSubj = sent.inSent[wordPosition - 1]
             else:
                 if sent.sObj == '':
-                    sent.sObj = sent.inSent[wordPosition - 1] # taggedInput[wordPosition - 1]
+                    sent.sObj = sent.inSent[wordPosition - 1]
                 else:
                     if sent.sInObj == '':
-                        sent.sInObj = sent.inSent[wordPosition - 1] # taggedInput[wordPosition - 1]
+                        sent.sInObj = sent.inSent[wordPosition - 1] 
                     else:
                         tmpInObj.append(sent.sObj)
                         sent.sInObj = tmpInObj
-                        sent.sInObj.append(sent.inSent[wordPosition - 1]) # taggedInput[wordPosition - 1])
+                        sent.sInObj.append(sent.inSent[wordPosition - 1]) 
         else:
             if sent.sDet != '':
                 if sent.sSubj == '':
-                    sent.sSubj = sent.inSent[wordPosition - 1] # taggedInput[wordPosition - 1]
+                    sent.sSubj = sent.inSent[wordPosition - 1]
+
+            if sent.inSent[wordPosition - 2][1] == 'DT':
+                if sent.sObj == '':
+                        sent.sObj = sent.inSent[wordPosition - 1]
+                else:
+                    tmpObj.append(sent.sObj)
+                    sent.sObj = tmpInObj
+                    sent.sObj.append(sent.inSent[wordPosition - 1])
             
     return sent
 
@@ -357,7 +366,6 @@ def sentAnalysis(taggedInput, kbTree):
    
     print('--- sentAnalysis ---')
 
-    sPOS = ''
     sType = ''
     sSubj = ''
     sVerb = ''
@@ -370,7 +378,7 @@ def sentAnalysis(taggedInput, kbTree):
     sMD = ''
     sWDT = ''
     sCC = ''
-    sSubjTemp = ''
+    
     wordPosition = 0
 
     sent = Sentence(taggedInput, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
@@ -450,31 +458,6 @@ def sentAnalysis(taggedInput, kbTree):
 
 
     """
-        if currentTag == 'NNP':
-            sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processNPP(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-        elif currentTag in ['PRP', 'PRP$']:
-            sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processPRP(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-        elif currentTag in ['NN', 'NNS']:
-            sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processNN(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-        elif currentTag in ['VB','VBD','VBG','VBN','VBP','VBZ']:
-            sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processVerbs(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-        elif currentTag in ['JJ', 'JJR', 'JJS']:
-            sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processAdj(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-        elif currentTag in ['DT']:
-            sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processDT(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-        elif currentTag in ['IN']:
-            sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processIN(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-        elif currentTag in ['MD']:
-            sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processMD(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-        elif currentTag in ['CC']:
-            sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processCC(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-        elif currentTag in ['WDT', 'WP', 'WRB']:
-            sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC = processWDT(taggedInput, wordPosition, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-        else:
-            print('sentAnalysis else -- something wrong or tag not defined?')
-            print(currentTag)
-    """
-    """
     if verbose: 
         print('--_-_-_-_-_-_-_-_-_-_--')
         print('Tagged Input Sentence:')
@@ -550,13 +533,13 @@ if __name__ == "__main__":
 
     kbTree = None
 
-    tagged_uI = [['see', 'VBP'], ['hammy', 'NNP'], ['run', 'VB']]
+#    tagged_uI = [['see', 'VBP'], ['hammy', 'NNP'], ['run', 'VB']]
 #    tagged_uI = [['see', 'VBP'], ['hammy', 'NNP'], ['run', 'VB'], ['in', 'IN'], ['the', 'DT'], ['park', 'NN']]
 #    tagged_uI = [['bob', 'NNP'], ['was', 'VBD'], ['happy', 'JJ']]
 #    tagged_uI = [['bob', 'NNP'], ['saw', 'VBD'], ['pookie', 'NNP']]
 #    tagged_uI = [['bob', 'NNP'], ['walked', 'VBD'], ['pookie', 'NNP'], ['in', 'IN'], ['the', 'DT'], ['park', 'NN'], ['with', 'IN'], ['hammy', 'NNP']]
 #    tagged_uI = [['bob', 'NNP'], ['and', 'CC'], ['mary', 'NNP'], ['walked', 'VBD'], ['in', 'IN'], ['the', 'DT'], ['park', 'NN'], ['with', 'IN'], ['pookie', 'NNP']]
-#    tagged_uI = [['bob', 'NNP'], ['is', 'VBZ'], ['in', 'IN'], ['the', 'DT'], ['park', 'NN'], ['with', 'IN'], ['pookie', 'NNP'], ['and', 'CC'], ['hammy', 'NNP']]
+    tagged_uI = [['bob', 'NNP'], ['is', 'VBZ'], ['in', 'IN'], ['the', 'DT'], ['park', 'NN'], ['with', 'IN'], ['pookie', 'NNP'], ['and', 'CC'], ['hammy', 'NNP']]
 
     sA_Obj, error = sentAnalysis(tagged_uI, kbTree)
 

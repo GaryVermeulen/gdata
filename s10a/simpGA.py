@@ -4,86 +4,132 @@
 #   Grammar analysis of current corpus
 #
 
-from nltk.tag import pos_tag
-from nltk.tokenize import word_tokenize
-from commonUtils import *
+#from nltk.tag import pos_tag
+#from nltk.tokenize import word_tokenize
+
+from commonUtils import loadPickle
 from simpConfig import verbose
+from simpConfig import Sentence
 
 
-def getCorpusTags(taggedCorpus):
+def saidBefore(sA_Obj, taggedCorpus):
 
-    extractedTags = []
-    corpusTags = []
-    cnt = 0
+    wordsMatch = False
+    tagsMatch = False
 
-    # Extract just the tags
-    for s in taggedCorpus:
-        taggedS = []
-        for w in s:
-            taggedS.append(w[1])
-        if len(taggedS) > 0:
-            extractedTags.append(taggedS)
-#    if verbose:
-#        print('len extractedTags: ', len(extractedTags))
-#        print('----------------------')
-
-    # Remove dups
-    for m in extractedTags: 
-        if m not in corpusTags:
-            corpusTags.append(m)
-
-#    if verbose:
-#        print('len corpusTags: ', len(corpusTags))
-#        print('----------------------')
-#        for n in corpusTags:
-#            cnt += 1        
-#            print('{} : {}'.format(cnt, n))
-
-    return corpusTags
-
-def chk4Grammar(inputSentence, taggedCorpus):
-
-
-    print('------ start chk4Grammar ------')
-
-
-    if len(inputSentence) < 1:
-        inputSentence = [('i', 'NN'), ('am', 'VBP'), ('very', 'RB'), ('fine', 'JJ')] # Dummy test input
-        
-    corpusTags = getCorpusTags(taggedCorpus)
-
-    print('-------')
-    print('tagged?')
-    print(inputSentence)
-    
-    # Extract just the tags
+    inputWords = []
     inputTags = []
-    for x in inputSentence:
-        inputTags.append(x[1])
-    print('-------')
-    print(inputTags)
-    print('-------')
+    wordsMatchCopy = []
+    tagsMatchCopy = []
+    
+    for w in sA_Obj.inSent:
+        inputWords.append(w[0])
+        inputTags.append(w[1])
 
-    # Is the tag pattern of the test input within the corpus tags?
-    for taggedCorpusSent in corpusTags:
-        if inputTags == taggedCorpusSent:
-            print('exact match')
-            print('inputTags       : ', inputTags)
-            print('taggedCorpusSent: ', taggedCorpusSent)
-            return (True, inputTags)            
-            
-#        elif taggedCorpusSent[0] == 'PRP':
-#            print('PRP: ', taggedCorpusSent)
+    # Has this been said before?
+    for s in taggedCorpus:
+        sWords = []
+        sTags = []
+        for w in s:
+            sWords.append(w[0])
+            sTags.append(w[1])
+        
+        if sWords == inputWords:
+            wordsMatch = True
+            wordsMatchCopy = sWords.copy()
 
-    print('------ end chk4Grammar ------')
-    return (False, inputTags)
+        if sTags == inputTags:
+            tagsMatch = True
+            tagsMatchCopy = sTags.copy()
+
+    return wordsMatch, wordsMatchCopy, tagsMatch, tagsMatchCopy
+
+
+def getMacthedTagSent(sA_Obj, taggedCorpus):
+
+    inputWords = []
+    inputTags = []
+    
+    for w in sA_Obj.inSent:
+        inputWords.append(w[0])
+        inputTags.append(w[1])
+
+    for s in taggedCorpus:
+        sWords = []
+        sTags = []
+        for w in s:
+            sWords.append(w[0])
+            sTags.append(w[1])
+        
+        if sTags == inputTags:
+            tagsMatch = True
+            sCopy = s.copy()
+
+    return sCopy
+
+
+def chkGrammar(sA_Obj, taggedCorpus):
+
+    
+    print('------ start chkGrammar ------')
+
+
+    if sA_Obj == None:
+        return None
+
+    if len(taggedCorpus) < 1:
+        return None
+
+    #print('sA_Obj.inSent:', sA_Obj.inSent)
+
+
+    #print('inputWords: ', inputWords)
+    #print('inputTags: ', inputTags)
+
+
+    # Has this been said before?
+    wordsMatchB, wordsMatchLst, tagsMatchB, tagsMatchLst = saidBefore(sA_Obj, taggedCorpus)
+
+    if wordsMatchB and tagsMatchB:
+        return 'This has been said before (word for word)' 
+
+    if tagsMatchB:
+        print('tagsMatch: ', tagsMatchLst)
+        print('sA_Obj.inSent: ', sA_Obj.inSent)
+        sCopy = getMacthedTagSent(sA_Obj, taggedCorpus)
+        print('sCopy: ', sCopy)
+
+        return sCopy
+        
+
+    print('------ end chkGrammar ------')
+    return 'nope'
 
 
 if __name__ == "__main__":
-
 #    verbose = False
 
+    # setup test input
+    # taggedInput = [('i', 'NN'), ('am', 'VBP'), ('very', 'RB'), ('fine', 'JJ')] # Dummy test input
+    taggedInput = [('see', 'VB'), ('hammy', 'NNP'), ('run', 'VB')]
 
-    print(chk4Grammar(''))
+    sType = 'declarative'
+    sSubj = ('hammy', 'NNP')
+    sVerb = [('see', 'VBP'),('run', 'VB')]
+    sObj = ''
+    sInObj = ''
+    sAdj = ''
+    sDet = ''
+    sIN = ''
+    sPP = ''
+    sMD = ''
+    sWDT = ''
+    sCC = ''
+
+    sent = Sentence(taggedInput, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
+
+    taggedCorpus = loadPickle('taggedCorpusSents')
+    
+    print(chkGrammar(sent, taggedCorpus))
 
         

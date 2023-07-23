@@ -10,231 +10,13 @@ from commonUtils import *
 from simpConfig import *
 from processKB import *
 from simpSA import *
-from simpGA import chk4Grammar
+from simpGA import chkGrammar
 from checkKB import chkKB
-from processOutput import prattle
+#from processOutput import prattle
 
 nlp = spacy.load("en_core_web_lg") # lg has best accuracy
 #nlp = spacy.load("en_core_web_sm") # 
 
-
-
-def getWordTag(word, newTaggedList):
-
-    tags = ''
-    
-    for t in newTaggedList:
-        if word == t[0]:
-            if tags == '':
-                tags = t[1]
-            else:
-                tags = tags + ', ' + t[1]
-    return tags
-
-
-def isNNx(w):
-
-    for t in newTaggedList:
-        if w == t[0]:
-            if t[1] in ['NN', 'NNP', 'NNS']:
-                return True
-
-    return False
-
-
-def isVBx(w):
-
-    for t in newTaggedList:
-        if w == t[0]:
-            if t[1] in [vb, vbd, vbg, vbn, vbp, vbz]:
-                return True
-
-    return False
-
-
-def getVBxTag(w):
-
-    for t in newTaggedList:
-        if w == t[0]:
-            if t[1] == vb:
-                return vb
-            if t[1] == vbd:
-                return vbd
-            if t[1] == vbg:
-                return vbg
-            if t[1] == vbn:
-                return vbn
-            if t[1] == vbp:
-                return vbp
-            if t[1] == vbz:
-                return vbz
-
-    return unk
-
-
-def checkCorpus(uI, allInflections):
-
-    baseWordSearch = True
-
-    print('Processing checkCorpus...')
-
-    uI_List = uI.split()
-    print('uI_List: ', uI_List)
-
-    sentsFound = []
-    allVerbs = []
-
-    # Pull sentences from the corpus that match input senetence nouns
-    for sent in corpus:
-        for w in uI_List:
-            t = []
-            if w in sent:
-                if isNNx(w):
-                    t.append(w)
-                    t.append(sent)
-                    sentsFound.append(t)
-                    #i = (getInflections(wTag[0][0], 'NN')) # Not yet
-                
-    print('len (NNx) sentsFound: ', len(sentsFound))
-    print('type (NNx) sentsFound: ', type(sentsFound))    
-    
-    # Of the above noun matching sentences what are the verbs?
-    sentsFound_wVBs = []
-    for s in sentsFound:
-        tmp = []
-        verb = []
-        verbFound = False
-        for s1 in s[1]:            
-            if isVBx(s1):
-                vTag = getVBxTag(s1)
-                verb.append(s1)
-                verb.append(vTag)
-                iTag = getInflectionTag(vTag)
-                i = []
-                if iTag != 'x': # Trying to solve the see/saw/saw problem
-                    if len(s[1]) > 2:
-                        beforeWordTag = getWordTag(s[1][0], newTaggedList)
-                        afterWordTag = getWordTag(s[1][2], newTaggedList)
-                        if (beforeWordTag in [nn, nnp, nns, prp]) and (afterWordTag in [nn, nnp, nns, prp]):
-                            baseWordSearch = False
-                        else:
-                            baseWordSearch = True
-                    else:
-                        print('else len(s[1]) > 2: ', len(s[1]))
-
-                    i = getInflections(s1, iTag, baseWordSearch, allInflections)
-                else:
-                    print('unknown inflection tag: ', iTag)
-                verb.append(i)
-                verbFound = True
-            
-        tmp.append(s[0])
-        tmp.append(s[1])
-        tmp.append(verb)
-        
-        sentsFound_wVBs.append(tmp)
-        
-    print('len sentsFound_wVBs: ', len(sentsFound_wVBs))
-    print('type sentsFound_wVBs: ', type(sentsFound_wVBs))
-    
-    print('--' * 5)
-    print('Do any of the verbs in the senetences found match the input sentence?')
-    # Do any of the verbs in the senetences found match the input sentence?
-    verbsMatch = []
-    for w_uI in uI_List:
-        if isVBx(w_uI):
-            for nS in sentsFound_wVBs:
-                tmp = []
-                if w_uI in nS[1]: # was 2
-                    tmp.append(w_uI)
-                    tmp.append(nS)
-                    verbsMatch.append(tmp)
-                else:
-                    for v in nS[2]: # was 3                      
-                        if isinstance(v, str):
-                            if w_uI == v:
-                                tmp.append(w_uI)
-                                tmp.append(nS)
-                                verbsMatch.append(tmp)
-                        elif isinstance(v, list):
-                            if w_uI in v:
-                                tmp.append(w_uI)
-                                tmp.append(nS)
-                                verbsMatch.append(tmp)
-                        else:
-                            print('unknown type found')
-                
-    print('len verbsMatch: ', len(verbsMatch))
-    print('type verbsMatch: ', type(verbsMatch))
-
-    print('-- end checkCorpus ---' * 5)
-               
-    return sentsFound, sentsFound_wVBs, verbsMatch
-
-
-def validInput(uI, taggedBoW):
-
-    uI_List = uI.split()
-    valid_uI = []
-    tmp = []
-
-    for word in taggedBoW:
-        if word[0] in uI_List:
-            if word[0] not in valid_uI:
-                valid_uI.append(word[0])
-
-    uI_Set = set(uI_List)
-    valid_uI_Set = set(valid_uI)
-
-    diff = uI_Set.difference(valid_uI)
-    intr = uI_Set.intersection(valid_uI)
-
-    # Cheesy way to keep order but drop unknown words
-    for i in uI_List:
-        if i in valid_uI:
-            tmp.append(i)
-    
-    return tmp, diff, intr
-
-"""
-def checkKB(sents, kbTree):
-
-    kb_Nouns = []
-    baseWordSearch = False
-    inflect = []
-    
-    for s in sents:
-        sWord = s[0]
-        sTag  = s[1]
-        if sTag == nns:
-            tag = getInflectionTag(sTag)
-            inflect = getInflections(sWord, tag, baseWordSearch)        
-
-        if len(inflect) > 0:
-            sWord = inflect[0]
-            inflect = []
-            
-        tmp = []
-        
-        if kbTree.isNode(sWord):
-            cDo = kbTree.get_canDo(kbTree.root, sWord)
-            tmp.append(sWord)
-            tmp.append(cDo)
-            kb_Nouns.append(tmp)
-        else:
-            if sTag in [nn, nns]:
-                tmp.append(sWord)
-                tmp.append('unknown')
-                kb_Nouns.append(tmp)
-
-    noDupFoundList = []
-    for i in kb_Nouns:
-        if i not in noDupFoundList:
-            noDupFoundList.append(i)
-    kb_Nouns = noDupFoundList
-
-    return kb_Nouns
-"""
 
 def sentenceAnalysis(tagged_uI, kbTree):
 
@@ -243,7 +25,7 @@ def sentenceAnalysis(tagged_uI, kbTree):
     sA_Obj, error = sentAnalysis(tagged_uI, kbTree)
 
     if len(error) > 0:
-        print('*** sentAnalysis returned errors:')
+        print('*** sentAnalysis returned possible errors:')
         for e in error:
             print(e)
 
@@ -251,201 +33,25 @@ def sentenceAnalysis(tagged_uI, kbTree):
 
     return sA_Obj
 
+def kbCommand(kbTree):
 
-def tagSentence(sentence, newWords, newTaggedList):
+    nodeKey = input('Enter KB Node (key/name) to display: ')
 
-    taggedSentence = []
+    node = kbTree.find_node(kbTree.root, nodeKey)
 
-    if isinstance(sentence, str):
-        sentList = sentence.split()
-    elif isinstance(sentence, list):
-        sentList = sentence
+    if node == None:
+        print('Could not find a node named: ', nodeKey)
     else:
-        print('Unknown sentence type: ', type(sentence))
-        return None
-
-    for w in sentList:
-        tmp = []
-        tag = getWordTag(w, newTaggedList)
-        if tag == '':
-            tag = newWordTag(w, newWords)
-        tmp.append(w)
-        tmp.append(tag)
-        taggedSentence.append(tmp)
-
-    return taggedSentence
-
-
-def getMatchedTags(corpus, tagged_uI):
-
-    matchedTags = []
-    allTags = []
-    tagOnly_uI = []
+        print('key:      ', node.key)
+        print('parent:   ', node.parentNode)
+        print('similar:  ', node.similar)
+        print('tag:      ', node.tag)
+        print('canDo:    ', node.canDo)
+        print('children: ', node.children)
+        for c in node.children:
+            print(c)
     
-    for t in tagged_uI:
-        tagOnly_uI.append(t[1])
-
-    for sent in corpus:
-        tagSent = []
-        for word in sent:
-            tmp = []
-            tag = getWordTag(word, newTaggedList)
-            tmp.append(word)
-            tmp.append(tag)
-            tagSent.append(tmp)
-        allTags.append(tagSent)
-
-    for taggedSent in allTags:
-        tags = []
-        for t in taggedSent:
-            tags.append(t[1])
-
-        if tagOnly_uI == tags: # Wow a direct match!
-            matchedTags.append(taggedSent)
-
-    return matchedTags
-
-
-def fragmentMatcher(tagged_uI, nounsMatch, verbsMatch, matchedTags):
-
-    taggedNounsMatched = []
-    taggedVerbsMatched = []
-    fragmentMatches = []
-
-    print('------ start fragmentMatcher ------')
-    print(' len tagged_uI: ', len(tagged_uI))
-    print(' type tagged_uI: ', type(tagged_uI))
-    print(' len nounsMatch: ', len(nounsMatch))
-    print(' type nounsMatch: ', type(nounsMatch))
-    print(' len verbsMatch: ', len(verbsMatch))
-    print(' type verbsMatch: ', type(verbsMatch))
-    print(' len matchedTags: ', len(matchedTags))
-    print(' type matchedTags: ', type(matchedTags))
-
-    for s in nounsMatch:
-        sent = []
-        for entry in s[1]:
-            tmp = []
-            tag = getWordTag(entry, newTaggedList)
-            tmp.append(entry)
-            tmp.append(tag)
-            sent.append(tmp)
-        taggedNounsMatched.append(sent)
-
-
-    noDupFoundList = []
-    for i in taggedNounsMatched:
-        if i not in noDupFoundList:
-            noDupFoundList.append(i)
-    taggedNounsMatched = noDupFoundList
-
-    print('nouns taggedNounsMatched:')
-    for i in taggedNounsMatched:
-        print(i)
-
-
-    for s in verbsMatch:
-        sent = []
-        for entry in s[1][1]:
-            tmp = []
-            tag = getWordTag(entry, newTaggedList)
-            tmp.append(entry)
-            tmp.append(tag)
-            sent.append(tmp)
-        taggedVerbsMatched.append(sent)
-
-    noDupFoundList = []
-    for i in taggedVerbsMatched:
-        if i not in noDupFoundList:
-            noDupFoundList.append(i)
-    taggedVerbsMatched = noDupFoundList
-
-    print('verbs taggedVerbsMatched')
-    for i in taggedVerbsMatched:
-        print(i)
-
-    print('\ntagged uI: ', tagged_uI)
-
-    # Based on the assumption the corpus has correct grammar...
-    # Does our input match any of the noun matched sentences?
-
-    # low hanging furit
-    print('matchedTags found:')
-    print(matchedTags)
-    d = listDepth(matchedTags)
-    print('d: ', d)
-    if len(matchedTags) > 0:
-        return matchedTags
-    
-    print('---')
-
-    for n in taggedNounsMatched:
-        if len(tagged_uI) != len(n):
-            if len(tagged_uI) < len(n):
-#                print('tagged_uI is shorter than n')
-#                print(tagged_uI)
-#                print(n)
-
-                winSize_i = 3
-                winSize_j = 3
-                for i in range(len(n) - winSize_i + 1):
-                    window_i = n[i:i+winSize_i]
-#                    print('window_i: ', window_i)
-                    for j in range(len(tagged_uI) - winSize_j + 1):
-                        window_j = tagged_uI[j:j+winSize_j]
-#                        print('window_j: ', window_j)
-                        if window_i == window_j:
-#                            print(' < Match Found: ', window_i)
-                            fragmentMatches.append(n)
-                            break
-                    
-            elif len(tagged_uI) > len(n):
-#                print('tagged_uI is longer than n')
-#                print(tagged_uI)
-#                print(n)
-
-                winSize_i = 3
-                winSize_j = 3
-                for i in range(len(tagged_uI) - winSize_i + 1):
-                    window_i = tagged_uI[i:i+winSize_i]
-#                    print('window_i: ', window_i)
-                    for j in range(len(n) - winSize_j + 1):
-                        window_j = n[j:j+winSize_j]
-#                        print('window_j: ', window_j)
-                        if window_i == window_j:
-#                            print(' > Match Found: ', window_i)
-                            fragmentMatches.append(n)
-                            break
-            else:
-                print('tagged_uI has unkown len compared to n')
-                print(tagged_uI)
-                print(n)
-        else:
-#            print('tagged_uI is equal to n')
-#            print(tagged_uI)
-#            print(n)
-            if tagged_uI == n:
-                print('   Exact match: tagged_uI == n')
-                return n
-                
-            else:
-                print('window search...')
-                
-                for i in range(len(tagged_uI) - winSize_i + 1):
-                    window_i = tagged_uI[i:i+winSize_i]
-#                    print('window_i: ', window_i)
-                    for j in range(len(n) - winSize_j + 1):
-                        window_j = n[j:j+winSize_j]
-#                        print('window_j: ', window_j)
-                        if window_i == window_j:
-#                            print(' = Match Found: ', window_i)
-                            fragmentMatches.append(n)
-                            break
-                        
-    print('------ end fragmentMatcher ------')
-
-    return fragmentMatches
-
+    return
 
 def processUserInput():
 
@@ -456,11 +62,15 @@ def processUserInput():
 
     while True:
         print('-' * 5)
-        uI = input('Please enter a sentence: ')
+        uI = input('Please enter a sentence or enter <kb>: ')
         print(uI)
 
         if uI == '':
             sys.exit('Nothing entered.')
+
+        if uI == 'kb':
+            kbCommand(kbTree)
+            continue
 
         print('-' * 5)
 
@@ -505,16 +115,28 @@ def processUserInput():
 
         print('-' * 10)
 
-        grammarResults = chk4Grammar(taggedInput, taggedCorpus)
+        grammarResults = chkGrammar(sA_Obj, taggedCorpus)
 
-        print('Results from chk4Grammar:')
+        print('Results from chkGrammar:')
         print(grammarResults)
         
         print('-' * 10)
         print('Check KB...')
 
-        results = chkKB(sA_Obj, kbTree)
+        kbNodes = chkKB(sA_Obj, kbTree)
 
+        for node in kbNodes:
+            print('---')
+            print('key:      ', node.key)
+            
+            print('parent:   ', node.parentNode)
+            print('similar:  ', node.similar)
+            print('tag:      ', node.tag)
+            print('canDo:    ', node.canDo)
+            print('childern: ', node.children)
+            for c in node.children:
+                print(c)
+            
 
         print('-' * 10)
         print('prattle (from processInput.py)...')
@@ -525,12 +147,12 @@ def processUserInput():
 
     return 'Exit.'
 
+
 #
-#######
 #
 if __name__ == "__main__":
 
-    print('Processing processInput (main)...')
+    print('Processing processInput (__main__)...')
 
     processUserInput()
 
