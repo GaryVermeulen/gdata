@@ -25,7 +25,7 @@ def getRawCorpus():
 
     # Read corpus input
     for inFile in dirList:
-        with open(dataPath + '/' + inFile, 'r') as f:
+        with open(dataPath + '/' + inFile, 'r', encoding="utf8") as f: # Added , encoding="utf8" foe Win PC
             while (line := f.readline().rstrip()):
                 line = line.replace('!', '.') # To simplify downstream processing
                 line = line.replace('?', '.')
@@ -107,13 +107,12 @@ def expandSents(corpusSents):
 
 def buildTaggedBoW(taggedCorpus):
 
-    taggedBoW = []
+    taggedBoW = loadStarterDictionary()
 
     for s in taggedCorpus:
         for w in s:
             if w not in taggedBoW:
                 taggedBoW.append(w)
-
 
     return(taggedBoW)
 

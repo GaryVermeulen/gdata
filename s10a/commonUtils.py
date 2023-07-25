@@ -324,3 +324,30 @@ def insertKBNode(kbTree, node2Insert):
     print('  --- insertKBNode Complete ---')
     return kbTree
 
+
+def chkTagging(taggedInput, taggedBoW):
+
+    tagging = []
+
+    for w in taggedInput:
+        tmpTag = []
+        word = w[0]
+        tag = w[1]
+        tmpTag.append(word)
+        tmpTag.append(tag)
+        for t in taggedBoW:    
+            if w[0] == t[0]:
+                tmpTag.append(t[1])
+                print('t and i match: ')
+                print('w; ', w)
+                print('t: ', t)
+        tagging.append(tmpTag)
+        
+    print('---')
+    for t in tagging:
+        print('t: ')
+        print(t)
+
+
+    return 'tags match BoW or do not match BoW'
+

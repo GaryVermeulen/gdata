@@ -6,10 +6,12 @@ import pickle
 import sys
 import spacy
 
-from commonUtils import *
-from simpConfig import *
-from processKB import *
-from simpSA import *
+from commonUtils import loadPickle, savePickle
+from commonUtils import chkTagging
+from simpConfig import simp
+#from processKB import *
+
+from simpSA import sentAnalysis
 from simpGA import chkGrammar
 from checkKB import chkKB
 #from processOutput import prattle
@@ -83,6 +85,15 @@ def processUserInput():
 
         print('Spacy tagged input:')
         print(taggedInput)
+
+        print('-' * 5)
+        print('Checking tags...')
+
+        results = chkTagging(taggedInput, taggedBoW)
+
+        print('chkTagging results:')
+        print(results)
+        
 
         print('-' * 5)
         print('Checking KB for simp...')

@@ -49,7 +49,7 @@ def getPickles():
         print('Aunt Bee loaded taggedCorpusSents.pkl')
     fp.close()
     """
-    """
+    
     # taggedBoW
     # List of tuples...
     # 715
@@ -65,7 +65,7 @@ def getPickles():
         ourPickle = pickle.load(fp)
         print('Aunt Bee loaded taggedBoW.pkl')
     fp.close()
-    """
+    
     """
     # Inflections:
     # List of lists...
@@ -116,14 +116,14 @@ def getPickles():
         print('Aunt Bee loaded kbDict.pkl')
     fp.close()
     """
-    
+    """
     # N_arry_Tree
     #
     with open('pickles/kbTree.pkl', 'rb') as fp:
         ourPickle = pickle.load(fp)
         print('Aunt Bee loaded kbTree.pkl')
     fp.close()
-    
+    """
 
     
     
@@ -254,11 +254,12 @@ if __name__ == "__main__":
     ourPickle = getPickles()
 
     print('ourPickle:')
-#    print(len(ourPickle))
+    print(len(ourPickle))
     print(type(ourPickle))
-    print(ourPickle.print_tree(ourPickle.root, ''))
+#    print(ourPickle.print_tree(ourPickle.root, ''))
 
 #    print(ourPickle)
+
     """
     for p in ourPickle:
         print(len(p))
@@ -276,13 +277,14 @@ if __name__ == "__main__":
         limit += 1
     
     """
-    """
+    
     # Checking for a word
     cnt = 1
     for p in ourPickle:
-        if p[0] == 'hammy':
-            print(p)
-    """
+        if p[0] == 'not':
+            print('{}: {}'.format(cnt, p))
+        cnt += 1
+    
     """
         # fun can be noun, adjective, or verb -- OUCH!
         # run can be noun or verb -- OUCH!
