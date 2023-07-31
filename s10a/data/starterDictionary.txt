@@ -1,6 +1,6 @@
 for, CC
 and, CC
-not, CC
+nor, CC
 but, CC
 or, CC
 yet, CC

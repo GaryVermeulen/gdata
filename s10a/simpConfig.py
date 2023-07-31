@@ -34,7 +34,9 @@ unk = 'UNK'
 
 simp = 'simp'
 
-FANBOYS = ['for', 'and', 'not', 'but', 'or', 'yet', 'so']
+FANBOYS = ['for', 'and', 'nor', 'but', 'or', 'yet', 'so']
+
+commandWords = ['stop', 'go', 'do', 'come', 'listen'] # We'll see how this works...
 
 
 extended_contractions = { 
@@ -253,7 +255,7 @@ simple_contractions = {
 #
 class Sentence:
 
-    def __init__(self, inSent, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC):
+    def __init__(self, inSent, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC, sRB):
         self.inSent = inSent
         self.sType = sType
         self.sSubj = sSubj
@@ -267,6 +269,7 @@ class Sentence:
         self.sMD = sMD
         self.sWDT = sWDT
         self.sCC = sCC
+        self.sRB = sRB
 
     def printAll(self):
         print('inSent: ', self.inSent)
@@ -282,6 +285,7 @@ class Sentence:
         print('sMD   : ', self.sMD)
         print('sWDT  : ', self.sWDT)
         print('sCC   : ', self.sCC)
+        print('sRB   : ', self.sRB)
 
 
 class wordEntry:

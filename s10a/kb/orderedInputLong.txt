@@ -1,5 +1,6 @@
 # Root node entered via code: thing;t;'';TBD; ROOT
 # name;ppt,tag(NN|NNP);canDo;superclass--No NNS, yet
+# name/key; similar; tag; canDo; parentNode 
 instrument;implement,tool,utensil,device,gadget;NN;TBD;thing
 equipment;appartus,tools,implments,instruments,hardware,gadgets;NN;TBD;thing
 recreation_ground;public_garden,park,playground;NN;TBD;thing

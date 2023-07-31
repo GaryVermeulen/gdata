@@ -13,7 +13,7 @@ def buildKB_Tree(kb):
 
     tree = N_ary_Tree()
     root = 'thing'
-    tree.add(root, '', '', ["TBD"]) # Root to start from
+    tree.add(root, 'all', 'NN', ["everything"]) # Root to start from
 
     for tmpDict in kb:
         newNodeParent = tmpDict["superclass"]

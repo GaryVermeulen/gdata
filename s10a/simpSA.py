@@ -184,14 +184,18 @@ def processVerbs(wordPosition, sent):
         print('wordPosition: ', wordPosition)
     """
     if wordPosition == 1:
-        sent.sType = 'imperative'
-        sent.sVerb = sent.inSent[0] # taggedInput[0]
+        if sent.inSent[0][0] in commandWords:
+            sent.sType = 'imperative'
+        else:
+            sent.sType = 'declarative'
+            
+        sent.sVerb = sent.inSent[0]
     else:
         if sent.sVerb == '':
-            sent.sVerb = sent.inSent[wordPosition - 1] # taggedInput[wordPosition - 1]
+            sent.sVerb = sent.inSent[wordPosition - 1]
         else:
             tmpVerbs.append(sent.sVerb)
-            tmpVerbs.append(sent.inSent[wordPosition - 1]) # taggedInput[wordPosition - 1])
+            tmpVerbs.append(sent.inSent[wordPosition - 1])
             sent.sVerb = tmpVerbs
 
     return sent
@@ -331,11 +335,30 @@ def processCC(wordPosition, sent):
         if sent.sCC == '':
             sent.sCC = sent.inSent[wordPosition - 1] # taggedInput[wordPosition - 1]
         else:
-            tmpCC.append(sent.sMD)
+            tmpCC.append(sent.sCC)
             tmpCC.append(sent.inSent[wordPosition - 1]) # taggedInput[wordPosition - 1])
             sent.sCC = tmpCC
 
     return sent
+
+
+def processRB(wordPosition, sent):
+
+    tmpRB = []
+
+    if wordPosition == 1:
+        sent.sType = 'declarative'
+        sent.sRB = sent.inSent[0]
+    else:
+        if sent.sRB == '':
+            sent.sRB = sent.inSent[wordPosition - 1]
+        else:
+            tmpRB.append(sent.sRB)
+            tmpRB.append(sent.inSent[wordPosition - 1])
+            sent.sRB = tmpRB
+
+    return sent
+
 
 
 def getTag(item):
@@ -378,10 +401,11 @@ def sentAnalysis(taggedInput, kbTree):
     sMD = ''
     sWDT = ''
     sCC = ''
+    sRB = ''
     
     wordPosition = 0
 
-    sent = Sentence(taggedInput, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
+    sent = Sentence(taggedInput, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC, sRB)
 #    print(' BEFORE:')
 #    sent.printAll()
     
@@ -447,7 +471,12 @@ def sentAnalysis(taggedInput, kbTree):
             sent = processCC(wordPosition, sent)
 #            print('CC')
 #            sent.printAll()
-            
+
+        elif currentTag in ['RB']:
+            sent = processRB(wordPosition, sent)
+#            print('CC')
+#            sent.printAll()
+          
         elif currentTag in ['WDT', 'WP', 'WRB']:
             sent = processWDT(wordPosition, sent)
 #            print('WDT...')

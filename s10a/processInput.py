@@ -121,7 +121,8 @@ def processUserInput():
             if sentSubjectCanDo == None:
                 print('{} retunred None from KB.'.format(sA_Obj.sSubj[0]))
             else:
-                sentSubjectCanDo = sentSubjectCanDo.split(',')
+                if isinstance(sentSubjectCanDo, str):
+                    sentSubjectCanDo = sentSubjectCanDo.split(',')
                 print('sentSubjectCanDo: ', sentSubjectCanDo)
 
         print('-' * 10)
