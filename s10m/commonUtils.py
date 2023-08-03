@@ -3,10 +3,18 @@
 #
 
 import os
-
 import pickle
+import pymongo
+
 from commonConfig import *
 
+
+
+def connectMongo():
+
+    myclient = pymongo.MongoClient("mongodb://10.0.0.20:27017")
+
+    return myclient
 
 
 def listDepth(lst):
