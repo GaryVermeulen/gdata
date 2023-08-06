@@ -3,6 +3,7 @@
 #
 
 #import os
+import sys
 import pymongo
 
 from commonConfig import *
@@ -59,8 +60,8 @@ def getInflections(word, tag, baseWordSearch, allInflections):
 
     return []
 
-
-def chkTagging(taggedInput, taggedBoW):
+# Checks tagged user input aginst taggedBoW for conflicts
+def chkTagging(taggedInput, tagged_BoW):
 
     tagging = []
 
@@ -70,6 +71,16 @@ def chkTagging(taggedInput, taggedBoW):
         tag = w[1]
         tmpTag.append(word)
         tmpTag.append(tag)
+
+        node = tagged_BoW.find({},{"taggedBoW":w[0]})
+
+        print(w[0])
+        print(node)
+        
+        for item in node:
+            print(item)
+        
+        """
         for t in taggedBoW:    
             if w[0] == t[0]:
                 tmpTag.append(t[1])
@@ -77,12 +88,13 @@ def chkTagging(taggedInput, taggedBoW):
                 print('w; ', w)
                 print('t: ', t)
         tagging.append(tmpTag)
-        
+        """
+    """
     print('---')
     for t in tagging:
         print('t: ')
         print(t)
-
+    """
 
     return 'tags match BoW or do not match BoW'
 
