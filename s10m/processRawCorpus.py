@@ -219,6 +219,7 @@ def buildLex():
             tagSent = []
             for token in doc:
                 tmpToken = ((str(token.text)), (str(token.tag_)))
+                #tmpToken = {"word":str(token.text), "tag":str(token.tag_)}
                 tagSent.append(tmpToken)
             completeTaggedCorpus.append(tagSent)
 
@@ -243,21 +244,17 @@ def buildLex():
         untaggedCorpus.insert_one({"untaggedSentence": s})
     
     for s in completeTaggedCorpus:
-        #print('len: ', len(s))
-        #print(s)
-        """
-        tmpWords = []
-        tmpTags = []
+        
+        tmpSent = []
         for w in s:
-            tmpWords.append(w[0])
-            tmpTags.append(w[1])
-        sent = {"words": tmpWords, "tags": tmpTags}
-        taggedCorpus.insert_one({"taggedSentence": sent})
-        """
-        taggedCorpus.insert_one({"taggedSentence": s})
+            tmpSent.append({"word": w[0], "tag": w[1]})
+        
+        taggedCorpus.insert_one({"taggedSentence": tmpSent})
+        
+        #taggedCorpus.insert_one({"taggedSentence": s})
 
-    for s in taggedBoW:
-        tagged_BoW.insert_one({"word": s[0], "tag":s[1]})
+    for t in taggedBoW:
+        tagged_BoW.insert_one({"word": t[0], "tag":t[1]})
         
     print(' --- end buildLex() ---')
     return 'Built MongoDB simp w/collections: untaggedCoprus, taggedCoprus, taggedBoW'

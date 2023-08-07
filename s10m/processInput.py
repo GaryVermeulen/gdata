@@ -7,6 +7,7 @@ import spacy
 
 from commonUtils import connectMongo
 from commonUtils import chkTagging
+from commonUtils import chkSimp
 from commonConfig import simp
 
 from simpSA import sentAnalysis
@@ -95,18 +96,19 @@ def processUserInput():
         print('chkTagging results:')
         print(results)
         
-        sys.exit()
-
         print('-' * 5)
-        print('Checking KB for simp...')
-        simpCanDo = kbTree.get_canDo(kbTree.root, simp)
-        simpCanDo = simpCanDo.split(',')
-        print('simpCanDo: ', simpCanDo)
+        print('Checking KB for {}'.format(simp))
+
+        print(chkSimp(nnxKB))
 
         print('-' * 10)
 
-        sA_Obj = sentenceAnalysis(taggedInput, kbTree)    
+        
+
+        sA_Obj = sentenceAnalysis(taggedInput, nnxKB)    
         sA_Obj.printAll()
+
+        sys.exit()
 
         print('-' * 10)
         # save sA_Obj pickle

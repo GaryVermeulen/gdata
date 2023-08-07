@@ -72,29 +72,40 @@ def chkTagging(taggedInput, tagged_BoW):
         tmpTag.append(word)
         tmpTag.append(tag)
 
-        node = tagged_BoW.find({},{"taggedBoW":w[0]})
+        query = {"word":w[0]}
 
-        print(w[0])
-        print(node)
+        node = tagged_BoW.find(query)
+
+        if node.count() == 0:
+            print('w[0]: {} not found in BoW.'.format(w[0]))
+        else:
+            for item in node:
+                tmpTag.append(item.get("tag"))
         
-        for item in node:
-            print(item)
-        
-        """
-        for t in taggedBoW:    
-            if w[0] == t[0]:
-                tmpTag.append(t[1])
-                print('t and i match: ')
-                print('w; ', w)
-                print('t: ', t)
         tagging.append(tmpTag)
-        """
-    """
+        
     print('---')
     for t in tagging:
         print('t: ')
         print(t)
-    """
+    
+    return 'tags match or do not match BoW'
 
-    return 'tags match BoW or do not match BoW'
 
+def chkSimp(nnxKB):
+
+    print('looking for: ', simp)
+    
+    query = {"_id": simp}
+    node = nnxKB.find(query)
+
+    #print('w[0]: ', w[0])
+    #print(node)
+
+    if node.count() == 0:
+        print('simp: {} not found in KB.'.format(simp))
+    else:
+        for item in node:
+            print(item)
+
+    return "simp chk end"
