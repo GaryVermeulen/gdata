@@ -36,6 +36,8 @@ simp = 'Simp'
 
 FANBOYS = ['for', 'and', 'not', 'but', 'or', 'yet', 'so']
 
+# Need to figure a better way
+commandWords = ['No', 'Stop', 'Do', 'Go', 'See', 'Look'] 
 
 extended_contractions = { 
 "ain't": "am not / are not / is not / has not / have not",
@@ -338,7 +340,7 @@ simple_contractions = {
 #
 class Sentence:
 
-    def __init__(self, inSent, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC):
+    def __init__(self, inSent, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC, sRB):
         self.inSent = inSent
         self.sType = sType
         self.sSubj = sSubj
@@ -352,6 +354,7 @@ class Sentence:
         self.sMD = sMD
         self.sWDT = sWDT
         self.sCC = sCC
+        self.sRB = sRB
 
     def printAll(self):
         print('inSent: ', self.inSent)
@@ -367,7 +370,7 @@ class Sentence:
         print('sMD   : ', self.sMD)
         print('sWDT  : ', self.sWDT)
         print('sCC   : ', self.sCC)
-
+        print('sRB   : ', self.sRB)
 
 """
 *** DB structure for KB in MongoDB

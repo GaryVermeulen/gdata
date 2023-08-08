@@ -19,11 +19,11 @@ nlp = spacy.load("en_core_web_lg") # lg has best accuracy
 #nlp = spacy.load("en_core_web_sm") # 
 
 
-def sentenceAnalysis(tagged_uI, kbTree):
+def sentenceAnalysis(tagged_uI):
 
     print('------ start sentenceAnalysis ------')
 
-    sA_Obj, error = sentAnalysis(tagged_uI, kbTree)
+    sA_Obj, error = sentAnalysis(tagged_uI)
 
     if len(error) > 0:
         print('*** sentAnalysis returned possible errors:')
@@ -105,7 +105,7 @@ def processUserInput():
 
         
 
-        sA_Obj = sentenceAnalysis(taggedInput, nnxKB)    
+        sA_Obj = sentenceAnalysis(taggedInput)    
         sA_Obj.printAll()
 
         sys.exit()

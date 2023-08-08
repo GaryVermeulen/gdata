@@ -12,7 +12,11 @@ from commonConfig import *
 
 def connectMongo():
 
-    myclient = pymongo.MongoClient("mongodb://10.0.0.20:27017")
+    # Home server
+    #myclient = pymongo.MongoClient("mongodb://10.0.0.20:27017")
+
+    # Work server
+    myclient = pymongo.MongoClient("mongodb://192.168.0.16:27017")
 
     return myclient
 
@@ -74,6 +78,15 @@ def chkTagging(taggedInput, tagged_BoW):
 
         query = {"word":w[0]}
 
+        records = list(tagged_BoW.find(query))
+
+        if len(records) < 1:
+            print('w[0]: {} not found in BoW.'.format(w[0]))
+        else:
+            for record in records:
+                tmpTag.append(record.get("tag"))
+                              
+        """
         node = tagged_BoW.find(query)
 
         if node.count() == 0:
@@ -81,7 +94,7 @@ def chkTagging(taggedInput, tagged_BoW):
         else:
             for item in node:
                 tmpTag.append(item.get("tag"))
-        
+        """
         tagging.append(tmpTag)
         
     print('---')
@@ -97,15 +110,12 @@ def chkSimp(nnxKB):
     print('looking for: ', simp)
     
     query = {"_id": simp}
-    node = nnxKB.find(query)
+    records = list(nnxKB.find(query))
 
-    #print('w[0]: ', w[0])
-    #print(node)
-
-    if node.count() == 0:
+    if len(records) < 1:
         print('simp: {} not found in KB.'.format(simp))
     else:
-        for item in node:
-            print(item)
+        for record in records:
+            print(record)
 
     return "simp chk end"

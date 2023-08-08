@@ -57,7 +57,7 @@
     
 """
 
-#from simpConfig import *
+from commonConfig import *
 
         
 def processNPP(wordPosition, sent):
@@ -385,7 +385,7 @@ def getTag(item):
 # Attempt to analyze the input sentence
 #   from just POS tags (find SVO)
 ####################################################
-def sentAnalysis(taggedInput, kbTree):
+def sentAnalysis(taggedInput):
    
     print('--- sentAnalysis ---')
 
@@ -570,7 +570,7 @@ if __name__ == "__main__":
 #    tagged_uI = [['bob', 'NNP'], ['and', 'CC'], ['mary', 'NNP'], ['walked', 'VBD'], ['in', 'IN'], ['the', 'DT'], ['park', 'NN'], ['with', 'IN'], ['pookie', 'NNP']]
     tagged_uI = [['bob', 'NNP'], ['is', 'VBZ'], ['in', 'IN'], ['the', 'DT'], ['park', 'NN'], ['with', 'IN'], ['pookie', 'NNP'], ['and', 'CC'], ['hammy', 'NNP']]
 
-    sA_Obj, error = sentAnalysis(tagged_uI, kbTree)
+    sA_Obj, error = sentAnalysis(tagged_uI)
 
     if len(error) > 0:
         for e in error:
