@@ -37,7 +37,7 @@ simp = 'Simp'
 FANBOYS = ['for', 'and', 'not', 'but', 'or', 'yet', 'so']
 
 # Need to figure a better way
-commandWords = ['No', 'Stop', 'Do', 'Go', 'See', 'Look'] 
+commandWords = ['No', 'no', 'Stop', 'stop', 'Do', 'do', 'Go', 'go', 'See', 'see', 'Look', 'look'] 
 
 extended_contractions = { 
 "ain't": "am not / are not / is not / has not / have not",

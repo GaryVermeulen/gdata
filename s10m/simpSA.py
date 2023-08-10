@@ -10,7 +10,7 @@
     declarative sentence (statement)
     interrogative sentence (question)
     imperative sentence (command)
-    exclamative sentence (exclamation)\
+    exclamative sentence (exclamation)
     
 
     Per Wordy.com

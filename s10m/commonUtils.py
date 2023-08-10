@@ -99,10 +99,19 @@ def chkTagging(taggedInput, tagged_BoW):
         
     print('---')
     for t in tagging:
-        print('t: ')
-        print(t)
+#        print(t)
+#        print(len(t))
+        if len(t) > 2:
+            if t[1] != t[2]:
+                print('Tags do not match:')
+                print(t)
+            if len(t) > 3:
+                print('Multiple tags found:')
+                print(t)
+        else:
+            print('{} not found in BoW'. format(t))
     
-    return 'tags match or do not match BoW'
+    return 'Tags check completed'
 
 
 def chkSimp(nnxKB):
