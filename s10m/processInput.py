@@ -48,6 +48,16 @@ def kbCommand(nnxKB):
         for item in node:
             print(item)
     
+    chkKB = chk_nnxKB(nodeKey, nnxKB)
+    if len(chkKB) > 0:
+        print('-' * 5)
+        print(chkKB)
+        print(chkKB["_id"])
+        print(chkKB["similar"])
+        print(chkKB["tag"])
+        print(chkKB["canDo"])
+        print(chkKB["superclass"])
+    
     return
 
 def processUserInput():

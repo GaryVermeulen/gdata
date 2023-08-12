@@ -100,7 +100,7 @@ def chkTagging(taggedInput, tagged_BoW):
             if t[1] != t[2]:
 #                print('Tag mismatch found:')
 #                print(t)
-                mismatch.appned(t)
+                mismatch.append(t)
             if len(t) > 3:
 #                print('Multiple tags found:')
 #                print(t)
