@@ -231,8 +231,8 @@ def buildLex():
     # Save to Mongo
     mdb = connectMongo()
     simpDB = mdb["simp"]
-    untaggedCorpus = simpDB["untaggedCoprus"]
-    taggedCorpus = simpDB["taggedCoprus"]
+    untaggedCorpus = simpDB["untaggedCorpus"]
+    taggedCorpus = simpDB["taggedCorpus"]
     tagged_BoW = simpDB["taggedBoW"]
 
     # For now we will start fresh each time

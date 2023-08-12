@@ -4,16 +4,17 @@
 
 import sys
 import spacy
+import pickle
 
 from commonUtils import connectMongo
 from commonUtils import chkTagging
-from commonUtils import chkSimp
+from commonUtils import chk_nnxKB
+from commonUtils import chkCorpus
 from commonConfig import simp
 
 from simpSA import sentAnalysis
 from simpGA import chkGrammar
-#from checkKB import chkKB
-#from processOutput import prattle
+from processOutput import prattle
 
 nlp = spacy.load("en_core_web_lg") # lg has best accuracy
 #nlp = spacy.load("en_core_web_sm") # 
@@ -50,21 +51,15 @@ def kbCommand(nnxKB):
     return
 
 def processUserInput():
-    """
-    taggedCorpus = loadPickle('taggedCorpusSents')
-    taggedBoW = loadPickle('taggedBoW')
-    allInflections = loadPickle('inflections')
-    kbTree = loadPickle('kbTree')
-    """
 
     mdb = connectMongo()
     simpDB = mdb["simp"]
     nnxKB = simpDB["nnxKB"]
     tagged_BoW = simpDB["taggedBoW"]
+    untaggedCorpus = simpDB["untaggedCorpus"]
     
-
     while True:
-        print('-' * 5)
+        print('-' * 10)
         uI = input('Please enter a sentence or enter <kb>: ')
         print(uI)
 
@@ -75,7 +70,7 @@ def processUserInput():
             kbCommand(nnxKB)
             continue
 
-        print('-' * 5)
+        print('-' * 10)
 
         doc = nlp(uI)
 
@@ -88,78 +83,100 @@ def processUserInput():
         print(taggedInput)
 
         # Check tagged uI aginst taggedBoW for conflicts
-        print('-' * 5)
+        print('-' * 10)
         print('Checking tags...')
 
-        results = chkTagging(taggedInput, tagged_BoW)
+        mismatch, multiple, unknown = chkTagging(taggedInput, tagged_BoW)
 
         print('chkTagging results:')
-        print(results)
+        print('Mismatch: ', mismatch)
+        print('Multiple: ', multiple)
+        print('Unknown: ', unknown)
+
         
-        print('-' * 5)
-        print('Checking KB for {}'.format(simp))
+        if len(unknown) > 0:
+            unkWords = []
+            for u in unknown:
+                unkWords.append(u[0])
 
-        print(chkSimp(nnxKB))
+#        print('unkWords: ', unkWords)
 
+        # Basic sentence analysis
         print('-' * 10)
-
-        
-
+        print('Checking basic sentence analysis')
         sA_Obj = sentenceAnalysis(taggedInput)    
         sA_Obj.printAll()
 
-        sys.exit()
-
+        # save sA_Obj pickle for debug and testing
         print('-' * 10)
-        # save sA_Obj pickle
         print('Saving sentence analysis object:')
-        savePickle('sA_Obj', sA_Obj)
+        f = open('pickles/sA_Obj.pkl', 'wb')
+        pickle.dump(sA_Obj, f)
+        f.close()
+        print('Aunt Bee saved sA_Obj.pkl')
 
+        # KB check
         print('-' * 10)
-
+        # Check Simp canDo's -- ? Here?
+        #print('-' * 5)
+        simpKB = chk_nnxKB(simp, nnxKB)
+        print('-' * 5)
+        print(simpKB)
+        print(simpKB["_id"])
+        print(simpKB["similar"])
+        print(simpKB["tag"])
+        print(simpKB["canDo"])
+        print(simpKB["superclass"])
+        
+        print('-' * 10)
+        # Subject KB check
         if sA_Obj.sSubj == '':
             print('Something is wrong: No subject returned.')
         else:
             print('Checking KB for sentence subject:', sA_Obj.sSubj[0])
-            sentSubjectCanDo = kbTree.get_canDo(kbTree.root, sA_Obj.sSubj[0])
-            if sentSubjectCanDo == None:
-                print('{} retunred None from KB.'.format(sA_Obj.sSubj[0]))
+
+#            print(len(unknown))
+#            print(unknown)
+            
+            if len(unknown) > 0:
+                if sA_Obj.sSubj[0] in unkWords:
+#                    print('sA_Obj.sSubj[0]:', sA_Obj.sSubj[0])
+                    print('{} in not in KB'.format(sA_Obj.sSubj[0]))
             else:
-                if isinstance(sentSubjectCanDo, str):
-                    sentSubjectCanDo = sentSubjectCanDo.split(',')
-                print('sentSubjectCanDo: ', sentSubjectCanDo)
+                print('else: ', sA_Obj.sSubj[0])
+                subjectKB = chk_nnxKB(sA_Obj.sSubj[0], nnxKB)
+                print(subjectKB)
 
+                if len(subjectKB) > 0:
+                    subjectCanDo = subjectKB["canDo"]
+            
+                    if subjectCanDo == '':
+                        print('No canDo retunred for: {} from KB.'.format(sA_Obj.sSubj[0]))
+                    else:
+                        if isinstance(subjectCanDo, str):
+                            subjectCanDo = subjectCanDo.split(',')
+                        print('subjectCanDo: ', subjectCanDo)
+
+
+        # Check corpus for subject
         print('-' * 10)
+        print('Checking corpus for: ', sA_Obj.sSubj[0])
+        subjectCorpus = chkCorpus(sA_Obj.sSubj[0], untaggedCorpus)
+        print('chkCorpus returned:')
+        print(subjectCorpus)
 
-        grammarResults = chkGrammar(sA_Obj, taggedCorpus)
+        # Basic grammar check...~? Preprocess for output...~?
+        print('-' * 10)
+        grammarResults = chkGrammar(sA_Obj)
 
         print('Results from chkGrammar:')
         print(grammarResults)
-        
-        print('-' * 10)
-        print('Check KB...')
-
-        kbNodes = chkKB(sA_Obj, kbTree)
-
-        for node in kbNodes:
-            print('---')
-            print('key:      ', node.key)
-            
-            print('parent:   ', node.parentNode)
-            print('similar:  ', node.similar)
-            print('tag:      ', node.tag)
-            print('canDo:    ', node.canDo)
-            print('childern: ', node.children)
-            for c in node.children:
-                print(c)
-            
 
         print('-' * 10)
         print('prattle (from processInput.py)...')
-        print('Not yet...')
-        #outSent = prattle(sA_Obj)
-        #print('from processInput.py; outSent:')
-        #print(outSent)
+        outSent = prattle(sA_Obj)
+        print('parttle retunred: ')
+        print(outSent)
 
     return 'Exit.'
 

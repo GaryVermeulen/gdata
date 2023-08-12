@@ -13,10 +13,10 @@ from commonConfig import *
 def connectMongo():
 
     # Home server
-    #myclient = pymongo.MongoClient("mongodb://10.0.0.20:27017")
+    myclient = pymongo.MongoClient("mongodb://10.0.0.20:27017")
 
     # Work server
-    myclient = pymongo.MongoClient("mongodb://192.168.0.16:27017")
+    #myclient = pymongo.MongoClient("mongodb://192.168.0.16:27017")
 
     return myclient
 
@@ -68,6 +68,9 @@ def getInflections(word, tag, baseWordSearch, allInflections):
 def chkTagging(taggedInput, tagged_BoW):
 
     tagging = []
+    mismatch = []
+    multiple = []
+    unknown = []
 
     for w in taggedInput:
         tmpTag = []
@@ -81,50 +84,71 @@ def chkTagging(taggedInput, tagged_BoW):
         records = list(tagged_BoW.find(query))
 
         if len(records) < 1:
-            print('w[0]: {} not found in BoW.'.format(w[0]))
+            print('{} not found in BoW.'.format(w[0]))
         else:
             for record in records:
                 tmpTag.append(record.get("tag"))
                               
-        """
-        node = tagged_BoW.find(query)
-
-        if node.count() == 0:
-            print('w[0]: {} not found in BoW.'.format(w[0]))
-        else:
-            for item in node:
-                tmpTag.append(item.get("tag"))
-        """
         tagging.append(tmpTag)
         
     print('---')
+    
     for t in tagging:
 #        print(t)
 #        print(len(t))
         if len(t) > 2:
             if t[1] != t[2]:
-                print('Tags do not match:')
-                print(t)
+#                print('Tag mismatch found:')
+#                print(t)
+                mismatch.appned(t)
             if len(t) > 3:
-                print('Multiple tags found:')
-                print(t)
+#                print('Multiple tags found:')
+#                print(t)
+                multiple.append(t)
         else:
-            print('{} not found in BoW'. format(t))
+#            print('{} not found in BoW'. format(t))
+            unknown.append(t)
+
+    return mismatch, multiple, unknown
+
+
+def chk_nnxKB(item, nnxKB):
+
+    print('chk_nnxKB looking for: ', item)
     
-    return 'Tags check completed'
-
-
-def chkSimp(nnxKB):
-
-    print('looking for: ', simp)
-    
-    query = {"_id": simp}
+    query = {"_id": item}
     records = list(nnxKB.find(query))
 
     if len(records) < 1:
-        print('simp: {} not found in KB.'.format(simp))
+        print('KB item: {} not found in KB.'.format(item))
+        return {}
     else:
-        for record in records:
-            print(record)
+        if len(records) == 1:
+#            print(records[0])
+            return records[0]
+        else:                
+            print('{} records found for {} where we should have only one...~?'.format(len(records), item))
+            return {}            
+        
+    # End chk_nnxKB
 
-    return "simp chk end"
+
+
+def chkCorpus(item, untaggedCorpus):
+
+    record = "NONE"
+    records = []
+
+    print('chkCorpus looking for: ', item)
+    
+    query = {"untaggedSentence": item}
+    #query = {"untaggedSentence": "Hammy"}
+    #records = list(untaggedCorpus.find(query))
+    cursor = untaggedCorpus.find(query)
+
+    for record in cursor:
+        #print(len(record))
+        #print(record)
+        records.append(record["untaggedSentence"])
+
+    return records

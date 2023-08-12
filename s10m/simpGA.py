@@ -68,8 +68,9 @@ def getMacthedTagSent(sA_Obj, taggedCorpus):
     return sCopy
 
 
-def chkGrammar(sA_Obj, taggedCorpus):
+def chkGrammar(sA_Obj):
 
+    # Not sure about this idea anymore???
     
     print('------ start chkGrammar ------')
 
@@ -77,8 +78,8 @@ def chkGrammar(sA_Obj, taggedCorpus):
     if sA_Obj == None:
         return None
 
-    if len(taggedCorpus) < 1:
-        return None
+#    if len(taggedCorpus) < 1:
+#        return None
 
     #print('sA_Obj.inSent:', sA_Obj.inSent)
 
@@ -88,18 +89,18 @@ def chkGrammar(sA_Obj, taggedCorpus):
 
 
     # Has this been said before?
-    wordsMatchB, wordsMatchLst, tagsMatchB, tagsMatchLst = saidBefore(sA_Obj, taggedCorpus)
+#    wordsMatchB, wordsMatchLst, tagsMatchB, tagsMatchLst = saidBefore(sA_Obj, taggedCorpus)
 
-    if wordsMatchB and tagsMatchB:
-        return 'This has been said before (word for word)' 
+#    if wordsMatchB and tagsMatchB:
+#        return 'This has been said before (word for word)' 
 
-    if tagsMatchB:
-        print('tagsMatch: ', tagsMatchLst)
-        print('sA_Obj.inSent: ', sA_Obj.inSent)
-        sCopy = getMacthedTagSent(sA_Obj, taggedCorpus)
-        print('sCopy: ', sCopy)
-
-        return sCopy
+#    if tagsMatchB:
+#        print('tagsMatch: ', tagsMatchLst)
+#        print('sA_Obj.inSent: ', sA_Obj.inSent)
+#        sCopy = getMacthedTagSent(sA_Obj, taggedCorpus)
+#        print('sCopy: ', sCopy)
+#
+#        return sCopy
         
 
     print('------ end chkGrammar ------')

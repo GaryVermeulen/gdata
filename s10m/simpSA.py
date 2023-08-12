@@ -101,6 +101,32 @@ def processNPP(wordPosition, sent):
     return sent
 
 
+def processNNPS(wordPosition, sent):
+
+    if wordPosition == 1:
+        sent.sType = 'declarative'
+
+        if sent.sSubj == '':
+            sent.sSubj =  sent.inSent[0]                        
+    else:
+        if sent.sType == '':
+            sent.sType = 'declarative'
+        if sent.sSubj == '':
+                sent.sSubj = sent.inSent[wordPosition - 1]
+        else:
+            if sent.sObj == '':
+                sent.sObj = sent.inSent[wordPosition - 1]
+            else:
+                if sent.sInObj == '':
+                    sent.sInObj = sent.inSent[wordPosition - 1]
+                else:
+                    tmpInObj.append(sent.sObj)
+                    sent.sInObj = tmpInObj
+                    sent.sInObj.append(sent.inSent[wordPosition - 1])
+
+    return sent
+
+
 def processPRP(wordPosition, sent):
 
     tmpInObj = []
@@ -431,6 +457,8 @@ def sentAnalysis(taggedInput):
             sent = processNPP(wordPosition, sent)
 #            print('NNP')
 #            sent.printAll()
+        elif currentTag == 'NNPS':
+            sent = processNNPS(wordPosition, sent)
         
         elif currentTag in ['PRP', 'PRP$']:
             sent = processPRP(wordPosition, sent)
