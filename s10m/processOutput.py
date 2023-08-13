@@ -11,21 +11,21 @@ from commonUtils import Sentence
 
 def buildOutputObj(sA_Obj):
 
-    osType = 'output'
-    osSubj = ''
-    osVerb = ''
-    osObj = ''
-    osInObj = ''
-    osAdj = ''
-    osDet = ''
-    osIN = ''
-    osPP = ''
-    osMD = ''
-    osWDT = ''
-    osCC = ''
-    osRB = ''
+    sType = 'output'
+    sSubj = ''
+    sVerb = ''
+    sObj = ''
+    sInObj = ''
+    sAdj = ''
+    sDet = ''
+    sIN = ''
+    sPP = ''
+    sMD = ''
+    sWDT = ''
+    sCC = ''
+    sRB = ''
 
-    outSent = Sentence(sA_Obj.inSent, osType, osSubj, osVerb, osObj, osInObj, osAdj, osDet, osIN, osPP, osMD, osWDT, osCC, osRB)
+    outSent = Sentence(sA_Obj.inSent, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC, sRB)
     
 
     print(' --- start buildOutputObj ---')
@@ -33,11 +33,14 @@ def buildOutputObj(sA_Obj):
     if sA_Obj.sType == 'interrogative':
         print(' sType should be interrogative:')
         print(sA_Obj.sType)
-        processInterrogative(sA_Obj, outSent)
+        outSent.sType = 'output to interrogative'
+        print(outSent.sType)
+        outSent = processInterrogative(sA_Obj, outSent)
         
     elif sA_Obj.sType == 'declarative':
         print(' sType should be declarative:')
         print(sA_Obj.sType)
+        #outSent.osType
         
     elif sA_Obj.sType == 'imperative':
         print(' sType should be imperative:')
@@ -62,7 +65,7 @@ def processInterrogative(sA_Obj, outSent):
     print(' --- start processInterrogative ---')
 
     if sA_Obj.sWDT[0] == 'how':
-        processHow(sA_Obj, outSent)
+        outSent = processHow(sA_Obj, outSent)
     else:
         print(' Unrecognized sWDT:')
         print(sA_Obj.sWDT[0])
@@ -70,7 +73,8 @@ def processInterrogative(sA_Obj, outSent):
 
 
     print(' --- end processInterrogative ---')
-
+    
+    return outSent
 
 
 def processHow(sA_Obj, outSent):
@@ -97,6 +101,7 @@ def processHow(sA_Obj, outSent):
             #return
 
     print(' --- end processHow ---')
+    return outSent
 
 
 def prattle(sA_Obj):
@@ -105,6 +110,8 @@ def prattle(sA_Obj):
     print('--- outObj ---')
     outSent = buildOutputObj(sA_Obj)
     outSent.printAll()
+
+    print(outSent.sType)
 
 
     if outSent.sSubj == '':

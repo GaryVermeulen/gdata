@@ -8,41 +8,37 @@
 #from nltk.tokenize import word_tokenize
 
 #from commonUtils import loadPickle
+
+
 from commonConfig import verbose
 from commonConfig import Sentence
+
+from commonUtils import connectMongo
+from commonUtils import getInflectionTag
+from commonUtils import getInflections
+
 
 
 def saidBefore(sA_Obj, taggedCorpus):
 
-    wordsMatch = False
-    tagsMatch = False
-
-    inputWords = []
-    inputTags = []
-    wordsMatchCopy = []
-    tagsMatchCopy = []
+    tmpInSent = ''
+    result = False
     
     for w in sA_Obj.inSent:
-        inputWords.append(w[0])
-        inputTags.append(w[1])
+        if tmpInSent == '':
+            tmpInSent = tmpInSent + w[0]
+        else:
+            tmpInSent = tmpInSent + ' ' + w[0]
 
-    # Has this been said before?
     for s in taggedCorpus:
-        sWords = []
-        sTags = []
-        for w in s:
-            sWords.append(w[0])
-            sTags.append(w[1])
-        
-        if sWords == inputWords:
-            wordsMatch = True
-            wordsMatchCopy = sWords.copy()
+        tmpSent = ' '.join(s)
+        if tmpInSent == tmpSent:
+            print('MATCH')
+            print('tmpInSent: ', tmpInSent)
+            print('tmpSent: ', tmpSent)
+            result = True
 
-        if sTags == inputTags:
-            tagsMatch = True
-            tagsMatchCopy = sTags.copy()
-
-    return wordsMatch, wordsMatchCopy, tagsMatch, tagsMatchCopy
+    return result
 
 
 def getMacthedTagSent(sA_Obj, taggedCorpus):
@@ -68,39 +64,97 @@ def getMacthedTagSent(sA_Obj, taggedCorpus):
     return sCopy
 
 
-def chkGrammar(sA_Obj):
+def canDoMatch(subjectCanDo, simpKB):
+
+    canDoComply = False
+
+
+    print('subjectCanDo: ', subjectCanDo)
+    print('Simp canDo: ', simpKB["canDo"])
+
+    if subjectCanDo == '':
+        print('No subjectCanDo: ', subjectCanDo)
+        return canDoComply
+
+    subjectCanDoSet = set(subjectCanDo)
+    simpCanDoSet = set(simpKB["canDo"])
+
+    intersect = simpCanDoSet.intersection(subjectCanDoSet)
+
+    print('intersect: ', intersect)
+    
+    if len(intersect) > 0:
+        return canDoComply
+    else:
+        canDoreply = True
+
+    return canDoComply
+
+
+def chkGrammar(sA_Obj, subjectCorpus, subjectCanDo, simpKB):
 
     # Not sure about this idea anymore???
+
+    verbsList = []
+    sVerbSet = set(())
     
     print('------ start chkGrammar ------')
-
 
     if sA_Obj == None:
         return None
 
-#    if len(taggedCorpus) < 1:
-#        return None
-
-    #print('sA_Obj.inSent:', sA_Obj.inSent)
-
-
-    #print('inputWords: ', inputWords)
-    #print('inputTags: ', inputTags)
-
-
     # Has this been said before?
-#    wordsMatchB, wordsMatchLst, tagsMatchB, tagsMatchLst = saidBefore(sA_Obj, taggedCorpus)
+    if saidBefore(sA_Obj, subjectCorpus):
+        print('{} Was said before'.format(sA_Obj.inSent))
+    else:
+        print('New input: ', sA_Obj.inSent)
 
-#    if wordsMatchB and tagsMatchB:
-#        return 'This has been said before (word for word)' 
+    # If imperative, can Simp do what is asked?
+    if sA_Obj.sType == 'imperative':
+        if canDoMatch(subjectCanDo, simpKB):
+            print('Can comply--canDo match')
+        else:
+            print('Can NOT comply--canDo does not match')
+    else:
+        print('Not imperative')
 
-#    if tagsMatchB:
-#        print('tagsMatch: ', tagsMatchLst)
-#        print('sA_Obj.inSent: ', sA_Obj.inSent)
-#        sCopy = getMacthedTagSent(sA_Obj, taggedCorpus)
-#        print('sCopy: ', sCopy)
-#
-#        return sCopy
+    # Can the subject do (canDo) what is said (subject canDo match verbs)?
+    if len(subjectCanDo) == 0:
+        print('No subjectCanDo?!: ', subjectCanDo)
+    else:
+        if isinstance(sA_Obj.sVerb, tuple):
+            print('tuple found')
+            sVerbSet.add(sA_Obj.sVerb[0])
+            print(sVerbSet)
+
+            sVerbTag = getInflectionTag(sA_Obj.sVerb[1])
+            inflections = getInflections(sA_Obj.sVerb[0], sVerbTag)
+            print('inflections: ', inflections)
+
+            sVerbSet = set(inflections[0])
+            
+            
+        elif isinstance(sA_Obj.sVerb, list):
+            print('list found')
+            tmpLst = []
+            for v in sA_Obj.sVerb:
+                tmpLst.append(v[0])
+            sVerbSet.add(tmpLst)
+            print(sVerbSet)
+        else:
+            print('expecting tuple or list, but found: ', sA_Obj.sVerb)
+
+        if len(sVerbSet) > 0:
+            subjectCanDoSet = set(subjectCanDo)
+            print('subjectCanDoSet: ', subjectCanDoSet)
+            intersect = subjectCanDoSet.intersection(sVerbSet)
+            if len(intersect) > 0:
+                print('Yes, subject {} can {}'.format(sA_Obj.sSubj, intersect))
+            else:
+                print('No, subject {} cannot {}'.format(sA_Obj.sSubj, intersect))
+        else:
+            print('len(sVerbSet) == 0 ?', sVerbSet)
+        
         
 
     print('------ end chkGrammar ------')
@@ -108,29 +162,6 @@ def chkGrammar(sA_Obj):
 
 
 if __name__ == "__main__":
-#    verbose = False
 
-    # setup test input
-    # taggedInput = [('i', 'NN'), ('am', 'VBP'), ('very', 'RB'), ('fine', 'JJ')] # Dummy test input
-    taggedInput = [('see', 'VB'), ('hammy', 'NNP'), ('run', 'VB')]
-
-    sType = 'declarative'
-    sSubj = ('hammy', 'NNP')
-    sVerb = [('see', 'VBP'),('run', 'VB')]
-    sObj = ''
-    sInObj = ''
-    sAdj = ''
-    sDet = ''
-    sIN = ''
-    sPP = ''
-    sMD = ''
-    sWDT = ''
-    sCC = ''
-
-    sent = Sentence(taggedInput, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC)
-
-    taggedCorpus = loadPickle('taggedCorpusSents')
-    
-    print(chkGrammar(sent, taggedCorpus))
-
+    print("simpGA.py: must call chkGrammar from other py file.")
         

@@ -33,36 +33,34 @@ def getInflectionTag(tag):
     return 'x'
 
 
-def getInflections(word, tag, baseWordSearch, allInflections):
+def getInflections(word, tag):
     # This is really going to be fun, ex: saw (to cut) vs. past tense of see
 #    cnt = 1
 #    print('searching for word: {} tag: {}'.format(word, tag))
 
-    if len(allInflections) == 0:
-        allInflections = loadPickle('inflections')
+    records = []
+    inflects = []
     
-    for line in allInflections:
-        if word in line:
-#            print('found {} at {} {}'.format(word, cnt, line))
-#            print('tag: ', tag)
-            if line[1] == tag:
-#                print('found v {} with tag {} at {} {}'.format(word, tag, cnt, line))
-                if baseWordSearch:
-#                    print('base word match {} at {} {}'.format(word, cnt, line))
-                    return line
-                else: # Search inflections only
-                    idx = 0
-                    for i in line:
-                        if idx > 1:
-                            if i == word:
-#                                print('i: ', i)
-#                                print('idx: ', idx)
-#                                print('Non-base word match {} at {} {}'.format(word, cnt, line))
-                                return line
-                        idx += 1
-#        cnt += 1
+    mdb = connectMongo()
+    simpDB = mdb["simp"]
+    inflectionsCol = simpDB["inflections"]
 
-    return []
+    print('word: ', word)
+    print('tag: ', tag)
+
+    query = {"inflections": word}
+    cursor = inflectionsCol.find(query)
+
+    for record in cursor:
+        records.append(record["inflections"])
+
+    print('records: ', records)
+
+    for r in records:
+        if r[1] == tag:
+            inflects.append(r)
+    
+    return inflects
 
 # Checks tagged user input aginst taggedBoW for conflicts
 def chkTagging(taggedInput, tagged_BoW):
@@ -80,7 +78,6 @@ def chkTagging(taggedInput, tagged_BoW):
         tmpTag.append(tag)
 
         query = {"word":w[0]}
-
         records = list(tagged_BoW.find(query))
 
         if len(records) < 1:
@@ -90,23 +87,14 @@ def chkTagging(taggedInput, tagged_BoW):
                 tmpTag.append(record.get("tag"))
                               
         tagging.append(tmpTag)
-        
-    print('---')
     
     for t in tagging:
-#        print(t)
-#        print(len(t))
         if len(t) > 2:
             if t[1] != t[2]:
-#                print('Tag mismatch found:')
-#                print(t)
                 mismatch.append(t)
             if len(t) > 3:
-#                print('Multiple tags found:')
-#                print(t)
                 multiple.append(t)
         else:
-#            print('{} not found in BoW'. format(t))
             unknown.append(t)
 
     return mismatch, multiple, unknown
@@ -124,7 +112,6 @@ def chk_nnxKB(item, nnxKB):
         return {}
     else:
         if len(records) == 1:
-#            print(records[0])
             return records[0]
         else:                
             print('{} records found for {} where we should have only one...~?'.format(len(records), item))
@@ -133,22 +120,16 @@ def chk_nnxKB(item, nnxKB):
     # End chk_nnxKB
 
 
-
 def chkCorpus(item, untaggedCorpus):
 
-    record = "NONE"
     records = []
 
     print('chkCorpus looking for: ', item)
     
     query = {"untaggedSentence": item}
-    #query = {"untaggedSentence": "Hammy"}
-    #records = list(untaggedCorpus.find(query))
     cursor = untaggedCorpus.find(query)
 
     for record in cursor:
-        #print(len(record))
-        #print(record)
         records.append(record["untaggedSentence"])
 
     return records

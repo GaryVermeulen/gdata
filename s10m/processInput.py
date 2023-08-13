@@ -140,6 +140,7 @@ def processUserInput():
         
         print('-' * 10)
         # Subject KB check
+        subjectCanDo = ''
         if sA_Obj.sSubj == '':
             print('Something is wrong: No subject returned.')
         else:
@@ -155,7 +156,7 @@ def processUserInput():
             else:
                 print('else: ', sA_Obj.sSubj[0])
                 subjectKB = chk_nnxKB(sA_Obj.sSubj[0], nnxKB)
-                print(subjectKB)
+                print('subjectKB: ', subjectKB)
 
                 if len(subjectKB) > 0:
                     subjectCanDo = subjectKB["canDo"]
@@ -165,7 +166,7 @@ def processUserInput():
                     else:
                         if isinstance(subjectCanDo, str):
                             subjectCanDo = subjectCanDo.split(',')
-                        print('subjectCanDo: ', subjectCanDo)
+                    print('subjectCanDo: ', subjectCanDo)
 
 
         # Check corpus for subject
@@ -177,11 +178,12 @@ def processUserInput():
 
         # Basic grammar check...~? Preprocess for output...~?
         print('-' * 10)
-        grammarResults = chkGrammar(sA_Obj)
+        grammarResults = chkGrammar(sA_Obj, subjectCorpus, subjectCanDo, simpKB)
 
         print('Results from chkGrammar:')
         print(grammarResults)
 
+        # Respond with appropiate output
         print('-' * 10)
         print('prattle (from processInput.py)...')
         outSent = prattle(sA_Obj)
