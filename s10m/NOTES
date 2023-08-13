@@ -1,15 +1,19 @@
 s10m -- Current iteration of Simpleton which uses MongoDB
  
-This version is a series of Python files w/o a main file. It also uses MongoDB instead of pickles.
+This version is a series of Python files w/o a main file. It also uses MongoDB for corpus, BoW, inflections, and KB.
 
 Process order:
 	1) processRawCorpus.py		-- Processes raw text corpus files, and stores corpus collections
 	2) processRawinflections.py	-- Process raw inflection file, and store in inflection collection
 	3) processRawKB.py		-- Process predefined KB text file for NN and NNP
-	 
+	4) processInput.py		-- Processes user input
 
 Utilities:
 	commonUtils.py		-- Common functions
+	checkPickles.py		-- Pickle checker
+	simpSA.py		-- Rudimentary sentence analysis
+	simpGA.py		-- Rudimentary grammar analysis
+	processOutput.py	-- Take output of processInput.py and attempt appropriate response
 
 Configuration:
 	commonConfig.py		-- Global variables
@@ -18,5 +22,5 @@ Sub-Folders:
 	Corpus			-- Input docs
 	data			-- Starter data and test input
 	kb			-- Starter KB data
-
+	pickles			-- Aunt Bees pickle jar
 
