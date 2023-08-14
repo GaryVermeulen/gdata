@@ -103,7 +103,6 @@ def processUserInput():
         print('Multiple: ', multiple)
         print('Unknown: ', unknown)
 
-        
         if len(unknown) > 0:
             unkWords = []
             for u in unknown:
@@ -140,24 +139,39 @@ def processUserInput():
         
         print('-' * 10)
         # Subject KB check
-        subjectCanDo = ''
+        subjectsKB = []
+        
         if sA_Obj.sSubj == '':
             print('Something is wrong: No subject returned.')
         else:
-            print('Checking KB for sentence subject:', sA_Obj.sSubj[0])
+            print('Checking KB for subject(s):', sA_Obj.sSubj)
 
-#            print(len(unknown))
-#            print(unknown)
-            
-            if len(unknown) > 0:
-                if sA_Obj.sSubj[0] in unkWords:
-#                    print('sA_Obj.sSubj[0]:', sA_Obj.sSubj[0])
-                    print('{} in not in KB'.format(sA_Obj.sSubj[0]))
-            else:
-                print('else: ', sA_Obj.sSubj[0])
+            if isinstance(sA_Obj.sSubj, tuple):
+                print('Processing single subject.')
                 subjectKB = chk_nnxKB(sA_Obj.sSubj[0], nnxKB)
                 print('subjectKB: ', subjectKB)
+                subjectsKB.append(subjectKB)
+                print(subjectsKB)
 
+            elif isinstance(sA_Obj.sSubj, list):
+                print('Processing multiple subjects.')
+                
+                for sub in sA_Obj.sSubj:
+                    subjectKB = chk_nnxKB(sub[0], nnxKB)
+                    print('subjectKB: ', subjectKB)
+                    subjectsKB.append(subjectKB)
+                print(subjectsKB)
+
+            else:
+                print('Unexpected subject type encountered: ', sA_Obj.sSubj[0])
+
+
+
+                    
+
+
+                
+                """
                 if len(subjectKB) > 0:
                     subjectCanDo = subjectKB["canDo"]
             
@@ -167,7 +181,7 @@ def processUserInput():
                         if isinstance(subjectCanDo, str):
                             subjectCanDo = subjectCanDo.split(',')
                     print('subjectCanDo: ', subjectCanDo)
-
+                """
 
         # Check corpus for subject
         print('-' * 10)
@@ -178,7 +192,7 @@ def processUserInput():
 
         # Basic grammar check...~? Preprocess for output...~?
         print('-' * 10)
-        grammarResults = chkGrammar(sA_Obj, subjectCorpus, subjectCanDo, simpKB)
+        grammarResults = chkGrammar(sA_Obj, subjectCorpus, subjectsKB, simpKB)
 
         print('Results from chkGrammar:')
         print(grammarResults)

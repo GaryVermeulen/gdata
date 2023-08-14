@@ -64,17 +64,19 @@ def getMacthedTagSent(sA_Obj, taggedCorpus):
     return sCopy
 
 
-def canDoMatch(subjectCanDo, simpKB):
+def canDoMatch(sVerb, simpKB):
 
     canDoComply = False
 
 
-    print('subjectCanDo: ', subjectCanDo)
+    print('sVerb: ', sVerb)
     print('Simp canDo: ', simpKB["canDo"])
 
-    if subjectCanDo == '':
-        print('No subjectCanDo: ', subjectCanDo)
+    if sVerb == '':
+        print('No sVerb: ', sVerb)
         return canDoComply
+
+    # Extract verbs from verb,tag tuple or list of verb,tag tuples
 
     subjectCanDoSet = set(subjectCanDo)
     simpCanDoSet = set(simpKB["canDo"])
@@ -91,7 +93,7 @@ def canDoMatch(subjectCanDo, simpKB):
     return canDoComply
 
 
-def chkGrammar(sA_Obj, subjectCorpus, subjectCanDo, simpKB):
+def chkGrammar(sA_Obj, subjectCorpus, subjectsKB, simpKB):
 
     # Not sure about this idea anymore???
 
@@ -111,7 +113,7 @@ def chkGrammar(sA_Obj, subjectCorpus, subjectCanDo, simpKB):
 
     # If imperative, can Simp do what is asked?
     if sA_Obj.sType == 'imperative':
-        if canDoMatch(subjectCanDo, simpKB):
+        if canDoMatch(sA_Obj.sVerb, simpKB):
             print('Can comply--canDo match')
         else:
             print('Can NOT comply--canDo does not match')
