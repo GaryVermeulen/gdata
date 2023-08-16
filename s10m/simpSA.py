@@ -74,7 +74,7 @@ def processNPP(wordPosition, sent):
         sent.sType = 'declarative'
 
         if sent.sSubj == '':
-            sent.sSubj =  sent.inSent[0] # taggedInput[0]                        
+            sent.sSubj =  sent.inSent[0]
     else:
         if sent.sType == '':
             sent.sType = 'declarative'
@@ -83,15 +83,20 @@ def processNPP(wordPosition, sent):
             if sent.sSubj == '':
                 sent.sSubj = sent.inSent[wordPosition - 1] #    taggedInput[wordPosition - 1]
             else:
-                if sent.sObj == '':
-                    sent.sObj = sent.inSent[wordPosition - 1] #    taggedInput[wordPosition - 1]
+                if sent.sCC != '':
+                    tmpSubj.append(sent.sSubj)
+                    sent.sSubj = tmpSubj
+                    sent.sSubj.append(sent.inSent[wordPosition - 1])
                 else:
-                    if sent.sInObj == '':
-                        sent.sInObj = sent.inSent[wordPosition - 1] #    taggedInput[wordPosition - 1]
+                    if sent.sObj == '':
+                        sent.sObj = sent.inSent[wordPosition - 1] #    taggedInput[wordPosition - 1]
                     else:
-                        tmpInObj.append(sent.sObj)
-                        sent.sInObj = tmpInObj
-                        sent.sInObj.append(sent.inSent[wordPosition - 1]) # taggedInput[wordPosition - 1])
+                        if sent.sInObj == '':
+                            sent.sInObj = sent.inSent[wordPosition - 1] #    taggedInput[wordPosition - 1]
+                        else:
+                            tmpInObj.append(sent.sObj)
+                            sent.sInObj = tmpInObj
+                            sent.sInObj.append(sent.inSent[wordPosition - 1]) # taggedInput[wordPosition - 1])
         else:
             if sent.sCC != '':
                 tmpSubj.append(sent.sSubj)
@@ -584,6 +589,7 @@ def sentAnalysis(taggedInput):
     
     return sent, error
 # End sentAnalysis
+
 
 
 if __name__ == "__main__":

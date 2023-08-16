@@ -66,39 +66,32 @@ def getMacthedTagSent(sA_Obj, taggedCorpus):
 
 def canDoMatch(sVerb, simpKB):
 
-    canDoComply = False
-
+    canDo = []
+    cannotDo = []
+    simpCanDo = simpKB["canDo"].split(',')
 
     print('sVerb: ', sVerb)
-    print('Simp canDo: ', simpKB["canDo"])
+    print('Simp canDo: ', simpCanDo)
 
     if sVerb == '':
         print('No sVerb: ', sVerb)
-        return canDoComply
-
-    # Extract verbs from verb,tag tuple or list of verb,tag tuples
-
-    subjectCanDoSet = set(subjectCanDo)
-    simpCanDoSet = set(simpKB["canDo"])
-
-    intersect = simpCanDoSet.intersection(subjectCanDoSet)
-
-    print('intersect: ', intersect)
+        return ['No Verb Given'], ['No Verb Given']
     
-    if len(intersect) > 0:
-        return canDoComply
-    else:
-        canDoreply = True
+    for verb in sVerb:
+        if verb in simpCanDo:
+            canDo.append(verb)
+        else:
+            cannotDo.append(verb)
 
-    return canDoComply
+    return canDo, cannotDo
 
 
 def chkGrammar(sA_Obj, subjectCorpus, subjectsKB, simpKB):
 
     # Not sure about this idea anymore???
 
-    verbsList = []
-    sVerbSet = set(())
+    
+    
     
     print('------ start chkGrammar ------')
 
@@ -111,16 +104,39 @@ def chkGrammar(sA_Obj, subjectCorpus, subjectsKB, simpKB):
     else:
         print('New input: ', sA_Obj.inSent)
 
+    # Get input sentence verbs
+    ##sVerbs = getVerbs
+
     # If imperative, can Simp do what is asked?
     if sA_Obj.sType == 'imperative':
-        if canDoMatch(sA_Obj.sVerb, simpKB):
-            print('Can comply--canDo match')
-        else:
-            print('Can NOT comply--canDo does not match')
+        canDo, cannotDo = canDoMatch(sA_Obj.getVerbs(), simpKB)
+        
+        print('Simp can: ', canDo)
+        print('Simp cannot: ', cannotDo)
     else:
         print('Not imperative')
 
     # Can the subject do (canDo) what is said (subject canDo match verbs)?
+    sVerbs = sA_Obj.getVerbs()
+    print('sVerbs: ', sVerbs)
+
+    sVerbsAndTags = sA_Obj.getVerbsAndTags()
+    print('sVerbsAndTags: ', sVerbsAndTags)
+  
+    print(type(subjectsKB))
+    for subj in subjectsKB:
+        print(subj)
+        subjCanDo = set(subj["canDo"].split(','))
+        print(subjCanDo)
+        intersect = subjCanDo.intersection(sVerbs)
+        print(intersect)
+        subjName = subj["_id"]
+        print('{} can {}'.format(subjName, intersect))
+        
+
+  
+        
+    """
     if len(subjectCanDo) == 0:
         print('No subjectCanDo?!: ', subjectCanDo)
     else:
@@ -156,7 +172,7 @@ def chkGrammar(sA_Obj, subjectCorpus, subjectsKB, simpKB):
                 print('No, subject {} cannot {}'.format(sA_Obj.sSubj, intersect))
         else:
             print('len(sVerbSet) == 0 ?', sVerbSet)
-        
+    """    
         
 
     print('------ end chkGrammar ------')

@@ -372,6 +372,35 @@ class Sentence:
         print('sCC   : ', self.sCC)
         print('sRB   : ', self.sRB)
 
+    def getVerbs(self):
+        tmpLst = []
+        if isinstance(self.sVerb, tuple):
+            tmpLst.append(self.sVerb[0])
+            return tmpLst
+        elif isinstance(self.sVerb, list):
+            for verbTuple in self.sVerb:
+                tmpLst.append(verbTuple[0])
+            return tmpLst
+        else:
+            print('expecting tuple or list, but found: ', sA_Obj.sVerb)
+            
+        return []
+
+    def getVerbsAndTags(self):
+
+        if isinstance(self.sVerb, tuple):
+            tmpLst = []
+            tmpLst.append(self.sVerb)
+            return tmpLst
+        elif isinstance(self.sVerb, list):
+            return self.sVerb
+        else:
+            print('expecting tuple or list, but found: ', sA_Obj.sVerb)
+            
+        return []
+
+        
+
 """
 *** DB structure for KB in MongoDB
 
