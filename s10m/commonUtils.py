@@ -13,10 +13,10 @@ from commonConfig import *
 def connectMongo():
 
     # Home server
-    myclient = pymongo.MongoClient("mongodb://10.0.0.20:27017")
+    #myclient = pymongo.MongoClient("mongodb://10.0.0.20:27017")
 
     # Work server
-    #myclient = pymongo.MongoClient("mongodb://192.168.0.16:27017")
+    myclient = pymongo.MongoClient("mongodb://192.168.0.16:27017")
 
     return myclient
 
@@ -120,16 +120,18 @@ def chk_nnxKB(item, nnxKB):
     # End chk_nnxKB
 
 
-def chkCorpus(item, untaggedCorpus):
+def chkCorpus(items, untaggedCorpus):
 
     records = []
 
-    print('chkCorpus looking for: ', item)
-    
-    query = {"untaggedSentence": item}
-    cursor = untaggedCorpus.find(query)
+    print('chkCorpus looking for: ', items)
 
-    for record in cursor:
-        records.append(record["untaggedSentence"])
+    for item in items:
+    
+        query = {"untaggedSentence": item}
+        cursor = untaggedCorpus.find(query)
+
+        for record in cursor:
+            records.append(record["untaggedSentence"])
 
     return records

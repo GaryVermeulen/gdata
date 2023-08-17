@@ -123,15 +123,18 @@ def chkGrammar(sA_Obj, subjectCorpus, subjectsKB, simpKB):
     sVerbsAndTags = sA_Obj.getVerbsAndTags()
     print('sVerbsAndTags: ', sVerbsAndTags)
   
-    print(type(subjectsKB))
+    print('subjectsKB type: ', type(subjectsKB))
+    print('subjectsKB: ', subjectsKB)
+    
     for subj in subjectsKB:
-        print(subj)
-        subjCanDo = set(subj["canDo"].split(','))
-        print(subjCanDo)
-        intersect = subjCanDo.intersection(sVerbs)
-        print(intersect)
-        subjName = subj["_id"]
-        print('{} can {}'.format(subjName, intersect))
+        if len(subj) > 0:
+            print(subj)
+            subjCanDo = set(subj["canDo"].split(','))
+            print(subjCanDo)
+            intersect = subjCanDo.intersection(sVerbs)
+            print(intersect)
+            subjName = subj["_id"]
+            print('{} can {}'.format(subjName, intersect))
         
 
   

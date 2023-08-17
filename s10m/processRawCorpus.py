@@ -200,16 +200,19 @@ def buildLex():
 
     rawCorpusString = getRawCorpus()
     processedCorpus = processRawCorpusString(rawCorpusString)
-
-    
+    print('Loaded and processed {} sentences from corpus.'.format(len(processedCorpus)))
 
     # Change don't to do not
     expandedCorpusSents = expandSents(processedCorpus) # Change don't  to do not    
-
+    print('Expanded sentences: ', len(expandedCorpusSents))
+          
     # Add starter sentences
     startSentList = loadStarterSentences()
+    print('Loaded {} starter sentences.'.format(len(startSentList)))
+          
     completeUntaggedCorpus = expandedCorpusSents + startSentList
-    completeUntaggedCorpus = [x for x in completeUntaggedCorpus if not len(x) < 1] # Remove empty entries []   
+    completeUntaggedCorpus = [x for x in completeUntaggedCorpus if not len(x) < 1] # Remove empty entries []
+    print('Processed {} sentences.'.format(len(completeUntaggedCorpus)))        
     
     # Build/convert into tagged sentences
     completeTaggedCorpus = []
@@ -222,11 +225,13 @@ def buildLex():
                 #tmpToken = {"word":str(token.text), "tag":str(token.tag_)}
                 tagSent.append(tmpToken)
             completeTaggedCorpus.append(tagSent)
+    print('Tagged {} sentences.'.format(len(completeTaggedCorpus)))
 
 #    for s in completeTaggedCorpus:
 #        print(s)
 
     taggedBoW = buildTaggedBoW(completeTaggedCorpus)
+    print('Created Tagged Bag Of Words: ', len(taggedBoW))
 
     # Save to Mongo
     mdb = connectMongo()

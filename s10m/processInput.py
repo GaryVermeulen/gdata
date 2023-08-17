@@ -138,7 +138,7 @@ def processUserInput():
         print(simpKB["superclass"])
         
         print('-' * 10)
-        # Subject KB check
+        # Subject(s) KB check
         subjectsKB = []
         
         if sA_Obj.sSubj == '':
@@ -165,28 +165,10 @@ def processUserInput():
             else:
                 print('Unexpected subject type encountered: ', sA_Obj.sSubj[0])
 
-
-
-                    
-
-
-                
-                """
-                if len(subjectKB) > 0:
-                    subjectCanDo = subjectKB["canDo"]
-            
-                    if subjectCanDo == '':
-                        print('No canDo retunred for: {} from KB.'.format(sA_Obj.sSubj[0]))
-                    else:
-                        if isinstance(subjectCanDo, str):
-                            subjectCanDo = subjectCanDo.split(',')
-                    print('subjectCanDo: ', subjectCanDo)
-                """
-
         # Check corpus for subject
         print('-' * 10)
-        print('Checking corpus for: ', sA_Obj.sSubj[0])
-        subjectCorpus = chkCorpus(sA_Obj.sSubj[0], untaggedCorpus)
+        print('Checking corpus for: ', sA_Obj.getSubjects())
+        subjectCorpus = chkCorpus(sA_Obj.getSubjects(), untaggedCorpus)
         print('chkCorpus returned:')
         print(subjectCorpus)
 

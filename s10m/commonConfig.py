@@ -399,6 +399,19 @@ class Sentence:
             
         return []
 
+    def getSubjects(self):
+        tmpLst = []
+        if isinstance(self.sSubj, tuple):
+            tmpLst.append(self.sSubj[0])
+            return tmpLst
+        elif isinstance(self.sSubj, list):
+            for subjectTuple in self.sSubj:
+                tmpLst.append(subjectTuple[0])
+            return tmpLst
+        else:
+            print('expecting tuple or list, but found: ', sA_Obj.sSubj)
+            
+        return []
         
 
 """
