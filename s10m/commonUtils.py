@@ -2,7 +2,7 @@
 # commonUtils.py
 #
 
-#import os
+import socket
 import sys
 import pymongo
 
@@ -12,11 +12,12 @@ from commonConfig import *
 
 def connectMongo():
 
-    # Home server
-    #myclient = pymongo.MongoClient("mongodb://10.0.0.20:27017")
-
-    # Work server
-    myclient = pymongo.MongoClient("mongodb://192.168.0.16:27017")
+    if socket.gethostname() == 'system76-pc':
+        # Home server
+        myclient = pymongo.MongoClient("mongodb://10.0.0.20:27017")
+    else:
+        # Assume work server
+        myclient = pymongo.MongoClient("mongodb://192.168.0.16:27017")
 
     return myclient
 
@@ -58,9 +59,10 @@ def getInflections(word, tag):
 
     for r in records:
         if r[1] == tag:
-            inflects.append(r)
+            print('r: ', r)
+            return r
     
-    return inflects
+    return ['inflection error']
 
 # Checks tagged user input aginst taggedBoW for conflicts
 def chkTagging(taggedInput, tagged_BoW):

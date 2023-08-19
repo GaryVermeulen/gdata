@@ -76,29 +76,29 @@ def processNPP(wordPosition, sent):
         if sent.sSubj == '':
             sent.sSubj =  sent.inSent[0]
     else:
-        if sent.sType == '':
+        if len(sent.sType) == 0:
             sent.sType = 'declarative'
 
-        if sent.sVerb != '':
-            if sent.sSubj == '':
+        if len(sent.sVerb) > 0:
+            if len(sent.sSubj) == 0:
                 sent.sSubj = sent.inSent[wordPosition - 1] #    taggedInput[wordPosition - 1]
             else:
-                if sent.sCC != '':
+                if len(sent.sCC) > 0:
                     tmpSubj.append(sent.sSubj)
                     sent.sSubj = tmpSubj
                     sent.sSubj.append(sent.inSent[wordPosition - 1])
                 else:
-                    if sent.sObj == '':
+                    if len(sent.sObj) == 0:
                         sent.sObj = sent.inSent[wordPosition - 1] #    taggedInput[wordPosition - 1]
                     else:
-                        if sent.sInObj == '':
+                        if len(sent.sInObj) == 0:
                             sent.sInObj = sent.inSent[wordPosition - 1] #    taggedInput[wordPosition - 1]
                         else:
-                            tmpInObj.append(sent.sObj)
+                            tmpInObj.append(sent.sInObj)
                             sent.sInObj = tmpInObj
                             sent.sInObj.append(sent.inSent[wordPosition - 1]) # taggedInput[wordPosition - 1])
         else:
-            if sent.sCC != '':
+            if len(sent.sCC) > 0:
                 tmpSubj.append(sent.sSubj)
                 sent.sSubj = tmpSubj
                 sent.sSubj.append(sent.inSent[wordPosition - 1]) #    taggedInput[wordPosition - 1])
@@ -161,6 +161,7 @@ def processNN(wordPosition, sent):
 
     tmpInObj = []
     tmpObj = []
+    tmpSubj = []
     """
     if verbose: 
         print('taggedInput to processNN:')
@@ -176,31 +177,44 @@ def processNN(wordPosition, sent):
         if sent.sType == '':
             sent.sType = 'declarative'
 
-        if sent.sVerb != '':
-            if sent.sSubj == '':
+        if len(sent.sVerb) > 0:
+            if len(sent.sSubj) == 0:
                 sent.sSubj = sent.inSent[wordPosition - 1]
             else:
-                if sent.sObj == '':
+                if len(sent.sObj) == 0:
                     sent.sObj = sent.inSent[wordPosition - 1]
                 else:
-                    if sent.sInObj == '':
+                    if len(sent.sInObj) == 0:
                         sent.sInObj = sent.inSent[wordPosition - 1] 
                     else:
-                        tmpInObj.append(sent.sObj)
+                        tmpInObj.append(sent.sInObj)
                         sent.sInObj = tmpInObj
-                        sent.sInObj.append(sent.inSent[wordPosition - 1]) 
+                        sent.sInObj.append(sent.inSent[wordPosition - 1])
         else:
-            if sent.sDet != '':
-                if sent.sSubj == '':
+            if len(sent.sDet) > 0:
+                if len(sent.sSubj) == 0:
                     sent.sSubj = sent.inSent[wordPosition - 1]
-
-            if sent.inSent[wordPosition - 2][1] == 'DT':
-                if sent.sObj == '':
-                        sent.sObj = sent.inSent[wordPosition - 1]
                 else:
-                    tmpObj.append(sent.sObj)
-                    sent.sObj = tmpInObj
-                    sent.sObj.append(sent.inSent[wordPosition - 1])
+                    if len(sent.sCC) > 0 and wordPosition == 4:
+                        tmpSubj.append(sent.sSubj)
+                        sent.sSubj = tmpSubj
+                        sent.sSubj.append(sent.inSent[wordPosition - 1])
+                    else:
+                        if len(sent.sObj) == 0:
+                            sent.sObj = sent.inSent[wordPosition - 1]
+                        else:
+                            tmpObj.append(sent.sObj)
+                            sent.sObj = tmpObj
+                            sent.sObj.append(sent.inSent[wordPosition - 1])
+            # ?
+            #if sent.inSent[wordPosition - 2][1] == 'DT':
+            #    if sent.sSubj != '':
+            #        if sent.sObj == '':
+            #            sent.sObj = sent.inSent[wordPosition - 1]
+            #        else:
+            #            tmpObj.append(sent.sObj)
+            #            sent.sObj = tmpInObj
+            #            sent.sObj.append(sent.inSent[wordPosition - 1])
             
     return sent
 

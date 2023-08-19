@@ -4,11 +4,6 @@
 #   Grammar analysis of current corpus
 #
 
-#from nltk.tag import pos_tag
-#from nltk.tokenize import word_tokenize
-
-#from commonUtils import loadPickle
-
 
 from commonConfig import verbose
 from commonConfig import Sentence
@@ -17,6 +12,23 @@ from commonUtils import connectMongo
 from commonUtils import getInflectionTag
 from commonUtils import getInflections
 
+
+def getVerbInflections(verbsAndTags):
+
+    inflections = []
+#    print('getVerbInflections: ', verbsAndTags)
+
+    for verb in verbsAndTags:
+        v = verb[0]
+        t = verb[1]
+
+        tag = getInflectionTag(t)
+
+        inflections.append(getInflections(v, tag))
+
+#        print('inflections: ', inflections)
+
+    return inflections
 
 
 def saidBefore(sA_Obj, taggedCorpus):
@@ -34,8 +46,8 @@ def saidBefore(sA_Obj, taggedCorpus):
         tmpSent = ' '.join(s)
         if tmpInSent == tmpSent:
             print('MATCH')
-            print('tmpInSent: ', tmpInSent)
-            print('tmpSent: ', tmpSent)
+#            print('tmpInSent: ', tmpInSent)
+#            print('tmpSent: ', tmpSent)
             result = True
 
     return result
@@ -64,34 +76,44 @@ def getMacthedTagSent(sA_Obj, taggedCorpus):
     return sCopy
 
 
-def canDoMatch(sVerb, simpKB):
+def canDoMatch(sVerbs, nnxKB):
 
     canDo = []
     cannotDo = []
-    simpCanDo = simpKB["canDo"].split(',')
+    nnxCanDo = nnxKB["canDo"].split(',')
 
-    print('sVerb: ', sVerb)
-    print('Simp canDo: ', simpCanDo)
+#    print('sVerbs: ', sVerbs)
+#    print('nnxKB: ', nnxKB)
+#    print('nnxCanDo: ', nnxCanDo)
+    nnxCanDoSet = set(nnxCanDo)
+#    print('nnxCanDoSet: ', nnxCanDoSet)
 
-    if sVerb == '':
-        print('No sVerb: ', sVerb)
-        return ['No Verb Given'], ['No Verb Given']
+    if len(sVerbs) == 0:
+        print('No sVerbs: ', sVerbs)
+        return ['No Verb(s) Given'], ['No Verb(s) Given']
     
-    for verb in sVerb:
-        if verb in simpCanDo:
-            canDo.append(verb)
-        else:
-            cannotDo.append(verb)
+    for verb in sVerbs:
+#        print('verb: ', verb)
 
+        verbSet = set(verb)
+        intersect = verbSet.intersection(nnxCanDoSet)
+
+        canDoTmp = []
+        cannotDoTmp = []
+
+        if len(intersect) == 0:
+            cannotDoTmp.append(verb)
+            cannotDo.append(cannotDoTmp)
+        else:
+            canDoTmp = list(intersect)
+            canDo.append(canDoTmp)
+        
     return canDo, cannotDo
 
 
 def chkGrammar(sA_Obj, subjectCorpus, subjectsKB, simpKB):
 
-    # Not sure about this idea anymore???
-
-    
-    
+    # Ever evolving...
     
     print('------ start chkGrammar ------')
 
@@ -100,16 +122,17 @@ def chkGrammar(sA_Obj, subjectCorpus, subjectsKB, simpKB):
 
     # Has this been said before?
     if saidBefore(sA_Obj, subjectCorpus):
-        print('{} Was said before'.format(sA_Obj.inSent))
+        print('Said before: ', sA_Obj.inSent)
     else:
         print('New input: ', sA_Obj.inSent)
 
-    # Get input sentence verbs
-    ##sVerbs = getVerbs
+    # Get input sentence verbs and their inflections
+    allVerbs = getVerbInflections(sA_Obj.getVerbsAndTags())
+    print('allVerbs: ', allVerbs)
 
     # If imperative, can Simp do what is asked?
     if sA_Obj.sType == 'imperative':
-        canDo, cannotDo = canDoMatch(sA_Obj.getVerbs(), simpKB)
+        canDo, cannotDo = canDoMatch(allVerbs, simpKB)
         
         print('Simp can: ', canDo)
         print('Simp cannot: ', cannotDo)
@@ -118,64 +141,31 @@ def chkGrammar(sA_Obj, subjectCorpus, subjectsKB, simpKB):
 
     # Can the subject do (canDo) what is said (subject canDo match verbs)?
     sVerbs = sA_Obj.getVerbs()
-    print('sVerbs: ', sVerbs)
+#    print('sVerbs: ', sVerbs)
 
     sVerbsAndTags = sA_Obj.getVerbsAndTags()
-    print('sVerbsAndTags: ', sVerbsAndTags)
+#    print('sVerbsAndTags: ', sVerbsAndTags)
   
-    print('subjectsKB type: ', type(subjectsKB))
-    print('subjectsKB: ', subjectsKB)
+#    print('subjectsKB type: ', type(subjectsKB))
+#    print('subjectsKB: ', subjectsKB)
     
     for subj in subjectsKB:
+#        print('---')
         if len(subj) > 0:
-            print(subj)
-            subjCanDo = set(subj["canDo"].split(','))
-            print(subjCanDo)
+            #print('subj: ', subj)
+            #subjCanDo = set(subj["canDo"].split(','))
+            #print('subjCanDo: ', subjCanDo)
+
+            canDo, cannotDo = canDoMatch(allVerbs, subj)
+
+            """
             intersect = subjCanDo.intersection(sVerbs)
-            print(intersect)
+            print('intersect: ', intersect)
+            """
             subjName = subj["_id"]
-            print('{} can {}'.format(subjName, intersect))
-        
-
-  
-        
-    """
-    if len(subjectCanDo) == 0:
-        print('No subjectCanDo?!: ', subjectCanDo)
-    else:
-        if isinstance(sA_Obj.sVerb, tuple):
-            print('tuple found')
-            sVerbSet.add(sA_Obj.sVerb[0])
-            print(sVerbSet)
-
-            sVerbTag = getInflectionTag(sA_Obj.sVerb[1])
-            inflections = getInflections(sA_Obj.sVerb[0], sVerbTag)
-            print('inflections: ', inflections)
-
-            sVerbSet = set(inflections[0])
             
-            
-        elif isinstance(sA_Obj.sVerb, list):
-            print('list found')
-            tmpLst = []
-            for v in sA_Obj.sVerb:
-                tmpLst.append(v[0])
-            sVerbSet.add(tmpLst)
-            print(sVerbSet)
-        else:
-            print('expecting tuple or list, but found: ', sA_Obj.sVerb)
-
-        if len(sVerbSet) > 0:
-            subjectCanDoSet = set(subjectCanDo)
-            print('subjectCanDoSet: ', subjectCanDoSet)
-            intersect = subjectCanDoSet.intersection(sVerbSet)
-            if len(intersect) > 0:
-                print('Yes, subject {} can {}'.format(sA_Obj.sSubj, intersect))
-            else:
-                print('No, subject {} cannot {}'.format(sA_Obj.sSubj, intersect))
-        else:
-            print('len(sVerbSet) == 0 ?', sVerbSet)
-    """    
+            print('(subjName) {} can {}'.format(subjName, canDo))
+            print('(subjName) {} cannot {}'.format(subjName, cannotDo))
         
 
     print('------ end chkGrammar ------')

@@ -141,7 +141,7 @@ def processUserInput():
         # Subject(s) KB check
         subjectsKB = []
         
-        if sA_Obj.sSubj == '':
+        if len(sA_Obj.sSubj) == 0:
             print('Something is wrong: No subject returned.')
         else:
             print('Checking KB for subject(s):', sA_Obj.sSubj)

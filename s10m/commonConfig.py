@@ -409,7 +409,7 @@ class Sentence:
                 tmpLst.append(subjectTuple[0])
             return tmpLst
         else:
-            print('expecting tuple or list, but found: ', sA_Obj.sSubj)
+            print('expecting tuple or list, but found: ', self.sSubj)
             
         return []
         
