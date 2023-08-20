@@ -46,8 +46,8 @@ def getInflections(word, tag):
     simpDB = mdb["simp"]
     inflectionsCol = simpDB["inflections"]
 
-    print('word: ', word)
-    print('tag: ', tag)
+#    print('word: ', word)
+#    print('tag: ', tag)
 
     query = {"inflections": word}
     cursor = inflectionsCol.find(query)
@@ -55,14 +55,15 @@ def getInflections(word, tag):
     for record in cursor:
         records.append(record["inflections"])
 
-    print('records: ', records)
+#    print('records: ', records)
 
     for r in records:
         if r[1] == tag:
-            print('r: ', r)
+#            print('r: ', r)
             return r
     
     return ['inflection error']
+
 
 # Checks tagged user input aginst taggedBoW for conflicts
 def chkTagging(taggedInput, tagged_BoW):

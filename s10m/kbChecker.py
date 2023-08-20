@@ -1,15 +1,18 @@
 #
-# simpGA.py
+# kbChecker.py
+#
+# Was: simpGA.py
 #
 #   Grammar analysis of current corpus
-# This evolved into a KB checker and doesn't really do any
+# This evolved into a KB checker which builds
+# a kbResults object and doesn't really do any
 # Grammar analysis, so saved as kbChecker.py
 #
 
 
 from commonConfig import verbose
-from commonConfig import Sentence
-from commonConfig import kbResults
+#from commonConfig import Sentence
+#from commonConfig import kbResults
 
 from commonUtils import connectMongo
 from commonUtils import getInflectionTag
@@ -48,7 +51,7 @@ def saidBefore(sA_Obj, taggedCorpus):
     for s in taggedCorpus:
         tmpSent = ' '.join(s)
         if tmpInSent == tmpSent:
-            print('MATCH')
+#            print('MATCH')
 #            print('tmpInSent: ', tmpInSent)
 #            print('tmpSent: ', tmpSent)
             result = True
@@ -81,30 +84,30 @@ def getMacthedTagSent(sA_Obj, taggedCorpus):
 
 def canDoMatch(sVerbs, nnxKB):
 
-    print('Start --- canDoMatch ---')
+#    print('Start --- canDoMatch ---')
 
     canDo = []
     cannotDo = []
     nnxCanDo = nnxKB["canDo"].split(',')
 
-    print('sVerbs: ', sVerbs)
-    print('nnxKB: ', nnxKB)
-    print('nnxCanDo: ', nnxCanDo)
+#    print('sVerbs: ', sVerbs)
+#    print('nnxKB: ', nnxKB)
+#    print('nnxCanDo: ', nnxCanDo)
     nnxCanDoSet = set(nnxCanDo)
-    print('nnxCanDoSet: ', nnxCanDoSet)
+#    print('nnxCanDoSet: ', nnxCanDoSet)
 
     if len(sVerbs) == 0:
         print('No sVerbs: ', sVerbs)
         return ['No Verb(s) Given'], ['No Verb(s) Given']
     
     for verb in sVerbs:
-        print('verb: ', verb)
+#        print('verb: ', verb)
 
         verbSet = set(verb)
         intersect = verbSet.intersection(nnxCanDoSet)
 
-        print(type(intersect))
-        print(intersect)
+#        print(type(intersect))
+#        print(intersect)
 
         canDoTmp = []
         cannotDoTmp = []
@@ -118,17 +121,17 @@ def canDoMatch(sVerbs, nnxKB):
             #print('canDoTmp: ', canDoTmp)
             canDo.append(verb)
 
-    print(canDo)
-    print(cannotDo)
-    print('End --- canDoMatch ---')    
+#    print(canDo)
+#    print(cannotDo)
+#    print('End --- canDoMatch ---')    
     return canDo, cannotDo
 
 
-def chkGrammar(sA_Obj, subjectCorpus, subjectsKB, simpKB):
+def chkKB(sA_Obj, kb_Obj, subjectCorpus, subjectsInKB, simpKB):
 
     # Ever evolving...
     
-    print('------ start chkGrammar ------')
+    print('------ start chkKB ------')
 
     simpCanX = []
     subjectsCanX = []
@@ -137,7 +140,6 @@ def chkGrammar(sA_Obj, subjectCorpus, subjectsKB, simpKB):
         return None
 
     # Has this been said before?
-    #if saidBefore(sA_Obj, subjectCorpus):
     said = saidBefore(sA_Obj, subjectCorpus)
     if said:
         print('Said before: ', sA_Obj.inSent)
@@ -146,33 +148,33 @@ def chkGrammar(sA_Obj, subjectCorpus, subjectsKB, simpKB):
 
     # Get input sentence verbs and their inflections
     allVerbs = getVerbInflections(sA_Obj.getVerbsAndTags())
-    print('allVerbs: ', allVerbs)
+#    print('allVerbs: ', allVerbs)
 
     # If imperative, can Simp do what is asked?
     if sA_Obj.sType == 'imperative':
         canDo, cannotDo = canDoMatch(allVerbs, simpKB)
         
-        print('Simp can: ', canDo)
-        print('Simp cannot: ', cannotDo)
+#        print('Simp can: ', canDo)
+#        print('Simp cannot: ', cannotDo)
         simpCanX.append(simpKB["_id"])
         simpCanX.append(canDo)
         simpCanX.append(cannotDo)
-        print('simpCanX:')
-        print(simpCanX)
+#        print('simpCanX:')
+#        print(simpCanX)
     else:
-        print('Not imperative')
+        print('sType not imperative, so Simp does not care...')
 
     # Can the subject do (canDo) what is said (subject canDo match verbs)?
     sVerbs = sA_Obj.getVerbs()
     sVerbsAndTags = sA_Obj.getVerbsAndTags()
     
-    for subj in subjectsKB:
+    for subj in subjectsInKB:
         if len(subj) > 0:
             canDo, cannotDo = canDoMatch(allVerbs, subj)
             subjName = subj["_id"]
             
-            print('(subjName) {} can {}'.format(subjName, canDo))
-            print('(subjName) {} cannot {}'.format(subjName, cannotDo))
+#            print('(subjName) {} can {}'.format(subjName, canDo))
+#            print('(subjName) {} cannot {}'.format(subjName, cannotDo))
 
             subjCanX = []
             subjCanX.append(subjName)
@@ -180,16 +182,20 @@ def chkGrammar(sA_Obj, subjectCorpus, subjectsKB, simpKB):
             subjCanX.append(cannotDo)
             subjectsCanX.append(subjCanX)
 
-    print('subjectsCanX:')
-    print(subjectsCanX)
+#    print('subjectsCanX:')
+#    print(subjectsCanX)
 
-    kbRes_Obj = kbResults(sA_Obj.inSent, said, simpCanX, subjectsCanX)
+#    kbRes_Obj = kbResults(sA_Obj.inSent, said, simpCanX, subjectsCanX)
 
-    print('------ end chkGrammar ------')
-    return kbRes_Obj
+    kb_Obj.saidBefore = said
+    kb_Obj.simpCanX = simpCanX.copy()
+    kb_Obj.subjectsCanX = subjectsCanX.copy()
+
+    print('------ end chkKB ------')
+    return kb_Obj
 
 
 if __name__ == "__main__":
 
-    print("simpGA.py: must call chkGrammar from other py file.")
+    print("kbChecker.py: must call chkKB from other py file.")
         

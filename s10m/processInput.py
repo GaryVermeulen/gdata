@@ -11,9 +11,11 @@ from commonUtils import chkTagging
 from commonUtils import chk_nnxKB
 from commonUtils import chkCorpus
 from commonConfig import simp
+from commonConfig import kbResults
 
 from simpSA import sentAnalysis
-from simpGA import chkGrammar
+#from simpGA import chkGrammar # evolved into kbChecker
+from kbChecker import chkKB
 from processOutput import prattle
 
 nlp = spacy.load("en_core_web_lg") # lg has best accuracy
@@ -59,6 +61,42 @@ def kbCommand(nnxKB):
         print(chkKB["superclass"])
     
     return
+
+
+def preprocessInput(mismatch, multiple, unknown, sA_Obj, simpKB, subjectCorpus, kbResults):
+
+    print('---   Start preprocessInput   ---')
+    # Process tagging issues
+    if len(mismatch) > 0:
+        print('Tagging issue -- mismatch: ', mismatch)
+    else:
+        print('No missmatched tags')
+
+    if len(multiple) > 0:
+        print('Tagging issue -- multiple: ', multiple)
+    else:
+        print('No multiple tags found')
+
+    if len(unknown) > 0:
+        print('Tagging issue -- unknown: ', unknown)
+    else:
+        print('No unknown tags')
+
+    # Attempt to distill something meaningful from what we have
+    print('-' * 10)
+    print('Sentence Object:')
+    sA_Obj.printAll()
+
+    print('-' * 10)
+    print('KB restults object')
+    kbResults.printAll()
+
+    # Do we know (in KB) about all the subjects?
+    
+    print('---   End preprocessInput   ---')
+
+    return 'preprocessInput output'
+
 
 def processUserInput():
 
@@ -126,44 +164,54 @@ def processUserInput():
 
         # KB check
         print('-' * 10)
-        # Check Simp canDo's -- ? Here?
-        #print('-' * 5)
+        # Retrieve Simp KB
         simpKB = chk_nnxKB(simp, nnxKB)
         print('-' * 5)
         print(simpKB)
-        print(simpKB["_id"])
-        print(simpKB["similar"])
-        print(simpKB["tag"])
-        print(simpKB["canDo"])
-        print(simpKB["superclass"])
+#        print(simpKB["_id"])
+#        print(simpKB["similar"])
+#        print(simpKB["tag"])
+#        print(simpKB["canDo"])
+#        print(simpKB["superclass"])
         
         print('-' * 10)
-        # Subject(s) KB check
-        subjectsKB = []
+        # Subject(s) KB check--are the subjects in the KB?
+        subjectsInKB = []
+        subjectsNotInKB = []
         
         if len(sA_Obj.sSubj) == 0:
             print('Something is wrong: No subject returned.')
         else:
             print('Checking KB for subject(s):', sA_Obj.sSubj)
 
-            if isinstance(sA_Obj.sSubj, tuple):
+            if isinstance(sA_Obj.sSubj, tuple):     # Just one subkect
                 print('Processing single subject.')
                 subjectKB = chk_nnxKB(sA_Obj.sSubj[0], nnxKB)
                 print('subjectKB: ', subjectKB)
-                subjectsKB.append(subjectKB)
-                print(subjectsKB)
 
-            elif isinstance(sA_Obj.sSubj, list):
+                if len(subjectKB) > 0:
+                    subjectsInKB.append(subjectKB)
+                else:
+                    subjectsNotInKB.append(sA_Obj.sSubj[0])
+            
+            elif isinstance(sA_Obj.sSubj, list):    # multiple subjects
                 print('Processing multiple subjects.')
-                
                 for sub in sA_Obj.sSubj:
                     subjectKB = chk_nnxKB(sub[0], nnxKB)
                     print('subjectKB: ', subjectKB)
-                    subjectsKB.append(subjectKB)
-                print(subjectsKB)
 
+                    if len(subjectKB) > 0:
+                        subjectsInKB.append(subjectKB)
+                    else:
+                        subjectsNotInKB.append(sub[0])
+    
             else:
                 print('Unexpected subject type encountered: ', sA_Obj.sSubj[0])
+
+        print('subjectsInKB: ', subjectsInKB)
+        print('subjectsNotInKB: ', subjectsNotInKB)
+
+        kb_Obj = kbResults(sA_Obj.inSent, subjectsInKB, subjectsNotInKB, False, [], [])
 
         # Check corpus for subject
         print('-' * 10)
@@ -172,12 +220,19 @@ def processUserInput():
         print('chkCorpus returned:')
         print(subjectCorpus)
 
-        # Basic grammar check...~? Preprocess for output...~?
+        # Check KB anainst Simp, subject(s), verb(s)... (was simpGA.py)
         print('-' * 10)
-        grammarResults = chkGrammar(sA_Obj, subjectCorpus, subjectsKB, simpKB)
+        kb_Obj = chkKB(sA_Obj, kb_Obj, subjectCorpus, subjectsInKB, simpKB)
 
-        print('Results from chkGrammar:')
-        print(grammarResults)
+        print('Results from chkKB which currently are KB matches:')
+        #print(kbResults)
+        kb_Obj.printAll()
+
+        print('-' * 10)
+        ppResults = preprocessInput(mismatch, multiple, unknown, sA_Obj, simpKB, subjectCorpus, kb_Obj)
+
+        print('Results from preprocessInput:')
+        print(ppResults)
 
         # Respond with appropiate output
         print('-' * 10)

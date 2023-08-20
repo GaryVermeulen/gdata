@@ -382,7 +382,7 @@ class Sentence:
                 tmpLst.append(verbTuple[0])
             return tmpLst
         else:
-            print('expecting tuple or list, but found: ', sA_Obj.sVerb)
+            print('expecting tuple or list, but found: ', self.sVerb)
             
         return []
 
@@ -395,7 +395,7 @@ class Sentence:
         elif isinstance(self.sVerb, list):
             return self.sVerb
         else:
-            print('expecting tuple or list, but found: ', sA_Obj.sVerb)
+            print('expecting tuple or list, but found: ', self.sVerb)
             
         return []
 
@@ -412,6 +412,26 @@ class Sentence:
             print('expecting tuple or list, but found: ', self.sSubj)
             
         return []
+
+
+class kbResults:
+
+    def __init__(self, inSent, subjectsInKB, subjectsNotInKB, saidBefore, simpCanX, subjectsCanX):
+        self.inSent          = inSent
+        self.subjectsInKB    = subjectsInKB
+        self.subjectsNotInKB = subjectsNotInKB
+        self.saidBefore      = saidBefore
+        self.simpCanX        = simpCanX
+        self.subjectsCanX    = subjectsCanX
+        
+    
+    def printAll(self):
+        print('inSent         : ', self.inSent)
+        print('subjectsInKB   : ', self.subjectsInKB)
+        print('subjectsNotInKB: ', self.subjectsNotInKB)
+        print('saidBefore     : ', self.saidBefore)
+        print('simpCanX       : ', self.simpCanX)
+        print('subjectsCanX   : ', self.subjectsCanX)
         
 
 """

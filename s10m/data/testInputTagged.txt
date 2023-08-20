@@ -11,3 +11,5 @@
 [['Bob', 'NNP'], ['is', 'VBZ'], ['in', 'IN'], ['the', 'DT'], ['park', 'NN'], ['with', 'IN'], ['Pookie', 'NNP'], ['and', 'CC'], ['Hammy', 'NNP']]
 
 [('the', 'DT'), ('truck', 'NN'), ('crashed', 'VBD'), ('into', 'IN'), ('the', 'DT'), ('building', 'NN')]
+
+[('see', 'VB'), ('the', 'DT'), ('duck', 'NN'), ('fly', 'NN'), ('in', 'IN'), ('the', 'DT'), ('park', 'NN')]
