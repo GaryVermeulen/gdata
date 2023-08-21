@@ -4,19 +4,79 @@
 # Was: simpGA.py
 #
 #   Grammar analysis of current corpus
-# This evolved into a KB checker which builds
+# This evolved into a KB checker which adds to
 # a kbResults object and doesn't really do any
 # Grammar analysis, so saved as kbChecker.py
 #
 
 
 from commonConfig import verbose
+from commonConfig import simp
 #from commonConfig import Sentence
 #from commonConfig import kbResults
 
 from commonUtils import connectMongo
 from commonUtils import getInflectionTag
 from commonUtils import getInflections
+from commonUtils import chk_nnxKB
+
+
+
+def getSimpKB(nnxKB):
+
+
+    # Retrieve Simp KB
+    simpKB = chk_nnxKB(simp, nnxKB)
+    print('-' * 5)
+    print(simpKB)
+    print(simpKB["_id"])
+    print(simpKB["similar"])
+    print(simpKB["tag"])
+    print(simpKB["canDo"])
+    print(simpKB["superclass"])
+
+    return simpKB
+
+
+def getSubjectsKB(sA_Obj, nnxKB):
+
+    # Subject(s) KB check--are the subjects in the KB?
+    subjectsInKB = []
+    subjectsNotInKB = []
+        
+    if len(sA_Obj.sSubj) == 0:
+        print('Something is wrong: No subject returned.')
+    else:
+        print('Checking KB for subject(s):', sA_Obj.sSubj)
+
+        if isinstance(sA_Obj.sSubj, tuple):     # Just one subkect
+            print('Processing single subject.')
+            subjectKB = chk_nnxKB(sA_Obj.sSubj[0], nnxKB)
+            print('subjectKB: ', subjectKB)
+
+            if len(subjectKB) > 0:
+                subjectsInKB.append(subjectKB)
+            else:
+                subjectsNotInKB.append(sA_Obj.sSubj[0])
+            
+        elif isinstance(sA_Obj.sSubj, list):    # multiple subjects
+            print('Processing multiple subjects.')
+            for sub in sA_Obj.sSubj:
+                subjectKB = chk_nnxKB(sub[0], nnxKB)
+                print('subjectKB: ', subjectKB)
+
+                if len(subjectKB) > 0:
+                    subjectsInKB.append(subjectKB)
+                else:
+                    subjectsNotInKB.append(sub[0])
+    
+        else:
+            print('Unexpected subject type encountered: ', sA_Obj.sSubj[0])
+
+    print('subjectsInKB: ', subjectsInKB)
+    print('subjectsNotInKB: ', subjectsNotInKB)
+
+    return subjectsInKB, subjectsNotInKB
 
 
 def getVerbInflections(verbsAndTags):
@@ -127,7 +187,7 @@ def canDoMatch(sVerbs, nnxKB):
     return canDo, cannotDo
 
 
-def chkKB(sA_Obj, kb_Obj, subjectCorpus, subjectsInKB, simpKB):
+def chkKB(sA_Obj, nnxKB):
 
     # Ever evolving...
     
@@ -138,6 +198,14 @@ def chkKB(sA_Obj, kb_Obj, subjectCorpus, subjectsInKB, simpKB):
 
     if sA_Obj == None:
         return None
+
+    # Get simp from KB
+    simpKB = getSimpKB(nnxKB)
+
+    # Get the subjects KB 
+    subjectsInKB, subjectsNotInKB = getSubjectsKB(sA_Obj, nnxKB)
+
+    
 
     # Has this been said before?
     said = saidBefore(sA_Obj, subjectCorpus)

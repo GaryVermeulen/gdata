@@ -8,9 +8,9 @@ import pickle
 
 from commonUtils import connectMongo
 from commonUtils import chkTagging
-from commonUtils import chk_nnxKB
+#from commonUtils import chk_nnxKB
 from commonUtils import chkCorpus
-from commonConfig import simp
+#from commonConfig import simp
 from commonConfig import kbResults
 
 from simpSA import sentAnalysis
@@ -163,11 +163,11 @@ def processUserInput():
         print('Aunt Bee saved sA_Obj.pkl')
 
         # KB check
-        print('-' * 10)
+#        print('-' * 10)
         # Retrieve Simp KB
-        simpKB = chk_nnxKB(simp, nnxKB)
-        print('-' * 5)
-        print(simpKB)
+#        simpKB = chk_nnxKB(simp, nnxKB)
+#        print('-' * 5)
+#        print(simpKB)
 #        print(simpKB["_id"])
 #        print(simpKB["similar"])
 #        print(simpKB["tag"])
@@ -176,6 +176,7 @@ def processUserInput():
         
         print('-' * 10)
         # Subject(s) KB check--are the subjects in the KB?
+        """
         subjectsInKB = []
         subjectsNotInKB = []
         
@@ -210,8 +211,9 @@ def processUserInput():
 
         print('subjectsInKB: ', subjectsInKB)
         print('subjectsNotInKB: ', subjectsNotInKB)
+        """
 
-        kb_Obj = kbResults(sA_Obj.inSent, subjectsInKB, subjectsNotInKB, False, [], [])
+#        kb_Obj = kbResults(sA_Obj)
 
         # Check corpus for subject
         print('-' * 10)
@@ -222,7 +224,7 @@ def processUserInput():
 
         # Check KB anainst Simp, subject(s), verb(s)... (was simpGA.py)
         print('-' * 10)
-        kb_Obj = chkKB(sA_Obj, kb_Obj, subjectCorpus, subjectsInKB, simpKB)
+        kb_Obj = chkKB(sA_Obj, nnxKB)
 
         print('Results from chkKB which currently are KB matches:')
         #print(kbResults)
