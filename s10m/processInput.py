@@ -9,9 +9,9 @@ import pickle
 from commonUtils import connectMongo
 from commonUtils import chkTagging
 #from commonUtils import chk_nnxKB
-from commonUtils import chkCorpus
+#from commonUtils import chkCorpus
 #from commonConfig import simp
-from commonConfig import kbResults
+#from commonConfig import kbResults
 
 from simpSA import sentAnalysis
 #from simpGA import chkGrammar # evolved into kbChecker
@@ -216,15 +216,15 @@ def processUserInput():
 #        kb_Obj = kbResults(sA_Obj)
 
         # Check corpus for subject
-        print('-' * 10)
-        print('Checking corpus for: ', sA_Obj.getSubjects())
-        subjectCorpus = chkCorpus(sA_Obj.getSubjects(), untaggedCorpus)
-        print('chkCorpus returned:')
-        print(subjectCorpus)
+#        print('-' * 10)
+#        print('Checking corpus for: ', sA_Obj.getSubjects())
+#        subjectsCorpus = chkCorpus(sA_Obj.getSubjects(), untaggedCorpus)
+#        print('chkCorpus returned:')
+#        print(subjectsCorpus)
 
         # Check KB anainst Simp, subject(s), verb(s)... (was simpGA.py)
         print('-' * 10)
-        kb_Obj = chkKB(sA_Obj, nnxKB)
+        kb_Obj = chkKB(sA_Obj, nnxKB, untaggedCorpus)
 
         print('Results from chkKB which currently are KB matches:')
         #print(kbResults)

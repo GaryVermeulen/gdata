@@ -13,12 +13,13 @@
 from commonConfig import verbose
 from commonConfig import simp
 #from commonConfig import Sentence
-#from commonConfig import kbResults
+from commonConfig import kbResults
 
 from commonUtils import connectMongo
 from commonUtils import getInflectionTag
 from commonUtils import getInflections
 from commonUtils import chk_nnxKB
+from commonUtils import chkCorpus
 
 
 
@@ -36,6 +37,18 @@ def getSimpKB(nnxKB):
     print(simpKB["superclass"])
 
     return simpKB
+
+
+def getSubjectsCorpus(sA_Obj, untaggedCorpus):
+
+    # Check corpus for subject
+    print('-' * 10)
+    print('Checking corpus for: ', sA_Obj.getSubjects())
+    subjectsCorpus = chkCorpus(sA_Obj.getSubjects(), untaggedCorpus)
+    print('chkCorpus returned:')
+    print(subjectsCorpus)
+
+    return subjectsCorpus
 
 
 def getSubjectsKB(sA_Obj, nnxKB):
@@ -187,7 +200,7 @@ def canDoMatch(sVerbs, nnxKB):
     return canDo, cannotDo
 
 
-def chkKB(sA_Obj, nnxKB):
+def chkKB(sA_Obj, nnxKB, untaggedCorpus):
 
     # Ever evolving...
     
@@ -205,10 +218,13 @@ def chkKB(sA_Obj, nnxKB):
     # Get the subjects KB 
     subjectsInKB, subjectsNotInKB = getSubjectsKB(sA_Obj, nnxKB)
 
+    # Are the subjects within the corpus?
+    subjectsCorpus = getSubjectsCorpus(sA_Obj, untaggedCorpus)
+
     
 
     # Has this been said before?
-    said = saidBefore(sA_Obj, subjectCorpus)
+    said = saidBefore(sA_Obj, subjectsCorpus)
     if said:
         print('Said before: ', sA_Obj.inSent)
     else:
@@ -253,14 +269,14 @@ def chkKB(sA_Obj, nnxKB):
 #    print('subjectsCanX:')
 #    print(subjectsCanX)
 
-#    kbRes_Obj = kbResults(sA_Obj.inSent, said, simpCanX, subjectsCanX)
+    kbRes_Obj = kbResults(sA_Obj.inSent, subjectsInKB, subjectsNotInKB, said, simpCanX.copy(), subjectsCanX.copy())
 
-    kb_Obj.saidBefore = said
-    kb_Obj.simpCanX = simpCanX.copy()
-    kb_Obj.subjectsCanX = subjectsCanX.copy()
+#    kb_Obj.saidBefore = said
+    #kb_Obj.simpCanX = simpCanX.copy()
+    #kb_Obj.subjectsCanX = subjectsCanX.copy()
 
     print('------ end chkKB ------')
-    return kb_Obj
+    return kbRes_Obj
 
 
 if __name__ == "__main__":
