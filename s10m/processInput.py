@@ -8,10 +8,9 @@ import pickle
 
 from commonUtils import connectMongo
 from commonUtils import chkTagging
-#from commonUtils import chk_nnxKB
-#from commonUtils import chkCorpus
-#from commonConfig import simp
-#from commonConfig import kbResults
+from commonUtils import getInflectionTag
+from commonUtils import getInflections
+
 
 from simpSA import sentAnalysis
 #from simpGA import chkGrammar # evolved into kbChecker
@@ -63,7 +62,7 @@ def kbCommand(nnxKB):
     return
 
 
-def preprocessInput(mismatch, multiple, unknown, sA_Obj, simpKB, subjectCorpus, kbResults):
+def preprocessInput(mismatch, multiple, unknown, sA_Obj, kb_Obj):
 
     print('---   Start preprocessInput   ---')
     # Process tagging issues
@@ -82,20 +81,34 @@ def preprocessInput(mismatch, multiple, unknown, sA_Obj, simpKB, subjectCorpus, 
     else:
         print('No unknown tags')
 
+#    results = processTaggingIssues(mismatch, multiple, unknown, sA_Obj)
+#
+#    print('processTaggingIssues; returned: ', results)
+
     # Attempt to distill something meaningful from what we have
     print('-' * 10)
     print('Sentence Object:')
     sA_Obj.printAll()
 
     print('-' * 10)
-    print('KB restults object')
-    kbResults.printAll()
+    print('KB object')
+    kb_Obj.printAll()
 
     # Do we know (in KB) about all the subjects?
     
     print('---   End preprocessInput   ---')
 
     return 'preprocessInput output'
+
+
+def processTaggingIssues(mismatch, multiple, unknown, sA_Obj):
+
+    if len(mismatch) > 0:
+        print('Tagging issue -- mismatch: ', mismatch)
+    
+
+
+    return 'processTaggingIssues results'
 
 
 def processUserInput():
@@ -112,7 +125,16 @@ def processUserInput():
         print(uI)
 
         if uI == '':
-            sys.exit('Nothing entered.')
+            print('-' * 10)
+            res = input('Retain conversation <Y/n>? ')
+            if res in ['Y', 'y', 'Yes', 'yes']:
+                print('Conversation kept.')
+            else:
+                conversation = simpDB["conversation"]
+                conversation.drop()
+                print('Conversation dropped.')
+
+            sys.exit('Exiting; Nothing entered.')
 
         if uI == 'kb':
             kbCommand(nnxKB)
@@ -146,8 +168,6 @@ def processUserInput():
             for u in unknown:
                 unkWords.append(u[0])
 
-#        print('unkWords: ', unkWords)
-
         # Basic sentence analysis
         print('-' * 10)
         print('Checking basic sentence analysis')
@@ -162,76 +182,15 @@ def processUserInput():
         f.close()
         print('Aunt Bee saved sA_Obj.pkl')
 
-        # KB check
-#        print('-' * 10)
-        # Retrieve Simp KB
-#        simpKB = chk_nnxKB(simp, nnxKB)
-#        print('-' * 5)
-#        print(simpKB)
-#        print(simpKB["_id"])
-#        print(simpKB["similar"])
-#        print(simpKB["tag"])
-#        print(simpKB["canDo"])
-#        print(simpKB["superclass"])
-        
-        print('-' * 10)
-        # Subject(s) KB check--are the subjects in the KB?
-        """
-        subjectsInKB = []
-        subjectsNotInKB = []
-        
-        if len(sA_Obj.sSubj) == 0:
-            print('Something is wrong: No subject returned.')
-        else:
-            print('Checking KB for subject(s):', sA_Obj.sSubj)
-
-            if isinstance(sA_Obj.sSubj, tuple):     # Just one subkect
-                print('Processing single subject.')
-                subjectKB = chk_nnxKB(sA_Obj.sSubj[0], nnxKB)
-                print('subjectKB: ', subjectKB)
-
-                if len(subjectKB) > 0:
-                    subjectsInKB.append(subjectKB)
-                else:
-                    subjectsNotInKB.append(sA_Obj.sSubj[0])
-            
-            elif isinstance(sA_Obj.sSubj, list):    # multiple subjects
-                print('Processing multiple subjects.')
-                for sub in sA_Obj.sSubj:
-                    subjectKB = chk_nnxKB(sub[0], nnxKB)
-                    print('subjectKB: ', subjectKB)
-
-                    if len(subjectKB) > 0:
-                        subjectsInKB.append(subjectKB)
-                    else:
-                        subjectsNotInKB.append(sub[0])
-    
-            else:
-                print('Unexpected subject type encountered: ', sA_Obj.sSubj[0])
-
-        print('subjectsInKB: ', subjectsInKB)
-        print('subjectsNotInKB: ', subjectsNotInKB)
-        """
-
-#        kb_Obj = kbResults(sA_Obj)
-
-        # Check corpus for subject
-#        print('-' * 10)
-#        print('Checking corpus for: ', sA_Obj.getSubjects())
-#        subjectsCorpus = chkCorpus(sA_Obj.getSubjects(), untaggedCorpus)
-#        print('chkCorpus returned:')
-#        print(subjectsCorpus)
-
         # Check KB anainst Simp, subject(s), verb(s)... (was simpGA.py)
         print('-' * 10)
         kb_Obj = chkKB(sA_Obj, nnxKB, untaggedCorpus)
 
         print('Results from chkKB which currently are KB matches:')
-        #print(kbResults)
         kb_Obj.printAll()
 
         print('-' * 10)
-        ppResults = preprocessInput(mismatch, multiple, unknown, sA_Obj, simpKB, subjectCorpus, kb_Obj)
+        ppResults = preprocessInput(mismatch, multiple, unknown, sA_Obj, kb_Obj)
 
         print('Results from preprocessInput:')
         print(ppResults)
@@ -239,9 +198,12 @@ def processUserInput():
         # Respond with appropiate output
         print('-' * 10)
         print('prattle (from processInput.py)...')
-        outSent = prattle(sA_Obj)
+        outSent = prattle(sA_Obj, None, ppResults, simpDB)
         print('parttle retunred: ')
         print(outSent)
+
+
+        
 
     return 'Exit.'
 

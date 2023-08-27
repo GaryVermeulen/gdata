@@ -206,7 +206,11 @@ def processNN(wordPosition, sent):
                             tmpObj.append(sent.sObj)
                             sent.sObj = tmpObj
                             sent.sObj.append(sent.inSent[wordPosition - 1])
-            # ?
+            else: # Attempt to catch "Hello Simp"
+                if len(sent.sSubj) == 0:
+                    sent.sSubj = sent.inSent[wordPosition - 1]
+                
+            # ? Not sure wjhat I was trying to catch...~?
             #if sent.inSent[wordPosition - 2][1] == 'DT':
             #    if sent.sSubj != '':
             #        if sent.sObj == '':
@@ -405,6 +409,24 @@ def processRB(wordPosition, sent):
     return sent
 
 
+def processUH(wordPosition, sent):
+
+    tmpUH = []
+
+    if wordPosition == 1:
+        sent.sType = 'declarative'
+        sent.sUH = sent.inSent[0]
+    else:
+        if sent.sUH == '':
+            sent.sUH = sent.inSent[wordPosition - 1]
+        else:
+            tmpUH.append(sent.sUH)
+            tmpUH.append(sent.inSent[wordPosition - 1])
+            sent.sUH = tmpUH
+
+    return sent
+
+
 
 def getTag(item):
 
@@ -447,10 +469,11 @@ def sentAnalysis(taggedInput):
     sWDT = ''
     sCC = ''
     sRB = ''
+    sUH = ''
     
     wordPosition = 0
 
-    sent = Sentence(taggedInput, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC, sRB)
+    sent = Sentence(taggedInput, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC, sRB, sUH)
 #    print(' BEFORE:')
 #    sent.printAll()
     
@@ -527,6 +550,10 @@ def sentAnalysis(taggedInput):
         elif currentTag in ['WDT', 'WP', 'WRB']:
             sent = processWDT(wordPosition, sent)
 #            print('WDT...')
+#            sent.printAll()
+        elif currentTag in ['UH']:
+            sent = processUH(wordPosition, sent)
+#            print('UH...')
 #            sent.printAll()
         else:
             print('sentAnalysis else -- something wrong or tag not defined?')

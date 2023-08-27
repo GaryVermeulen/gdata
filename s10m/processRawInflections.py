@@ -1,6 +1,9 @@
 #
 # processRawInflections.py
 #
+# The quality of this raw inflection file is questionable, but allows
+# for a rudimentary inflection handler albeit corny.
+#
 
 from commonUtils import connectMongo
 
@@ -51,16 +54,51 @@ def add2DB(i):
     # Save to Mongo
     mdb = connectMongo()
     simpDB = mdb["simp"]
-    inflections = simpDB["inflections"]
+    inflectionsCol = simpDB["inflectionsCol"]
 
-    inflections.drop() # For now start fresh each run
+    inflectionsCol.drop() # For now start fresh each run
 
-    for line in i:
-        inflections.insert_one({"inflections": line})
+#    for line in i:
+#        inflectionsCol.insert_one({"inflections": line})
 
+    
+    inflectionsCol.insert_many(i)
 
     return "Added inflections to simp DB."
 
+
+
+def formatInflections(i):
+
+    dictionaryList = []
+    keys = []
+
+    for x in i:
+#        print(len(x))
+#        print(x)
+
+        if len(x) > 2:
+            if x[1] == 'n':
+                tag = 'NN'
+            elif x[1] == 'v':
+                tag = 'VB'
+            elif x[1] == 'a':
+                tag = 'JJ'
+            else:
+                tag = 'UNK'
+
+            inflect = x[2:]
+
+#            print('x: ', x)
+#            print('inflect: ', inflect)
+            
+            d = {"_id": x[0], "tag": tag, "inflections": inflect}
+
+            if x[0] not in keys:
+                dictionaryList.append(d)
+            keys.append(x[0])
+
+    return dictionaryList
 
 
 
@@ -68,6 +106,10 @@ if __name__ == "__main__":
 
     print("Start processRawInflections (__main__)")
     i = loadInflFile()
+    
+    print("\nFormatting inflections list (i) to list of dictionaries")
+    i = formatInflections(i)
+    
     print('\nAdding {} inflections to DB...'.format(len(i)))
     print(add2DB(i))
 

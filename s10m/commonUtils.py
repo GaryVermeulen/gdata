@@ -22,11 +22,12 @@ def connectMongo():
     return myclient
 
 
+# Current list of inflections is lacking, note prp)
 def getInflectionTag(tag):
 
     if tag in [vb, vbd, vbg, vbn, vbp, vbz]:
         return 'v'
-    elif tag in [nn, nnp, nns]:
+    elif tag in [nn, nnp, nns, prp]:
         return 'n'
     elif tag in [jj, jjr, jjs]:
         return 'a'
@@ -138,3 +139,21 @@ def chkCorpus(items, untaggedCorpus):
             records.append(record["untaggedSentence"])
 
     return records
+
+
+def list2String(someList):
+
+    stringList = ''
+
+    if len(someList) == 0:
+        return 'zero length list supplied'
+
+    if isinstance(someList, list):
+        for x in someList:
+            stringList = stringList + ' ' + x
+    elif isinstance(someList, tuple):
+        stringList = someList[0]
+    else:
+        print('list2String list or tuple not provide.')
+
+    return stringList

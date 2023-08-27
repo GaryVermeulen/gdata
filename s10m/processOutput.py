@@ -4,12 +4,15 @@
 
 import pickle
 
+from datetime import datetime
+
 from commonUtils import Sentence
-#from commonConfig import *
-#from simpGA import chk4Grammar 
+from commonUtils import list2String
+from commonConfig import simp
 
 
-def buildOutputObj(sA_Obj):
+
+def buildOutputObj(sA_Obj, outObj, ppResults, simpDB):
 
     sType = 'output'
     sSubj = ''
@@ -24,8 +27,9 @@ def buildOutputObj(sA_Obj):
     sWDT = ''
     sCC = ''
     sRB = ''
+    sUH = ''
 
-    outSent = Sentence(sA_Obj.inSent, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC, sRB)
+    outObj = Sentence(sA_Obj.inSent, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC, sRB, sUH)
     
 
     print(' --- start buildOutputObj ---')
@@ -33,14 +37,14 @@ def buildOutputObj(sA_Obj):
     if sA_Obj.sType == 'interrogative':
         print(' sType should be interrogative:')
         print(sA_Obj.sType)
-        outSent.sType = 'output to interrogative'
-        print(outSent.sType)
-        outSent = processInterrogative(sA_Obj, outSent)
+        outObj.sType = 'output to interrogative'
+        print(outObj.sType)
+        outObj = processInterrogative(sA_Obj, outObj, ppResults, simpDB)
         
     elif sA_Obj.sType == 'declarative':
         print(' sType should be declarative:')
         print(sA_Obj.sType)
-        #outSent.osType
+        outObj = processDeclarative(sA_Obj, outObj, ppResults, simpDB)
         
     elif sA_Obj.sType == 'imperative':
         print(' sType should be imperative:')
@@ -57,15 +61,15 @@ def buildOutputObj(sA_Obj):
 
     print(' --- end buildOutputObj ---')
 
-    return outSent
+    return outObj
 
 
-def processInterrogative(sA_Obj, outSent):
+def processInterrogative(sA_Obj, outObj, ppResults, simpDB):
 
     print(' --- start processInterrogative ---')
 
-    if sA_Obj.sWDT[0] == 'how':
-        outSent = processHow(sA_Obj, outSent)
+    if sA_Obj.sWDT[0] in ['how', 'How']:
+        outObj = processHow(sA_Obj, outObj)
     else:
         print(' Unrecognized sWDT:')
         print(sA_Obj.sWDT[0])
@@ -74,62 +78,92 @@ def processInterrogative(sA_Obj, outSent):
 
     print(' --- end processInterrogative ---')
     
-    return outSent
+    return outObj
 
 
-def processHow(sA_Obj, outSent):
+def processDeclarative(sA_Obj, outObj, ppResults, simpDB):
+
+    print(' --- start processDeclarative ---')
+
+    if sA_Obj.sSubj[0] == simp:
+        if sA_Obj.sUH[0] in ['hello', 'Hello']:
+            outObj.sUH = 'Hello'
+            return outObj
+        
+    if len(sA_Obj.sSubj) > 0:
+        outObj.sSubj = sA_Obj.sSubj
+    
+
+    print(' --- end processDeclarative ---')
+
+    return outObj
+
+
+def processHow(sA_Obj, outObj):
 
     print(' --- start processHow ---')
 
     if sA_Obj.sSubj[0] == 'you':
-        outSent.sSubj = 'I'
+        outObj.sSubj = 'I'
         if type(sA_Obj.sVerb[0]) is list:
             if len(sA_Obj.sVerb) == 2: # Only processing 2 for now
                 if sA_Obj.sVerb[1][0] == 'feel':
-                    outSent.sVerb = 'do not feel'
+                    outObj.sVerb = 'do not feel'
                 if sA_Obj.sObj != '':
-                    outSent.sObj = sA_Obj.sObj
+                    outObj.sObj = sA_Obj.sObj
                     
                     #return
                 
         if sA_Obj.sVerb[0] == 'are':
-            outSent.sVerb = 'good'
+            outObj.sVerb = 'good'
 
         if sA_Obj.sObj != '':
-            outSent.sObj = sA_Obj.sObj[0]
+            outObj.sObj = sA_Obj.sObj[0]
             
             #return
 
     print(' --- end processHow ---')
-    return outSent
+    return outObj
 
 
-def prattle(sA_Obj):
+def prattle(sA_Obj, outObj, ppResults, simpDB):
 
     print('---- start prattle ----')
     print('--- outObj ---')
-    outSent = buildOutputObj(sA_Obj)
-    outSent.printAll()
+    outObj = buildOutputObj(sA_Obj, None, ppResults, simpDB)
+    outObj.printAll()
 
-    print(outSent.sType)
+    print('sType: ', outObj.sType)
 
-
-    if outSent.sSubj == '':
-        sentSubject = '>Unknown subject<'
+    if len(outObj.sUH) > 0:
+        outSent = outObj.sUH
     else:
-        sentSubject = outSent.sSubj
+        if outObj.sSubj == '':
+            sentSubject = '>Unknown subject<'
+        else:
+            print(type(outObj.sSubj))
+            sentSubject = outObj.getSubjects()
+            sentSubject = list2String(sentSubject)
+            print(sentSubject)
+            
 
-    if outSent.sVerb == '':
-        sentVerb = '>Unknown verb<'
-    else:
-        sentVerb = outSent.sVerb
+        if outObj.sVerb == '':
+            sentVerb = '>Unknown verb<'
+        else:
+            sentVerb = outObj.sVerb
 
-    if outSent.sObj == '':
-        sentObject = '>Unknown or no object<'
-    else:
-        sentObject = outSent.sObj
+        if outObj.sObj == '':
+            sentObject = '>Unknown or no object<'
+        else:
+            sentObject = outObj.sObj
 
-    outSent = sentSubject + ' ' + sentVerb + ' ' + sentObject 
+        outSent = str(sentSubject) + ' ' + str(sentVerb) + ' ' + str(sentObject)
+
+    now = datetime.now()
+    nowStr = now.strftime("%d/%m/%Y %H:%M")
+    conversation = simpDB["conversation"]
+    conversation.insert_one({"Input": sA_Obj.inSent, "Output": outSent, "DateTime": nowStr})
+    
 
     print('---- end prattle ----')
     return outSent
@@ -147,7 +181,7 @@ if __name__ == "__main__":
     outObj = buildOutputObj(sA_Obj)
     outobj.printAll()
 
-    outSent = prattle(outObj)
+    outSent = prattle(sA_Obj, outObj, ppResults)
 
     print('----')
     print('outSent:')

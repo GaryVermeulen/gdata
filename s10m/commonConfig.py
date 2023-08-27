@@ -17,8 +17,6 @@ nn  = 'NN'
 nnp = 'NNP'
 nns = 'NNS'
 
-prp = 'PRP'
-
 vb  = 'VB'
 vbd = 'VBD'
 vbg = 'VBG'
@@ -340,7 +338,7 @@ simple_contractions = {
 #
 class Sentence:
 
-    def __init__(self, inSent, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC, sRB):
+    def __init__(self, inSent, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC, sRB, sUH):
         self.inSent = inSent
         self.sType = sType
         self.sSubj = sSubj
@@ -355,6 +353,7 @@ class Sentence:
         self.sWDT = sWDT
         self.sCC = sCC
         self.sRB = sRB
+        self.sUH = sUH
 
     def printAll(self):
         print('inSent: ', self.inSent)
@@ -371,6 +370,7 @@ class Sentence:
         print('sWDT  : ', self.sWDT)
         print('sCC   : ', self.sCC)
         print('sRB   : ', self.sRB)
+        print('sUH   : ', self.sUH)
 
     def getVerbs(self):
         tmpLst = []
@@ -382,7 +382,10 @@ class Sentence:
                 tmpLst.append(verbTuple[0])
             return tmpLst
         else:
-            print('expecting tuple or list, but found: ', self.sVerb)
+            if len(self.sVerb) == 0:
+                print('getVerbs: expecting tuple or list, but found nothing: ', self.sVerb)
+            else:
+                print('getVerbs: expecting tuple or list, but found: ', self.sVerb)
             
         return []
 
@@ -395,7 +398,10 @@ class Sentence:
         elif isinstance(self.sVerb, list):
             return self.sVerb
         else:
-            print('expecting tuple or list, but found: ', self.sVerb)
+            if len(self.sVerb) == 0:
+                print('getVerbs: expecting tuple or list, but found nothing: ', self.sVerb)
+            else:
+                print('getVerbsAndTags: expecting tuple or list, but found: ', self.sVerb)
             
         return []
 
@@ -409,7 +415,10 @@ class Sentence:
                 tmpLst.append(subjectTuple[0])
             return tmpLst
         else:
-            print('expecting tuple or list, but found: ', self.sSubj)
+            if len(self.sSubj) == 0:
+                print('getSubjects: expecting tuple or list, but found nothing: ', self.sSubj)
+            else:
+                print('getSubjects: expecting tuple or list, but found: ', self.sSubj)
             
         return []
 
@@ -438,7 +447,7 @@ class kbResults:
 *** DB structure for KB in MongoDB
 
         _id: "String name"
-        similar = "CSV String, item, item,...,n"
+        similar: "CSV String, item, item,...,n"
         tag: "NN" or "NNP"
         canDo: "String of simple canDo, item, item,...,n"
         superclass: "String of parent or superclass"
