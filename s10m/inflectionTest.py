@@ -12,6 +12,7 @@ def buildInflections():
 
     verbs = ''
     verbsList = []
+    verbsNotFound = []
     nlp = spacy.load("en_core_web_lg")
     mdb = connectMongo()
     simpDB = mdb["simp"]
@@ -38,17 +39,26 @@ def buildInflections():
         past_tense = token._.inflect("VBD")
         past_participle = token._.inflect("VBN")
         print(token.text, "-", base, "-", gerund, "-", past_tense, "-", past_participle)
-#        print(verbsList)
-        if token.text in verbsList:
-            tokenText = token.text + "_" + str(cnt)
-            verbInflections.insert_one({"_id": tokenText, "base": base, "gerund": gerund, "past_tense": past_tense, "past_participle": past_participle})
-            verbsList.append(tokenText)
+
+        if base == None or gerund == None or past_tense == None or past_participle == None:
+            verbsNotFound.append({"_id": token.text, "base": base, "gerund": gerund, "past_tense": past_tense, "past_participle": past_participle})
         else:
-            verbInflections.insert_one({"_id": token.text, "base": base, "gerund": gerund, "past_tense": past_tense, "past_participle": past_participle})
-            verbsList.append(token.text)
+            if token.text in verbsList:
+                tokenText = token.text + "_" + str(cnt)
+                verbInflections.insert_one({"_id": tokenText, "base": base, "gerund": gerund, "past_tense": past_tense, "past_participle": past_participle})
+                verbsList.append(tokenText)
+            else:
+                verbInflections.insert_one({"_id": token.text, "base": base, "gerund": gerund, "past_tense": past_tense, "past_participle": past_participle})
+                verbsList.append(token.text)
         cnt =+ 1
+
+    return verbsNotFound
 
 
 if __name__ == "__main__":
 
-    buildInflections()
+    verbsNotFound = buildInflections()
+
+    print("verbsNotFound:")
+    for i in verbsNotFound:
+        print('- ', i)
