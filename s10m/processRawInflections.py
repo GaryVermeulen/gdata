@@ -89,6 +89,7 @@ def formatInflections(i):
                 tag = 'UNK'
 
             inflect = x[2:]
+            inflect.append(x[0]) # Hack to make base word searching easier
 
 #            print('x: ', x)
 #            print('inflect: ', inflect)
