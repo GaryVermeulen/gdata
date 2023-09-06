@@ -85,6 +85,8 @@ def processDeclarative(sA_Obj, outObj, ppResults, simpDB):
 
     print(' --- start processDeclarative ---')
 
+    ppResults.printAll()
+
     if sA_Obj.sSubj[0] == simp:
         if sA_Obj.sUH[0] in ['hello', 'Hello']:
             outObj.sUH = 'Hello'
@@ -92,6 +94,8 @@ def processDeclarative(sA_Obj, outObj, ppResults, simpDB):
         
     if len(sA_Obj.sSubj) > 0:
         outObj.sSubj = sA_Obj.sSubj
+
+    
     
 
     print(' --- end processDeclarative ---')

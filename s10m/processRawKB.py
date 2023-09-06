@@ -9,6 +9,7 @@ def loadRawKB():
     # For now only handling NNPs and NNs--we'll deal with plurals later
 
     kbList = []
+    isAlive = False
     
     with open('kb/orderedInputLong.txt', 'r') as f:
         while (line := f.readline().rstrip()):
@@ -17,12 +18,17 @@ def loadRawKB():
             else:
                 tmp = line.split(';')
                 print(tmp)
+                if tmp[3] == "T":
+                    isAlive = True
+                else:
+                    isAlive = False
                 tmpDict = {
                     "_id":tmp[0],
                     "similar":tmp[1],
                     "tag":tmp[2],
-                    "canDo":tmp[3],
-                    "superclass":tmp[4],
+                    "isAlive": isAlive,
+                    "canDo":tmp[4],
+                    "superclass":tmp[5],
                 }
                 kbList.append(tmpDict)
     f.close()
@@ -38,10 +44,11 @@ def buildKB(kb):
 
     nnxKB = simpDB["nnxKB"]
 
+    # For now start fresh every run
     nnxKB.drop()
 
     # root
-    root = {"_id": "GodParticle", "similar": "all things", "tag": "NNP", "canDo": "everything", "superclass": None}
+    root = {"_id": "GodParticle", "similar": "all things", "tag": "NNP", "isAlive": False, "canDo": "everything", "superclass": None}
     nnxKB.insert_one(root)
     # The rest from the predefined list
     nnxKB.insert_many(kb)

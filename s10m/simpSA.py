@@ -238,7 +238,8 @@ def processVerbs(wordPosition, sent):
         else:
             sent.sType = 'declarative'
             
-        sent.sVerb = sent.inSent[0]
+        #sent.sVerb = sent.inSent[0]
+        sent.sVerb.append(sent.inSent[0])
     else:
         if sent.sVerb == '':
             #sent.sVerb = sent.inSent[wordPosition - 1]

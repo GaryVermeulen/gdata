@@ -33,6 +33,7 @@ def getSimpKB(nnxKB):
     print(simpKB["_id"])
     print(simpKB["similar"])
     print(simpKB["tag"])
+    print(simpKB["isAlive"])
     print(simpKB["canDo"])
     print(simpKB["superclass"])
 
@@ -170,6 +171,7 @@ def canDoMatch(sVerbs, nnxKB):
     print('nnxCanDo: ', nnxCanDo)
     nnxCanDoSet = set(nnxCanDo)
     print('nnxCanDoSet: ', nnxCanDoSet)
+    print('nnxKB isAlive: ', nnxKB["isAlive"])
 
     if len(sVerbs) == 0:
         print('No sVerbs: ', sVerbs)
@@ -177,24 +179,26 @@ def canDoMatch(sVerbs, nnxKB):
     
     for verb in sVerbs:
         print('verb: ', verb)
-
-        verbSet = set(verb)
-        intersect = verbSet.intersection(nnxCanDoSet)
-
-#        print(type(intersect))
-        print('intersect:', intersect)
-
-        canDoTmp = []
-        cannotDoTmp = []
-
-        if len(intersect) == 0:
-            #cannotDoTmp.append(verb)
-            cannotDo.append(verb)
-        else:
-            #canDoTmp = ', '.join(intersect)
-            #print(type(canDoTmp))
-            #print('canDoTmp: ', canDoTmp)
+        print(type(verb))
+        print(len(verb))
+        
+        if 'be' in verb: # For now a free pass to canDo
+            print('be in verb')
             canDo.append(verb)
+        else:
+            verbSet = set(verb)
+            intersect = verbSet.intersection(nnxCanDoSet)
+
+            print('intersect:', intersect)
+
+            if len(intersect) == 0:
+                #cannotDoTmp.append(verb)
+                cannotDo.append(verb)
+            else:
+                #canDoTmp = ', '.join(intersect)
+                #print(type(canDoTmp))
+                #print('canDoTmp: ', canDoTmp)
+                canDo.append(verb)
 
     print('canDo: ', canDo)
     print('cannotDo: ', cannotDo)
@@ -209,7 +213,9 @@ def chkKB(sA_Obj, nnxKB, untaggedCorpus):
     print('------ start chkKB ------')
 
     simpCanX = []
+    simpAlive = 'UNKNOWN'
     subjectsCanX = []
+    subjectsAlive = []
     allVerbs = []
 
     if sA_Obj == None:
@@ -253,7 +259,7 @@ def chkKB(sA_Obj, nnxKB, untaggedCorpus):
 
     # If imperative, can Simp do what is asked?
     if sA_Obj.sType == 'imperative':
-#        canDo, cannotDo = canDoMatch(allVerbs, simpKB)
+        simpAlive = simpKB["isAlive"]
         canDo, cannotDo = canDoMatch(allVerbRecords, simpKB)
         
 #        print('Simp can: ', canDo)
@@ -279,16 +285,23 @@ def chkKB(sA_Obj, nnxKB, untaggedCorpus):
 #            print('(subjName) {} can {}'.format(subjName, canDo))
 #            print('(subjName) {} cannot {}'.format(subjName, cannotDo))
 
+            subjAlive = []
+            subjAlive.append(subjName)
+            subjAlive.append(subj["isAlive"])
+            subjectsAlive.append(subjAlive)
+
             subjCanX = []
             subjCanX.append(subjName)
             subjCanX.append(canDo)
             subjCanX.append(cannotDo)
             subjectsCanX.append(subjCanX)
 
+            
+
 #    print('subjectsCanX:')
 #    print(subjectsCanX)
 
-    kbRes_Obj = kbResults(sA_Obj.inSent, subjectsInKB, subjectsNotInKB, said, simpCanX.copy(), subjectsCanX.copy())
+    kbRes_Obj = kbResults(sA_Obj.inSent, None, None, None, subjectsInKB, subjectsNotInKB, said, simpCanX.copy(), simpAlive, subjectsCanX.copy(), subjectsAlive.copy())
 
 #    kb_Obj.saidBefore = said
     #kb_Obj.simpCanX = simpCanX.copy()

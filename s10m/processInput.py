@@ -56,6 +56,7 @@ def kbCommand(nnxKB):
         print(chkKB["_id"])
         print(chkKB["similar"])
         print(chkKB["tag"])
+        print(chkKB["isAlive"])
         print(chkKB["canDo"])
         print(chkKB["superclass"])
     
@@ -186,21 +187,25 @@ def processUserInput():
         print('-' * 10)
         kb_Obj = chkKB(sA_Obj, nnxKB, untaggedCorpus)
 
-        print('Results from chkKB which currently are KB matches:')
+        kb_Obj.tagMismatch = mismatch
+        kb_Obj.tagMultiple = multiple
+        kb_Obj.tagUnknown = unknown
+
+        print('kb_Obj: ')
         kb_Obj.printAll()
 
+        """
         print('-' * 10)
         ppResults = preprocessInput(mismatch, multiple, unknown, sA_Obj, kb_Obj)
 
         print('Results from preprocessInput:')
         print(ppResults)
-
+        """
         # Respond with appropiate output
         print('-' * 10)
-        print('prattle (from processInput.py)...')
-        outSent = prattle(sA_Obj, None, ppResults, simpDB)
-        print('parttle retunred: ')
-        print(outSent)
+        print('SKIPPING: prattle (from processInput.py)...')
+#        print('parttle retunred: ')
+#        print(outSent)
 
 
         

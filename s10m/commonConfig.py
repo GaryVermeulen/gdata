@@ -429,22 +429,31 @@ class Sentence:
 
 class kbResults:
 
-    def __init__(self, inSent, subjectsInKB, subjectsNotInKB, saidBefore, simpCanX, subjectsCanX):
+    def __init__(self, inSent, tagMismatch, tagMultiple, tagUnknown, subjectsInKB, subjectsNotInKB, saidBefore, simpCanX, simpAlive, subjectsCanX, subjectsAlive):
         self.inSent          = inSent
+        self.tagMismatch     = tagMismatch
+        self.tagMultiple     = tagMultiple
+        self.tagUnknown      = tagUnknown
         self.subjectsInKB    = subjectsInKB
         self.subjectsNotInKB = subjectsNotInKB
         self.saidBefore      = saidBefore
         self.simpCanX        = simpCanX
+        self.simpAlive       = simpAlive
         self.subjectsCanX    = subjectsCanX
-        
+        self.subjectsAlive   = subjectsAlive
     
     def printAll(self):
         print('inSent         : ', self.inSent)
+        print('tagMismatch    : ', self.tagMismatch)
+        print('tagMultiple    : ', self.tagMultiple)
+        print('tagUnknown     : ', self.tagUnknown)
         print('subjectsInKB   : ', self.subjectsInKB)
         print('subjectsNotInKB: ', self.subjectsNotInKB)
         print('saidBefore     : ', self.saidBefore)
         print('simpCanX       : ', self.simpCanX)
+        print('simpAlive      : ', self.simpAlive)
         print('subjectsCanX   : ', self.subjectsCanX)
+        print('subjectsAlive  : ', self.subjectsAlive)
         
 
 """
@@ -453,6 +462,7 @@ class kbResults:
         _id: "String name"
         similar: "CSV String, item, item,...,n"
         tag: "NN" or "NNP"
+        isAlive: True or False
         canDo: "String of simple canDo, item, item,...,n"
         superclass: "String of parent or superclass"
     
