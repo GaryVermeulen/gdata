@@ -179,7 +179,7 @@ def gleanSimilars(newWordDef):
                 taggedWordDef.append(tmpToken)
 
             #print('Spacy tagged wordDef:')
-            print(taggedWordDef)
+            #print(taggedWordDef)
 
             tmpSim = []
             for w in taggedWordDef:
@@ -203,9 +203,34 @@ def gleanSimilars(newWordDef):
     return similars
 
 
+def findTF(similars):
+
+    wordStack = []
+    onStack = False
+
+    for s in similars:
+        onStack = False
+        s_len = s["len"]
+        s_words = s["arr"]
+        
+        for word in s_words:
+            tmpWord = {"word": word, "cnt": 1}
+
+            for w in wordStack:
+                if w["word"] == tmpWord["word"]:
+                    w["cnt"] = w["cnt"] + 1
+                    onStack = True
+                    break
+
+            if not onStack:
+                wordStack.append(tmpWord)
+                
+    return wordStack
+
+
 if __name__ == "__main__":
 
-    #word = 'i'
+    threshold = 2
 
 #    taggedWord = ('i', 'PRP')
     taggedWord = ('boy', 'NN')
@@ -221,7 +246,7 @@ if __name__ == "__main__":
         print('Invalid tag: ', taggedWord)
         sys.exit("Only for {} tags".format(nnx))
         
-    print('scrapping for : ', taggedWord)
+    print('-- scrapeNNX.py __main__ scrapping for : ', taggedWord)
 
     results = checkWord(taggedWord[0])
     print(results)
@@ -234,9 +259,24 @@ if __name__ == "__main__":
         for d in newWordDef:
             print('-' * 5)
             print('d: ', d)
+
+        print('-' * 10)
         similars = gleanSimilars(newWordDef)           
         print(len(similars))
         print(similars)
+        for s in similars:
+            print(s)
+
+        tf = findTF(similars)
+        print('-' * 10)
+        
+        print('len tf: ', len(tf))
+        print('threshold: ', threshold)
+        for w in tf:
+            if w["cnt"] >= threshold:
+                print(w)
+        
+            
     else:
         print('found in kb')
 
