@@ -233,9 +233,9 @@ if __name__ == "__main__":
     threshold = 2
 
 #    taggedWord = ('i', 'PRP')
-    taggedWord = ('boy', 'NN')
+#    taggedWord = ('boy', 'NN')
 #    taggedWord = ('bus', 'NN')
-#    taggedWord = ('tickle', 'NN') # But is also a verb
+    taggedWord = ('tickle', 'NN') # But is also a verb
 #    taggedWord = ('stinky', 'JJ')
 #    taggedWord = ('fart', 'NN')
 #    taggedWord = ('run', 'VB')
@@ -254,6 +254,8 @@ if __name__ == "__main__":
     if not results[2]["kb"]:
         print('not in kb--so let us look for it on the web...')
         newWordDef = scrapeAndProcess(taggedWord)
+
+        print('Scraped the following from the web:')
         print(len(newWordDef))
 
         for d in newWordDef:
@@ -261,7 +263,9 @@ if __name__ == "__main__":
             print('d: ', d)
 
         print('-' * 10)
-        similars = gleanSimilars(newWordDef)           
+        similars = gleanSimilars(newWordDef)
+        print('gleanSimilars returned:')
+        
         print(len(similars))
         print(similars)
         for s in similars:
@@ -269,7 +273,7 @@ if __name__ == "__main__":
 
         tf = findTF(similars)
         print('-' * 10)
-        
+        print('findTF returned:')
         print('len tf: ', len(tf))
         print('threshold: ', threshold)
         for w in tf:
