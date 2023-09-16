@@ -1,6 +1,0 @@
-
-['see', 'Bob', 'run', 'fast']
-['see', 'Bob', 'run']
-['see', 'dog', 'fly', 'fast']
-['see', 'dog', 'run']
-['Mary', 'ran', 'fast']

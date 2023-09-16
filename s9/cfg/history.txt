@@ -1,5 +1,0 @@
-[['see', 'Mary'], 1]
-[['see', 'Bob'], 1]
-[['see', 'Mary', 'run'], 1]
-[['see', 'Bob', 'run'], 1]
-[['see', 'Bob', 'run', 'fast'], 5]
