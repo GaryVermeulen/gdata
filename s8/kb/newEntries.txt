@@ -1,5 +1,0 @@
-{"name":"car", "superclass":"vehicle", "pos":"nn", "canDo":["transport"]}
-{"name":"bunny", "superclass":"mammal", "pos":"nn", "canDo":["see", "eat", "walk", "run", "hop"]}
-{"name":"place", "superclass":"thing", "pos":"nn", "canDo":["TBD"]}
-{"name":"rabbit", "superclass":"mammal", "pos":"nn", "canDo":["see", "eat", "walk", "run", "hop"]}
-{"name":"home", "superclass":"place", "pos":"nn", "canDo":["TBD"]}
