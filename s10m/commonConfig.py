@@ -71,7 +71,8 @@ validTags = [
     'VBP',
     'VBZ',
     'WDT',
-    'WP'
+    'WP',
+    'UNK' # My tag for unknown words
     ]
 
 FANBOYS = ['for', 'and', 'not', 'but', 'or', 'yet', 'so']

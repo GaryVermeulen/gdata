@@ -9,6 +9,7 @@ import spacy # spacy is a pig
 from commonConfig import simple_contractions
 from commonConfig import verbose
 from commonConfig import common2LetterWords
+from commonConfig import nnp
 
 from commonUtils import connectMongo
 
@@ -108,7 +109,12 @@ def buildTaggedBoW(taggedCorpus):
     for s in taggedCorpus:
         for w in s:
             if w not in taggedBoW:
-                taggedBoW.append(w)
+                if w[1] == nnp:
+                    taggedBoW.append(w)
+                else:
+                    taggedBoW.append((w[0].lower(),w[1]))
+
+    taggedBoW = list(dict.fromkeys(taggedBoW))
 
     return(taggedBoW)
 

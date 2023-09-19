@@ -42,104 +42,67 @@ def updateCaseInBoW(w, cleanTagged_BoW_List):
     return cleanTagged_BoW_List
 
 
-def lowerCaseCheck(tagged_BoW, taggedCorpus):
+def lowerCase_NNP_Check(tagged_BoW):
+    # Simplw check of NNPs in BoW--Are there any uncapitalized NNPs?
 
-    print('- lowerCaseCheck Start -')
+    print('- lowerCase_NNP_Check - Start -')
+    
+    result = ''
+    validInput = validTags.copy()
+    validInput.append('C') # Capitalize
+    validInput.append('c')
+    validInput.append('K') # Keep as is
+    validInput.append('k')
 
-    cleanTaggedCorpusList = []
-    cleanTagged_BoW_List = []
-
-    taggedCorpusList = list(taggedCorpus.find())
     tagged_BoW_List = list(tagged_BoW.find())
-
-    # Not sure this will be needed going all Python
-    bowNNP_Lst = list(tagged_BoW.find({"tag": "NNP"})) 
-
-    # There may be a better way, but let's go the Pyhton way
-    
-    for t in taggedCorpusList:
-        #print(t["taggedSentence"])
-        cleanTaggedCorpusList.append(t["taggedSentence"])
-
-    for t in tagged_BoW_List:
-        #print(t)
-        tmpWordTag = []
-        word = t["word"]
-        tag = t["tag"]
-        tmpWordTag.append(word)
-        tmpWordTag.append(tag)
-        cleanTagged_BoW_List.append(tmpWordTag)
-
-    newCleanTaggedCorpusList = []
-    
-    for s in cleanTaggedCorpusList:
-        for w in s:
-            if w["tag"] == "NNP":
-                if w["word"].islower():
-                    print('Found lower case NNP:')
-                    print(w)
-                    print('In tagged corpus sentence:')
-                    print(s)
-                    result = input('Enter correct POS tag, CAP (capitalize), or <CR> to keep NNP and case: ')
-
-                    if result in validTags:
-                        w["tag"] = result
-
-                        print("new tag:")
-                        print(w)
-                        cleanTagged_BoW_List = updateTagInBoW(w, cleanTagged_BoW_List)
-                    elif result in ['cap', 'Cap', 'CAP']:
-                        w["word"] = w["word"].capitalize()
-                
-                        print('New T (upCase):')
-                        print(w)
-                        cleanTagged_BoW_List = updateCaseInBoW(w, cleanTagged_BoW_List)
-                    print('new s:')
-                    print(s)
-                    print('------')
-    print('verify:')
-    print('-' * 10)
-    for s in cleanTaggedCorpusList:
-        for w in s:
-            if w["tag"] == "NNP":
-                if w["word"].islower():
-                    print('Found lower case NNP:')
-                    print(w)
-    
-    print('-' * 10)
-    for w in cleanTagged_BoW_List:
-        if w[1] == "NNP":
-            if w[0].islower():
-                print('Found lower case NNP in BoW:')
-                print(w)
-                
-    print('-' * 10)
-    print('Save to Mongo')
-    result = input('Save above to Mongo <Y/n>?')
-
-    if result in ['y', 'Y']:
-        tagged_BoW.drop()
-        taggedCorpus.drop()
-
-        for s in cleanTaggedCorpusList:
-            tmpSent = []
-            for w in s:
-                tmpSent.append({"word": w["word"], "tag": w["tag"]})
         
-            taggedCorpus.insert_one({"taggedSentence": tmpSent})
+    chkList = []
+  
 
-        for t in cleanTagged_BoW_List:
-            tagged_BoW.insert_one({"word": t[0], "tag":t[1]})
+    cursor = tagged_BoW.find({"tag": "NNP"})
 
-        print('Saved')
-    else:
-        print('Not saved')   
+    # Simple check: Is the first char capitalized?
+    for doc in cursor:
+        if doc["word"][0].islower():
+            print('-' * 10)
+            print('Found uncapitalized NNP:', doc["word"])
 
-    print('- lowerCaseCheck End -')
+            while result not in validInput:
+                result = input('Enter correct POS tag, C/c to capitalize, or K/k to keep as is: ')
+                
+            if result in validTags:
+                doc["tag"] = result
+                print('Re-tagged: {} as: {} '.format(doc["word"], doc["tag"]))
+
+            if result in ['C', 'c']:
+                doc["word"] = doc["word"].capitalize()
+                print('New case (upCase):')
+                print('Re-cased word: {}  Tag: {} '.format(doc["word"], doc["tag"]))
+
+            if result in ['K', 'k']:
+                print('Keeping {} {} as is.'.format(doc["word"], doc["tag"]))
+
+            chkList.append(doc)
+            result = ''
+
+    # Update MongoDB
+    for w in chkList:
+        print('Replacing:')
+        print(w)
+        q = {"_id": w["_id"]}
+        
+        result = tagged_BoW.replace_one(q, {"word": w["word"], "tag": w["tag"]})
+
+        print('Raw result: ', result.raw_result)
+        print('Acknowledged: ', result.acknowledged)
+        print('Macthed count: ', result.matched_count)
+
+    
+    print('- lowerCase_NNP_Check - End -')
     return
 
 
-def nnxNotInKB(tagged_BoW, taggedCorpus, nnxKB):
+def nnpNotInKB(tagged_BoW, nnxKB):
 
     print('- nnxNotInKB Start -')
 
@@ -148,7 +111,6 @@ def nnxNotInKB(tagged_BoW, taggedCorpus, nnxKB):
     notFound = 0
     noKB = [] 
 
-    taggedCorpusList = list(taggedCorpus.find())
     tagged_BoW_List = list(tagged_BoW.find())
     nnxKB_List = list(nnxKB.find())
 
@@ -268,16 +230,30 @@ def nnxNotInKB(tagged_BoW, taggedCorpus, nnxKB):
 if __name__ == "__main__":
 
     print('--- Start rectifyKB.py ---')
-
+    result = ''
     mdb = connectMongo()
     simpDB = mdb["simp"]
     nnxKB = simpDB["nnxKB"]
     tagged_BoW = simpDB["taggedBoW"]
     taggedCorpus = simpDB["taggedCorpus"]
 
-#    lowerCaseCheck(tagged_BoW, taggedCorpus)
-
-    nnxNotInKB(tagged_BoW, taggedCorpus, nnxKB)
-
+    while result not in ['1', '2', '0']:
+        print('   1 -- Case check NNPs in BoW')
+        print('   2 -- Check for NNPs in BoW that are not in KB')
+        print('   3 -- Check for NNs in BoW that are not in KB--future')
+        print('   0 -- Exit')
+        result = input('Enter choice: ')
+        if result == '1':
+            lowerCase_NNP_Check(tagged_BoW)
+        elif result == '2':
+            nnpNotInKB(tagged_BoW, nnxKB)
+        elif result == '3':
+            print('Not yet...')
+        elif result == '0':
+            print('Exiting...')
+            break
+        else:
+            print('Something really wrong since you should not be able to get here')
+        result = ''
 
     print('--- End   rectifyKB.py ---')
