@@ -8,22 +8,7 @@ import sys
 import pickle
 
 from commonUtils import connectMongo
-
-
-def listSuperclasses(all_nnxKB):
-
-    superClassList = []
-
-    for i in all_nnxKB:
-        if i["superclass"] not in superClassList:
-            if i["superclass"] != None: # root does not have a superclass
-                superClassList.append(i["superclass"])
-                
-    for i in superClassList:
-        print(i)
-
-    return superClassList
-
+from commonUtils import listSuperclasses
 
 def findSimilars(similars):
 

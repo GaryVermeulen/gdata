@@ -22,6 +22,22 @@ def connectMongo():
     return myclient
 
 
+def listSuperclasses(nnxKB):
+
+    all_nnxKB = list(nnxKB.find())
+    superClassList = []
+
+    for i in all_nnxKB:
+        if i["superclass"] not in superClassList:
+            if i["superclass"] != None: # root does not have a superclass
+                superClassList.append(i["superclass"])
+                
+    for i in superClassList:
+        print(i)
+
+    return superClassList
+
+
 # Current list of inflections is lacking, note prp)
 def getInflectionTag(tag):
     """
