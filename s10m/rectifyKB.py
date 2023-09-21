@@ -98,6 +98,56 @@ def lowerCase_NNP_Check(tagged_BoW):
     return
 
 
+def makeEntry(taggedWord):
+
+    #inRes = ''
+    #superC = ''
+    word = taggedWord[0]
+    tag = taggedWord[1]
+    tmpDict = {}
+    
+    modRes = input('Modify word/tag <Y/n>?')
+    if modRes in ['y', 'Y']:
+        caseRes = input('Lower case {} <Y/n>?'.format(word))
+        if caseRes in ['y', 'Y']:
+            word = word.lower()
+        tagRes = input('Change the POS tag for {} <Y/n> WARNING KB only handles NN and NNP '.format(taggedWord))
+        if tagRes in ['y', 'Y']:
+            r = input('Enter valid POS tag: ')
+            if r in validTags:
+                tag = r
+                print('Re-tagged: {} as: {} '.format(doc["word"], doc["tag"]))
+            else:
+                print('Invalid tag entered, keeping: ', tag)
+            
+                
+    sims = input('Enter similars: word1,word2,...')
+    isA = input('Enter isAlive: <T/F>')
+    if isA in ['t', 'T']:
+        isA = True
+    canD = input('Enter canDo: see,eat,run,...')
+
+    print('Valid superclasses:')
+    superClassList = listSuperclasses(nnxKB)
+
+    superC = input('Enter superClass/parent: ')
+
+    if superC not in superClassList:
+        print('No {} found! You will need to manually add the superclass.'.format(superC))
+        return {}
+
+    tmpDict = {
+        "_id":word,
+        "similar":sims,
+        "tag":tag,
+        "isAlive": isA,
+        "canDo":canD,
+        "superclass":superC
+    }
+
+    return tmpDict
+
+
 def nnpNotInKB(tagged_BoW, nnxKB):
 
     print('- nnpNotInKB Start -')
@@ -135,57 +185,28 @@ def nnpNotInKB(tagged_BoW, nnxKB):
             print('Adding: ', taggedWord)
             contRes = input('Continue with add/modify <Y/n>?')
             if contRes in ['y', 'Y']:
-                inRes = ''
-                superC = ''
-                modRes = input('Modify word/tag <Y/n>?')
-                if modRes in ['y', 'Y']:
-                    caseRes = input('Lower case {} <Y/n>?'.format(word))
-                    if caseRes in ['y', 'Y']:
-                        word = word.lower()
-                    tagRes = input('Change the POS tag for {} <Y/n> WARNING KB only handles NN and NNP')
-                    if tagRes in ['y', 'Y']:
-                        r = ''
-                        if r in validTags:
-                            tag = r
-                        print('Re-tagged: {} as: {} '.format(doc["word"], doc["tag"]))
+
+                tmpDict = makeEntry(taggedWord)
+
+                if len(tmpDict) < 1:
+                    print('Bad entry, skipping ', taggedWord)
+                    break
                 
-                while inRes not in ['y', 'Y']:
-                    sims = input('Enter similars: word1,word2,...')
-                    isA = input('Enter isAlive: <T/F>')
-                    if isA in ['t', 'T']:
-                        isA = True
-                    canD = input('Enter canDo: see,eat,run,...')
+                print('You have entered:')
+                print('word      : ', tmpDict["_id"])
+                print('tag       : ', tmpDict["tag"])
+                print('similars  : ', tmpDict["similar"])
+                print('isAlive   : ', tmpDict["isAlive"])
+                print('canDo     : ', tmpDict["canDo"])
+                print('superclass: ', tmpDict["superclass"])
 
-                    print('Valid superclasses:')
-                    superClassList = listSuperclasses(nnxKB)
+                inRes = input('Add this to KB <Y/n>?')
 
-                    while superC not in superClassList:
-                        superC = input('Enter superClass/parent: ')
-
-                    print('You have entered:')
-                    print('word      : ', word)
-                    print('tag       : ', tag)
-                    print('similars  : ', sims)
-                    print('isAlive   : ', isA)
-                    print('canDo     : ', canD)
-                    print('superclass: ', superC)
-
-                    inRes = input('Add this to KB <Y/n>?')
-
-                    if inRes not in ['y', 'Y']:
-                        break
-
-                    tmpDict = {
-                        "_id":word,
-                        "similar":sims,
-                        "tag":tag,
-                        "isAlive": isA,
-                        "canDo":canD,
-                        "superclass":superC
-                    }
-
-                    insertResult = nnxKB.insert_one(tmpDict)
-                    print('Raw insertResult acknowledged: ', insertResult.acknowledged)
+                if inRes not in ['y', 'Y']:
+                    break
+                
+                insertResult = nnxKB.insert_one(tmpDict)
+                print('Raw insertResult acknowledged: ', insertResult.acknowledged)
                     
             else:
                 print('Skipping... ',taggedWord)

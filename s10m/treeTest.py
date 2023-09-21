@@ -1,8 +1,11 @@
 #
-# simpTree.py -- An attempt at a n-ary Tree KB 
+# treeTest.py -- An attempt at a n-ary Tree KB with MongoDB
 #
 
-from simpStuff import getInflections
+import pymongo
+
+from commonUtils import connectMongo
+
 
 
 """
@@ -19,14 +22,14 @@ from simpStuff import getInflections
 
 
 class Node:
-    def __init__(self, key, similar, tag, isAlive, canDo, parentNode, children=None):
-        self.key        = key 
-        self.similar    = similar
-        self.tag        = tag
-        self.isAlive    = isAlive
-        self.canDo      = canDo
-        self.parentNode = parentNode
-        self.children   = children or []
+    def __init__(self, key):
+        self.key         = key 
+        self.similar     = ''
+        self.tag         = ''
+        self.isAlive     = False
+        self.canDo       = ''
+        self.parent_node = ''
+        self.children    = []
 
     def __str__(self):
         return str(self.key)
@@ -81,17 +84,21 @@ class N_ary_Tree:
         #return 1 + max(children_max_depth)
         return len(children_max_depth) + 1
 
-    def add(self, new_key, canDo, parent_key=None):
+    def add(self, new_key, similar, tag, isAlive, canDo, parent_node, children):
         new_node = Node(new_key)
+        new_node.similar = similar
+        new_node.tag = tag
+        new_node.isAlive = isAlive
         new_node.canDo = canDo
-        new_node.parentNode = parent_key
-        if parent_key == None:
+        new_node.parent_node = parent_node
+        new_node.children = children
+        if parent_node == None:
             self.root = new_node
             self.size = 1
         else:
-            parent_node = self.find_node(self.root, parent_key)
+            parent_node = self.find_node(self.root, parent_node)
             if not(parent_node):
-                print(' ' + str(parent_key) + ' Is not a parent--cannot add: ' + new_key)
+                print(' ' + str(parent_node) + ' Is not a parent--cannot add: ' + new_key)
                 raise NodeNotFoundException('Add: No element was found with the informed parent key.')
             parent_node.children.append(new_node)
             self.size += 1
@@ -124,59 +131,40 @@ class NodeNotFoundException(Exception):
         return repr(self.value)
 
 
-def getEntries(which):
 
-    newEntries = []
-
-    if which == 'new':
-        inFile = '/home/gary/src/s8/kb/newEntries.txt'
-    elif which == 'start':
-        inFile = '/home/gary/src/s8/kb/start.txt'
-    elif which == 'nnp':
-        inFile = '/home/gary/src/s8/kb/nnpEntries.txt'
-    else:
-        print('Unknown file entry type, must be "new", "start", or "nnp".')
-        return newEntries
-    
-    with open(inFile, "r") as f:
-        while (line := f.readline().rstrip()):
-            tmp = eval(line)
-            newEntries.append(tmp)
-    f.close()
-
-    return newEntries
-
-
-def buildKB():
+def buildKB(nnxKB):
 
     tree = N_ary_Tree()
-    hb = 'Higgs_Boson'
 
-    tree.add(hb, ["TBD"]) # Root to start from
+    root = list(nnxKB.find({"_id":"GodParticle"}))
+    children = []
 
-    starters = getEntries('start')
+    print('root: ', root)
+
+    tree.add(root[0]["_id"],
+             root[0]["similar"],
+             root[0]["tag"],
+             root[0]["isAlive"],
+             root[0]["canDo"],
+             root[0]["superclass"],
+             children) # Root to start from
+
+    starters = nnxKB.find() 
 
     for i in starters:
-        newNodeParent = i["superclass"]
-        newNode = i["name"]
+        
+        newNode = i["_id"]
+        similar = i["similar"]
+        tag = i["tag"]
+        isAlive = i["isAlive"]
         canDo = i["canDo"]
+        newNodeParent = i["superclass"]
+        children = []
                     
         if tree.isNode(newNodeParent):
-            tree.add(newNode, canDo, newNodeParent)
+            tree.add(newNode, similar, tag, isAlive, canDo, newNodeParent, children)
         else:
             print('starters: No parent/superclass {} found for: {}'.format(newNodeParent, newNode))
-
-    results = getEntries('nnp')
-    
-    for i in results:
-        newNodeParent = i["superclass"]
-        newNode = i["name"]
-        canDo = i["canDo"]
-                    
-        if tree.isNode(newNodeParent):
-            tree.add(newNode, canDo, newNodeParent)
-        else:
-            print('No parent/superclass {} found for: {}'.format(newNodeParent, newNode))
 
     return tree
 
@@ -204,13 +192,19 @@ def add2KB(tree):
 #
 #
 if __name__ == "__main__":
+
+    mdb = connectMongo()
+    simpDB = mdb["simp"]
+    nnxKB = simpDB["nnxKB"]
+    tagged_BoW = simpDB["taggedBoW"]
+    taggedCorpus = simpDB["taggedCorpus"]
     
-    t = buildKB()
+    t = buildKB(nnxKB)
 
     print(t)
     print('----')
 
-    t = add2KB(t)
+    #t = add2KB(t)
 
     print(t)
     

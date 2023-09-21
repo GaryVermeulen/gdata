@@ -42,19 +42,22 @@ if __name__ == "__main__":
 
     sClassList = listSuperclasses(nnxKB)
 
+    kb_cursor = nnxKB.find()
+
     kb_cursor_list = list(nnxKB.find())
 
-    node = walkTree(kb_cursor_list)
+    #node = walkTree(kb_cursor_list)
 
-    """
+    
+    
     for node in kb_cursor:
-        #print(node)
+        print(node)
         print('_id: ', node["_id"])
         print('similar: ', node["similar"])
         print('tag: ', node["tag"])
         print('canDo: ', node["canDo"])
         print('superclass: ', node["superclass"])
-    """
+    
         
         
     """
