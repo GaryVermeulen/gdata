@@ -6,7 +6,7 @@ import pickle
 from commonConfig import Sentence
 
 
-def getPickle():
+def getSA_Pickle():
 
     with open('pickles/sA_Obj.pkl', 'rb') as fp:
         ourPickle = pickle.load(fp)
@@ -14,6 +14,17 @@ def getPickle():
     fp.close()
     
     return ourPickle
+
+
+def getNewWords_Pickle():
+
+    with open('pickles/newWords.pkl', 'rb') as fp:
+        ourPickle = pickle.load(fp)
+        print('Aunt Bee loaded newWords.pkl')
+    fp.close()
+    
+    return ourPickle
+
     
 
 def savePickle(p):
@@ -29,12 +40,20 @@ if __name__ == "__main__":
 
     print('Pickle checker...')
     
-    ourPickle = getPickle()
+    ourPickle = getNewWords_Pickle()
 
     print('ourPickle:')
     print(type(ourPickle))
     print(ourPickle)
-    print(ourPickle.printAll())
+
+    # For SA Pickle
+    #print(ourPickle.printAll())
+
+    # For newWords list
+    print(len(ourPickle))
+    for i in ourPickle:
+        print("-" * 10)
+        print(i)
 
     
 

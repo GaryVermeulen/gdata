@@ -13,10 +13,21 @@
 verbose = True
 debug   = True
 
+jj  = 'JJ'
+jjr = 'JJR'
+jjs = 'JJS'
+
 nn  = 'NN'
 nnp = 'NNP'
 nns = 'NNS'
 nnx = [nn, nnp] # No plurals yet
+
+prp = 'PRP'
+prps = 'PRPS' # PRP$
+
+rb  = 'RB'
+rbr = 'RBR'
+rbs = 'RBS'
 
 vb  = 'VB'
 vbd = 'VBD'
@@ -24,14 +35,6 @@ vbg = 'VBG'
 vbn = 'VBN'
 vbp = 'VBP'
 vbz = 'VBZ'
-
-jj  = 'JJ'
-jjr = 'JJR'
-jjs = 'JJS'
-
-rb  = 'RB'
-rbr = 'RBR'
-rbs = 'RBS'
 
 unk = 'UNK'
 

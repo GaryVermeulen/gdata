@@ -9,38 +9,13 @@
 
 import pickle
 
-from commonUtils import connectMongo, listSuperclasses
+from commonUtils import connectMongo, listSuperclasses, listKB_Entries, isEntry, getEntryAll, isEntryBoW, getEntryAllBoW 
+                        
 from commonConfig import validTags, nnx
 from scrapeNNX import scrapeNNX
-from addNNX import addNNX
+from scrapeWord import scrapeWord
+from addWebWords import addWebWord
 
-"""
-def updateTagInBoW(w, cleanTagged_BoW_List):
-
-    print('word:', w["word"])
-    print('tag: ', w["tag"])
-
-    for i in cleanTagged_BoW_List:
-        if i[0] == w["word"]:
-            i[1] = w["tag"]
-            print(i)
-            
-    return cleanTagged_BoW_List
-
-
-def updateCaseInBoW(w, cleanTagged_BoW_List):
-
-    print('word:', w["word"])
-    print('tag: ', w["tag"])
-
-    for i in cleanTagged_BoW_List:
-        if i[0] == w["word"].lower():
-            print('i before: ', i)
-            i[0] = w["word"]
-            print('i after: ', i)
-    
-    return cleanTagged_BoW_List
-"""
 
 
 def lowerCase_NNP_Check(tagged_BoW):
@@ -100,11 +75,22 @@ def lowerCase_NNP_Check(tagged_BoW):
 
 def makeEntry(taggedWord):
 
-    #inRes = ''
-    #superC = ''
-    word = taggedWord[0]
-    tag = taggedWord[1]
     tmpDict = {}
+
+    if len(taggedWord) == 0:
+        word = input("Enter word: ")
+        if len(word) == 0:
+            print('Nothing entered, existing...')
+            return {}
+        tag = input('Enter valid POS tag: ')
+        if tag in validTags:
+            print('Tagged: {} as: {} '.format(word, tag))
+        else:
+            tag = 'UNK'
+            print('Invalid tag entered, tagging as: ', tag)
+    else:
+        word = taggedWord[0]
+        tag = taggedWord[1]
     
     modRes = input('Modify word/tag <Y/n>?')
     if modRes in ['y', 'Y']:
@@ -116,11 +102,10 @@ def makeEntry(taggedWord):
             r = input('Enter valid POS tag: ')
             if r in validTags:
                 tag = r
-                print('Re-tagged: {} as: {} '.format(doc["word"], doc["tag"]))
+                print('Re-tagged: {} as: {} '.format(word, tag))
             else:
                 print('Invalid tag entered, keeping: ', tag)
             
-                
     sims = input('Enter similars: word1,word2,...')
     isA = input('Enter isAlive: <T/F>')
     if isA in ['t', 'T']:
@@ -128,11 +113,11 @@ def makeEntry(taggedWord):
     canD = input('Enter canDo: see,eat,run,...')
 
     print('Valid superclasses:')
-    superClassList = listSuperclasses(nnxKB)
+    nodeList = listKB_Entries(nnxKB)
 
     superC = input('Enter superClass/parent: ')
 
-    if superC not in superClassList:
+    if superC not in nodeList:
         print('No {} found! You will need to manually add the superclass.'.format(superC))
         return {}
 
@@ -182,15 +167,26 @@ def nnpNotInKB(tagged_BoW, nnxKB):
             isA = False
                          
             print('.............................................')
-            print('Adding: ', taggedWord)
-            contRes = input('Continue with add/modify <Y/n>?')
+
+            # Check if already in KB
+            print('Checking taggedWord: ', taggedWord)
+            
+            if isEntry(taggedWord, nnxKB):
+                allEntries = getEntryAll(taggedWord, nnxKB)
+
+                if len(allEntries) > 0:
+                    for e in allEntries:
+                        print("Warning: {} is in the KB ".format(e))
+                    continue
+
+            contRes = input('Continue with add/modify {} <Y/n>?'.format(taggedWord))
             if contRes in ['y', 'Y']:
 
                 tmpDict = makeEntry(taggedWord)
 
                 if len(tmpDict) < 1:
                     print('Bad entry, skipping ', taggedWord)
-                    break
+                    continue
                 
                 print('You have entered:')
                 print('word      : ', tmpDict["_id"])
@@ -203,7 +199,7 @@ def nnpNotInKB(tagged_BoW, nnxKB):
                 inRes = input('Add this to KB <Y/n>?')
 
                 if inRes not in ['y', 'Y']:
-                    break
+                    continue
                 
                 insertResult = nnxKB.insert_one(tmpDict)
                 print('Raw insertResult acknowledged: ', insertResult.acknowledged)
@@ -216,10 +212,13 @@ def nnpNotInKB(tagged_BoW, nnxKB):
     return
 
 
-def nnNotInKB(tagged_BoW, nnxKB):
+def nnNotInKB(tagged_BoW, nnxKB, webWordsCol):
 
     print('- nnNotInKB Start -')
+    toAddRaw = []
+    toAddNotInKB = []
     toAdd = []
+    multipleBoW = []
     cursor_nn_BoW = tagged_BoW.find({"tag": "NN"})
     cursor_nn_KB = nnxKB.find({"tag": "NN"})
 
@@ -227,29 +226,87 @@ def nnNotInKB(tagged_BoW, nnxKB):
     
     for docBoW in cursor_nn_BoW:
 #        print(docBoW)
-        toAdd.append(docBoW)
+        toAddRaw.append(docBoW)
         c = nnxKB.find({"_id": docBoW["word"]})
-        for i in c:
+        for i in c: 
 #            print('match:', i)
-            toAdd.pop()
+            toAddRaw.pop()
 
+    # Check if in KB with different case
+    print('len toAddRaw: ', len(toAddRaw))
+    for i in toAddRaw:
+        taggedWord = (i["word"],i["tag"])
+        
+#        print('Checking taggedWord: ', taggedWord)
+            
+        if isEntry(taggedWord, nnxKB):
+            allEntries = getEntryAll(taggedWord, nnxKB)
+
+            if len(allEntries) > 0:
+                for e in allEntries:
+                    print("Warning: {} is in the KB skipping...".format(e))
+        else:
+            toAddNotInKB.append(i)
+
+    # Check if in BoW with different case
+    print('len toAddNotInKB: ', len(toAddNotInKB))
+    for i in toAddNotInKB:
+        taggedWord = (i["word"],i["tag"])
+        
+#        print('Checking taggedWord: ', taggedWord)
+            
+        if isEntryBoW(taggedWord, tagged_BoW):
+            allEntries = getEntryAllBoW(taggedWord, tagged_BoW)
+
+            if len(allEntries) > 1:
+                for e in allEntries:
+#                    print("Warning: {} is in the KB...".format(e))
+                    multipleBoW.append(e)
+            else:
+                toAdd.append(i)
+                
+    print(' --- Found multiple entries in BoW ---')
+    for e in multipleBoW:
+        print(e)
+    
     print(' --- Found these: toAdd ---')
+    print('len toAdd: ', len(toAdd))
     for i in toAdd:
         print(i)
 
     print('-' * 10)
     print('Found {} words (NN) not in KB?'.format(len(toAdd)))
+
+    # Are they in webWords?
+    addWebWords = []
+    
+
+    for i in toAdd:
+        taggedWord = (i["word"],i["tag"])
+
+        c = list(webWordsCol.find({"word": i["word"]}))
+
+        if len(c) == 0:
+            addWebWords.append(i)
+        
+
+    print('-' * 10)
+    for i in addWebWords:
+        print(i)
+    print('Found {} words (NN) not in webWordsCol?'.format(len(addWebWords)))
+    
     result = input('Scrape web <Y/n>?')
 
     newWords = []
     if result in ['y', 'Y']:
-        for entry in toAdd:
+        for entry in addWebWords:
             word = entry["word"]
             tag  = entry["tag"]
             taggedWord = (word, tag)
                          
             print('.............................................')
             #newWord = scrapeNNX(taggedWord)
+            newWord = scrapeWord(taggedWord)
             if len(newWord) > 0:
                 newWords.append(newWord)
         print('-' * 10)
@@ -271,19 +328,48 @@ def nnNotInKB(tagged_BoW, nnxKB):
         result = input('Add words <Y/n>?')
         if result in ['y', 'Y']:
             print('check/mod addNNX')
-            #for w in newWords:
-            #    addNNX(w)
+            for w in newWords:
+                print('Sending w: ', w)
+                addWebWord(w)
             
     else:
         print('Missing words not added to KB.')
 
     print('-' * 10)
-    
-    print('Found: len add2KBLst: ', len(add2KBLst))
     print('Added: len newWords: ', len(newWords))
     
     print('- nnNotInKB End -')
 
+    return
+
+
+def addKBNode(nnxKB):
+
+    print('- addKBNode Start -')
+
+    newNode = makeEntry('')
+
+    if len(newNode) < 1:
+        print('Bad entry, skipping...')
+        return
+                
+    print('You have entered:')
+    print('word      : ', newNode["_id"])
+    print('tag       : ', newNode["tag"])
+    print('similars  : ', newNode["similar"])
+    print('isAlive   : ', newNode["isAlive"])
+    print('canDo     : ', newNode["canDo"])
+    print('superclass: ', newNode["superclass"])
+
+    res = input('Add this to KB <Y/n>?')
+
+    if res not in ['y', 'Y']:
+        return
+                
+    insertResult = nnxKB.insert_one(newNode)
+    print('Raw insertResult acknowledged: ', insertResult.acknowledged)            
+
+    print('- addKBNode End -')
 
     return
 
@@ -299,11 +385,13 @@ if __name__ == "__main__":
     nnxKB = simpDB["nnxKB"]
     tagged_BoW = simpDB["taggedBoW"]
     taggedCorpus = simpDB["taggedCorpus"]
+    webWordsCol = simpDB["webWords"]
 
     while result not in ['1', '2', '0']:
         print('   1 -- Case check NNPs in BoW')
         print('   2 -- Check for NNPs in BoW that are not in KB')
-        print('   3 -- Check for NNs in BoW that are not in KB--future')
+        print('   3 -- Check for NNs in BoW that are not in KB')
+        print('   4 -- Add KB object (superclass) not in corpus')
         print('   0 -- Exit')
         result = input('Enter choice: ')
         if result == '1':
@@ -311,7 +399,9 @@ if __name__ == "__main__":
         elif result == '2':
             nnpNotInKB(tagged_BoW, nnxKB)
         elif result == '3':
-            nnNotInKB(tagged_BoW, nnxKB)
+            nnNotInKB(tagged_BoW, nnxKB, webWordsCol)
+        elif result == '4':
+            addKBNode(nnxKB)
         elif result == '0':
             print('Exiting...')
             break

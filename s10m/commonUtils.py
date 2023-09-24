@@ -38,6 +38,63 @@ def listSuperclasses(nnxKB):
     return superClassList
 
 
+def listKB_Entries(nnxKB):
+
+    all_nnxKB = list(nnxKB.find())
+    entriesList = []
+
+    for i in all_nnxKB:
+        if i["_id"] not in entriesList:
+            entriesList.append(i["_id"])
+                
+    for i in entriesList:
+        print(i)
+
+    return entriesList
+
+
+def isEntry(taggedWord, nnxKB):
+
+    for e in list(nnxKB.find()):
+        if taggedWord[0].lower() == e["_id"].lower():
+            return True
+
+    return False
+
+
+def getEntryAll(taggedWord, nnxKB):
+
+    allEntries = []
+    
+    for e in list(nnxKB.find()):
+        if taggedWord[0].lower() == e["_id"].lower():
+            allEntries.append(((taggedWord[0], taggedWord[1]),(e["_id"], e["tag"])))
+
+    return allEntries
+
+
+def isEntryBoW(taggedWord, tagged_BoW):
+
+    for e in list(tagged_BoW.find()):
+        if taggedWord[0].lower() == e["word"].lower():
+            return True
+
+    return False
+
+
+def getEntryAllBoW(taggedWord, tagged_BoW):
+
+    allEntries = []
+    
+    for e in list(tagged_BoW.find()):
+        if taggedWord[0].lower() == e["word"].lower():
+            allEntries.append(((taggedWord[0], taggedWord[1]),(e["word"], e["tag"])))
+
+    return allEntries
+
+
+
+
 # Current list of inflections is lacking, note prp)
 def getInflectionTag(tag):
     """
