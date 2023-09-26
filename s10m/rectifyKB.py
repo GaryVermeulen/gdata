@@ -374,6 +374,85 @@ def addKBNode(nnxKB):
     return
 
 
+def bow_dif_nnxKB(tagged_BoW, nnxKB, webWordsCol):
+
+    toAddRaw = []
+    toAddNotInKB = []
+    toAdd = []
+    multipleBoW = []
+
+    cursor_nn_BoW = tagged_BoW.find({"tag": "NN"})
+
+    for docBoW in cursor_nn_BoW:
+#        print(docBoW)
+        toAddRaw.append(docBoW)
+        c = nnxKB.find({"_id": docBoW["word"]})
+        for i in c: 
+#            print('match:', i)
+            toAddRaw.pop()
+
+    # Check if in KB with different case
+    print('len toAddRaw: ', len(toAddRaw))
+    for i in toAddRaw:
+        taggedWord = (i["word"],i["tag"])
+        
+#        print('Checking taggedWord: ', taggedWord)
+            
+        if isEntry(taggedWord, nnxKB):
+            allEntries = getEntryAll(taggedWord, nnxKB)
+
+            if len(allEntries) > 0:
+                for e in allEntries:
+                    print("Warning: {} is in the KB skipping...".format(e))
+        else:
+            toAddNotInKB.append(i)
+
+    # Check if in BoW with different case
+    print('len toAddNotInKB: ', len(toAddNotInKB))
+    for i in toAddNotInKB:
+        taggedWord = (i["word"],i["tag"])
+        
+#        print('Checking taggedWord: ', taggedWord)
+            
+        if isEntryBoW(taggedWord, tagged_BoW):
+            allEntries = getEntryAllBoW(taggedWord, tagged_BoW)
+
+            if len(allEntries) > 1:
+                for e in allEntries:
+#                    print("Warning: {} is in the KB...".format(e))
+                    multipleBoW.append(e)
+            else:
+                toAdd.append(i)
+                
+    print(' --- Found multiple entries in BoW ---')
+    for e in multipleBoW:
+        print(e)
+    
+    print(' --- Found these: toAdd ---')
+    print('len toAdd: ', len(toAdd))
+    for i in toAdd:
+        print(i)
+
+    print('-' * 10)
+    print('Found {} words (NN) not in KB?'.format(len(toAdd)))
+
+
+
+    return
+
+
+def rectifyKB(tagged_BoW, tagged_Corpus, webWordsCol, nnxKB):
+
+    print('--- rectifyKB Start ---')
+
+    bow_dif_nnxKB(tagged_BoW, nnxKB, webWordsCol)    
+
+
+    print('--- rectifyKB End ---')
+
+    return
+
+
 #
 #
 if __name__ == "__main__":
@@ -392,6 +471,7 @@ if __name__ == "__main__":
         print('   2 -- Check for NNPs in BoW that are not in KB')
         print('   3 -- Check for NNs in BoW that are not in KB')
         print('   4 -- Add KB object (superclass) not in corpus')
+        print('   5 -- Auto-add words form corpus & webWords to KB')
         print('   0 -- Exit')
         result = input('Enter choice: ')
         if result == '1':
@@ -402,6 +482,8 @@ if __name__ == "__main__":
             nnNotInKB(tagged_BoW, nnxKB, webWordsCol)
         elif result == '4':
             addKBNode(nnxKB)
+        elif result == '5':
+            rectifyKB(tagged_BoW, taggedCorpus, webWordsCol, nnxKB)
         elif result == '0':
             print('Exiting...')
             break
