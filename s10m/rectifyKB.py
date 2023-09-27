@@ -4,7 +4,13 @@
 # 1) Check for tagging errors in BoW and tagged senetences
 #       Currently only checking on lower case NNPs
 # 2) Verify and add NN and NNPs in BoW but not in KB
-#       This could be can of worms
+#       This could be can of worms--cannot do this without knowing
+#       canDo, isAlive, and superclass
+#
+# Yet again this has morphed so now wondering if it would make more sense
+# to recify during the initial reading and processing of the raw corpus...~?
+#
+# This is really ugly, but in a sick way: fun.
 #
 
 import pickle
@@ -15,6 +21,7 @@ from commonConfig import validTags, nnx
 from scrapeNNX import scrapeNNX
 from scrapeWord import scrapeWord
 from addWebWords import addWebWord
+from simpSA import sentAnalysis
 
 
 
@@ -392,7 +399,7 @@ def bow_dif_nnxKB(tagged_BoW, nnxKB, webWordsCol):
             toAddRaw.pop()
 
     # Check if in KB with different case
-    print('len toAddRaw: ', len(toAddRaw))
+#    print('len toAddRaw: ', len(toAddRaw))
     for i in toAddRaw:
         taggedWord = (i["word"],i["tag"])
         
@@ -408,7 +415,7 @@ def bow_dif_nnxKB(tagged_BoW, nnxKB, webWordsCol):
             toAddNotInKB.append(i)
 
     # Check if in BoW with different case
-    print('len toAddNotInKB: ', len(toAddNotInKB))
+#    print('len toAddNotInKB: ', len(toAddNotInKB))
     for i in toAddNotInKB:
         taggedWord = (i["word"],i["tag"])
         
@@ -424,28 +431,110 @@ def bow_dif_nnxKB(tagged_BoW, nnxKB, webWordsCol):
             else:
                 toAdd.append(i)
                 
-    print(' --- Found multiple entries in BoW ---')
-    for e in multipleBoW:
-        print(e)
+#    print(' --- Found multiple entries in BoW ---')
+#    for e in multipleBoW:
+#        print(e)
     
-    print(' --- Found these: toAdd ---')
-    print('len toAdd: ', len(toAdd))
-    for i in toAdd:
-        print(i)
+#    print(' --- Found these: toAdd ---')
+#    print('len toAdd: ', len(toAdd))
+#    for i in toAdd:
+#        print(i)
 
-    print('-' * 10)
-    print('Found {} words (NN) not in KB?'.format(len(toAdd)))
+#    print('-' * 10)
+#    print('Found {} words (NN) not in KB?'.format(len(toAdd)))
 
 
 
-    return
+    return toAdd, multipleBoW
+
+
+def prepareSentences(found):
+
+    listOfSents = []
+
+    for s in found:
+
+        for ts in s:
+            tmpSent = []
+            tS = w["taggedSentence"]
+            for w in tS:
+                tW = []
+                word = tS["word"]
+                tag = tS["tag"]
+                tW.append(word)
+                tW.append(tag)
+                tmpSent.append(tW)
+            
+            
+            
+
+    return listOfSents
 
 
 def rectifyKB(tagged_BoW, tagged_Corpus, webWordsCol, nnxKB):
+    # Attempt to add KB entries from the above input.
+    # I'm guessing we'll need to try and glean the needed
+    # missing KB info (isAlive, canDo, and superclass from
+    # the webWordsCol and tagged_Corpus
+
+    limit = 0
+    found = []
 
     print('--- rectifyKB Start ---')
 
-    bow_dif_nnxKB(tagged_BoW, nnxKB, webWordsCol)    
+    toAdd, multipleEntries = bow_dif_nnxKB(tagged_BoW, nnxKB, webWordsCol)
+
+    print('len toAdd: ', len(toAdd))
+    print('len multipleEntries: ', len(multipleEntries))
+
+    # Retrieve sentences from taggedCorpus containing word to add. Then try to
+    # derive context...
+
+    for entry in toAdd:
+
+        print(type(entry))
+        print('entry: ', entry)
+        word = entry["word"]
+        tag = entry["tag"]
+
+        print("word: ", word)
+        print("tag: ", tag)
+
+        wordCur = list(tagged_Corpus.find())
+
+        print(type(wordCur))
+        l2 = 0
+        
+        for c in wordCur:
+#            print(type(c))
+#            print("c: ", c)
+
+            cTS = c["taggedSentence"]
+
+#            print(type(cTS))
+#            print(cTS)
+
+            for x in cTS:
+                x_entry = x["word"]
+#                print(x_entry)
+                if x_entry == word:
+                    print('match: ')
+                    print(word, x_entry)
+                    found.append(c)
+
+        listOfSentences = prepareSentences(found) # Prepare for smipSA
+        
+        saObj = sentAnalysis(tagged_uI) # Just one sent 
+       #? sentObjs = processSentences(found)
+            
+        limit += 1
+        if limit > 0:
+            break # Just trying to process one for now
+
+    print('found:')
+    for i in found:
+        print(i)
+
 
 
     print('--- rectifyKB End ---')
