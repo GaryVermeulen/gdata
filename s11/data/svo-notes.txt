@@ -1,0 +1,52 @@
+""" 
+Notes:
+
+    declarative sentence (statement)
+    interrogative sentence (question)
+    imperative sentence (command)
+    exclamative sentence (exclamation)
+    
+
+    Per Wordy.com
+
+        Subject–Verb
+        Subject–Verb–Object
+        Subject–Verb–Adjective
+        Subject–Verb–Adverb
+        Subject–Verb–Noun
+
+
+    Per english.com:
+    
+        1.) A sentence is a group of words that has a complete thought, meaning or idea.
+        2.) Every English sentence starts with a Subject followed by a Verb.
+        3.) Every English sentence must have a verb.
+        4.) A Subject tells who or what the sentence is about.
+        5.) The Verb is the action word that tells what someone or something does.
+        6.) Add -s to most verbs to tell about one person, place or a thing. e.g One bird stops.
+        7.) The words (am, is, are) are verbs called (to-be) They tell about now. e.g. I am six. Kip is little
+        8.) Use AM to tell about yourself. Use IS to tell about one person, thing, place. Use ARE to tell about more than one.
+        9.) A noun names a person, animal, place or a thing.
+        10.) A sentence always starts with a capital letter and ends with an ending mark.
+
+
+    Per waldenu.edu:
+    
+    Simple sentences:
+        A simple sentence is an independent clause with no conjunction or dependent clause.
+        
+    Compound sentences:
+        A compound sentence is two independent clauses joined by a conjunction (e.g., and, but, or, for, nor, yet, so).
+        
+    Complex sentences:
+        A complex sentence contains one independent clause and at least one dependent clause. The clauses in a complex
+        sentence are combined with conjunctions and subordinators, terms that help the dependent clauses relate to the
+        independent clause. Subordinators can refer to the subject (who, which), the sequence/time (since, while), or the
+        causal elements (because, if) of the independent clause.
+        
+    Compound-complex sentences:
+        A compound-complex sentence contains multiple independent clauses and at least one dependent clause. These
+        sentences will contain both conjunctions and subordinators.
+
+    
+"""
