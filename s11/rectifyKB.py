@@ -3,7 +3,7 @@
 #
 # 1) Check for tagging errors in BoW and tagged senetences
 #       Currently only checking on lower case NNPs
-# 2) Verify and add NN and NNPs in BoW but not in KB
+# 2) Verify and add NN and NNPs in BoW but are not in KB
 #       This could be can of worms--cannot do this without knowing
 #       canDo, isAlive, and superclass
 #
@@ -306,6 +306,7 @@ def nnNotInKB(tagged_BoW, nnxKB, webWordsCol):
 
     newWords = []
     if result in ['y', 'Y']:
+
         for entry in addWebWords:
             word = entry["word"]
             tag  = entry["tag"]
@@ -314,8 +315,16 @@ def nnNotInKB(tagged_BoW, nnxKB, webWordsCol):
             print('.............................................')
             #newWord = scrapeNNX(taggedWord)
             newWord = scrapeWord(taggedWord)
-            if len(newWord) > 0:
+            if len(newWord) > 1:
+                #print('*!*!*!* newWord:')
+                #print(newWord)
+                #print('*!*!*!*')
+                addWebWord(newWord)
                 newWords.append(newWord)
+                print('Added: ', taggedWord)
+            else:
+                print('Did not add: ', taggedWord)
+                
         print('-' * 10)
         print('len newWords: ', len(newWords))
         print('newWords:')
@@ -331,13 +340,13 @@ def nnNotInKB(tagged_BoW, nnxKB, webWordsCol):
         print('Aunt Bee saved newWords.pkl')
 
         print('-' * 10)
-        print('Add {} words the above to the KB?'.format(len(newWords)))
-        result = input('Add words <Y/n>?')
-        if result in ['y', 'Y']:
-            print('check/mod addNNX')
-            for w in newWords:
-                print('Sending w: ', w)
-                addWebWord(w)
+#        print('Add {} words the above to the KB?'.format(len(newWords)))
+#        result = input('Add words <Y/n>?')
+#        if result in ['y', 'Y']:
+#            print('check/mod addNNX')
+#            for w in newWords:
+#                print('Sending w: ', w)
+#                addWebWord(w)
             
     else:
         print('Missing words not added to KB.')
@@ -473,8 +482,17 @@ def prepareSentences(found):
 def rectifyKB(tagged_BoW, tagged_Corpus, webWordsCol, nnxKB):
     # Attempt to add KB entries from the above input.
     # I'm guessing we'll need to try and glean the needed
-    # missing KB info (isAlive, canDo, and superclass from
-    # the webWordsCol and tagged_Corpus
+    # missing KB info (isAlive, canDo, and superclass) from
+    # the webWordsCol and tagged_Corpus--Thinking on a
+    # "partial KB" where some of the facts may not be known
+    # yet, and then when the unknowns are satisfied move to
+    # the KB...~? But then again how can we place a concept
+    # such as the word "family" into a hierarchical KB? What is the superclass
+    # of "family"? May need to break out objects (physical things),
+    # concepts, actions into thier own KB (objects) or BOW (concepts, actions)?
+    #  Does the word "flailing" come to mind?
+    # 
+    # 
 
     limit = 0
     found = []
@@ -482,11 +500,22 @@ def rectifyKB(tagged_BoW, tagged_Corpus, webWordsCol, nnxKB):
 
     print('--- rectifyKB Start ---')
 
+
+    """
     toAdd, multipleEntries = bow_dif_nnxKB(tagged_BoW, nnxKB, webWordsCol)
 
     print('len toAdd: ', len(toAdd))
     print('len multipleEntries: ', len(multipleEntries))
 
+    for x in toAdd:
+        print(x)
+
+    print('---')
+
+    for x in multipleEntries:
+        print(x)
+
+    
     # Retrieve sentences from taggedCorpus containing word to add. Then try to
     # derive context...
 
@@ -542,7 +571,7 @@ def rectifyKB(tagged_BoW, tagged_Corpus, webWordsCol, nnxKB):
     print('saObj lst:')
     for i in saObjLst:
         i.printAll()
-
+    """
 
 
     print('--- rectifyKB End ---')

@@ -16,14 +16,17 @@ debug   = True
 jj  = 'JJ'
 jjr = 'JJR'
 jjs = 'JJS'
+jjx = [jj, jjr, jjs]
 
 nn  = 'NN'
 nnp = 'NNP'
 nns = 'NNS'
-nnx = [nn, nnp] # No plurals yet
+nnps = 'NNPS'
+nnx = [nn, nnp, nns, nnps]
 
-prp = 'PRP'
-prps = 'PRPS' # PRP$
+prp  = 'PRP'
+prps = 'PRP$' # PRP$
+prpx = [prp, prps]
 
 rb  = 'RB'
 rbr = 'RBR'
@@ -35,6 +38,13 @@ vbg = 'VBG'
 vbn = 'VBN'
 vbp = 'VBP'
 vbz = 'VBZ'
+vbx = [vb, vbd, vbg, vbn, vbp, vbz]
+
+wdt = 'WDT'
+wp  = 'WP'
+wps = 'WP$' # wps--> Cannot use: wp$
+wrb = 'WRB'
+whx =[wdt, wp, wps, wrb]
 
 unk = 'UNK'
 
@@ -59,7 +69,7 @@ validTags = [
     'PDT',
     'POS',
     'PRP',
-    'PRPS', # PRP$
+    'PRP$', # PRPS or PRP$
     'RB',
     'RBR',
     'RBS',
@@ -75,12 +85,13 @@ validTags = [
     'VBZ',
     'WDT',
     'WP',
-    'WPS',  # WP$
+    'WP$',  # WPS or WP$
     'WRB',
     'UNK'   # My tag for unknown words
     ]
 
 validClassVars = [
+    '_indirectObject',  # Indirect object
     '_CC',
     '_CD',
     '_DT',

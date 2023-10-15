@@ -70,7 +70,7 @@ def getSubjectsKB(sA_Obj, nnxKB):
             if len(subjectKB) > 0:
                 subjectsInKB.append(subjectKB)
             else:
-                subjectsNotInKB.append(sA_Obj.sSubj[0])
+                subjectsNotInKB.append(sA_Obj.subject[0])
             
         elif isinstance(sA_Obj.subject, list):    # multiple subjects
             print('Processing multiple subjects.')
@@ -173,9 +173,13 @@ def getIndObjectsKB(sA_Obj, nnxKB):
 
 def getVerbInflections(verbsAndTags):
 
+    print(' --- getVerbInflections ---')
+    print(verbsAndTags)
+
     inflections = []
 
     for verb in verbsAndTags:
+        print(verb)
         v = verb[0]
         t = verb[1]
 
@@ -301,23 +305,29 @@ def chkKB(sA_Obj, nnxKB, untaggedCorpus):
         return None
 
     # Get simp from KB
+    print('------ getSimpKB -- chkKB ------')
     simpKB = getSimpKB(nnxKB)
 
-    # Get the subjects KB 
+    # Get the subjects KB
+    print('------ getSubjectsKB -- chkKB ------')
     subjectsInKB, subjectsNotInKB = getSubjectsKB(sA_Obj, nnxKB)
 
     # Get the objects
+    print('------ getObjectsKB -- chkKB ------')
     objectsInKB, objectsNotInKB = getObjectsKB(sA_Obj, nnxKB)
 
     # Get the indiret objects
+    print('------ getIndObjectsKB -- chkKB ------')
     indObjectsInKB, indObjectsNotInKB = getIndObjectsKB(sA_Obj, nnxKB)
 
     # Are the subjects within the corpus?
     #    What about secondary subjects?
     #    What about objects?
+    print('------ getSubjectsCorpus -- chkKB ------')
     subjectsCorpus = getSubjectsCorpus(sA_Obj, untaggedCorpus)
 
     # Has this been said before?
+    print('------ saidBefore -- chkKB ------')
     said = saidBefore(sA_Obj, subjectsCorpus)
     if said:
         print('Said before: ', sA_Obj.inputSent)
@@ -325,13 +335,15 @@ def chkKB(sA_Obj, nnxKB, untaggedCorpus):
         print('New input: ', sA_Obj.inputSent)
 
     # Can we make any predictions with "subjects" found in the corpus? 
-
+    print('------ makeGuess -- chkKB ------')
     myGuess = makeGuess(subjectsCorpus)
 
 
     # Get input sentence verbs and their inflections
     print('sA_Obj.getVerbsAndTags():')
     print(sA_Obj.getVerbsAndTags())
+    
+    print('------ getVerbInflections -- chkKB ------')
     allVerbRecords = getVerbInflections(sA_Obj.getVerbsAndTags())
     print('allVerbRecords: ', allVerbRecords)
     for verbs in allVerbRecords:
@@ -344,6 +356,7 @@ def chkKB(sA_Obj, nnxKB, untaggedCorpus):
 
 
     # If imperative, can Simp do what is asked?
+    print('------ imperative? get Simp stuff -- chkKB ------')
     if sA_Obj.type == 'imperative':
         simpAlive = simpKB["isAlive"]
         canDo, cannotDo = canDoMatch(allVerbRecords, simpKB)
@@ -356,12 +369,12 @@ def chkKB(sA_Obj, nnxKB, untaggedCorpus):
 #        print('simpCanX:')
 #        print(simpCanX)
     else:
-        print('sType not imperative, so Simp does not care...')
+        print('------ sType not imperative, so Simp does not care...')
 
     # Can the subject do (canDo) what is said (subject canDo match verbs)?
 #    sVerbs = sA_Obj.getVerbs()
 #    sVerbsAndTags = sA_Obj.getVerbsAndTags()
-    
+    print('------ Get subject stuff -- chkKB ------')
     for subj in subjectsInKB:
         if len(subj) > 0:
 #            canDo, cannotDo = canDoMatch(allVerbs, subj)
@@ -386,7 +399,7 @@ def chkKB(sA_Obj, nnxKB, untaggedCorpus):
 
 #    print('subjectsCanX:')
 #    print(subjectsCanX)
-
+    print('------ kbResults -- chkKB ------')
     kbRes_Obj = kbResults(sA_Obj.inputSent, None, None, None, subjectsInKB, subjectsNotInKB, said, simpCanX.copy(), simpAlive, subjectsCanX.copy(), subjectsAlive.copy())
 
 #    kb_Obj.saidBefore = said

@@ -55,9 +55,10 @@ def loadStarterSentences():
 
     startSentList = []
 
-    with open('data/starterSentences.txt', 'r') as f:
+    with open('data/starterSentences2.txt', 'r') as f:
             while (line := f.readline().rstrip()):
                 line = line.strip()
+                line = line.replace('.', '')
                 tmp = line.split()
                 startSentList.append(tmp)
     f.close()
@@ -104,7 +105,9 @@ def expandSents(corpusSents):
 
 def buildTaggedBoW(taggedCorpus):
 
-    taggedBoW = loadStarterDictionary()
+    # taggedBoW = loadStarterDictionary()
+    # No longer using StarterDictionary
+    taggedBoW = []
 
     for s in taggedCorpus:
         for w in s:

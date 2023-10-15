@@ -1,23 +1,10 @@
 #
-# scappeNNX.py
-#
-#   Scrape a word definition from Merriam-Webster and return
-#   a list of dictionaries--Note 1st record contains inflections.
-#   [
-#       {"word": word, "tag": tag, "inflections": "inflect1 inflect2 ..."}
-#       {"word": word, "tag": tag, "definitions": "def1"}
-#           ...
-#       {"word": word, "tag": tag, "definitions": "def(n)"}
-#   ]
+# scappeSynonyms.py
 #
 
 import sys
 import spacy
 
-from commonUtils import getInflectionTag
-from commonUtils import getInflections
-from commonConfig import *
-from checkWord import *
 
 nlp = spacy.load("en_core_web_lg") # lg has best accuracy
 

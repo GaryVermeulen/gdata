@@ -215,11 +215,13 @@ def processNN(wordPosition, sent):
                 if len(sent.object) == 0:
                     sent.object = sent.inputSent[wordPosition - 1]
                 else:
+                    print("ELSE:")
                     if sent.isVar('_indirectObject'):
                         tmpInObj.append(sent._indirectObject)
                         sent._indirectObject = tmpInObj
                         sent._indirectObject.append(sent.inputSent[wordPosition - 1])
                     else:
+                        print("ADDING 1st indirectObject!?!")
                         sent._indirectObject = sent.inputSent[wordPosition - 1]
         else:
             if sent.isVar('_DT'):
@@ -258,13 +260,46 @@ def processNN(wordPosition, sent):
 def processNNS(wordPosition, sent):
 
     tmpNNS = []
-    
-    if sent.isVar('_NNS'):
-        tmpNNS.append(sent._NNS)
-        tmpNNS.append(sent.inputSent[wordPosition - 1])
-        sent._NNS = tmpNNS
+    tmpInObj = []
+
+    if len(sent.subject) == 0:
+        sent.subject = sent.inputSent[wordPosition - 1]
+        if sent.isVar('_NNS'):
+            tmpNNS.append(sent._NNS)
+            tmpNNS.append(sent.inputSent[wordPosition - 1])
+            sent._NNS = tmpNNS
+        else:
+            sent._NNS = sent.inputSent[wordPosition - 1]
+
+    elif len(sent.object == 0):
+        sent.object = sent.inputSent[wordPosition - 1]
+        if sent.isVar('_NNS'):
+            tmpNNS.append(sent._NNS)
+            tmpNNS.append(sent.inputSent[wordPosition - 1])
+            sent._NNS = tmpNNS
+        else:
+            sent._NNS = sent.inputSent[wordPosition - 1]
     else:
-        sent._NNS = sent.inputSent[wordPosition - 1]
+        
+        if sent.isVar('_indirectObject'):
+            if sent.isVar('_NNS'):
+                tmpNNS.append(sent._NNS)
+                tmpNNS.append(sent.inputSent[wordPosition - 1])
+                sent._NNS = tmpNNS
+            else:
+                sent._NNS = sent.inputSent[wordPosition - 1]    
+            tmpInObj.append(sent._indirectObject)
+            sent._indirectObject = tmpInObj
+            sent._indirectObject.append(sent.inputSent[wordPosition - 1])
+        else:
+            if sent.isVar('_NNS'):
+                tmpNNS.append(sent._NNS)
+                tmpNNS.append(sent.inputSent[wordPosition - 1])
+                sent._NNS = tmpNNS
+            else:
+                sent._NNS = sent.inputSent[wordPosition - 1]
+            print("ADDING 1st _NNS indirectObject!?!")
+            sent._indirectObject = sent.inputSent[wordPosition - 1]
 
     return sent
 
@@ -517,7 +552,8 @@ def processVBX(wordPosition, sent): # Attempt to process all verbs
     #print('Big verb')
     tmpVerbs = []
     taggedVerb = sent.inputSent[wordPosition - 1]
-    #print('verb: ', verb)
+    #print('taggedVerb: ', taggedVerb)
+    #print('sent.verb: ', sent.verb)
 
     if wordPosition == 1:
         if sent.inputSent[0][0] in commandWords:
@@ -532,10 +568,13 @@ def processVBX(wordPosition, sent): # Attempt to process all verbs
             #sent.verb = sent.inputSent[wordPosition - 1]
             sent.verb = taggedVerb
         else:
-            for v in sent.verb:
-                tmpVerbs.append(v)
-            #tmpVerbs.append(sent.inputSent[wordPosition - 1])
-            sent.verb = taggedVerb
+            if isinstance(sent.verb, tuple):
+                tmpVerbs.append(sent.verb)
+            elif isinstance(sent.verb, list):
+                for vT in sent.verb:
+                    tmpVerbs.append(vT)
+
+            tmpVerbs.append(taggedVerb)
             sent.verb = tmpVerbs
 
     return sent
@@ -689,7 +728,7 @@ def sentAnalysis(taggedInput):
         elif currentTag in ['PRP']:     # Personal pronoun
             sent = processPRP(wordPosition, sent)
 
-        elif currentTag in ['PRPS']:    # Possessive pronoun PRP$
+        elif currentTag in ['PRP$']:    # Possessive pronoun PRP$ or PRPS
             sent = processPRPS(wordPosition, sent)
 
         elif currentTag in ['RB']:      # Adverb

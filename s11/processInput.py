@@ -16,7 +16,7 @@ from commonUtils import expandSent
 
 
 from simpSA import sentAnalysis
-#from simpGA import chkGrammar # evolved into kbChecker
+from simpSA2 import sentAnalysis2
 from kbChecker import chkKB
 from processOutput import prattle
 
@@ -37,7 +37,7 @@ def sentenceAnalysis(tagged_uI):
 
     print('------ end sentenceAnalysis ------')
 
-    return sA_Obj
+    return sA_Obj, error
 
 def kbCommand(nnxKB):
 
@@ -52,16 +52,16 @@ def kbCommand(nnxKB):
         for item in node:
             print(item)
     
-    chkKB = chk_nnxKB(nodeKey, nnxKB)
-    if len(chkKB) > 0:
+    chkKB_Results = chk_nnxKB(nodeKey, nnxKB)
+    if len(chkKB_Results) > 0:
         print('-' * 5)
-        print(chkKB)
-        print(chkKB["_id"])
-        print(chkKB["similar"])
-        print(chkKB["tag"])
-        print(chkKB["isAlive"])
-        print(chkKB["canDo"])
-        print(chkKB["superclass"])
+        print(chkKB_Results)
+        print(chkKB_Results["_id"])
+        print(chkKB_Results["similar"])
+        print(chkKB_Results["tag"])
+        print(chkKB_Results["isAlive"])
+        print(chkKB_Results["canDo"])
+        print(chkKB_Results["superclass"])
     
     return
 
@@ -180,19 +180,39 @@ def processUserInput():
             for u in unknown:
                 unkWords.append(u[0])
 
-        # Basic sentence analysis
+        # Original sentence analysis
         print('-' * 10)
         print('Checking basic sentence analysis')
-        sA_Obj = sentenceAnalysis(taggedInput)    
+        sA_Obj, error = sentenceAnalysis(taggedInput)    
         sA_Obj.printAll()
+        if len(error) > 0:
+            print('Sentence analysis returned an error:')
+            for e in error:
+                print(e)
+
+            print('Ignoring input sentence')
+            continue
+
+        # New sentence analysis
+        print('-' * 10)
+        print('New sentence analysis')
+        newSA_Obj, error2 = sentAnalysis2(taggedInput)    
+        newSA_Obj.printAll()
+        if len(error2) > 0:
+            print('New sentence analysis returned an error:')
+            for e in error2:
+                print(e)
+
+            print('Ignoring input sentence')
+            continue
 
         # save sA_Obj pickle for debug and testing
-        print('-' * 10)
-        print('Saving sentence analysis object:')
-        f = open('pickles/sA_Obj.pkl', 'wb')
-        pickle.dump(sA_Obj, f)
-        f.close()
-        print('Aunt Bee saved sA_Obj.pkl')
+        #print('-' * 10)
+        #print('Saving sentence analysis object:')
+        #f = open('pickles/sA_Obj.pkl', 'wb')
+        #pickle.dump(sA_Obj, f)
+        #f.close()
+        #print('Aunt Bee saved sA_Obj.pkl')
 
         # Check KB anainst Simp, subject(s), verb(s)... (was simpGA.py)
         print('-' * 10)
