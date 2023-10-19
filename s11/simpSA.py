@@ -262,6 +262,11 @@ def processNNS(wordPosition, sent):
     tmpNNS = []
     tmpInObj = []
 
+    print('Processing NNS:')
+    sent.printAll()
+    print('---')
+    print(type(sent.object))
+
     if len(sent.subject) == 0:
         sent.subject = sent.inputSent[wordPosition - 1]
         if sent.isVar('_NNS'):
@@ -271,7 +276,7 @@ def processNNS(wordPosition, sent):
         else:
             sent._NNS = sent.inputSent[wordPosition - 1]
 
-    elif len(sent.object == 0):
+    elif len(sent.object) == 0:
         sent.object = sent.inputSent[wordPosition - 1]
         if sent.isVar('_NNS'):
             tmpNNS.append(sent._NNS)
@@ -409,8 +414,8 @@ def processPOS(wordPosition, sent):
 
 def processPRP(wordPosition, sent):
 
-    tmpInObj = []
-    tmpSubj = []
+    #tmpInObj = []
+    #tmpSubj = []
 
     if wordPosition == 1:
         sent.type = 'declarative'

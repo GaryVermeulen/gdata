@@ -13,6 +13,8 @@ from commonConfig import nnp
 
 from commonUtils import connectMongo
 
+from expandAndTag import expandAndTag
+
 
 nlp = spacy.load("en_core_web_sm") # lg has best accuracy
 
@@ -66,23 +68,27 @@ def loadStarterSentences():
     return startSentList
 
 
-def expandSents(corpusSents):
+def expandAndTagSents(completeUntaggedCorpus):
 
     expandedSents = []
     wordCnt = 0
     sentCnt = 0
 
-    for s in corpusSents:
+    for s in completeUntaggedCorpus:
         sentCnt += 1
         expandedSentence = []
-        tmpSent = s.split()
+        #tmpSent = s.split()
 
+        expandedSentence = expandAndTag(s)       
+
+        """
         for w in tmpSent:
             
             w = w.strip()
             wordCnt += 1
             
             if w.find("'") != -1: # Doesn't handle idioms such as: someone's
+                
                 if w in simple_contractions.keys():
                     result = simple_contractions[w]
                     resultList = result.split()
@@ -92,12 +98,12 @@ def expandSents(corpusSents):
                     print('>>{}<< not in  contractions'.format(w))
                     print('Line {}: {}'.format(sentCnt, s))
                 continue
-                        
+                     
             clean_word = ''.join(filter(str.isalnum, w))
 
             if len(clean_word) > 0:
                 expandedSentence.append(clean_word)
-                
+        """        
         expandedSents.append(expandedSentence)    
 
     return expandedSents
@@ -273,18 +279,26 @@ def buildLex():
     processedCorpus = processRawCorpusString(rawCorpusString)
     print('Loaded and processed {} sentences from corpus.'.format(len(processedCorpus)))
 
-    # Change don't to do not
-    expandedCorpusSents = expandSents(processedCorpus) # Change don't  to do not    
-    print('Expanded sentences: ', len(expandedCorpusSents))
-          
     # Add starter sentences
     startSentList = loadStarterSentences()
     print('Loaded {} starter sentences.'.format(len(startSentList)))
-          
-    completeUntaggedCorpus = expandedCorpusSents + startSentList
+
+    # Merge and remove empty entries
+    completeUntaggedCorpus = processedCorpus + startSentList
     completeUntaggedCorpus = [x for x in completeUntaggedCorpus if not len(x) < 1] # Remove empty entries []
-    print('Processed {} sentences.'.format(len(completeUntaggedCorpus)))        
+    print('Loaded {} sentences.'.format(len(completeUntaggedCorpus)))
     
+    # Change don't to do not
+    # However, to expand correctly we will need to tag the sentence
+    # Ex: I'd -- I had or I would
+    #
+    completeTaggedCorpus = expandAndTagSents(completeUntaggedCorpus)    
+    print('Expanded tagged sentences: ', len(completeTaggedCorpus))
+          
+    
+          
+            
+    """
     # Build/convert into tagged sentences
     completeTaggedCorpus = []
     for s in completeUntaggedCorpus:
@@ -299,7 +313,12 @@ def buildLex():
                 tagSent.append(tmpToken)
             completeTaggedCorpus.append(tagSent)
 
+    """
+    
     print('Tagged {} sentences.'.format(len(completeTaggedCorpus)))
+
+
+    
 
     taggedBoW = buildTaggedBoW(completeTaggedCorpus)
     print('Created Tagged Bag Of Words: ', len(taggedBoW))
