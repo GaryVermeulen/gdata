@@ -69,7 +69,7 @@ def expandAndTag(inputSentence):
                     #print('w: ', w)
                     #print('idx: ', idx)
                     #print('tagSent[idx + 1]: ', tagSent[idx + 1])
-                    if tagSent[idx + 1][1] in [rb, vbn]:
+                    if tagSent[idx + 1][1] in [rb, vbn, jj]:
                         w = ("had", vbd)
                     #    print('new had w: ', w)
                     else:
@@ -106,7 +106,7 @@ if __name__ == "__main__":
 
     inputSentence = ''
     
-    inputSentence = "I'd never bused so many dishes in one night"
+    #inputSentence = "I'd never bused so many dishes in one night"
     # [('I', 'PRP'), ('had', 'VBD'), ('never', 'RB'), ('bused', 'VBN'), ('so', 'RB'), ('many', 'JJ'), ('dishes', 'NNS'), ('in', 'IN'), ('one', 'CD'), ('night', 'NN')]
     #
     #inputSentence = "I wish I'd waited longer"
@@ -119,7 +119,7 @@ if __name__ == "__main__":
     # [('She', 'PRP'), ('had', 'VBD'), ('just', 'RB'), ('spoken', 'VBN'), ('to', 'IN'), ('her', 'PRP')]
     
     #inputSentence = "I'd like some tea"
-    # [('I', 'PRP'), ('would', 'MD'), ('likw', 'VB'), ('some', 'DT'), ('tea', 'NN')]
+    # [('I', 'PRP'), ('would', 'MD'), ('like', 'VB'), ('some', 'DT'), ('tea', 'NN')]
     #
     #
     #inputSentence = "I'd have gone if I had had time"

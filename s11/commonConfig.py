@@ -111,6 +111,7 @@ validClassVars = [
     '_POS',
     '_PRP',
     '_PRPS', # PRP$
+    '_PRPX', # Bucket for prp, prps
     '_RB',
     '_RBR',
     '_RBS',

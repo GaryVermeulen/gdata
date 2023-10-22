@@ -3,24 +3,26 @@
 #
 
 import sys
-import spacy
+#import spacy
 import pickle
+from string import punctuation
 
 from commonUtils import connectMongo
 from commonUtils import chkTagging
 from commonUtils import getInflectionTag
 from commonUtils import getInflections
-from commonUtils import expandSent
+#from commonUtils import expandSent # Old way
+from expandAndTag import expandAndTag
 
 #from commonConfig import commandWords
 
 
-from simpSA import sentAnalysis
+#from simpSA import sentAnalysis
 from simpSA2 import sentAnalysis2
 from kbChecker import chkKB
 from processOutput import prattle
 
-nlp = spacy.load("en_core_web_lg") # lg has best accuracy
+#nlp = spacy.load("en_core_web_lg") # lg has best accuracy
 #nlp = spacy.load("en_core_web_sm") # 
 
 
@@ -111,7 +113,6 @@ def processTaggingIssues(mismatch, multiple, unknown, sA_Obj):
         print('Tagging issue -- mismatch: ', mismatch)
     
 
-
     return 'processTaggingIssues results'
 
 
@@ -146,14 +147,20 @@ def processUserInput():
 
         print('-' * 10)
         print('Preprocess user input...')
+        # Old way
+        #eUI_List = expandSent(uI)
+        #eUI_Str = ' '.join(eUI_List)
+        # New way
+        # Remove punctuation from end
+        uI = uI.rstrip(punctuation)
+        print('rstrip: ', uI)
+        taggedInput = expandAndTag(uI)
 
-        eUI_List = expandSent(uI)
-        eUI_Str = ' '.join(eUI_List)
-
-        print('eUI_Str: ', eUI_Str)
+        print('expanded and tagged input:')
+        print(taggedInput)
 
         print('-' * 10)
-
+        """
         doc = nlp(eUI_Str)
 
         taggedInput = []
@@ -163,7 +170,7 @@ def processUserInput():
 
         print('Spacy tagged input:')
         print(taggedInput)
-
+        """
         # Check tagged uI aginst taggedBoW for conflicts
         print('-' * 10)
         print('Checking tags...')
@@ -181,23 +188,25 @@ def processUserInput():
                 unkWords.append(u[0])
 
         # Original sentence analysis
-        print('-' * 10)
-        print('Checking basic sentence analysis')
-        sA_Obj, error = sentenceAnalysis(taggedInput)    
-        sA_Obj.printAll()
-        if len(error) > 0:
-            print('Sentence analysis returned an error:')
-            for e in error:
-                print(e)
-
-            print('Ignoring input sentence')
-            continue
-
+        #print('-' * 10)
+        #print('Checking basic sentence analysis')
+        #sA_Obj, error = sentenceAnalysis(taggedInput)    
+        #sA_Obj.printAll()
+        #if len(error) > 0:
+        #    print('Sentence analysis returned an error:')
+        #    for e in error:
+        #        print(e)
+        #    
+        #    print('Ignoring input sentence')
+        #    continue
+        #
         # New sentence analysis
         print('-' * 10)
         print('New sentence analysis')
-        newSA_Obj, error2 = sentAnalysis2(taggedInput)    
+        newSA_Obj, error2 = sentAnalysis2(taggedInput)
+        print('...')
         newSA_Obj.printAll()
+
         if len(error2) > 0:
             print('New sentence analysis returned an error:')
             for e in error2:
@@ -216,7 +225,7 @@ def processUserInput():
 
         # Check KB anainst Simp, subject(s), verb(s)... (was simpGA.py)
         print('-' * 10)
-        kb_Obj = chkKB(sA_Obj, nnxKB, untaggedCorpus)
+        kb_Obj = chkKB(newSA_Obj, nnxKB, untaggedCorpus)
 
         kb_Obj.tagMismatch = mismatch
         kb_Obj.tagMultiple = multiple

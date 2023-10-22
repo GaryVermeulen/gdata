@@ -308,6 +308,7 @@ def sentAnalysis2(taggedInput):
 
     tmpTypes = []
     tmpSubj = []
+    tmpObject = []
     tmpIndirectObject = []
     tmpVerbs = []
     tmpTag   = []
@@ -322,6 +323,7 @@ def sentAnalysis2(taggedInput):
 
     print(taggedInput)
     for inputWord in taggedInput:
+        print('---')
         print(currentWordPosition)
         print(inputWord)
         word = inputWord[0]
@@ -339,8 +341,23 @@ def sentAnalysis2(taggedInput):
                 sent.subject = inputWord
                 undetermined = False
             elif tag in prpx:
-                sent.subject = inputWord
-                undetermined = False
+                if taggedInput[currentWordPosition + 1][1] in nnx: # My mom, My toys, ...
+                    sent._PRPX = inputWord
+                    undetermined = False
+                elif taggedInput[currentWordPosition + 1][1] in vbx: # I ran, She ran, ...
+                    sent.subject = inputWord
+                    #sent._PRPX = inputWord
+                    undetermined = False
+                elif taggedInput[currentWordPosition + 1][1] == 'MD': # I could, ...
+                    sent.subject = inputWord
+                    #sent._PRPX = inputWord
+                    undetermined = False
+                elif taggedInput[currentWordPosition + 1][1] == 'CC': # Me and my arrow...
+                    sent.subject = inputWord
+                    #sent._PRPX = inputWord
+                    undetermined = False
+                else:    
+                    print('simpSA2, prpx (currentWordPosition == 0), 2nd word else undefined: ', taggedInput[currentWordPosition + 1])
             elif tag in vbx:
                 sent.verb = inputWord
                 undetermined = False
@@ -367,6 +384,9 @@ def sentAnalysis2(taggedInput):
 
             if undetermined:
                 sent = setUndeterminedVar(sent, inputWord)
+
+            print('End of 1st word:')
+           
                 
                     
         #elif currentWordPosition == 1:  # Secord word, but what if there are 100 words...~? :-(
@@ -453,6 +473,8 @@ def sentAnalysis2(taggedInput):
                 else:
                     sent._MD = inputWord
             elif tag in nnx:    # All nouns
+                print('nnx: ', inputWord)
+                
                 if len(sent.subject) == 0:
                     sent.subject = inputWord
                 else:
@@ -466,8 +488,11 @@ def sentAnalysis2(taggedInput):
                             sent.subject.append(inputWord)
                     
                     if len(sent.object) == 0:
+                
                         subjectWords = getSubjectWords(sent)
+                
                         if word not in subjectWords:
+                
                             sent.object = inputWord
                     else:
                         if sent.isVar('_indirectObject'):
@@ -490,19 +515,153 @@ def sentAnalysis2(taggedInput):
                     sent._POS = tmpTag
                 else:
                     sent._POS = inputWord
-            elif tag in prpx:
+            elif tag == 'PRP':
+                added = False # Was this word added to the subject or another var? If so do not add and drop through
+                print('PRP: ', inputWord)
+                
                 if len(sent.subject) == 0:
                     sent.subject = inputWord
                 else:
-                    if len(sent.object) == 0:
-                        sent.object = inputWord
-                    else:
-                        if sent.isVar('_indirectObject'):
-                            tmpIndirectObject.append(sent._indirectObject)
-                            sent._indirectObject = tmpInObj
-                            sent._indirectObject.append(inputWord)
+                    subjectWords = getSubjectWords(sent)
+
+                    if word in subjectWords:    # The word has already been classified
+                        print('RPR word in subjectWords...')
+                        
+                        # Ex: she'd run faster if she had new shoes
+
+                    # Check for me, my in subject
+                    if isinstance(sent.subject, tuple):
+                        print('is tuple')
+                        print(sent.subject)
+                        if sent.subject[1] in prpx: # Assume me, my
+                            tmpSubj.append(sent.subject)
+                            sent.subject = tmpSubj
+                            sent.subject.append(inputWord)
+                            added = True
+                            
+                    elif isinstance(sent.subject, list):
+                        for s in sent.subject:
+                            if s[1] in pprx: # Assume me, my
+                                tmpSubj.append(sent.subject)
+                                sent.subject = tmpSubj
+                                sent.subject.append(inputWord)
+                                added = True
+
+                    # Could we have: The girl was so hungry she... (DT, NN, VBD, RB, JJ, PRP)?
+                    # Must also discern: The boy was so hungry he (NN vs proper PRP (he/she)
+                    # Gender neutral? They?
+                    # What about it? The rock was so hot it... (DT, NN, VBD, RB, JJ, PRP)?
+                    # Will also need to check prior sentnences in conversation: She was the...
+                    # So general this will must likely allow junk through...~?
+                    # ...
+                    
+
+
+                    # Dropping through to add _PRPX or object
+                    if not added:
+
+                        # Before adding to object is there a me/my _PRPX?
+                        if sent.isVar('_PRPX'):
+                            tmp = []
+                            if isinstance(sent._PRPX, tuple):
+                                print('PRPX is tuple')
+                                print(sent._PRPX)
+                                if sent._PRPX[1] in prpx: # Assume me, my
+                                    tmp.append(sent._PRPX)
+                                    sent._PRPX = tmp
+                                    sent._PRPX.append(inputWord)
+                                    added = True
+                            
+                            elif isinstance(sent._PRPX, list):
+                                for s in sent._PRPX:
+                                    if s[1] in pprx: # Assume me, my
+                                        tmp.append(sent._PRPX)
+                                        sent._PRPX = tmp
+                                        sent._PRPX.append(inputWord)
+                                        added = True
+
+                        if added:
+                            print('Skipping object')
+                            continue 
+
+                        if len(sent.object) == 0:
+                            sent.object = inputWord
                         else:
-                            sent._indirectObject = inputWord
+                            if sent.isVar('_indirectObject'):
+                                tmpIndirectObject.append(sent._indirectObject)
+                                sent._indirectObject = tmpInObj
+                                sent._indirectObject.append(inputWord)
+                            else:
+                                sent._indirectObject = inputWord
+
+                print('End PRP: ', inputWord)
+                    
+
+
+            elif tag == 'PRP$':
+                addedToSubject = False # Was this word added to the subject? If so do not add to object
+                
+                print('Start PRP$: ', inputWord)
+                sent.printAll()
+                
+                if len(sent.subject) == 0:
+                    sent.subject = inputWord
+                else:
+                    subjectWords = getSubjectWords(sent)
+
+                    if word in subjectWords:    # The word has already been classified
+                        print('RPR$ continuing...')
+                        
+                        # Ex: she'd run faster if she had new shoes
+
+                        # Check for me, my in subject
+                        if isinstance(sent.subject, tuple):
+                            if sent.subject[1] in prpx: # Assume me, my
+                                tmpSubj.append(sent.subject)
+                                sent.subject = tmpSubj
+                                sent.subject.append(inputWord)
+                                addedToSubject = True
+                            
+                        elif isinstance(sent.subject, list):
+                            for s in sent.subject:
+                                if s[1] in pprx: # Assume me, my
+                                    tmpSubj.append(sent.subject)
+                                    sent.subject = tmpSubj
+                                    sent.subject.append(inputWord)
+                                    addedToSubject = True
+
+                    # Could we have: The girl wore her... (DT, NN, VBD, PRP$)?
+                    if processedSentence[-2][1] in nnx and processedSentence[-1][1] in vbx:
+                        print('in if processedSentence[-3] in nnx and processedSentence[-2] in vbx:')
+                        # Add to subject
+                        if isinstance(sent.subject, tuple):
+                            tmpSubj.append(sent.subject)
+                            sent.subject = tmpSubj
+                            sent.subject.append(inputWord)
+                            addedToSubject = True
+                        elif isinstance(sent.subject, list):
+                            for s in sent.subject:
+                                if s[1] in pprx: # Assume me, my
+                                    tmpSubj.append(sent.subject)
+                                    sent.subject = tmpSubj
+                                    sent.subject.append(inputWord)
+                                    addedToSubject = True
+
+                    if not addedToSubject:
+
+                        if len(sent.object) == 0:
+                            sent.object = inputWord
+                        else:
+                            if sent.isVar('_indirectObject'):
+                                tmpIndirectObject.append(sent._indirectObject)
+                                sent._indirectObject = tmpInObj
+                                sent._indirectObject.append(inputWord)
+                            else:
+                                sent._indirectObject = inputWord
+
+                print('End PRP$: ', inputWord)
+                
+                
             elif tag == 'RB':
                 if sent.isVar('_RB'):
                     tmpTag.append(sent._RB)
@@ -600,7 +759,8 @@ def sentAnalysis2(taggedInput):
                 error.append(currentWordPosition)
                 error.append('inputWord: ')
                 error.append(inputWord)
-        
+        print('bottom of if:')
+        sent.printAll()
         currentWordPosition += 1
         # Reset/clear tmp var's
         tmpTypes = []
