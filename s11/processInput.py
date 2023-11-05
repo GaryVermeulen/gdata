@@ -175,12 +175,13 @@ def processUserInput():
         print('-' * 10)
         print('Checking tags...')
 
-        mismatch, multiple, unknown = chkTagging(taggedInput, tagged_BoW)
+        mismatch, multiple, unknown, baseWord = chkTagging(taggedInput, tagged_BoW)
 
         print('chkTagging results:')
         print('Mismatch: ', mismatch)
         print('Multiple: ', multiple)
         print('Unknown: ', unknown)
+        print('baseWord: ', baseWord)
 
         if len(unknown) > 0:
             unkWords = []

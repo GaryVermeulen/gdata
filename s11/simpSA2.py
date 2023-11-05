@@ -524,6 +524,8 @@ def sentAnalysis2(taggedInput):
                 else:
                     subjectWords = getSubjectWords(sent)
 
+                    print('subjectWords: ', subjectWords)
+
                     if word in subjectWords:    # The word has already been classified
                         print('RPR word in subjectWords...')
                         
@@ -533,19 +535,40 @@ def sentAnalysis2(taggedInput):
                     if isinstance(sent.subject, tuple):
                         print('is tuple')
                         print(sent.subject)
-                        if sent.subject[1] in prpx: # Assume me, my
+                        if sent.subject[0] in ['me', 'my']:
+                        #if sent.subject[1] in prpx: # Assume me, my
                             tmpSubj.append(sent.subject)
                             sent.subject = tmpSubj
                             sent.subject.append(inputWord)
                             added = True
+                        elif sent.subject[0] == 'I':
+                            if isinstance(sent.object, tuple):
+                                tmpObject.append(sent.object)
+                                sent.object = tmpObject
+                                sent.object.append(inputWord)
+                                added = True
+                            elif isinstance(sent.object, list):
+                                for o in sent.object:
+                                    tmpObject.append(sent.object)
+                                    sent.object = tmpObject
+                                    sent.object.appned(inputWord)
+                                    added = True
+                                            
                             
                     elif isinstance(sent.subject, list):
                         for s in sent.subject:
-                            if s[1] in pprx: # Assume me, my
+                            if s[0] in ['me', 'my']:
+                            #if s[1] in pprx: # Assume me, my
                                 tmpSubj.append(sent.subject)
                                 sent.subject = tmpSubj
                                 sent.subject.append(inputWord)
                                 added = True
+                            elif s[0] == 'I':
+                                tmpObject.append(sent.object)
+                                sent.object = tmpObject
+                                sent.object.append(inputWord)
+                                added = True
+                                
 
                     # Could we have: The girl was so hungry she... (DT, NN, VBD, RB, JJ, PRP)?
                     # Must also discern: The boy was so hungry he (NN vs proper PRP (he/she)
@@ -554,7 +577,11 @@ def sentAnalysis2(taggedInput):
                     # Will also need to check prior sentnences in conversation: She was the...
                     # So general this will must likely allow junk through...~?
                     # ...
-                    
+                    # More shit to check:
+                    # I told him to go home
+                    # I told her that she could not have my toy
+                    # On any day she can run as fast as him
+                    # he bothered her a lot
 
 
                     # Dropping through to add _PRPX or object
@@ -609,6 +636,9 @@ def sentAnalysis2(taggedInput):
                 else:
                     subjectWords = getSubjectWords(sent)
 
+                    print('subjectWords: ', subjectWords)
+                    print('word: ', word)
+
                     if word in subjectWords:    # The word has already been classified
                         print('RPR$ continuing...')
                         
@@ -648,8 +678,25 @@ def sentAnalysis2(taggedInput):
                                     addedToSubject = True
 
                     if not addedToSubject:
+                        print('not addedTo Subject:')
 
+                        if isinstance(sent.subject, tuple):
+                            tmpSubj.append(sent.subject)
+                            sent.subject = tmpSubj
+                            sent.subject.append(inputWord)
+                            addedToSubject = True
+                        elif isinstance(sent.subject, list):
+                            for s in sent.subject:
+                                if s[1] in pprx: # Assume me, my
+                                    tmpSubj.append(sent.subject)
+                                    sent.subject = tmpSubj
+                                    sent.subject.append(inputWord)
+                                    addedToSubject = True
+                        
+                        """
                         if len(sent.object) == 0:
+                            print('here')
+                            #if sent.subject 
                             sent.object = inputWord
                         else:
                             if sent.isVar('_indirectObject'):
@@ -657,8 +704,9 @@ def sentAnalysis2(taggedInput):
                                 sent._indirectObject = tmpInObj
                                 sent._indirectObject.append(inputWord)
                             else:
+                                print('else else here')
                                 sent._indirectObject = inputWord
-
+                        """
                 print('End PRP$: ', inputWord)
                 
                 

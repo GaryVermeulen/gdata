@@ -160,6 +160,27 @@ def getInflections(word, tag):
     return ['inflection error']
 
 
+def getBaseWordFromInflections(word):
+
+    mdb = connectMongo()
+    simpDB = mdb["simp"]
+    inflectionsCol = simpDB["inflectionsCol"]
+
+    cursor = inflectionsCol.find({"inflections": word})
+
+    for i in cursor:
+        print("Found i in cursor: ", i)
+
+        baseWord = i.get("word")
+        baseWordInflections = i.get("inflections")
+
+        print('baseWord: ', baseWord)
+        print('baseWordInflections: ', baseWordInflections)
+
+
+    return [baseWord, i.get("tag")]
+
+
 # Checks tagged user input aginst taggedBoW for conflicts
 def chkTagging(taggedInput, tagged_BoW):
 
@@ -167,11 +188,13 @@ def chkTagging(taggedInput, tagged_BoW):
     mismatch = []
     multiple = []
     unknown = []
+    baseWord = []
 
     wordPosition = 1
 
     for w in taggedInput:
         tmpTag = []
+        tmpBaseWord = []
         word = w[0]
         tag = w[1]
 
@@ -186,23 +209,44 @@ def chkTagging(taggedInput, tagged_BoW):
 
         if len(records) < 1:
             print('{} not found in BoW.'.format(word))
+            print('Looking at inflections array for word:', word)
+
+            results = getBaseWordFromInflections(word)
+
+            #print('results: ', results)
+
+            #print(len(results))
+
+            if len(results) > 0:
+                #print('appending tmpBaseWord')
+                tmpBaseWord.append(word)
+                tmpBaseWord.append(tag)
+                tmpBaseWord.append(results[0])
+                tmpBaseWord.append(results[1])
+                #print('tmpBaseWord" ', tmpBaseWord)
+            
         else:
             for record in records:
                 tmpTag.append(record.get("tag"))
                               
         tagging.append(tmpTag)
+        if len(tmpBaseWord) > 0:
+            baseWord.append(tmpBaseWord)
         wordPosition +=1
     
     for t in tagging:
+        #print('t: ', t)
+        #print(baseWord)
         if len(t) > 2:
             if t[1] != t[2]:
                 mismatch.append(t)
             if len(t) > 3:
                 multiple.append(t)
         else:
-            unknown.append(t)
+            if len(baseWord) == 0:
+                unknown.append(t)
 
-    return mismatch, multiple, unknown
+    return mismatch, multiple, unknown, baseWord
 
 
 def chk_nnxKB(item, nnxKB):
