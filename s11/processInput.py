@@ -5,7 +5,11 @@
 import sys
 #import spacy
 import pickle
+import time
+import commonConfig
+
 from string import punctuation
+#from bson.binary import Binary
 
 from commonUtils import connectMongo
 from commonUtils import chkTagging
@@ -14,7 +18,7 @@ from commonUtils import getInflections
 #from commonUtils import expandSent # Old way
 from expandAndTag import expandAndTag
 
-#from commonConfig import commandWords
+#from commonConfig import Sentence, kbResults
 
 
 #from simpSA import sentAnalysis
@@ -123,6 +127,7 @@ def processUserInput():
     nnxKB = simpDB["nnxKB"]
     tagged_BoW = simpDB["taggedBoW"]
     untaggedCorpus = simpDB["untaggedCorpus"]
+    conversationLst = []
     
     while True:
         print('-' * 10)
@@ -131,13 +136,13 @@ def processUserInput():
 
         if uI == '':
             print('-' * 10)
-            res = input('Retain conversation <Y/n>? ')
-            if res in ['Y', 'y', 'Yes', 'yes']:
-                print('Conversation kept.')
-            else:
-                conversation = simpDB["conversation"]
-                conversation.drop()
-                print('Conversation dropped.')
+            #res = input('Retain conversation <Y/n>? ')
+            #if res in ['Y', 'y', 'Yes', 'yes']:
+            #    print('Conversation kept.')
+            #else:
+            #    conversation = simpDB["conversation"]
+            #    conversation.drop()
+            #    print('Conversation dropped.')
 
             sys.exit('Exiting; Nothing entered.')
 
@@ -159,18 +164,6 @@ def processUserInput():
         print('expanded and tagged input:')
         print(taggedInput)
 
-        print('-' * 10)
-        """
-        doc = nlp(eUI_Str)
-
-        taggedInput = []
-        for token in doc:
-            tmpToken = ((str(token.text)), (str(token.tag_)))
-            taggedInput.append(tmpToken)
-
-        print('Spacy tagged input:')
-        print(taggedInput)
-        """
         # Check tagged uI aginst taggedBoW for conflicts
         print('-' * 10)
         print('Checking tags...')
@@ -234,6 +227,51 @@ def processUserInput():
 
         print('kb_Obj: ')
         kb_Obj.printAll()
+
+        print('-----')
+        # Save conversation for pronoun context (he/she, which or who)
+        #ser_sA_Obj = pickle.dumps(newSA_Obj)
+        #ser_kb_Obj = pickle.dumps(kb_Obj)
+        #
+        #print(type(ser_sA_Obj))
+        #print(ser_sA_Obj)
+        #print('---')
+        #print(type(ser_kb_Obj))
+        #print(ser_kb_Obj)
+        #print('---')
+        #
+        #conversation = simpDB["conversation"]
+        #
+        #conversation.insert_one({'newSA_Obj': Binary(ser_sA_Obj)})
+        #conversation.insert_one({'kb_Obj': Binary(ser_kb_Obj)})
+
+        named_tuple = time.localtime() # get struct_time
+        print(named_tuple)
+        time_string = time.strftime("%m/%d/%Y, %H:%M:%S", named_tuple)
+
+        print(time_string)
+
+        conversationLst.append((time_string, newSA_Obj, kb_Obj))
+
+        print('-' * 10)
+        for c in conversationLst:
+            print(c)
+            for i in c:
+                print(type(i))
+                print(i)
+                if isinstance(i, str):
+                    print('Time: ', i)
+                elif isinstance(i, commonConfig.Sentence):
+                    print('Sentence:')
+                    i.printAll()
+                elif isinstance(i, commonConfig.kbResults):
+                    print('kbResults:')
+                    i.printAll()
+                else:
+                    print('do not know what i is: ', i)
+                
+                               
+        
 
         """
         print('-' * 10)
