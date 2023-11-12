@@ -176,6 +176,9 @@ def getVerbInflections(verbsAndTags):
     print(' --- getVerbInflections ---')
     print(verbsAndTags)
 
+    if verbsAndTags == None:
+        return None
+
     inflections = []
 
     for verb in verbsAndTags:
@@ -346,9 +349,12 @@ def chkKB(sA_Obj, nnxKB, untaggedCorpus):
     print('------ getVerbInflections -- chkKB ------')
     allVerbRecords = getVerbInflections(sA_Obj.getVerbsAndTags())
     print('allVerbRecords: ', allVerbRecords)
-    for verbs in allVerbRecords:
-        print(type(verbs))
-        print('verbs: ', verbs)
+    if allVerbRecords == None:
+        print('Cannot process None, expecting allVerbRecords List')
+    else:
+        for verbs in allVerbRecords:
+            print(type(verbs))
+            print('verbs: ', verbs)
         
         
 #        allVerbs.append(verbs["inflections"])

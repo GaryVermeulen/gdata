@@ -8,11 +8,14 @@ import pickle
 import time
 import commonConfig
 
+from commonConfig import Context, nnx, prpx
+
 from string import punctuation
 #from bson.binary import Binary
 
 from commonUtils import connectMongo
 from commonUtils import chkTagging
+from commonUtils import isWordKnown
 from commonUtils import getInflectionTag
 from commonUtils import getInflections
 #from commonUtils import expandSent # Old way
@@ -128,6 +131,7 @@ def processUserInput():
     tagged_BoW = simpDB["taggedBoW"]
     untaggedCorpus = simpDB["untaggedCorpus"]
     conversationLst = []
+    conversationObj = Context(0, [], [], [], [], [])
     
     while True:
         print('-' * 10)
@@ -165,6 +169,8 @@ def processUserInput():
         print(taggedInput)
 
         # Check tagged uI aginst taggedBoW for conflicts
+        # There's also tagging errors, ex: returns: ('work', 'VB') instead of: ('work', 'NN')
+        # Yet another can of worms!
         print('-' * 10)
         print('Checking tags...')
 
@@ -175,25 +181,18 @@ def processUserInput():
         print('Multiple: ', multiple)
         print('Unknown: ', unknown)
         print('baseWord: ', baseWord)
+        print('-' * 10)
 
-        if len(unknown) > 0:
-            unkWords = []
-            for u in unknown:
-                unkWords.append(u[0])
+        # Since the above is unwieldy let's break it up into smaller singular functions
+        for w in taggedInput:
+            print('Checking if {} exists in current dataset (checks all data)'.format(w))
+            isWordKnownRes = isWordKnown(w, tagged_BoW)
+            if isWordKnownRes:
+                print('{} is known.'.format(w[0]))
+            else:
+                print('{} is completely unknown.'.format(w[0]))
+            print('---')
 
-        # Original sentence analysis
-        #print('-' * 10)
-        #print('Checking basic sentence analysis')
-        #sA_Obj, error = sentenceAnalysis(taggedInput)    
-        #sA_Obj.printAll()
-        #if len(error) > 0:
-        #    print('Sentence analysis returned an error:')
-        #    for e in error:
-        #        print(e)
-        #    
-        #    print('Ignoring input sentence')
-        #    continue
-        #
         # New sentence analysis
         print('-' * 10)
         print('New sentence analysis')
@@ -209,14 +208,6 @@ def processUserInput():
             print('Ignoring input sentence')
             continue
 
-        # save sA_Obj pickle for debug and testing
-        #print('-' * 10)
-        #print('Saving sentence analysis object:')
-        #f = open('pickles/sA_Obj.pkl', 'wb')
-        #pickle.dump(sA_Obj, f)
-        #f.close()
-        #print('Aunt Bee saved sA_Obj.pkl')
-
         # Check KB anainst Simp, subject(s), verb(s)... (was simpGA.py)
         print('-' * 10)
         kb_Obj = chkKB(newSA_Obj, nnxKB, untaggedCorpus)
@@ -228,23 +219,79 @@ def processUserInput():
         print('kb_Obj: ')
         kb_Obj.printAll()
 
-        print('-----')
-        # Save conversation for pronoun context (he/she, which or who)
-        #ser_sA_Obj = pickle.dumps(newSA_Obj)
-        #ser_kb_Obj = pickle.dumps(kb_Obj)
-        #
-        #print(type(ser_sA_Obj))
-        #print(ser_sA_Obj)
-        #print('---')
-        #print(type(ser_kb_Obj))
-        #print(ser_kb_Obj)
-        #print('---')
-        #
-        #conversation = simpDB["conversation"]
-        #
-        #conversation.insert_one({'newSA_Obj': Binary(ser_sA_Obj)})
-        #conversation.insert_one({'kb_Obj': Binary(ser_kb_Obj)})
+        # Conext checking for pronouns--which method to use?
+        print('-' * 20)
+        print("Determine context, and append svo's to conversationObj...")
+        
+        conversationObj.sentNo += 1
 
+
+
+        
+        subjects = newSA_Obj.getSubjectsAndTags()
+        if len(subjects) > 0:
+            for s in subjects:
+                if s[1] in prpx:
+                    if len(conversationObj.subjects) > 0:
+                        for cs in conversationObj.subjects:
+                            if cs[1] in nnx:
+                                print("For subject {} do you mean {}?".format(s, cs))
+                    else:
+                        print('No subject context for: ', s)
+                else:
+                    print('{} is the subject'.format(s))
+
+                conversationObj.subjects.append(list(s))
+        else:
+            print('No subject(s) error: ', subjects)
+
+        # compoundSubjects ToDo
+        conversationObj.compoundSubjects.append('TODO')
+        
+        objects  = newSA_Obj.getObjectsAndTags()
+        print('objects: ', objects)
+        if objects != None:  # TODO: tagging errors: ex: work,VB | work,NN
+            for o in objects:
+                if o[1] in prpx:
+                    if len(conversationObj.objects) > 0:
+                        for co in conversationObj.objects:
+                            print("For object {} do you mean {}?".format(co, o))
+                    else:
+                        print('No object context for: ', o)
+                else:
+                    print('{} is the object'.format(o))
+                
+                conversationObj.objects.append(list(o))
+        else:
+            print('No object(s) error: ', objects)
+
+        if newSA_Obj.isVar('_indirectObject'):
+            if isinstance(newSA_Obj._indirectObject, tuple):
+                conversationObj.indirectObjects.append(list(newSA_Obj._indirectObject))
+                
+            elif isinstance(newSA_Obj._indirectObject, list):
+                tmpLst = []
+                for indirectObjectTuple in newSA_Obj._indirectObject:
+                    tmpLst.append(indirectObjectTuple)
+                conversationObj.indirectObjects.append(tmpLst)
+        else:
+            print('No _indirectObject var found.')
+            
+        actions = newSA_Obj.getVerbsAndTags()
+        if len(actions) > 0:
+            tmpLst = []
+            for a in actions:
+                tmpLst.append(a)
+            conversationObj.actions.append(tmpLst)
+        else:
+            print('No actions/verbs error: ', actions) 
+        
+        print('-' * 10)                
+        conversationObj.printAll()
+        
+
+        print("Saving conversation to conversationLst...")
+        
         named_tuple = time.localtime() # get struct_time
         print(named_tuple)
         time_string = time.strftime("%m/%d/%Y, %H:%M:%S", named_tuple)
@@ -254,24 +301,30 @@ def processUserInput():
         conversationLst.append((time_string, newSA_Obj, kb_Obj))
 
         print('-' * 10)
+        print('There are {} sentences in the current conversastionLst.'.format(len(conversationLst)))
+
+        #if len(conversationLst) == 1:
+        #@    conversationObj = Context([], [], [], [], [])
+
+        print('-' * 10)
+        print('len conversationLst: ', len(conversationLst))
         for c in conversationLst:
-            print(c)
+            print('c: ', c)
+            print('-' * 5)
             for i in c:
-                print(type(i))
-                print(i)
+                print('i type: ', type(i))
+                print('i: ', i)
                 if isinstance(i, str):
                     print('Time: ', i)
                 elif isinstance(i, commonConfig.Sentence):
-                    print('Sentence:')
+                    print('Sentence Obj:')
                     i.printAll()
                 elif isinstance(i, commonConfig.kbResults):
-                    print('kbResults:')
+                    print('kbResults Obj:')
                     i.printAll()
                 else:
                     print('do not know what i is: ', i)
-                
-                               
-        
+
 
         """
         print('-' * 10)
@@ -287,16 +340,18 @@ def processUserInput():
 #        print(outSent)
 
 
-        
+        print('-' * 30)
 
-    return 'Exit.'
+    return 'Exit--processInput'
 
 
 #
 #
 if __name__ == "__main__":
 
-    print('Processing processInput (__main__)...')
+    print('Start processInput (__main__)...')
 
     processUserInput()
+
+    print('End -- processInput (__main__)')
 

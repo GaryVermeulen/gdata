@@ -310,6 +310,7 @@ def sentAnalysis2(taggedInput):
     tmpSubj = []
     tmpObject = []
     tmpIndirectObject = []
+    # tmpInObj
     tmpVerbs = []
     tmpTag   = []
 
@@ -616,7 +617,7 @@ def sentAnalysis2(taggedInput):
                         else:
                             if sent.isVar('_indirectObject'):
                                 tmpIndirectObject.append(sent._indirectObject)
-                                sent._indirectObject = tmpInObj
+                                sent._indirectObject = tmpIndirectObject
                                 sent._indirectObject.append(inputWord)
                             else:
                                 sent._indirectObject = inputWord

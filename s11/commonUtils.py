@@ -93,8 +93,6 @@ def getEntryAllBoW(taggedWord, tagged_BoW):
     return allEntries
 
 
-
-
 # Current list of inflections is lacking, note prp)
 def getInflectionTag(tag):
     """
@@ -162,6 +160,8 @@ def getInflections(word, tag):
 
 def getBaseWordFromInflections(word):
 
+    baseWord = 'NONE'
+
     mdb = connectMongo()
     simpDB = mdb["simp"]
     inflectionsCol = simpDB["inflectionsCol"]
@@ -177,21 +177,75 @@ def getBaseWordFromInflections(word):
         print('baseWord: ', baseWord)
         print('baseWordInflections: ', baseWordInflections)
 
+    if baseWord == 'NONE':
+        return(baseWord, unk)
 
     return [baseWord, i.get("tag")]
 
 
-# Checks tagged user input aginst taggedBoW for conflicts
+def getBaseWordFromInflections2(word):
+
+    baseWord = 'NONE'
+    inflectLst = []
+
+    mdb = connectMongo()
+    simpDB = mdb["simp"]
+    inflectionsCol = simpDB["inflectionsCol"]
+
+    cursor = inflectionsCol.find({"inflections": word})
+
+    for i in cursor:
+        print("Found i in cursor: ", i)
+
+        baseWord = i.get("word")
+        baseWordTag = i.get("tag")
+        baseWordInflections = i.get("inflections")
+
+        print('baseWord: ', baseWord)
+        print('baseWordInflections: ', baseWordInflections)
+
+        inflectLst.append((baseWord, baseWordTag, baseWordInflections))
+
+    if baseWord == 'NONE':
+        return(baseWord, unk)
+
+    return inflectLst
+
+
+def isInInflections(inWord):
+
+    mdb = connectMongo()
+    simpDB = mdb["simp"]
+    inflectionsCol = simpDB["inflectionsCol"]
+
+    cursor = list(inflectionsCol.find({"inflections": inWord[0]}))
+
+    if len(cursor) > 0:
+        return True
+
+    return False
+
+
+# Checks tagged user input aginst taggedBoW for conflicts (original naive)
+# Many TODOs
+#
 def chkTagging(taggedInput, tagged_BoW):
+    # We'll keep this nightmare as-is for now and work on post SA tag checker 
 
     tagging = []
     mismatch = []
     multiple = []
     unknown = []
     baseWord = []
-
     wordPosition = 1
 
+    # Naive checks
+    # TODO:
+    # Instead of just finding issues also try to deal with them:
+    # tagMismatch    :  [['home', 'NN', 'RB', 'NN']]
+    # tagMultiple    :  [['home', 'NN', 'RB', 'NN']]
+    # tagUnknown     :  [xyz...]
+    #
     for w in taggedInput:
         tmpTag = []
         tmpBaseWord = []
@@ -201,6 +255,8 @@ def chkTagging(taggedInput, tagged_BoW):
         if wordPosition == 1:
             if tag not in ['NNP', 'NNPS']:
                 word = word.lower()
+
+        # org was to blindly pas it on... but let's check for multiple 
         tmpTag.append(word)
         tmpTag.append(tag)
 
@@ -213,9 +269,8 @@ def chkTagging(taggedInput, tagged_BoW):
 
             results = getBaseWordFromInflections(word)
 
-            #print('results: ', results)
-
-            #print(len(results))
+            print('results: ', results)
+            print(len(results))
 
             if len(results) > 0:
                 #print('appending tmpBaseWord')
@@ -228,7 +283,8 @@ def chkTagging(taggedInput, tagged_BoW):
         else:
             for record in records:
                 tmpTag.append(record.get("tag"))
-                              
+
+                            
         tagging.append(tmpTag)
         if len(tmpBaseWord) > 0:
             baseWord.append(tmpBaseWord)
@@ -246,7 +302,72 @@ def chkTagging(taggedInput, tagged_BoW):
             if len(baseWord) == 0:
                 unknown.append(t)
 
+
+    # Check for tagging erros, ie. word can be NN or VB
+    # ex: tagger returns: ('work', 'VB') instead of: ('work', 'NN')
+    # [('he', 'PRP'), ('was', 'VBD'), ('late', 'JJ'), ('to', 'TO'), ('work', 'VB')]
+    # 
+    # Use transitive verb and nontransitive verb lists--uck
+    # Yet another naive solution for a complex problem
+    #
+    # How to handle words that are both:
+    # I walked.
+    # I walked the dogs.
+    # Daniel drives.
+    # Daniel drives a large truck.
+    # Barbara reads.
+    # Barbara reads 10 books a month.
+    # I understand.
+    # I understand you.
+
+    
+
     return mismatch, multiple, unknown, baseWord
+
+
+
+
+#
+def isWordKnown(inWord, tagged_BoW):
+    # Is the word known?
+
+    print(" -- Start isWordKnown --")
+    print("inWord: ", inWord)
+
+    foundWord = False
+    
+    word = inWord[0]
+    tag  = inWord[1]
+
+    # Lower case word in not NNx
+    if tag not in ['NNP', 'NNPS']:
+        word = word.lower()
+
+    # Is the word in BoW?
+    print('Checking Bow...')
+    if isEntryBoW(inWord, tagged_BoW):
+        print('Found {} in Bow'.format(word))
+        return True
+
+    # Is the word in inflectionsCol?
+    print('Checking inflectionsCol...')
+    if isInInflections(inWord):
+        print('Found {} in inflectionsCol'.format(word))
+        return True
+
+    # Is the word in the nnxKB?
+    mdb = connectMongo()
+    simpDB = mdb["simp"]
+    nnxKB = simpDB["nnxKB"]
+    if isEntry(inWord, nnxKB):
+        print('Found {} in nnxKB'.format(word))
+        return True
+
+    return False
+
+
+
+
 
 
 def chk_nnxKB(item, nnxKB):

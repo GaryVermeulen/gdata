@@ -738,6 +738,17 @@ class Sentence:
             
         return ['No subjects to return--fall-through']
 
+    def getObjectsAndTags(self):
+
+        if isinstance(self.object, tuple):
+            tmpLst = []
+            tmpLst.append(self.object)
+            return tmpLst
+        elif isinstance(self.object, list):
+            return self.object
+        
+        return None
+
     def getVerbs(self):
         tmpLst = []
         if isinstance(self.verb, tuple):
@@ -755,8 +766,6 @@ class Sentence:
             
         return ['No verbs to return--fall-through']
 
-
-
     def getVerbsAndTags(self):
 
         if isinstance(self.verb, tuple):
@@ -765,84 +774,34 @@ class Sentence:
             return tmpLst
         elif isinstance(self.verb, list):
             return self.verb
-        else:
-            if len(self.verb) == 0:
-                return ['getVerbs: expecting tuple or list, but found nothing: ', self.verb]
-            else:
-                return ['getVerbsAndTags: expecting tuple or list, but found: ', self.verb]
-            
-        return ['No verbs/tags to return--fall-through']
+        #else:
+        #    if len(self.verb) == 0:
+        #        return ['getVerbs: expecting tuple or list, but found nothing: ', self.verb]
+        #    else:
+        #        return ['getVerbsAndTags: expecting tuple or list, but found: ', self.verb]
+        #    
+        #return ['No verbs/tags to return--fall-through']
+        return None
     
-"""
-# Orginal class
-class Sentence:
 
-    def __init__(self, inSent, sType, sSubj, sVerb, sObj, sInObj, sAdj, sDet, sIN, sPP, sMD, sWDT, sCC, sRB, sUH):
-        self.inSent = inSent
-        self.sType = sType
-        self.sSubj = sSubj
-        self.sVerb = list(sVerb)
-        self.sObj = sObj
-        self.sInObj = sInObj
-        self.sAdj = sAdj
-        self.sDet = sDet
-        self.sIN = sIN
-        self.sPP = sPP
-        self.sMD = sMD
-        self.sWDT = sWDT
-        self.sCC = sCC
-        self.sRB = sRB
-        self.sUH = sUH
+# Conversation context window class
+class Context:
+
+    def __init__(self, sentNo, subjects, compoundSubjects, objects, indirectObjects, actions):
+        self.sentNo = sentNo
+        self.subjects = subjects
+        self.compoundSubjects = compoundSubjects
+        self.objects = objects
+        self.indirectObjects = indirectObjects
+        self.actions = actions
 
     def printAll(self):
-        print('inSent: ', self.inSent)
-        print('sType : ', self.sType)
-        print('sSubj : ', self.sSubj)
-        print('sVerb : ', self.sVerb)
-        print('sObj  : ', self.sObj)
-        print('sInObj: ', self.sInObj)
-        print('sAdj  : ', self.sAdj)
-        print('sDet  : ', self.sDet)
-        print('sIN   : ', self.sIN)
-        print('sPP   : ', self.sPP)
-        print('sMD   : ', self.sMD)
-        print('sWDT  : ', self.sWDT)
-        print('sCC   : ', self.sCC)
-        print('sRB   : ', self.sRB)
-        print('sUH   : ', self.sUH)
-
-    def getVerbs(self):
-        tmpLst = []
-        if isinstance(self.sVerb, tuple):
-            tmpLst.append(self.sVerb[0])
-            return tmpLst
-        elif isinstance(self.sVerb, list):
-            for verbTuple in self.sVerb:
-                tmpLst.append(verbTuple[0])
-            return tmpLst
-        else:
-            if len(self.sVerb) == 0:
-                print('getVerbs: expecting tuple or list, but found nothing: ', self.sVerb)
-            else:
-                print('getVerbs: expecting tuple or list, but found: ', self.sVerb)
-            
-        return []
-
-    def getVerbsAndTags(self):
-
-        if isinstance(self.sVerb, tuple):
-            tmpLst = []
-            tmpLst.append(self.sVerb)
-            return tmpLst
-        elif isinstance(self.sVerb, list):
-            return self.sVerb
-        else:
-            if len(self.sVerb) == 0:
-                print('getVerbs: expecting tuple or list, but found nothing: ', self.sVerb)
-            else:
-                print('getVerbsAndTags: expecting tuple or list, but found: ', self.sVerb)
-            
-        return []
+        print('sentNo           : ', self.sentNo)
+        print('subjects         : ', self.subjects)
+        print('compoundSubjects : ', self.compoundSubjects)
+        print('objects          : ', self.objects)
+        print('indirectObjects  : ', self.indirectObjects)
+        print('actions          : ', self.actions)
 
     def getSubjects(self):
         tmpLst = []
@@ -853,18 +812,14 @@ class Sentence:
             for subjectTuple in self.sSubj:
                 tmpLst.append(subjectTuple[0])
             return tmpLst
-        else:
-            if len(self.sSubj) == 0:
-                print('getSubjects: expecting tuple or list, but found nothing: ', self.sSubj)
-            else:
-                print('getSubjects: expecting tuple or list, but found: ', self.sSubj)
             
-        return []
-"""
+        return None
 
-
-
-    
+    def isVar(self, var):
+        if var in self.__dir__():
+            return True
+        
+        return False
 
 
 class kbResults:
