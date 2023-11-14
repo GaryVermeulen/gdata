@@ -8,7 +8,7 @@ import pickle
 import time
 import commonConfig
 
-from commonConfig import Context, nnx, prpx
+from commonConfig import inputSentence, Context, nnx, prpx
 
 from string import punctuation
 #from bson.binary import Binary
@@ -23,7 +23,7 @@ from expandAndTag import expandAndTag
 
 #from commonConfig import Sentence, kbResults
 
-
+from scrapeWord import scrapeWord
 #from simpSA import sentAnalysis
 from simpSA2 import sentAnalysis2
 from kbChecker import chkKB
@@ -156,42 +156,44 @@ def processUserInput():
 
         print('-' * 10)
         print('Preprocess user input...')
-        # Old way
-        #eUI_List = expandSent(uI)
-        #eUI_Str = ' '.join(eUI_List)
-        # New way
-        # Remove punctuation from end
+        inSentObj = inputSentence(uI, [], [])
+        
         uI = uI.rstrip(punctuation)
-        print('rstrip: ', uI)
         taggedInput = expandAndTag(uI)
-
+        inSentObj.taggedSent = taggedInput
         print('expanded and tagged input:')
         print(taggedInput)
+        inSentObj.printAll()
 
-        # Check tagged uI aginst taggedBoW for conflicts
-        # There's also tagging errors, ex: returns: ('work', 'VB') instead of: ('work', 'NN')
-        # Yet another can of worms!
+        # Dummies for for old method:
+        # mismatch, multiple, unknown, baseWord = chkTagging(taggedInput, tagged_BoW)
+        mismatch = "DUMMY"
+        multiple = "DUMMY"
+        unknown  = "DUMMY"
+        baseWord = "DUMMY"
+
         print('-' * 10)
-        print('Checking tags...')
+        print('Check if Simp knows the input words...')
 
-        mismatch, multiple, unknown, baseWord = chkTagging(taggedInput, tagged_BoW)
-
-        print('chkTagging results:')
-        print('Mismatch: ', mismatch)
-        print('Multiple: ', multiple)
-        print('Unknown: ', unknown)
-        print('baseWord: ', baseWord)
-        print('-' * 10)
-
-        # Since the above is unwieldy let's break it up into smaller singular functions
         for w in taggedInput:
             print('Checking if {} exists in current dataset (checks all data)'.format(w))
-            isWordKnownRes = isWordKnown(w, tagged_BoW)
+            isWordKnownRes,inSentObj = isWordKnown(w, inSentObj)
             if isWordKnownRes:
-                print('{} is known.'.format(w[0]))
+                print('"{}" is known.'.format(w[0]))
+                #inSentObj.printAll()
             else:
-                print('{} is completely unknown.'.format(w[0]))
+                print('"{}" is completely unknown.'.format(w[0]))
+                print('Seacrhing/scaping web for unkown word: ', w)
+
+                wordDefs = scrapeWord(w)
+
+                print('wordDefs:')
+                for wd in wordDefs:
+                    print(wd)
+                #inSentObj.printAll()
             print('---')
+
+        inSentObj.printAll()
 
         # New sentence analysis
         print('-' * 10)

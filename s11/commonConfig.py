@@ -676,6 +676,19 @@ very_simple_contractions = {
 
 # Crude class for sentences
 #
+class inputSentence:
+
+    def __init__(self, rawSent, taggedSent, data):
+        self.rawSent    = rawSent
+        self.taggedSent = taggedSent
+        self.data       = data
+
+    def printAll(self):
+        print('rawSent:    ', self.rawSent)
+        print('taggedSent: ', self.taggedSent)
+        print('data:       ', self.data)
+
+
 class Sentence:
 
     # Start with only basic/core SVO

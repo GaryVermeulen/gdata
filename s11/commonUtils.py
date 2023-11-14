@@ -328,14 +328,18 @@ def chkTagging(taggedInput, tagged_BoW):
 
 
 #
-def isWordKnown(inWord, tagged_BoW):
-    # Is the word known?
-
-    print(" -- Start isWordKnown --")
-    print("inWord: ", inWord)
+def isWordKnown(inWord, inSentObj):
+    # Is the word known and where?
+    mdb = connectMongo()
+    simpDB = mdb["simp"]
+    nnxKB = simpDB["nnxKB"]
+    tagged_BoW = simpDB["taggedBoW"]
+    
+    #print(" -- Start isWordKnown --")
+    #print("inWord: ", inWord)
 
     foundWord = False
-    
+
     word = inWord[0]
     tag  = inWord[1]
 
@@ -344,30 +348,35 @@ def isWordKnown(inWord, tagged_BoW):
         word = word.lower()
 
     # Is the word in BoW?
-    print('Checking Bow...')
+    #print('Checking Bow...')
     if isEntryBoW(inWord, tagged_BoW):
-        print('Found {} in Bow'.format(word))
-        return True
+        #print('Found {} in Bow'.format(word))
+        tmpBoW = ('BoW', True)
+        foundWord = True
+    else:
+        tmpBoW = ('BoW', False)
 
     # Is the word in inflectionsCol?
-    print('Checking inflectionsCol...')
+    #print('Checking inflectionsCol...')
     if isInInflections(inWord):
-        print('Found {} in inflectionsCol'.format(word))
-        return True
+        #print('Found {} in inflectionsCol'.format(word))
+        tmpInflects = ('inflectionsCol', True)
+        foundWord = True
+    else:
+        tmpInflects = ('inflectionsCol', False)
 
     # Is the word in the nnxKB?
-    mdb = connectMongo()
-    simpDB = mdb["simp"]
-    nnxKB = simpDB["nnxKB"]
+    #print('Checking nnxKB...')
     if isEntry(inWord, nnxKB):
-        print('Found {} in nnxKB'.format(word))
-        return True
+        #print('Found {} in nnxKB'.format(word))
+        tmp = ('nnxKB', True)
+        foundWord = True
+    else:
+        tmp = ('nnxKB', False)
 
-    return False
+    inSentObj.data.append([inWord, tmpBoW, tmpInflects, tmp])
 
-
-
-
+    return foundWord, inSentObj
 
 
 def chk_nnxKB(item, nnxKB):
