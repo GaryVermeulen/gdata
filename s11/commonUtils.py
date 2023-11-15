@@ -226,6 +226,19 @@ def isInInflections(inWord):
     return False
 
 
+def isWebWord(inWord, webWords):
+
+    print("isWebWord: inWord: ", inWord) 
+    cursor = list(webWords.find({"word": inWord[0]}))
+
+    print('cursor: ', cursor)
+
+    if len(cursor) > 0:
+        return True
+
+    return False
+
+
 # Checks tagged user input aginst taggedBoW for conflicts (original naive)
 # Many TODOs
 #
@@ -334,9 +347,10 @@ def isWordKnown(inWord, inSentObj):
     simpDB = mdb["simp"]
     nnxKB = simpDB["nnxKB"]
     tagged_BoW = simpDB["taggedBoW"]
+    webWords = simpDB["webWords"]
     
-    #print(" -- Start isWordKnown --")
-    #print("inWord: ", inWord)
+    print(" -- Start isWordKnown --")
+    print("inWord: ", inWord)
 
     foundWord = False
 
@@ -374,7 +388,13 @@ def isWordKnown(inWord, inSentObj):
     else:
         tmp = ('nnxKB', False)
 
-    inSentObj.data.append([inWord, tmpBoW, tmpInflects, tmp])
+    if isWebWord(inWord, webWords):
+        tmpWebWord = ('webWords', True)
+        foundWord = True
+    else:
+        tmpWebWord = ('webWords', False)
+        
+    inSentObj.data.append([inWord, tmpBoW, tmpInflects, tmp, tmpWebWord])
 
     return foundWord, inSentObj
 

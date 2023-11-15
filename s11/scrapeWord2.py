@@ -11,15 +11,15 @@
 #   ]
 #
 
-import sys
-import spacy
+#import sys
+#import spacy
 
-from commonUtils import getInflectionTag
-from commonUtils import getInflections
-from commonConfig import *
-from checkWord import *
+#from commonUtils import getInflectionTag
+#from commonUtils import getInflections
+from commonConfig import nn, vb, rb, jj, prp
+#from checkWord import *
 
-nlp = spacy.load("en_core_web_lg") # lg has best accuracy
+#nlp = spacy.load("en_core_web_lg") # lg has best accuracy
 
 
 def seleniumSoup(taggedWord):
@@ -73,7 +73,7 @@ def seleniumSoup(taggedWord):
     return page_text
 
 
-def parseAndPackage(taggedWord, inflect, text):
+def parseAndPackage(taggedWord, text):
 
     word = taggedWord[0]
     tag = taggedWord[1]
@@ -82,18 +82,17 @@ def parseAndPackage(taggedWord, inflect, text):
     pos = []
     nextLineIsPOS = False
     tmp = []
-    inflections = []
 
     # First item is what we can glean without web scrape
-    tmp.append([word])
-    tmp.append([tag])
-    tmp.append(inflect)
-    defs.append(tmp)
+#    tmp.append([word])
+#    tmp.append([tag])
+#    
+#    defs.append(tmp)
 
     if text == None:
         return defs # Web scrapping retunred nothing
 
-    tmp = [] # reset tmp
+#    tmp = [] # reset tmp
 
     textList = text.split('\n')
 
@@ -155,11 +154,9 @@ def parseAndPackage(taggedWord, inflect, text):
 
 def scrapeAndProcess(taggedWord):
 
-    tag = getInflectionTag(taggedWord[1])
-    inflect = getInflections(taggedWord[0], tag)
     rawText = seleniumSoup(taggedWord)
 
-    return parseAndPackage(taggedWord, inflect, rawText)
+    return parseAndPackage(taggedWord, rawText)
 
 
 def packageDefs(taggedWord, newWordDef):
@@ -168,6 +165,9 @@ def packageDefs(taggedWord, newWordDef):
     defCnt = 0
 
     for wordDef in newWordDef:
+
+        #print('wordDef:')
+        #print(wordDef)
         
         word = wordDef[0][0]
         pos = wordDef[1][0]
@@ -191,74 +191,36 @@ def packageDefs(taggedWord, newWordDef):
             tag = 'UH'
         else:
             tag = pos # Pass-along UNK tag to see what it is
-
-        if defCnt == 0:
-            tmpDict = {"word": word, "tag": tag, "inflections": wordDefStr}
-        else:
-            tmpDict = {"word": word, "tag": tag, "definition": wordDefStr}
+          
+        tmpDict = {"word": word, "tag": tag, "definition": wordDefStr}            
         wordDefs.append(tmpDict)
         defCnt += 1
         
     return wordDefs
 
 
-def scrapeWord(taggedWord):
-
-    if taggedWord[1] not in validTags:
-        print('Invalid tag: ', taggedWord)
-        #sys.exit("Only for {} tags".format(nnx))
-        return []
-
-    results = checkWord(taggedWord[0])
-    print(results)
-
-    if results[2]["kb"]:
-        print('{} found in KB, so why scrape web, exiting...'.format(taggedWord))
-        return []
-                
-    newWordDef = scrapeAndProcess(taggedWord)
-
-#    print('Scraped the following from the web:')
-#    print(len(newWordDef))
-#
-#    for d in newWordDef:
-#        print('-' * 5)
-#        print('d: ', d)
-        
-    print('-' * 10)
-
-    wordDefs = packageDefs(taggedWord, newWordDef)
-    print('packageDefs returned:')
-        
-    print(len(wordDefs))
-#    print(wordDefs)
-    for d in wordDefs:
-        print(d)
-
-    return wordDefs
-
-
 def scrapeWord2(taggedWord):
     # Assumes the input is truly unknown
-                
+    # Does not mess with known inflections                
+
     newWordDef = scrapeAndProcess(taggedWord)
 
-#    print('Scraped the following from the web:')
-#    print(len(newWordDef))
-#
-#    for d in newWordDef:
-#        print('-' * 5)
-#        print('d: ', d)
+    #print('Scraped the following from the web:')
+    #print(len(newWordDef))
+    #
+    #for d in newWordDef:
+    #    print('-' * 5)
+    #    print('d: ', d)
         
-    print('-' * 10)
+    #print('-' * 10)
 
     wordDefs = packageDefs(taggedWord, newWordDef)
-    print('packageDefs returned:')
-        
-    print(len(wordDefs))
-#    print(wordDefs)
-    for d in wordDefs:
-        print(d)
+    #print('packageDefs returned:')
+    #    
+    #print(len(wordDefs))
+    #print(wordDefs)
+    #for d in wordDefs:
+    #    print(d)
 
     return wordDefs
 
@@ -278,7 +240,7 @@ if __name__ == "__main__":
     print('-- scrapeNNX.py __main__ scrapping for : ', taggedWord)
 
 
-    results = scrapeWord(taggedWord)
+    results = scrapeWord2(taggedWord)
 
     print('results:')
     for r in results:

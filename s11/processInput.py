@@ -23,7 +23,9 @@ from expandAndTag import expandAndTag
 
 #from commonConfig import Sentence, kbResults
 
-from scrapeWord import scrapeWord
+#from scrapeWord import scrapeWord, scrapeWord2
+from scrapeWord2 import scrapeWord2
+from saveWebWord import saveWebWord
 #from simpSA import sentAnalysis
 from simpSA2 import sentAnalysis2
 from kbChecker import chkKB
@@ -32,21 +34,6 @@ from processOutput import prattle
 #nlp = spacy.load("en_core_web_lg") # lg has best accuracy
 #nlp = spacy.load("en_core_web_sm") # 
 
-
-def sentenceAnalysis(tagged_uI):
-
-    print('------ start sentenceAnalysis ------')
-
-    sA_Obj, error = sentAnalysis(tagged_uI)
-
-    if len(error) > 0:
-        print('*** sentAnalysis returned possible errors:')
-        for e in error:
-            print(e)
-
-    print('------ end sentenceAnalysis ------')
-
-    return sA_Obj, error
 
 def kbCommand(nnxKB):
 
@@ -94,10 +81,6 @@ def preprocessInput(mismatch, multiple, unknown, sA_Obj, kb_Obj):
     else:
         print('No unknown tags')
 
-#    results = processTaggingIssues(mismatch, multiple, unknown, sA_Obj)
-#
-#    print('processTaggingIssues; returned: ', results)
-
     # Attempt to distill something meaningful from what we have
     print('-' * 10)
     print('Sentence Object:')
@@ -112,15 +95,6 @@ def preprocessInput(mismatch, multiple, unknown, sA_Obj, kb_Obj):
     print('---   End preprocessInput   ---')
 
     return 'preprocessInput output'
-
-
-def processTaggingIssues(mismatch, multiple, unknown, sA_Obj):
-
-    if len(mismatch) > 0:
-        print('Tagging issue -- mismatch: ', mismatch)
-    
-
-    return 'processTaggingIssues results'
 
 
 def processUserInput():
@@ -160,9 +134,16 @@ def processUserInput():
         
         uI = uI.rstrip(punctuation)
         taggedInput = expandAndTag(uI)
-        inSentObj.taggedSent = taggedInput
+
+        tmpLst = []
+        for wt in taggedInput:
+            if wt[1] not in ['NNP', 'NNPS']:
+                wt = (wt[0].lower(), wt[1])
+            tmpLst.append(wt)
+        
+        inSentObj.taggedSent = tmpLst
         print('expanded and tagged input:')
-        print(taggedInput)
+        print(tmpLst)
         inSentObj.printAll()
 
         # Dummies for for old method:
@@ -175,7 +156,7 @@ def processUserInput():
         print('-' * 10)
         print('Check if Simp knows the input words...')
 
-        for w in taggedInput:
+        for w in inSentObj.taggedSent:
             print('Checking if {} exists in current dataset (checks all data)'.format(w))
             isWordKnownRes,inSentObj = isWordKnown(w, inSentObj)
             if isWordKnownRes:
@@ -185,12 +166,16 @@ def processUserInput():
                 print('"{}" is completely unknown.'.format(w[0]))
                 print('Seacrhing/scaping web for unkown word: ', w)
 
-                wordDefs = scrapeWord(w)
+                wordDefs = scrapeWord2(w)
 
-                print('wordDefs:')
-                for wd in wordDefs:
-                    print(wd)
-                #inSentObj.printAll()
+                if len(wordDefs) > 0:
+                    print('wordDefs:')
+                    for wd in wordDefs:
+                        print(wd)
+                    results = saveWebWord(wordDefs)
+                else:
+                    print('Scraping was unable to find word: ', w)
+                
             print('---')
 
         inSentObj.printAll()
@@ -198,7 +183,7 @@ def processUserInput():
         # New sentence analysis
         print('-' * 10)
         print('New sentence analysis')
-        newSA_Obj, error2 = sentAnalysis2(taggedInput)
+        newSA_Obj, error2 = sentAnalysis2(inSentObj.taggedSent)
         print('...')
         newSA_Obj.printAll()
 
