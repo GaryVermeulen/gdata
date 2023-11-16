@@ -114,14 +114,6 @@ def processUserInput():
 
         if uI == '':
             print('-' * 10)
-            #res = input('Retain conversation <Y/n>? ')
-            #if res in ['Y', 'y', 'Yes', 'yes']:
-            #    print('Conversation kept.')
-            #else:
-            #    conversation = simpDB["conversation"]
-            #    conversation.drop()
-            #    print('Conversation dropped.')
-
             sys.exit('Exiting; Nothing entered.')
 
         if uI == 'kb':
@@ -129,7 +121,7 @@ def processUserInput():
             continue
 
         print('-' * 10)
-        print('Preprocess user input...')
+        print('process user input...')
         inSentObj = inputSentence(uI, [], [])
         
         uI = uI.rstrip(punctuation)
