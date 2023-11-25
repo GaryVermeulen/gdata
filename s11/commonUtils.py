@@ -14,7 +14,8 @@ def connectMongo():
 
     if socket.gethostname() == 'system76-pc':
         # Home server
-        myclient = pymongo.MongoClient("mongodb://10.0.0.20:27017")
+        #myclient = pymongo.MongoClient("mongodb://10.0.0.20:27017")
+        myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017")
     else:
         # Assume work server
         myclient = pymongo.MongoClient("mongodb://192.168.0.16:27017")

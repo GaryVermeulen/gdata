@@ -18,6 +18,11 @@ def expandAndTag(inputSentence):
     expandedSentence = []
     verySimple = False
 
+#    print('Start expandAndTag...')
+#    print('type inputSentence: ', type(inputSentence))
+#    print(inputSentence)
+#    print('---')
+
     if len(inputSentence) == 0:
         return ['Error: input len 0']
 

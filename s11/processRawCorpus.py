@@ -61,8 +61,9 @@ def loadStarterSentences():
             while (line := f.readline().rstrip()):
                 line = line.strip()
                 line = line.replace('.', '')
-                tmp = line.split()
-                startSentList.append(tmp)
+                #tmp = line.split()
+                #startSentList.append(tmp)
+                startSentList.append(line)
     f.close()
 
     return startSentList
@@ -277,17 +278,24 @@ def buildLex():
 
     rawCorpusString = getRawCorpus()
     processedCorpus = processRawCorpusString(rawCorpusString)
+#    print('type processedCorpus: ', type(processedCorpus))
+#    print('type processedCorpus[0]: ', type(processedCorpus[0]))
     print('Loaded and processed {} sentences from corpus.'.format(len(processedCorpus)))
 
     # Add starter sentences
     startSentList = loadStarterSentences()
+#    print('type startSentList: ', type(startSentList))
+#    print('type startSentList[0]: ', type(startSentList[0]))
     print('Loaded {} starter sentences.'.format(len(startSentList)))
 
     # Merge and remove empty entries
     completeUntaggedCorpus = processedCorpus + startSentList
     completeUntaggedCorpus = [x for x in completeUntaggedCorpus if not len(x) < 1] # Remove empty entries []
     print('Loaded {} sentences.'.format(len(completeUntaggedCorpus)))
-    
+
+#    for i in completeUntaggedCorpus:
+#        print(i)
+#    print('+++++++++')
     # Change don't to do not
     # However, to expand correctly we will need to tag the sentence
     # Ex: I'd -- I had or I would
