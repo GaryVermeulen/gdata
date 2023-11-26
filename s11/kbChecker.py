@@ -308,8 +308,8 @@ def chkKB(sA_Obj, nnxKB, untaggedCorpus):
         return None
 
     # Get simp from KB
-    print('------ getSimpKB -- chkKB ------')
-    simpKB = getSimpKB(nnxKB)
+    ##print('------ getSimpKB -- chkKB ------')
+    ##simpKB = getSimpKB(nnxKB)
 
     # Get the subjects KB
     print('------ getSubjectsKB -- chkKB ------')

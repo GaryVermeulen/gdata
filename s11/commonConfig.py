@@ -688,6 +688,13 @@ class inputSentence:
         print('taggedSent: ', self.taggedSent)
         print('data:       ', self.data)
 
+    def isKnown(self, word):
+        for d in self.data:
+            if d[0][0] == word:
+                if d[1][1] == True or d[2][1] == True or d[3][1] == True or d[4][1] == True:
+                    return True
+        return False                
+
 
 class Sentence:
 

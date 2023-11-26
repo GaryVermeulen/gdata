@@ -28,7 +28,7 @@ from scrapeWord2 import scrapeWord2
 from saveWebWord import saveWebWord
 #from simpSA import sentAnalysis
 from simpSA2 import sentAnalysis2
-from kbChecker import chkKB
+from kbChecker import getSimpKB, chkKB
 from processOutput import prattle
 
 #nlp = spacy.load("en_core_web_lg") # lg has best accuracy
@@ -106,6 +106,8 @@ def processUserInput():
     untaggedCorpus = simpDB["untaggedCorpus"]
     conversationLst = []
     conversationObj = Context(0, [], [], [], [], [])
+    # Who am I or know thy self...
+    simpKB = getSimpKB(nnxKB)
     
     while True:
         print('-' * 10)
@@ -169,14 +171,16 @@ def processUserInput():
                     print('Scraping was unable to find word: ', w)
                 
             print('---')
-
+        print('inSentObj:')
         inSentObj.printAll()
 
         # New sentence analysis
         print('-' * 10)
-        print('New sentence analysis')
-        newSA_Obj, error2 = sentAnalysis2(inSentObj.taggedSent)
+        print('New sentence analysis:')
+        #newSA_Obj, error2 = sentAnalysis2(inSentObj.taggedSent)
+        newSA_Obj, error2 = sentAnalysis2(inSentObj)
         print('...')
+        print('newSA_Obj:')
         newSA_Obj.printAll()
 
         if len(error2) > 0:
@@ -186,6 +190,8 @@ def processUserInput():
 
             print('Ignoring input sentence')
             continue
+        else:
+            print('New sentence analysis did not return any errors.')
 
         # Check KB anainst Simp, subject(s), verb(s)... (was simpGA.py)
         print('-' * 10)
@@ -203,45 +209,50 @@ def processUserInput():
         print("Determine context, and append svo's to conversationObj...")
         
         conversationObj.sentNo += 1
-
-
-
         
         subjects = newSA_Obj.getSubjectsAndTags()
         if len(subjects) > 0:
             for s in subjects:
+                print('s in subjects: ', s)
                 if s[1] in prpx:
                     if len(conversationObj.subjects) > 0:
                         for cs in conversationObj.subjects:
                             if cs[1] in nnx:
                                 print("For subject {} do you mean {}?".format(s, cs))
-                    else:
+                            elif cs[1] in prpx:
+                                print("Confusing subjects {} who you mean? Last subject: {}?".format(s, cs))
+                        conversationObj.subjects.append(s)                    
+                    else:   
                         print('No subject context for: ', s)
+                        conversationObj.subjects.append(s)    
                 else:
                     print('{} is the subject'.format(s))
-
-                conversationObj.subjects.append(list(s))
+                    conversationObj.subjects.append(s)
         else:
+            conversationObj.subjects.append((('No Subject', 'None')))
             print('No subject(s) error: ', subjects)
 
         # compoundSubjects ToDo
-        conversationObj.compoundSubjects.append('TODO')
+        conversationObj.compoundSubjects.append((('TODO', 'NONE')))
         
         objects  = newSA_Obj.getObjectsAndTags()
         print('objects: ', objects)
         if objects != None:  # TODO: tagging errors: ex: work,VB | work,NN
             for o in objects:
+                print('o in object: ', o)
                 if o[1] in prpx:
                     if len(conversationObj.objects) > 0:
                         for co in conversationObj.objects:
                             print("For object {} do you mean {}?".format(co, o))
+                            conversationObj.objects.append(o)
                     else:
                         print('No object context for: ', o)
+                        conversationObj.objects.append(o)
                 else:
                     print('{} is the object'.format(o))
-                
-                conversationObj.objects.append(list(o))
+                    conversationObj.objects.append(o)
         else:
+            conversationObj.objects.append((('No Object', 'None')))
             print('No object(s) error: ', objects)
 
         if newSA_Obj.isVar('_indirectObject'):
@@ -251,20 +262,25 @@ def processUserInput():
             elif isinstance(newSA_Obj._indirectObject, list):
                 tmpLst = []
                 for indirectObjectTuple in newSA_Obj._indirectObject:
+                    print('indirectObjectTuple: ', indirectObjectTuple)
                     tmpLst.append(indirectObjectTuple)
                 conversationObj.indirectObjects.append(tmpLst)
         else:
             print('No _indirectObject var found.')
+            conversationObj.indirectObjects.append((('No Indirect Object', 'None')))
             
         actions = newSA_Obj.getVerbsAndTags()
         if len(actions) > 0:
-            tmpLst = []
+            #tmpLst = []
             for a in actions:
-                tmpLst.append(a)
-            conversationObj.actions.append(tmpLst)
+                print('a in actions: ', a)
+                conversationObj.actions.append(a)
+                #tmpLst.append(a)
+            #conversationObj.actions.append(tmpLst)
         else:
             print('No actions/verbs error: ', actions) 
-        
+            conversationObj.actions.append((('No actions/verbs', 'None')))
+            
         print('-' * 10)                
         conversationObj.printAll()
         
@@ -272,9 +288,8 @@ def processUserInput():
         print("Saving conversation to conversationLst...")
         
         named_tuple = time.localtime() # get struct_time
-        print(named_tuple)
+        #print(named_tuple)
         time_string = time.strftime("%m/%d/%Y, %H:%M:%S", named_tuple)
-
         print(time_string)
 
         conversationLst.append((time_string, newSA_Obj, kb_Obj))
@@ -288,11 +303,11 @@ def processUserInput():
         print('-' * 10)
         print('len conversationLst: ', len(conversationLst))
         for c in conversationLst:
-            print('c: ', c)
-            print('-' * 5)
+            #print('c: ', c)
+            #print('-' * 5)
             for i in c:
-                print('i type: ', type(i))
-                print('i: ', i)
+                #print('i type: ', type(i))
+                #print('i: ', i)
                 if isinstance(i, str):
                     print('Time: ', i)
                 elif isinstance(i, commonConfig.Sentence):
@@ -302,7 +317,7 @@ def processUserInput():
                     print('kbResults Obj:')
                     i.printAll()
                 else:
-                    print('do not know what i is: ', i)
+                    print('*** Do not know what i is: ', i)
 
 
         """

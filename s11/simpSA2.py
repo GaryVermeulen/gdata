@@ -297,7 +297,7 @@ def getSubjectWords(sent):
 
 # Attempt to analyze the input sentence
 ####################################################
-def sentAnalysis2(taggedInput):
+def sentAnalysis2(inSentObj):
    
     print('START: --- sentAnalysis2 ---')
     error = []
@@ -305,6 +305,8 @@ def sentAnalysis2(taggedInput):
     sSubj = ''
     sVerb = ''
     sObj = ''
+
+    taggedInput = inSentObj.taggedSent
 
     tmpTypes = []
     tmpSubj = []
@@ -332,7 +334,22 @@ def sentAnalysis2(taggedInput):
         print('word: ', word)
         print('tag:  ', tag)
         print('processedSentence: ', processedSentence)
-        
+
+        # Is word known?
+        if inSentObj.isKnown(word):
+            print('{} is known.'.format(word))
+        else:
+            print('{} is unknown!'.format(word))
+            if sent.isVar('_UNK'):
+                tmpTag = []
+                tmpTag.append(sent._UNK)
+                tmpTag.append(inputWord)
+                sent._UNK = tmpTag
+            else:
+                sent._UNK = inputWord
+            sent.printAll()
+            currentWordPosition += 1
+            continue
         
         if currentWordPosition == 0: # Not much we can with just one word
             if word in commandWords:
@@ -808,7 +825,7 @@ def sentAnalysis2(taggedInput):
                 error.append(currentWordPosition)
                 error.append('inputWord: ')
                 error.append(inputWord)
-        print('bottom of if:')
+        print('bottom of the big if:')
         sent.printAll()
         currentWordPosition += 1
         # Reset/clear tmp var's
