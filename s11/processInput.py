@@ -166,6 +166,10 @@ def processUserInput():
                     print('wordDefs:')
                     for wd in wordDefs:
                         print(wd)
+                        if w[1] == wd['tag']:
+                            print('Word ({}) and new word ({}) match'.format(w, wd))
+                        else:
+                            print('Word ({}) and new word ({}) do not match'.format(w, wd))
                     results = saveWebWord(wordDefs)
                 else:
                     print('Scraping was unable to find word: ', w)
