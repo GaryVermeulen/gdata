@@ -677,6 +677,7 @@ very_simple_contractions = {
 # Crude class for sentences
 #
 class inputSentence:
+# inSentObj
 
     def __init__(self, rawSent, taggedSent, data):
         self.rawSent    = rawSent
@@ -693,7 +694,7 @@ class inputSentence:
             if d[0][0] == word:
                 if d[1][1] == True or d[2][1] == True or d[3][1] == True or d[4][1] == True:
                     return True
-        return False                
+        return False
 
 
 class Sentence:

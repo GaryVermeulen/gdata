@@ -80,8 +80,8 @@ def isEntryBoW(taggedWord, tagged_BoW):
         if taggedWord[0].lower() == e["word"].lower():
             return True
 
-    return False
-
+    return False        
+        
 
 def getEntryAllBoW(taggedWord, tagged_BoW):
 
@@ -213,6 +213,23 @@ def getBaseWordFromInflections2(word):
     return inflectLst
 
 
+def getInflectionsBaseWordTag(word):
+
+    inflectLst = []
+
+    mdb = connectMongo()
+    simpDB = mdb["simp"]
+    inflectionsCol = simpDB["inflectionsCol"]
+
+    cursor = inflectionsCol.find({"inflections": word})
+
+    for i in cursor:
+        print("Found i in cursor: ", i)
+        inflectLst.append((i.get("word"), i.get("tag")))
+
+    return inflectLst
+
+
 def isInInflections(inWord):
 
     mdb = connectMongo()
@@ -238,6 +255,40 @@ def isWebWord(inWord, webWords):
         return True
 
     return False
+
+
+def getTag(taggedWord, db2chk):
+
+    print('getTag, taggedWord {}, db2chk {}'.format(taggedWord, db2chk))
+
+    if db2chk == 'Bow':
+        res = getEntryAllBoW(taggedWord, tagged_BoW)
+        print('BoW res: ', res)
+
+    elif db2chk == 'inflectionsCol':
+        res = getInflectionsBaseWordTag(taggedWord[0])
+        print('inflections res: ', res)
+        
+    elif db2chk == 'nnxKB':
+        mdb = connectMongo()
+        simpDB = mdb["simp"]
+        nnxKB = simpDB["nnxKB"]
+        res = getEntryAll(taggedWord, nnxKB)
+        print('nnxKB res: ', res)
+
+    elif db2chk == 'webWords':
+        res = []
+        mdb = connectMongo()
+        simpDB = mdb["simp"]
+        webWords = simpDB["webWords"]
+        cursor = list(webWords.find({"word": taggedWord[0]}))
+        for e in cursor:
+            print(' webWords e: ', e)
+    else:
+        print('Dropped through')
+        
+
+    return
 
 
 # Checks tagged user input aginst taggedBoW for conflicts (original naive)

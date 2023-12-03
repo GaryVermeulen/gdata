@@ -16,6 +16,7 @@ from string import punctuation
 from commonUtils import connectMongo
 from commonUtils import chkTagging
 from commonUtils import isWordKnown
+from commonUtils import getTag
 from commonUtils import getInflectionTag
 from commonUtils import getInflections
 #from commonUtils import expandSent # Old way
@@ -123,7 +124,7 @@ def processUserInput():
             continue
 
         print('-' * 10)
-        print('process user input...')
+        print('Processing user input...')
         inSentObj = inputSentence(uI, [], [])
         
         uI = uI.rstrip(punctuation)
@@ -136,7 +137,7 @@ def processUserInput():
             tmpLst.append(wt)
         
         inSentObj.taggedSent = tmpLst
-        print('expanded and tagged input:')
+        print('Expanded and tagged input:')
         print(tmpLst)
         inSentObj.printAll()
 
@@ -156,6 +157,7 @@ def processUserInput():
             if isWordKnownRes:
                 print('"{}" is known.'.format(w[0]))
                 #inSentObj.printAll()
+ 
             else:
                 print('"{}" is completely unknown.'.format(w[0]))
                 print('Seacrhing/scaping web for unkown word: ', w)
@@ -177,6 +179,25 @@ def processUserInput():
             print('---')
         print('inSentObj:')
         inSentObj.printAll()
+
+        # But does know word tag match the input tag?
+        print('-' * 10)
+        print('Do the input sentence tags match the known data tags?')
+        
+        for d in inSentObj.data:
+            print('pI d: ', d)
+        
+            for x in d:
+                if isinstance(x[1], bool):
+                    if x[1]:
+                        print('x: ', x)
+                        print('d[0]: ', d[0])
+
+                        tagResults = getTag(d[0], x[0])
+                        print('---')
+        
+                
+        
 
         # New sentence analysis
         print('-' * 10)
