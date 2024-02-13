@@ -1,0 +1,21 @@
+Need to manually add:  [{'word': 'Allie', 'tag': 'NNP', '_id': ObjectId('6575f18ab7a5719f82a3b933')}, {'word': 'Kay', 'tag': 'NNP', '_id': ObjectId('6575f18ab7a5719f82a3b937')}]
+Need to manually add:  []
+Need to manually add:  []
+Need to manually add:  []
+Need to manually add:  []
+Need to manually add:  []
+Need to manually add:  []
+---
+s:  [{'word': 'My', 'tag': 'PRP$'}, {'word': 'name', 'tag': 'NN'}, {'word': 'is', 'tag': 'VBZ'}, {'word': 'Allie', 'tag': 'NNP', '_id': ObjectId('6575f18ab7a5719f82a3b933')}, {'word': 'Kay', 'tag': 'NNP', '_id': ObjectId('6575f18ab7a5719f82a3b937')}, {'word': 'and', 'tag': 'CC'}, {'word': 'I', 'tag': 'PRP'}, {'word': 'would', 'tag': 'MD'}, {'word': 'like', 'tag': 'VB'}, {'word': 'to', 'tag': 'TO'}, {'word': 'tell', 'tag': 'VB'}, {'word': 'you', 'tag': 'PRP'}, {'word': 'about', 'tag': 'IN'}, {'word': 'my', 'tag': 'PRP$'}, {'word': 'first', 'tag': 'JJ'}, {'word': 'pet', 'tag': 'NN'}, {'word': '.', 'tag': '.'}]
+---
+s:  [{'word': 'However', 'tag': 'RB'}, {'word': ',', 'tag': ','}, {'word': 'before', 'tag': 'IN'}, {'word': 'I', 'tag': 'PRP'}, {'word': 'can', 'tag': 'MD'}, {'word': ',', 'tag': ','}, {'word': 'you', 'tag': 'PRP'}, {'word': 'have', 'tag': 'VBP'}, {'word': 'to', 'tag': 'TO'}, {'word': 'understand', 'tag': 'VB'}, {'word': 'that', 'tag': 'IN'}, {'word': 'I', 'tag': 'PRP'}, {'word': 'am', 'tag': 'VBP'}, {'word': 'a', 'tag': 'DT'}, {'word': 'little', 'tag': 'RB'}, {'word': 'older', 'tag': 'JJR'}, {'word': 'than', 'tag': 'IN'}, {'word': 'you', 'tag': 'PRP'}, {'word': 'are', 'tag': 'VBP'}, {'word': 'and', 'tag': 'CC'}, {'word': 'have', 'tag': 'VB'}, {'word': 'a', 'tag': 'DT'}, {'word': 'family', 'tag': 'NN'}, {'word': 'of', 'tag': 'IN'}, {'word': 'my', 'tag': 'PRP$'}, {'word': 'own', 'tag': 'JJ'}, {'word': '.', 'tag': '.'}]
+---
+s:  [{'word': 'Oh', 'tag': 'UH'}, {'word': '!', 'tag': '.'}]
+---
+s:  [{'word': 'Do', 'tag': 'VB'}, {'word': 'not', 'tag': 'RB'}, {'word': 'worry', 'tag': 'VB'}, {'word': '.', 'tag': '.'}]
+---
+s:  [{'word': 'I', 'tag': 'PRP'}, {'word': 'am', 'tag': 'VBP'}, {'word': 'not', 'tag': 'RB'}, {'word': 'going', 'tag': 'VBG'}, {'word': 'to', 'tag': 'TO'}, {'word': 'talk', 'tag': 'VB'}, {'word': 'to', 'tag': 'IN'}, {'word': 'you', 'tag': 'PRP'}, {'word': 'like', 'tag': 'IN'}, {'word': 'a', 'tag': 'DT'}, {'word': 'big', 'tag': 'JJ'}, {'word': 'person', 'tag': 'NN'}, {'word': '.', 'tag': '.'}]
+---
+s:  [{'word': 'I', 'tag': 'PRP'}, {'word': 'am', 'tag': 'VBP'}, {'word': 'going', 'tag': 'VBG'}, {'word': 'to', 'tag': 'TO'}, {'word': 'let', 'tag': 'VB'}, {'word': 'my', 'tag': 'PRP$'}, {'word': 'imagination', 'tag': 'NN'}, {'word': 'take', 'tag': 'VB'}, {'word': 'me', 'tag': 'PRP'}, {'word': 'back', 'tag': 'RB'}, {'word': 'in', 'tag': 'IN'}, {'word': 'time', 'tag': 'NN'}, {'word': 'to', 'tag': 'IN'}, {'word': 'when', 'tag': 'WRB'}, {'word': 'I', 'tag': 'PRP'}, {'word': 'was', 'tag': 'VBD'}, {'word': '7', 'tag': 'CD'}, {'word': 'years', 'tag': 'NNS'}, {'word': 'old', 'tag': 'JJ'}, {'word': '.', 'tag': '.'}]
+---
+s:  [{'word': 'The', 'tag': 'DT'}, {'word': 'best', 'tag': 'JJS'}, {'word': 'part', 'tag': 'NN'}, {'word': 'is', 'tag': 'VBZ'}, {'word': 'that', 'tag': 'IN'}, {'word': 'I', 'tag': 'PRP'}, {'word': 'do', 'tag': 'VBP'}, {'word': 'not', 'tag': 'RB'}, {'word': 'have', 'tag': 'VB'}, {'word': 'to', 'tag': 'TO'}, {'word': 'try', 'tag': 'VB'}, {'word': 'to', 'tag': 'TO'}, {'word': 'remember', 'tag': 'VB'}, {'word': 'everything', 'tag': 'NN'}, {'word': '.', 'tag': '.'}]

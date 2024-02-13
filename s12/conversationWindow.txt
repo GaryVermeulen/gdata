@@ -1,0 +1,25 @@
+findSVO did not return any errors.
+-----
+conversationWindow [[], [], [('I', 'PRP')], [('I', 'PRP')]]
+-----
+len conversationWindow:  4
+==========
+[[], [('I', 'PRP')], [('I', 'PRP')], [('part', 'NN')]]
+----------
+---:  1
+[]
+---:  2
+[('I', 'PRP')]
+---:  3
+[('I', 'PRP')]
+---:  4
+[('part', 'NN')]
+----------
+('I', 'PRP') : 2
+('part', 'NN') : 1
+----------
+==========
+Read 7 sentences.
+End:--- assimilate ---
+End: processRawCorpus (__main__)
+
