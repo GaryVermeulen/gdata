@@ -1,0 +1,25 @@
+cnt: 34747: ['Us', 'UNK', "pron. 1 objective case of *we (they saw us). 2 colloq. = *we (it's us again). 3 colloq. = *me1 (give us a kiss). [old english]"]
+cnt: 34748: ['Usa', 'UNK', 'abbr. United states of america.']
+cnt: 34749: ['Usable', 'JJ', 'adj. That can be used.']
+cnt: 34750: ['Usaf', 'UNK', 'abbr. United states air force.']
+cnt: 34751: ['Usage', 'NN', 'n. 1 use, treatment (damaged by rough usage). 2 customary practice, esp. In the use of a language or as creating a precedent in law.']
+cnt: 34752: ['Use', 'VB', "—v. (using) 1 cause to act or serve for a purpose; bring into service. 2 treat in a specified manner (used him shamefully). 3 exploit for one's own ends. 4 did or had habitually (i used to drink; it used not (or did not use) to rain so often). 5 (as used adj.) Second-hand. 6 (as used predic. Adj.) (foll. By to) familiar by habit; accustomed (used to hard work). —n. 1 using or being used. 2 right or power of using (lost the use of his legs). 3 benefit, advantage (a torch would be of use; it's no use talking). 4 custom or usage (established by long use)."]
+cnt: 34753: ['Useful', 'JJ', 'adj. 1 that can be used to advantage; helpful; beneficial. 2 colloq. Creditable, efficient (useful footballer). make oneself useful help.']
+cnt: 34754: ['Useless', 'JJ', 'adj. 1 serving no purpose; unavailing. 2 colloq. Feeble or ineffectual (useless at swimming). uselessly adv. Uselessness n.']
+cnt: 34755: ['User', 'NN', 'n. Person who uses a thing.']
+
+
+
+cnt: 33699: ['Un-1', 'UNK', 'prefix 1 added to adjectives and participles and their derivative nouns and adverbs, meaning: a not (unusable). B reverse of (esp. With implied approval etc.) (unselfish; unsociable). 2 (less often) added to nouns, meaning ‘a lack of’, ‘the reverse of’ (unrest; untruth). [old english]']
+cnt: 33700: ['Usage', 'UNK', 'the number of words that can be formed with this prefix (and with un-2) is virtually unlimited; consequently only a selection can be given here.']
+cnt: 33701: ['Un-2', 'UNK', 'prefix added to verbs and (less often) nouns, forming verbs denoting: 1 reversal (undress; unsettle). 2 deprivation (unmask). 3 release from (unburden; uncage). 4 causing to be no longer (unman). [old english]']
+cnt: 33702: ['Usage', 'UNK', 'see note at un-1.']
+cnt: 33703: ['Un-3', 'UNK', 'prefix chem. Denoting ‘one’, combined with other numerical roots nil (= 0), un (= 1), bi (= 2), etc., to form the names of elements based on the atomic number, and terminated with -ium, e.g. Unnilquadium = 104, ununbium = 112. [latin unus one]']
+
+
+
+cnt: 32864: ['Tortoiseshell cat', 'NN', 'n. Domestic cat with markings resembling tortoiseshell.']
+cnt: 32865: ['Tortuous', 'JJ', 'adj. 1 full of twists and turns. 2 devious, circuitous.  tortuously adv. [latin: related to *tort]']
+cnt: 32866: ['Usage', 'UNK', 'tortuous should not be confused with torturous which means ‘involving torture, excruciating’.']
+cnt: 32867: ['Torture', 'NN', '—n. 1 infliction of severe bodily pain, esp. As a punishment or means of persuasion. 2 severe physical or mental suffering. —v. (-ring) subject to torture. torturer n. Torturous adj. [latin tortura twisting: related to *tort]']
+cnt: 32868: ['Tory', 'NN', '—n. (pl. -ies) 1 colloq. = *conservative n. 2. 2 hist. Member of the party that gave rise to the conservative party (opp. *whig). —adj. Colloq. = *conservative adj. 3. toryism n. [originally = irish outlaw]']
