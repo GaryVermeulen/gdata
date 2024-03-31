@@ -1,0 +1,36 @@
+s13 -- March 2024; Current iteration of Simpleton--don't blink for it will have changed.
+ 
+This version is a series of Python files. 
+It also uses MongoDB to store data.
+The code, data structures, and process flow are highly volative.
+
+Process order:
+      
+   1) processRawKB.py           -.- Builds starter MongoDb KB collection. Does not append.
+   2) processRawinflections.py  -.- Builds a MongoDB inflection collection. Does not append.
+   3) processRawCorpus.py       -*- Under construction
+   4) rectifyKB.py              -- Optional: Attemping to rectify BOW and KB, or add new to webWords (current focus)
+   5) accumulateKB.py           -- Process and save semi-permanent "accumulated" universal KBs
+   x) processInput.py           -- Process user input--chatbot
+
+Utilities:
+   commonUtils.py    -- Common functions
+   checkPickles.py   -- Pickle checker
+   simpSA.py         -- Rudimentary sentence analysis
+   simpGA.py         -- Was supposed to be a rudimentary grammar analysis * Evolved into kbChecker.py
+   kbChecker.py      -- Checks Simp, subject(s), and verbs against KB returns kbRes_Obj
+   processOutput.py  -- Plan is to take output of processInput.py and attempt appropriate response
+   scrapeWord.py     -- Scrape word definition from web
+   addWebWords.py    -- Add new scrpaed words to webWords collection 
+   checkWord.py      -- Checks if word exists in tagged corpus, tagged BOW, and KB
+   kbChecker.py      -- Different method/form of simpGA.py   
+
+Configuration:
+   commonConfig.py   -- Global variables
+
+Sub-Folders:
+   Corpus    -- Input docs
+   data      -- Starter data and test input
+   kb        -- Starter KB data
+   pickles   -- Aunt Bees pickle jar
+
