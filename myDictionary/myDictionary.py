@@ -5,6 +5,23 @@
 # New: 3/24/2024
 #
 
+import socket
+import pymongo
+
+def connectMongo():
+
+    #if socket.gethostname() == 'system76-pc':
+    #if socket.gethostname() == 'pop-os':
+    #    # Home server
+    #    #myclient = pymongo.MongoClient("mongodb://10.0.0.20:27017")
+    #    myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017")
+    #else:
+    #    # Assume work server
+    #    myclient = pymongo.MongoClient("mongodb://192.168.0.16:27017")
+    # All local
+    myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017")
+    return myclient
+
 
 def loadRawFile():
     rawDict = []
@@ -154,10 +171,23 @@ if __name__ == "__main__":
     cnt = 0
     taggedDict = tagLstDict(lstDict)
 
-    for line in taggedDict:
-        if line[2] == 'UNK':
-            print(line)
-        cnt += 1
+#    for line in taggedDict:
+#        if line[2] == 'UNK':
+#            print(line)
+#        cnt += 1
 #        if cnt > 20:
 #            break
+
+
+    mdb = pymongo.MongoClient("mongodb://127.0.0.1:27017")
+    simpDB = mdb["simp"]
+    simpDict = simpDB["simpDict"]
+
+    simpDict.drop()
+
+    for line in taggedDict:
+        if line[2] != 'UNK':
+            simpDict.insert_one({"index": line[0], "word": line[1], "tag": line[2], "definition": line[3]})
+        
+        
     
