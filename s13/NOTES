@@ -1,20 +1,45 @@
 s13 -- March 2024; Current iteration of Simpleton--don't blink for it will have changed.
  
-This version is a series of Python files. 
+This version is a set of Python files. 
 It also uses MongoDB to store data.
 The code, data structures, and process flow are highly volative.
 
 Process order:
       
-   1) processRawKB.py           -.- Builds starter MongoDb KB collection. Does not append.
-   2) processRawinflections.py  -.- Builds a MongoDB inflection collection. Does not append.
-   3) processRawCorpus.py       -*- Under construction
-   4) rectifyKB.py              -- Optional: Attemping to rectify BOW and KB, or add new to webWords (current focus)
-   5) accumulateKB.py           -- Process and save semi-permanent "accumulated" universal KBs
+   1) processRawKB.py           -.- Builds starter MongoDb KB collection from started KB text file.
+   2) processRawinflections.py  -.- Builds a MongoDB inflection collection from text file.
+   3) processRawCorpus.py       -.- Builds 3 collections: taggedBoW, taggedCorpus, and untaggedCorpus from text files in Corpus folder.
+   4) buildKB.py                -*- Build a KB from the starterKB and current corpus...~? Should be fun...
+   *** Comprehension engine ***
+        
+          Predict the main idea
+        1  Scan for unfamiliar words
+        2  Scan and numbers paragraphs
+          Predict genre or text type
+          Identify the central idea
+          Analyze text structure
+          Identify key details
+          Make inferences
+        
+   ?) rectifyKB.py              -?- Optional: Attemping to rectify BOW and KB, or add new to webWords (current focus)
+   ?) accumulateKB.py           -?- Process and save semi-permanent "accumulated" universal KBs
    x) processInput.py           -- Process user input--chatbot
 
 Utilities:
    commonUtils.py    -- Common functions
+   
+Configuration:
+   commonConfig.py   -- Global variables
+
+Sub-Folders:
+   Corpus    -- Input docs
+   data      -- Starter data and test input
+   kb        -- Starter KB data
+
+
+
+Previous verion:    
+   
    checkPickles.py   -- Pickle checker
    simpSA.py         -- Rudimentary sentence analysis
    simpGA.py         -- Was supposed to be a rudimentary grammar analysis * Evolved into kbChecker.py
@@ -25,12 +50,6 @@ Utilities:
    checkWord.py      -- Checks if word exists in tagged corpus, tagged BOW, and KB
    kbChecker.py      -- Different method/form of simpGA.py   
 
-Configuration:
-   commonConfig.py   -- Global variables
 
-Sub-Folders:
-   Corpus    -- Input docs
-   data      -- Starter data and test input
-   kb        -- Starter KB data
    pickles   -- Aunt Bees pickle jar
 

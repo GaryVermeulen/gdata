@@ -95,7 +95,10 @@ def expandAndTag(inputSentence):
         
         tagSent = []
         for token in doc:
-            tmpToken = ((str(token.text)), (str(token.tag_)))
+            tokenText = str(token.text)
+            tokenTag = str(token.tag_)
+                
+            tmpToken = (tokenText, tokenTag)
             tagSent.append(tmpToken)
             
 #        print('else tagSent:')

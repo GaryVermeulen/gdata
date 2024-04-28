@@ -63,4 +63,4 @@ pants;NN;F;TBD;garment
 shirt;NN;F;TBD;garment
 #
 bat;NN;F;TBD;instrument
-ball;football;NN;F;TBD;equipment
+ball;NN;F;TBD;equipment

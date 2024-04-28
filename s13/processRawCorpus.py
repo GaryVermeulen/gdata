@@ -6,11 +6,11 @@
 import os
 
 from commonConfig import common2LetterWords
-from commonConfig import nnp
+from commonConfig import nnp, prp
 from commonUtils import connectMongo
 from expandAndTag import expandAndTag
 
-from assimilate import assimilate
+
 
 
 
@@ -89,6 +89,11 @@ def buildTaggedBoW(taggedCorpus):
             if w not in taggedBoW:
                 if w[1] == nnp:
                     taggedBoW.append(w)
+                elif w[1] == prp:
+                    if w[0] == "I":
+                        taggedBoW.append(w)
+                    else:
+                        taggedBoW.append((w[0].lower(),w[1]))
                 else:
                     taggedBoW.append((w[0].lower(),w[1]))
 
@@ -182,66 +187,6 @@ def processRawCorpusString(rawCorpusString):
     return newSent
 
 
-def normalizeCase(s):
-    # Adjust the case of words in an input sentence to our liking
-    s_norm = []
-    wordPosition = 0
-    for w in s:
-        wordPosition += 1
-        if wordPosition == 1: # First word in an English sentence should be capitalized
-            if len(w) == 2:
-                if w in common2LetterWords: # May not catch some strange stuff
-                    w = w.capitalize()
-                    s_norm.append(w)
-                    continue
-                else: # Assuming an initial nickname "AJ"
-                    s_norm.append(w)
-                    continue
-            else:
-                w = w.capitalize()
-                s_norm.append(w)
-                continue
-
-        if wordPosition > 1: # Is the whole word upper case (except I)? If so make all lower
-            if w.isupper(): # All upper
-                if w in ['I']:
-                    s_norm.append(w)
-                    continue
-                else:
-                    if len(w) == 2: # Attempt to handle initial nicknames "AJ"
-                        if w.lower() in common2LetterWords: # Most likey not an initial nickname
-                            w = w.lower()
-                            s_norm.append(w)
-                            continue
-                        else: # Assuming an initial nickname "AJ"
-                            s_norm.append(w)
-                            continue
-                    else:
-                        w = w.lower()
-                        s_norm.append(w)
-                        continue
-            else: # Mixed or first char upper
-                if w == 'i':
-                    s_norm.append(w.upper())
-                    continue
-                else:
-                    if len(w) == 2: # Attempt to handle initial nicknames "AJ"
-                        if w in common2LetterWords: # Most likey not an initial nickname
-                            w = w.lower()
-                            s_norm.append(w)
-                            continue
-                        else: # Assuming an initial nickname "AJ"
-                            s_norm.append(w)
-                            continue
-                    else: # May need to dig deeper here...~?
-                        s_norm.append(w)
-
-        if wordPosition == len(s):
-            wordPostion = 0
-
-    return s_norm
-
-
 def buildLex():
 
     cnt = 0
@@ -308,10 +253,10 @@ if __name__ == "__main__":
     print('Start: processRawCorpus (__main__)')
     taggedCorpus = buildLex()
 
-    res = input("Assimilate <Y/N>? ")
-
-    if res in ['y', 'Y']:
-        # Process taggedCorpus for knowledge
-        assimilate(taggedCorpus, None)
+#    res = input("Assimilate <Y/N>? ")
+#
+#    if res in ['y', 'Y']:
+#        # Process taggedCorpus for knowledge
+#        assimilate(taggedCorpus, None)
     
     print('End: processRawCorpus (__main__)')  

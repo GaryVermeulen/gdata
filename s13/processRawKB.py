@@ -41,7 +41,7 @@ def buildKB(kb):
     mdb = connectMongo()
     simpDB = mdb["simp"]
 
-    nnxKB = simpDB["nnxKB"]
+    nnxKB = simpDB["starterKB"]
 
     # For now start fresh every run
     nnxKB.drop()
