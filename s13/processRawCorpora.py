@@ -35,37 +35,6 @@ def getRawCorpus():
     return corpora
 
 
-def loadStarterDictionary():
-    # Starter tagged BoW
-    
-    startList = []
-
-    with open('data/starterDictionary.txt', 'r') as f:
-            while (line := f.readline().rstrip()):
-                line = line.strip()
-                line = line.split(',')
-                tup = (line[0].strip(),line[1].strip())
-                startList.append(tup)
-    f.close()
-
-    return startList
-
-
-def loadStarterSentences():
-
-    startSentList = []
-
-    with open('data/starterSentences2.txt', 'r') as f:
-            while (line := f.readline().rstrip()):
-                line = line.strip()
-                line = line.replace('.', '')
-                
-                startSentList.append(line)
-    f.close()
-
-    return startSentList
-
-
 def expandAndTagSents(processedCorpora):
 
     taggedCorpora = []
@@ -92,31 +61,7 @@ def expandAndTagSents(processedCorpora):
     return taggedCorpora # expandedSents
 
 
-def buildTaggedBoW(taggedCorpus):
-
-    # taggedBoW = loadStarterDictionary()
-    # No longer using StarterDictionary
-    taggedBoW = []
-
-    for s in taggedCorpus:
-        for w in s:
-            if w not in taggedBoW:
-                if w[1] == nnp:
-                    taggedBoW.append(w)
-                elif w[1] == prp:
-                    if w[0] == "I":
-                        taggedBoW.append(w)
-                    else:
-                        taggedBoW.append((w[0].lower(),w[1]))
-                else:
-                    taggedBoW.append((w[0].lower(),w[1]))
-
-    taggedBoW = list(dict.fromkeys(taggedBoW))
-
-    return(taggedBoW)
-
-
-def processRawCorpusString(rawCorpora):
+def processRawCorporaStrings(rawCorpora):
 
     bookName = ''
     rawCorpusString = ''
@@ -219,101 +164,58 @@ def processRawCorpusString(rawCorpora):
 
 def buildLex():
 
-    cnt = 0
-
     print(' --- start buildLex() ---')
 
     rawCorpora = getRawCorpus()
-
-#    print(type(rawCorpora))
-#    print(len(rawCorpora))
-#    for i in rawCorpora:
-#        print(i)
     
-    processedCorpora = processRawCorpusString(rawCorpora)
-    
-#    print(type(processedCorpora))
-#    print(len(processedCorpora))
-#    for i in processedCorpora:
-#        print(i)
-    
-#    print('Loaded and processed {} sentences from corpus.'.format(len(processedCorpus)))
-
-    # Add starter sentences
-#    startSentLis{} starter sentences.'.format(len(startSentList)))
-
-    # Merge and remove empty entries
-#    completeUntaggedCorpus = processedCorpus + startSentList
-#    completeUntaggedCorpus = [x for x in completeUntaggedCorpus if not len(x) < 1] # Remove empty entries []
-#    print('Loaded {} sentences.'.format(len(completeUntaggedCorpus)))
+    processedCorpora = processRawCorporaStrings(rawCorpora)
 
     # Change don't to do not and tag
     #
     taggedCorporaLst = expandAndTagSents(processedCorpora)
-    
-#    print(type(taggedCorpora))
-#    print(len(taggedCorpora))
-#    for i in taggedCorporaLst:
-#        print('###: \n', i)
-    
-    
-#    print('Expanded tagged sentences: ', len(completeTaggedCorpus))
-
-    # Create a tagged BoW's
-#    taggedBoW = buildTaggedBoW(completeTaggedCorpus)
-#    print('Created Tagged Bag Of Words: ', len(taggedBoW))
 
     # Save to Mongo
     mdb = connectMongo()
     simpDB = mdb["simp"]
     untaggedCorpora = simpDB["untaggedCorpora"]
     taggedCorpora = simpDB["taggedCorpora"]
-#    tagged_BoW = simpDB["taggedBoW"]
 
     # For now we will start fresh each time
     untaggedCorpora.drop()
     taggedCorpora.drop()
-#    tagged_BoW.drop()
 
     for corpus in processedCorpora: 
         untaggedCorpora.insert_one({"bookName": corpus[0], "untaggedSentences": corpus[1]})
 
     for corpus in taggedCorporaLst:
         taggedCorpora.insert_one({"bookName": corpus[0], "taggedSentences": corpus[1]})
-#        print('bookName: ', corpus[0])
-#        print('sents   : ', corpus[1])
-#        for sents in corpus[1]:
-#            print(sents)
-
-        
-        
-#    for s in completeTaggedCorpus:      
-#        tmpSent = []
-#        for w in s:
-#            tmpSent.append({"word": w[0], "tag": w[1]})
-        
-#        taggedCorpus.insert_one({"taggedSentence": tmpSent})
-
-#    for t in taggedBoW:
-#        tagged_BoW.insert_one({"word": t[0], "tag":t[1]})
      
     print(' --- end buildLex() ---')
-    return [] # taggedCorpus
+    return # taggedCorpus
+
+
+def readCheckMongo():
+    mdb = connectMongo()
+    simpDB = mdb["simp"]
+    #untaggedCorpora = simpDB["untaggedCorpora"]
+    taggedCorpora = simpDB["taggedCorpora"]
+
+    cursorLst = list(taggedCorpora.find({}))
+
+    for c in cursorLst:
+        print(c)
 
 
 
+    return
 #
 #
 #
 if __name__ == "__main__":
 
-    print('Start: processRawCorpus (__main__)')
-    taggedCorpus = buildLex()
+    print('Start: processRawCorpora (__main__)')
+    buildLex()
 
-#    res = input("Assimilate <Y/N>? ")
-#
-#    if res in ['y', 'Y']:
-#        # Process taggedCorpus for knowledge
-#        assimilate(taggedCorpus, None)
+    readCheckMongo()
     
-    print('End: processRawCorpus (__main__)')  
+    print('End: processRawCorpora (__main__)')  
