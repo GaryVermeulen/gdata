@@ -4,6 +4,7 @@
 #
 
 import os
+import sys
 
 from commonConfig import common2LetterWords
 from commonConfig import nnp, prp
@@ -22,6 +23,8 @@ def getRawCorpus():
     dataPath = progPath + '/Corpus'
     dirList = os.listdir(dataPath)
 
+    print('Reading input...')
+
     # Read corpus input
     for inFile in dirList:
         with open(dataPath + '/' + inFile, 'r', encoding="utf8") as f: # Added , encoding="utf8" for Win PC
@@ -32,6 +35,8 @@ def getRawCorpus():
         corpora.append((bookName, corpusStr))
         corpusStr = ''
 
+    print('Input read.')
+
     return corpora
 
 
@@ -40,6 +45,8 @@ def expandAndTagSents(processedCorpora):
     taggedCorpora = []
     bookName = ''
     corpusStrings = []
+
+    print('expandAndTag')
 
     for corpus in processedCorpora:
 
@@ -58,6 +65,8 @@ def expandAndTagSents(processedCorpora):
             
         taggedCorpora.append((bookName, expandedSents))
 
+    print('expandAndTag Completed.')
+
     return taggedCorpora # expandedSents
 
 
@@ -66,6 +75,8 @@ def processRawCorporaStrings(rawCorpora):
     bookName = ''
     rawCorpusString = ''
     processedCorpora = []
+
+    print('Processing strings...')
 
 #    print(type(rawCorpora))
 #    print(len(rawCorpora))
@@ -87,7 +98,8 @@ def processRawCorporaStrings(rawCorpora):
                 newSent.append(tmpSent)
                 tmpSent = ''
             elif char == ',':   #
-                continue
+                #continue
+                tmpSent = tmpSent + ' ' # Handles commas with no space
             elif char == '?':   # We'll need to handle multiple ???
                 newSent.append(tmpSent + '?')
                 tmpSent = ''
@@ -159,6 +171,8 @@ def processRawCorporaStrings(rawCorpora):
 
         processedCorpora.append((bookName, newSent))
 
+    print('Strings processed.')
+
     return processedCorpora # newSent
 
 
@@ -180,15 +194,34 @@ def buildLex():
     untaggedCorpora = simpDB["untaggedCorpora"]
     taggedCorpora = simpDB["taggedCorpora"]
 
-    # For now we will start fresh each time
-    untaggedCorpora.drop()
-    taggedCorpora.drop()
+    drop = input('Drop exsiting collections <Y,n>?')
+
+    if drop in ['Y', 'y']:
+        untaggedCorpora.drop()
+        taggedCorpora.drop()
+    else:
+        # Check for duplicates
+        newBookNames = []
+        for corpus in processedCorpora: # Can be tagged or untagged, just checking book names
+            newBookNames.append(corpus[0])
+
+        for bookName in newBookNames:
+            myQuery = {"bookName": bookName}
+            myDoc = untaggedCorpora.find(myQuery)
+            for x in myDoc:
+                if x["bookName"] == bookName:
+                    print("bookName: {} Exists (duplicate) Exiting...".format(bookName))
+                    print(newBookNames)
+                    sys.exit(0)
 
     for corpus in processedCorpora: 
         untaggedCorpora.insert_one({"bookName": corpus[0], "untaggedSentences": corpus[1]})
 
-    for corpus in taggedCorporaLst:
-        taggedCorpora.insert_one({"bookName": corpus[0], "taggedSentences": corpus[1]})
+    for corpus in taggedCorporaLst: # Make string to save space?
+        sentsLst = []
+        for sent in corpus[1]:
+            sentsLst.append(str(sent))
+        taggedCorpora.insert_one({"bookName": corpus[0], "taggedSentences": sentsLst})
      
     print(' --- end buildLex() ---')
     return # taggedCorpus
@@ -203,9 +236,9 @@ def readCheckMongo():
     cursorLst = list(taggedCorpora.find({}))
 
     for c in cursorLst:
-        print(c)
-
-
+        print(c["bookName"])
+        for s in c["taggedSentences"]:
+            print(s)
 
     return
 #
@@ -216,6 +249,9 @@ if __name__ == "__main__":
     print('Start: processRawCorpora (__main__)')
     buildLex()
 
-    readCheckMongo()
+    display = input('Display new input <Y/n>?')
+
+    if display in ['Y', 'y']:
+        readCheckMongo()
     
     print('End: processRawCorpora (__main__)')  
