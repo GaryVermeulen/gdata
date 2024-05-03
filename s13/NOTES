@@ -8,9 +8,9 @@ Process order:
       
    1) processRawKB.py           -.- Builds starter MongoDb KB collection from started KB text file.
    2) processRawinflections.py  -.- Builds a MongoDB inflection collection from text file.
-   3) processRawCorpus.py       -*- Builds 3 collections: taggedBoW, taggedCorpus, and untaggedCorpus from text files in Corpus folder.
+   3) processRawCorpora.py      -.- Builds 2 collections: taggedCorpora, and untaggedCorpora from text files in Corpus folder.
    					Modify to process each file (book) one at a time...
-   4) buildKB.py                -*- Build a KB from the starterKB and current corpus...~? Should be fun...
+   4) buildKB.py?                -*- Build a KB from the starterKB and current corpus...~? Should be fun...
    *** Comprehension engine ***
         
           Predict the main idea
