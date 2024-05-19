@@ -1,9 +1,7 @@
 #
 # findSVO.py
 #
-#   Determine Subject, Verb, Objects of somple senteneces.
-#   This follows strict SVO, and fails if the input
-#   is other than SVO (EX: SOV or VSO).
+#   Determine Subject, Verb, Objects of sentenece.
 #
 
 
@@ -23,26 +21,13 @@ def getSubjectWords(sent):
             subWords.append(s[0])
 
     return subWords
-
-
-def getObjectWords(sent):
-    # Just return a list of just the subject(s) words (no tags)
-    objWords = []
-    objs = sent.object
     
-    if isinstance(objs, tuple):
-        objWords.append(objs[0])
-    elif isinstance(objs, list):
-        for s in objs:
-            objWords.append(s[0])
 
-    return objWords
-
-    
 def findSVO(taggedSentence):
    
 #    print('START: --- findSVO ---')
 
+    error = []
     processedSentence = []
     currentWordPosition = 0
 
@@ -51,129 +36,139 @@ def findSVO(taggedSentence):
     for inputWord in taggedSentence:
         word = inputWord[0]
         tag  = inputWord[1]
-
-        if tag in nnx:
-            if len(sent.subject) == 0:
+        
+        if currentWordPosition == 0: # Not much we can with just one word
+            if word in commandWords:
+                sent.type = "imperative"
+                
+            if tag in nnx:
                 sent.subject.append(inputWord)
-                currentWordPosition += 1
-                processedSentence.append(inputWord)
-                continue
-            else:
-                # Check for full name i.e. John Doe
-                if processedSentence[-1][1] == 'NNP':
-                    # Where is it? Subject? object? or indirectObject?
-                    # Using strict SVO:
-                    if len(sent.verb) == 0: 
-                        sent.subject.append(inputWord)
-                    else:
-                        sent.object.append(inputWord)
-                    currentWordPosition += 1
-                    processedSentence.append(inputWord)
-                    continue
-  
-                # Is there a list? "Planes trains and boats are cool"
-                if processedSentence[-1][0] == 'and':
-                    subjectWords = getSubjectWords(sent)
-                    objectWords = getObjectWords(sent)
-                    if processedSentence[-2][0] in subjectWords: 
-                        sent.subject.append(inputWord)
-                    elif processedSentence[-2][0] in objectWords:
-                        sent.object.append(inputWord)
-                    currentWordPosition += 1
-                    processedSentence.append(inputWord)
-                    continue
-                            
-                # Default 
-                if len(sent.verb) > 0 and len(sent.object) == 0:
-                    sent.object.append(inputWord)
-                elif len(sent.verb) == 0:
+
+            elif tag in prpx:
+                
+                if taggedSentence[currentWordPosition + 1][1] in vbx: # I ran, She ran, ...
+                    sent.subject.append(inputWord)
+
+                elif taggedSentence[currentWordPosition + 1][1] == 'MD': # I could, ...
+                    sent.subject.append(inputWord)
+
+                elif taggedSentence[currentWordPosition + 1][1] == 'CC': # Me and my arrow...
+                    sent.subject.append(inputWord)
+
+                else:    
+                    print('findSVO, prpx (currentWordPosition == 0), 2nd word else undefined: ', taggedSentence[currentWordPosition + 1])
+                    
+            elif tag in vbx:
+                sent.verb.append(inputWord)
+
+            elif tag in whx:
+                sent._WHX = list(inputWord)
+                if len(sent.type) == 0:
+                    sent.type = "interrogative"
+                else:   
+                    sent.type = sent.type + ', interrogative' # An imperative interrogation?
+                
+            # "can" is not a whx, so a funky exception?
+            if word in ['Can', 'can']:
+                if len(sent.type) == 0:
+                    sent.type = "interrogative"
+                else:
+                    sent.type = sent.type + ', interrogative' # An imperative interrogation?
+                           
+            # Default sentence type...~?
+            if len(sent.type) == 0:
+                sent.type = "declarative"
+
+#            print('End of 1st word:')
+                                    
+        else:
+            # Do we really need to check for every POS tag type?
+            # Only checking nnx, vbx, whx
+            #
+            if tag in nnx:
+#                print('nnx: ', inputWord)
+                
+                if len(sent.subject) == 0:
                     sent.subject.append(inputWord)
                 else:
-                    # ?
-                    if processedSentence[-1][1] != 'NNP': # Check for John Doe
-                        if sent.isVar('_indirectObject'):
-                            sent._indirectObject.append(inputWord)
-                        else:
-                            sent._indirectObject = []
-                            sent._indirectObject.append(inputWord)
-
-        elif tag in prpx:
-            if len(sent.verb) == 0 and len(sent.subject) == 0:
-                sent.subject.append(inputWord)
-            elif len(sent.verb) == 0 and len(sent.subject) > 0:
-                sent.subject.append(inputWord)
-            elif len(sent.verb) > 0 and len(sent.object) == 0:
-                sent.object.append(inputWord)
-            elif len(sent.verb) > 0 and len(sent.object) > 0:
-                if sent.isVar('_indirectObject'):
-                    sent._indirectObject.append(inputWord)
+                    # Check for full name i.e. John Doe
+                    if processedSentence[-1][1] == 'NNP':
+                        # Where is it? Subject? object? or indirectObject?
+                        if sent.subject[-1][1] == 'NNP':
+                            sent.subject.append(inputWord)
+                        elif sent.object[-1][1] == 'NNP':
+                            sent.object.append(inputWord)
+                        elif sent.isVar('_indirectObject'):
+                            if sent._indirectObject[-1][1] == 'NNP':
+                                sent._indirectObject.append(inputWord)
+                        
+                    # Is there a list? "Planes trains and boats are cool"
+                    ### if the last word was a nnx or 'and' # so we need to know what has already been processed
+                    if processedSentence[-1][0] == 'and':
+                        subjectWords = getSubjectWords(sent)
+                        if processedSentence[-2][0] in subjectWords: 
+                            sent.subject.append(inputWord)
+                    
+                    if len(sent.object) == 0:
+                        subjectWords = getSubjectWords(sent)
+                
+                        if word not in subjectWords:
+                            sent.object.append(inputWord)
+                    else:
+                        if processedSentence[-1][1] != 'NNP': # Check for John Doe
+                            if sent.isVar('_indirectObject'):
+                                sent._indirectObject.append(inputWord)
+                            else:
+                                sent._indirectObject = []
+                                sent._indirectObject.append(inputWord)
+#                print('bottom of nnx:')
+#                sent.printAll()
+                        
+            elif tag in vbx:
+                sent.verb.append(inputWord)
+            
+            elif tag == 'WDT':
+                if sent.isVar('_WDT'):
+                    sent._WDT.append(inputWord)
                 else:
-                    sent._indirectObject = []
-                    sent._indirectObject.append(inputWord)
-                    
-            if sent.isVar('_PRPX'):
-                sent._PRPX.append(inputWord)
-            else:
-                sent._PRPX = []
-                sent._PRPX.append(inputWord)
-                    
-        elif tag in vbx:
-            sent.verb.append(inputWord)
+                    sent._WDT = []
+                    sent._WDT.append(inputWord)
+            elif tag == 'WP':
+                if sent.isVar('_WP'):
+                    sent._WP.append(inputWord)
+                else:
+                    sent._WP = []
+                    sent._WP.append(inputWord)
+            elif tag == 'WPS':
+                if sent.isVar('_WPS'):
+                    sent._WPS.append(inputWord)
+                else:
+                    sent._WPS = []
+                    sent._WPS.append(inputWord)
+            elif tag == 'WRB':
+                if sent.isVar('_WRB'):
+                    sent._WRB.append(inputWord)
+                else:
+                    sent._WRB = []
+                    sent._WRB.append(inputWord)
             
-        elif tag == 'WDT':
-            if sent.isVar('_WDT'):
-                sent._WDT.append(inputWord)
-            else:
-                sent._WDT = []
-                sent._WDT.append(inputWord)
-                    
-        elif tag == 'WP':
-            if sent.isVar('_WP'):
-                sent._WP.append(inputWord)
-            else:
-                sent._WP = []
-                sent._WP.append(inputWord)
-                    
-        elif tag == 'WPS':
-            if sent.isVar('_WPS'):
-                sent._WPS.append(inputWord)
-            else:
-                sent._WPS = []
-                sent._WPS.append(inputWord)
-                    
-        elif tag == 'WRB':
-            if sent.isVar('_WRB'):
-                sent._WRB.append(inputWord)
-            else:
-                sent._WRB = []
-                sent._WRB.append(inputWord)
-        #else:
-        #    print('ELSE: unknown tag? inputWord: ', inputWord)
+#        print('bottom of the big if:')
+#        sent.printAll()
 
-#        print(processedSentence)
-            
-         # Tracking what we have processed for look back checking
+
         currentWordPosition += 1
-        processedSentence.append(inputWord)
-            
+
+        processedSentence.append(inputWord) # Tracking what we have processed for look back checking
 
     if processedSentence[-1][0] == "?":
         sent.type = "interrogative"
     elif processedSentence[-1][0] == "!":
-        if processedSentence[0][1] in vbx: # Usally begins with a verb
-            sent.type = "imperative"
-        else:
-            sent.type = "exclamative"
-    else:
-        if processedSentence[0][1] in vbx: # Usally begins with a verb
-            sent.type = "imperative"
-        else:
-            sent.type = "declarative"
-        
+        sent.type = "imperative"
+    
     #print('END: processedSentence:')
     #print(processedSentence)
     
-    return sent
+    return sent, error
 
 
 
@@ -215,11 +210,14 @@ if __name__ == "__main__":
     #tagged_uI = [{'word': 'The', 'tag': 'DT'}, {'word': 'best', 'tag': 'JJS'}, {'word': 'part', 'tag': 'NN'}, {'word': 'is', 'tag': 'VBZ'}, {'word': 'that', 'tag': 'IN'}, {'word': 'I', 'tag': 'PRP'}, {'word': 'do', 'tag': 'VBP'}, {'word': 'not', 'tag': 'RB'}, {'word': 'have', 'tag': 'VB'}, {'word': 'to', 'tag': 'TO'}, {'word': 'try', 'tag': 'VB'}, {'word': 'to', 'tag': 'TO'}, {'word': 'remember', 'tag': 'VB'}, {'word': 'everything', 'tag': 'NN'}, {'word': '.', 'tag': '.'}]
     
 
-    svoObj = findSVO(tagged_uI)
+    svoObj, error2 = findSVO(tagged_uI)
 
     print('---')
 
-    
+    if len(error2) > 0:
+        for e in error2:
+            print(e)
+
     svoObj.printAll()
  
  

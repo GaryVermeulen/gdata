@@ -11,8 +11,8 @@ from commonUtils import connectMongo
 from expandAndTag import expandAndTag
 
 import nltk
-nltk.download()
 from nltk.tokenize import word_tokenize
+
 
 
 def getRawCorpus():
@@ -177,6 +177,86 @@ def processRawCorporaStrings(rawCorpora):
     return processedCorpora # newSent
 
 
+def sentenceParser(tokens):
+
+    s = []
+    tmp = []
+    startQuote = False
+    endQuote = False
+    
+    inQuote = False
+    
+    tokIndex = 0
+    
+    for tok in tokens:
+        print("tok: ", tok)
+        print("tmp: ", tmp)
+
+        if tok == '"':
+            tmp.append(tok)
+            if inQuote:
+                inQuote = False
+            else:
+                inQuote = True
+        else:
+            if tok in ['.', '?', '!']:
+                if inQuote:
+                    tmp.append(tok)
+                else:
+                    tmp.append(tok)
+                    s.append(tmp)
+                    print('2nd clear: ')
+                    print(tmp)
+                    tmp = []
+            else:
+                tmp.append(tok)
+                
+        print('s: ')
+        print(s)
+
+        
+        tokIndex += 1
+
+    print('+++')
+    print(s)
+    return s
+
+
+def fixTokens(tokens):
+
+    # This assumes simple two words joined by a '.'
+
+    correctedTokens = []
+
+    for tok in tokens:
+        if '.' in tok:
+            if len(tok) == 1:
+                correctedTokens.append(tok)
+            else:
+                tokLst = tok.split('.')
+                if len(tokLst) != 2:
+                    print("Error with len of tokLst != 2")
+                    print(tokLst)
+                    
+                correctedTokens.append(tokLst[0])
+                correctedTokens.append('.')
+                if len(tokLst[1]) > 0:
+                    correctedTokens.append(tokLst[1])
+        else:
+            correctedTokens.append(tok)
+
+
+    return correctedTokens
+
+
+def expandTokens(correctedTokens):
+
+    expanedTokens = []
+
+
+    return expanedTokens
+
+
 def buildLex():
 
     processedCorpora = []
@@ -196,17 +276,38 @@ def buildLex():
         print("---")
 
         tokens = word_tokenize(bookText)
-        print(type(tokens))
-        print(len(tokens))
+
+        # Unfortunately NLTK has some bugs and we can get incorrect tokens.
+        # Example: 'responsibility.Then'
+        # So we need to go through each token looking for a '.' within the token.
+        #
+        correctedTokens = fixTokens(tokens)
+        
+        print(type(correctedTokens))
+        print(len(correctedTokens))
         print("---:")
-        print(tokens)
+        print(correctedTokens)
 
-        processedCorpora.append((bookName, tokens))
+        # My preference is to expand contractions
+        #
+        expanedTokens = expandTokens(correctedTokens)
 
-    print("---")
-    print(type(processedCorpora))
-    print(len(processedCorpora))
-    print(processedCorpora)
+        for t in correctedTokens:
+            print(t)
+
+#        s = sentenceParser(tokens)
+#        print(type(s))
+#        print(len(s))
+#        print("---:")
+#        print(s)
+#        
+#
+#        processedCorpora.append((bookName, tokens))
+#
+#    print("------")
+#    print(type(processedCorpora))
+#    print(len(processedCorpora))
+#    print(processedCorpora)
     
 
     sys.exit("TEMP EXIT")
