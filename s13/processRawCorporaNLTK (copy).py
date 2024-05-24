@@ -8,8 +8,6 @@ import sys
 
 from commonConfig import nnp, prp
 from commonUtils import connectMongo
-from commonConfig import very_simple_contractions
-
 from expandAndTag import expandAndTag
 
 import nltk
@@ -73,6 +71,112 @@ def expandAndTagSents(processedCorpora):
     return taggedCorpora # expandedSents
 
 
+def processRawCorporaStrings(rawCorpora):
+
+    bookName = ''
+    rawCorpusString = ''
+    processedCorpora = []
+
+    print('Processing strings...')
+
+#    print(type(rawCorpora))
+#    print(len(rawCorpora))
+
+    for corpus in rawCorpora:
+
+        tmpLst = []
+        tmpSent = ''
+        newSent = []
+
+        bookName = corpus[0]
+        rawCorpusString = corpus[1]
+
+        print('bookName: ', bookName)
+
+        for char in rawCorpusString:
+            if char == '.':     # We'll need to handle Mr. & Mrs.
+                newSent.append(tmpSent + '.')
+                #newSent.append(tmpSent)
+                tmpSent = ''
+            elif char == ',':   #
+                #continue
+                tmpSent = tmpSent + ', ' # Handles commas with no space
+            elif char == '?':   # We'll need to handle multiple ???
+                newSent.append(tmpSent + '?')
+                tmpSent = ''
+            elif char == '!':   # We'll need to handle multiple !!!
+                newSent.append(tmpSent + '!')
+                tmpSent = ''
+            elif char == ';':   # We'll need to handle multiple ;;;
+                newSent.append(tmpSent + '; ')
+                tmpSent = ''
+            elif char == '"':   # Skip " chr 34
+                continue
+            elif char == '*':   # Skip * chr 42
+                continue
+            elif char == '(':   # Skip ( chr 40
+                continue
+            elif char == ')':   # Skip ) chr 41
+                continue
+            elif char == chr(8216): # Replace unicode left quotation
+                tmpSent = tmpSent + "'"
+            elif char == chr(8217): # Repalce unicode right quotation
+                tmpSent = tmpSent + "'"
+            elif char == chr(8220): # Skip unicode left double quotation
+                continue
+            elif char == chr(8221): # Skip unicode right double quotation
+                continue
+            elif char == '\n':
+                tmpSent = tmpSent + ' '
+            else:
+                tmpSent = tmpSent + char
+
+        # Remove leading spaces and --
+        for sent in newSent:
+            sent = sent.lstrip()
+            if len(sent) > 1:
+                if sent[0] == '-' and sent[1] == '-':
+                    sent = sent[2:]
+            tmpLst.append(sent)
+
+        # remove dash at end of word: word1- word2
+        newSent.clear()
+        for sent in tmpLst:
+            tmpSent = ''
+            tmpSentLst = sent.split()
+            for word in tmpSentLst:
+                if word[-1] == '-':
+                    word = word[:-1]
+                if tmpSent == '':
+                    tmpSent = tmpSent + word
+                else:
+                    tmpSent = tmpSent + ' ' + word
+            newSent.append(tmpSent)
+
+        # Replace dash with space: word1-word2
+        tmpLst.clear()
+        for sent in newSent:
+            newS = ""
+            newS = sent.replace("-", " ")
+            if newSent == "":
+                tmpLst.append(sent)
+            else:
+                tmpLst.append(newS)
+
+        # Remove single char sentences and double spaces
+        newSent.clear()
+        for sent in tmpLst:
+            sent = sent.replace("  ", " ")
+            if len(sent) > 1:
+                newSent.append(sent)
+
+        processedCorpora.append((bookName, newSent))
+
+    print('Strings processed.')
+
+    return processedCorpora # newSent
+
+
 def sentenceParser(tokens):
 
     s = []
@@ -120,12 +224,12 @@ def sentenceParser(tokens):
 
 def fixTokens(tokens):
 
-    # Fix characters types and NLTK bug
+    # This assumes simple two words joined by a '.'
 
     correctedTokens = []
 
     for tok in tokens:
-        if '.' in tok: # This assumes simple two words joined by a '.'
+        if '.' in tok:
             if len(tok) == 1:
                 correctedTokens.append(tok)
             else:
@@ -138,12 +242,6 @@ def fixTokens(tokens):
                 correctedTokens.append('.')
                 if len(tokLst[1]) > 0:
                     correctedTokens.append(tokLst[1])
-        elif tok == chr(8216): # Replace unicode left quotation
-            correctedTokens.append("'")
-            #tmpSent = tmpSent + "'"
-        elif tok == chr(8217): # Repalce unicode right quotation
-            correctedTokens.append("'")
-            #tmpSent = tmpSent + "'"
         else:
             correctedTokens.append(tok)
 
@@ -153,46 +251,10 @@ def fixTokens(tokens):
 
 def expandTokens(correctedTokens):
 
-    expandedTokens = []
-    lastTok = ''
-    nextTok = ''
-    tokenCnt = 0
-
-    for tok in correctedTokens:
-
-        print("tokenCnt: ", tokenCnt)
-        print("tok:     ", tok)
-        
-        if len(correctedTokens) > (tokenCnt + 1):
-            nextTok = correctedTokens[tokenCnt + 1] # What if the last token is a "'"?
-        
-        if tok == "'":
-            print("lastTok: ", lastTok)  
-            print("nextTok: ", nextTok)
-            print("Possible contraction: ", lastTok + tok + nextTok)
-
-            if (lastTok + tok + nextTok) in very_simple_contractions.keys():
-                result = very_simple_contractions[lastTok + tok + nextTok]
-                resultList = result.split()
-                rCnt = 0
-                for r in resultList:
-                    if rCnt == 0:
-                        expandedTokens[len(expandedTokens) -1] = r
-                    else:
-                        expandedTokens.append(r)
-                    rCnt += 1
-            else:   # Keep for later processing i.e. possive
-                    # Also make back into one token
-                    expandedTokens[len(expandedTokens) -1] = lastTok + tok # + nextTok
-        else:
-            if lastTok != "'":
-                expandedTokens.append(tok)
-
-        lastTok = tok
-        tokenCnt += 1
+    expanedTokens = []
 
 
-    return expandedTokens
+    return expanedTokens
 
 
 def buildLex():
@@ -220,23 +282,17 @@ def buildLex():
         # So we need to go through each token looking for a '.' within the token.
         #
         correctedTokens = fixTokens(tokens)
-
-        #print("After fixTokens...")
-        #print(type(correctedTokens))
-        #print(len(correctedTokens))
-        #print("---:")
-        #print(correctedTokens)
+        
+        print(type(correctedTokens))
+        print(len(correctedTokens))
+        print("---:")
+        print(correctedTokens)
 
         # My preference is to expand contractions
         #
         expanedTokens = expandTokens(correctedTokens)
 
-        print("After expandTokens...")
-        print(type(expanedTokens))
-        print(len(expanedTokens))
-        print("---:")
-
-        for t in expanedTokens:
+        for t in correctedTokens:
             print(t)
 
 #        s = sentenceParser(tokens)
