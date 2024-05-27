@@ -9,8 +9,10 @@ Process order:
    1) processRawKB.py           -.- Builds starter MongoDb KB collection from started KB text file.
    2) processRawinflections.py  -.- Builds a MongoDB inflection collection from text file.
    3) processRawCorpora.py      -.- Builds 2 collections: taggedCorpora, and untaggedCorpora from text files in Corpus folder.
-   					Modify to process each file (book) one at a time...
-   4) buildKB.py?                -*- Build a KB from the starterKB and current corpus...~? Should be fun...
+
+   
+   x) readCorpora.py?           -*- Find SVO for each sentence, and determine book understanding...~? 
+   x) buildKB.py?               -*- Build a KB from the starterKB and current corpus...~? Should be fun...
    *** Comprehension engine ***
         
           Predict the main idea
@@ -39,18 +41,5 @@ Sub-Folders:
 
 
 
-Previous verion:    
-   
-   checkPickles.py   -- Pickle checker
-   simpSA.py         -- Rudimentary sentence analysis
-   simpGA.py         -- Was supposed to be a rudimentary grammar analysis * Evolved into kbChecker.py
-   kbChecker.py      -- Checks Simp, subject(s), and verbs against KB returns kbRes_Obj
-   processOutput.py  -- Plan is to take output of processInput.py and attempt appropriate response
-   scrapeWord.py     -- Scrape word definition from web
-   addWebWords.py    -- Add new scrpaed words to webWords collection 
-   checkWord.py      -- Checks if word exists in tagged corpus, tagged BOW, and KB
-   kbChecker.py      -- Different method/form of simpGA.py   
 
-
-   pickles   -- Aunt Bees pickle jar
 

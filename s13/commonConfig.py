@@ -97,11 +97,15 @@ validInputSentenceClassVars = [
     '_indirectSubject',
     '_verb',
     '_object',
-    '_indirectObject'
+    '_indirectObject',
+    '_PRONOUNREF',
+    '_PRONOUNMATCH'
     ]
 
 validClassVars = [
     '_indirectObject',  # Indirect object
+    '_PRONOUNREF',
+    '_PRONOUNMATCH',
     '_CC',
     '_CD',
     '_DT',

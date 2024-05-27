@@ -5,15 +5,16 @@
 
 import os
 import sys
+import string
+
+import spacy # spacy is a pig
 
 from commonConfig import nnp, prp
+from commonConfig import very_simple_contractions
+from commonConfig import validTags
 from commonUtils import connectMongo
-from expandAndTag import expandAndTag
 
-import nltk
-nltk.download()
-from nltk.tokenize import word_tokenize
-
+nlp = spacy.load("en_core_web_sm") # lg has best accuracy
 
 def getRawCorpus():
     # Read the raw corpus file(s)
@@ -40,37 +41,6 @@ def getRawCorpus():
     return corpora
 
 
-def expandAndTagSents(processedCorpora):
-
-    taggedCorpora = []
-    bookName = ''
-    corpusStrings = []
-
-    print('expandAndTag', end = '')
-
-    for corpus in processedCorpora:
-
-        bookName = corpus[0]
-        completeUntaggedCorpus = corpus[1]
-        expandedSents = []
-        sentCnt = 0
-        print('\n   processing: ', bookName)
-
-        for s in completeUntaggedCorpus:
-            sentCnt += 1
-            expandedSentence = []
-
-            expandedSentence = expandAndTag(s)       
-            expandedSents.append(expandedSentence)
-            print('.', end = '')
-            
-        taggedCorpora.append((bookName, expandedSents))
-
-    print('\nexpandAndTag Completed.')
-
-    return taggedCorpora # expandedSents
-
-
 def processRawCorporaStrings(rawCorpora):
 
     bookName = ''
@@ -79,14 +49,14 @@ def processRawCorporaStrings(rawCorpora):
 
     print('Processing strings...')
 
-#    print(type(rawCorpora))
-#    print(len(rawCorpora))
-
     for corpus in rawCorpora:
 
         tmpLst = []
         tmpSent = ''
-        newSent = []
+        newSentences = []
+
+        startQuote = False
+        lastCharSentTerm = False
 
         bookName = corpus[0]
         rawCorpusString = corpus[1]
@@ -95,23 +65,42 @@ def processRawCorporaStrings(rawCorpora):
 
         for char in rawCorpusString:
             if char == '.':     # We'll need to handle Mr. & Mrs.
-                newSent.append(tmpSent + '.')
-                #newSent.append(tmpSent)
-                tmpSent = ''
+                if startQuote:
+                    tmpSent = tmpSent + '.'
+                else:
+                    newSentences.append(tmpSent + '.')
+                    tmpSent = ''
+                lastCharSentTerm = True
             elif char == ',':   #
-                #continue
-                tmpSent = tmpSent + ', ' # Handles commas with no space
+                tmpSent = tmpSent + ',' 
+                lastCharDot = False
             elif char == '?':   # We'll need to handle multiple ???
-                newSent.append(tmpSent + '?')
-                tmpSent = ''
+                if startQuote:
+                    tmpSent = tmpSent + '?'
+                else:
+                    newSentences.append(tmpSent + '?')
+                    tmpSent = ''
+                lastCharSentTerm = True
             elif char == '!':   # We'll need to handle multiple !!!
-                newSent.append(tmpSent + '!')
-                tmpSent = ''
+                if startQuote:
+                    tmpSent = tmpSent + '!'
+                else:
+                    newSentences.append(tmpSent + '!')
+                    tmpSent = ''
+                lastCharSentTerm = True
             elif char == ';':   # We'll need to handle multiple ;;;
-                newSent.append(tmpSent + '; ')
+                newSentences.append(tmpSent + '; ')
                 tmpSent = ''
+                lastCharSentTerm = True
             elif char == '"':   # Skip " chr 34
-                continue
+                #continue
+                if lastCharSentTerm:
+                    newSentences.append(tmpSent + '"')
+                    tmpSent = ''
+                else:
+                    tmpSent = tmpSent + '"'
+                startQuote = not startQuote
+                lastCharSentTerm = False
             elif char == '*':   # Skip * chr 42
                 continue
             elif char == '(':   # Skip ( chr 40
@@ -120,61 +109,401 @@ def processRawCorporaStrings(rawCorpora):
                 continue
             elif char == chr(8216): # Replace unicode left quotation
                 tmpSent = tmpSent + "'"
+                lastCharSentTerm = False
             elif char == chr(8217): # Repalce unicode right quotation
                 tmpSent = tmpSent + "'"
-            elif char == chr(8220): # Skip unicode left double quotation
-                continue
+                lastCharSentTerm = False
+            elif char == chr(8220): # Unicode left double quotation
+                if lastCharSentTerm:
+                    newSentences.append(tmpSent + '"')
+                    tmpSent = ''
+                else:
+                    tmpSent = tmpSent + '"'
+                startQuote = not startQuote
+                lastCharSentTerm = False
             elif char == chr(8221): # Skip unicode right double quotation
-                continue
+                if lastCharSentTerm:
+                    newSentences.append(tmpSent + '"')
+                    tmpSent = ''
+                else:
+                    tmpSent = tmpSent + '"'
+                startQuote = not startQuote
+                lastCharSentTerm = False
             elif char == '\n':
                 tmpSent = tmpSent + ' '
+                lastCharSentTerm = False
+            elif char == '–':
+                tmpSent = tmpSent + '-'
+                lastCharSentTerm = False
             else:
                 tmpSent = tmpSent + char
+                lastCharSentTerm = False
 
         # Remove leading spaces and --
-        for sent in newSent:
-            sent = sent.lstrip()
-            if len(sent) > 1:
-                if sent[0] == '-' and sent[1] == '-':
-                    sent = sent[2:]
-            tmpLst.append(sent)
+        #for sent in newSent:
+        #    sent = sent.lstrip()
+        #    if len(sent) > 1:
+        #        if sent[0] == '-' and sent[1] == '-':
+        #            sent = sent[2:]
+        #    tmpLst.append(sent)
 
         # remove dash at end of word: word1- word2
-        newSent.clear()
-        for sent in tmpLst:
-            tmpSent = ''
-            tmpSentLst = sent.split()
-            for word in tmpSentLst:
-                if word[-1] == '-':
-                    word = word[:-1]
-                if tmpSent == '':
-                    tmpSent = tmpSent + word
-                else:
-                    tmpSent = tmpSent + ' ' + word
-            newSent.append(tmpSent)
+        #newSent.clear()
+        #for sent in tmpLst:
+        #    tmpSent = ''
+        #    tmpSentLst = sent.split()
+        #    for word in tmpSentLst:
+        #        if word[-1] == '-':
+        #            word = word[:-1]
+        #        if tmpSent == '':
+        #            tmpSent = tmpSent + word
+        #        else:
+        #            tmpSent = tmpSent + ' ' + word
+        #    newSent.append(tmpSent)
 
         # Replace dash with space: word1-word2
-        tmpLst.clear()
-        for sent in newSent:
-            newS = ""
-            newS = sent.replace("-", " ")
-            if newSent == "":
-                tmpLst.append(sent)
-            else:
-                tmpLst.append(newS)
+        #tmpLst.clear()
+        #for sent in newSent:
+        #    newS = ""
+        #    newS = sent.replace("-", "=")
+        #    if newSent == "":
+        #        tmpLst.append(sent)
+        #    else:
+        #        tmpLst.append(newS)
+
+            #    –
+            #    - 
 
         # Remove single char sentences and double spaces
-        newSent.clear()
-        for sent in tmpLst:
+        #newSent.clear()
+        #for sent in tmpLst:
+        #    sent = sent.replace("  ", " ")
+        #    if len(sent) > 1:
+        #        newSent.append(sent)
+
+            
+
+        # Remove leading and double spaces
+        tmpLst = []
+        for sent in newSentences:
+            sent = sent.lstrip()
             sent = sent.replace("  ", " ")
             if len(sent) > 1:
-                newSent.append(sent)
+                tmpLst.append(sent)
 
-        processedCorpora.append((bookName, newSent))
+        newSentences = tmpLst
+
+        # Correct periods with no space
+        tmpLst = []
+        nextChar = ''
+        
+        for sent in newSentences:   
+            newSent = ''
+            charCnt = 0
+            
+            for char in sent:
+                if len(sent) > (charCnt + 1):
+                    nextChar = sent[charCnt + 1]
+                
+                if char == ".":
+                    if nextChar in string.ascii_lowercase:
+                        newSent = newSent + char + ' '
+                    elif nextChar in string.ascii_uppercase:
+                        newSent = newSent + char + ' '
+                    else:
+                        newSent = newSent + char
+                elif char == ",":
+                    if nextChar in string.ascii_lowercase:
+                        newSent = newSent + char + ' '
+                    elif nextChar in string.ascii_uppercase:
+                        newSent = newSent + char + ' '
+                    else:
+                        newSent = newSent + char
+                else:
+                    newSent = newSent + char
+                    
+                charCnt += 1
+            tmpLst.append(newSent)
+            
+        newSentences = tmpLst
+        
+        processedCorpora.append((bookName, newSentences))
 
     print('Strings processed.')
 
     return processedCorpora # newSent
+
+
+def expandAndTag(processedCorpora):
+
+    expandedCorpora = []
+
+    for corpus in processedCorpora:
+        bookName = corpus[0]
+        bookSents = corpus[1]
+
+        print('bookName: ', bookName)
+
+        newBookSents = []
+
+        # Split into word tokens and isolate punctuation except "'"
+        for sent in bookSents:
+            words = sent.split()
+
+            # Work the first char of the word
+            newWords = []
+            for word in words:
+                if len(word) > 1: 
+                    if word[0] == '"':
+                        newWords.append(word[0])
+                        newWords.append(word[1:])
+                    else:
+                        newWords.append(word)
+                else:
+                    newWords.append(word)
+            
+            # Work the last char of the word
+            tmpWords = newWords.copy()
+            newWords = []
+            for word in tmpWords:
+                tmpWord = ''
+                if word[-1] == ',':
+                    newWords.append(word[:len(word) - 1])
+                    newWords.append(',')
+                elif word[-1] == '"':
+                    if len(word) > 1:
+                        if word[-2] in ['.', ',', '?', '!']:
+                            newWords.append(word[:len(word) - 2])
+                            if word[-2] == '.':
+                                newWords.append('.')
+                                newWords.append('"')
+                            elif word[-2] == ',':
+                                newWords.append(',')
+                                newWords.append('"')
+                            elif word[-2] == '?':
+                                newWords.append('?')
+                                newWords.append('"')
+                            elif word[-2] == '!':
+                                newWords.append('!')
+                                newWords.append('"')
+                        else:
+                            newWords.append(word[:len(word) - 1])
+                            newWords.append('"')
+                    else:
+                        newWords.append(word)
+                elif word[-1] == '.':
+                    newWords.append(word[:len(word) - 1])
+                    newWords.append('.')
+                elif word[-1] == '!':
+                    newWords.append(word[:len(word) - 1])
+                    newWords.append('!')
+                elif word[-1] == '?':
+                    newWords.append(word[:len(word) - 1])
+                    newWords.append('?')
+                else:
+                    newWords.append(word)
+
+                # Expand contractions
+                verySimple = False
+                expandedSentence = []
+                for word in newWords:
+                    if word.find("'") != -1: # Doesn't handle idioms such as: someone's
+                        if word in very_simple_contractions.keys():
+                            result = very_simple_contractions[word]
+                            resultList = result.split()
+                            verySimple = True
+                            for r in resultList:
+                                expandedSentence.append(r)
+                        else:
+                            verySimple = False
+                            expandedSentence.append(word)
+
+                    else:
+                        expandedSentence.append(word)
+
+            
+            # Remove (for now) hyphens    
+            noHyphens = removeHyphens(expandedSentence)
+
+            # Tag expanded sentence
+            #doc = nlp(' '.join(expandedSentence))
+            doc = nlp(' '.join(noHyphens))
+
+            tagSent = []
+            for token in doc:
+                tmpToken = ((str(token.text)), (str(token.tag_)))
+                tagSent.append(tmpToken)
+
+            # Fix for had/would 
+            idx = 0
+            if not verySimple:
+                newTagSent = []
+                for w in tagSent:
+                    if w[0] == "'d":
+                        if tagSent[idx + 1][1] in [rb, vbn, jj]:
+                            w = ("had", vbd)
+                        else:
+                            w = ("would", "MD")
+                        
+                    newTagSent.append(w)
+                    idx += 1
+                    
+                tagSent = newTagSent
+
+            # Check for tagging errors
+            # Tagging errors: ['Moebus', 'NNP'] and '['Moebus', 'NN'], and ['goldfish', 'JJ']
+            #
+            # For the goldfish problem check inflectionsCol and simpDict
+            correctedTagSent = correctTagSent(tagSent)
+
+            print('---TOP--')
+            print('correctedTagSent:')
+            print(correctedTagSent)
+            print('---BOT--')
+#            newBookSents.append(expandedSentence)
+            newBookSents.append(tagSent)
+
+#        print('newBookSents: ', newBookSents)
+#        for w in newBookSents:
+#            print(w)
+#
+#        print('---')
+
+        expandedCorpora.append((bookName, newBookSents))
+
+
+    return expandedCorpora
+
+
+def correctTagSent(tagSent):
+
+    correctedTagSent = []
+    
+
+    print('tagSent:')
+    print(tagSent)
+
+    mdb = connectMongo()
+    simpDB = mdb["simp"]
+    inflectionsCol = simpDB["inflectionsCol"]
+    simpDict = simpDB["simpDict"]
+
+    for taggedWord in tagSent:
+        tagOK = False
+        word = taggedWord[0]
+        tag = taggedWord[1]
+
+        capWord = word.capitalize() # For search simpDict
+
+        myQuery = {"word": capWord}
+
+        # First, check simpDict
+        dictDoc = []
+        myDoc = simpDict.find(myQuery)
+        for x in myDoc:
+            xWord = x["word"]
+            xTag = x["tag"]
+            dictDoc.append([xWord, xTag])
+
+        lowWord = word.lower()
+        myQuery = {"word": lowWord}
+        # Now check inflectionsCol
+        inflecDoc = []
+        inflecs = ''
+        myDoc = inflectionsCol.find(myQuery)
+        for i in myDoc:
+            iWord = i["word"]
+            iTag = i["tag"]
+            inflecs = i["inflections"]
+            inflecDoc.append([iWord, iTag])
+
+
+        print('dictDoc:')
+        print(dictDoc)
+        print('inflecDoc:')
+        print(inflecDoc)
+        print('taggedWord:')
+        print(taggedWord)
+
+        if tag in validTags: # Skip over odd punctuation tags
+            print('Searching dictDoc')
+            for dictWord in dictDoc:
+                if dictWord[1] == taggedWord[1]:
+                    tagOK = True
+                    break
+            
+            if not tagOK:
+                print('Searching inflecDoc')
+                for inflecWord in inflecDoc:
+                    if inflecWord[1] == taggedWord[1]:
+                        tagOK = True
+                        break
+            
+            if not tagOK:
+                print('Searching inflections in inflecDoc')
+                print(inflecs)
+                for i in inflecs:
+                    if i == word:
+                        print('word found in inflections: ', i)
+                        print('inflection base word tag: ', iTag)
+        else:
+            tagOK = True # Free pass
+
+        
+
+        if tagOK:
+            print('OK')
+        else:
+            print('NOT OK')
+
+        print('---')
+
+            
+
+    print('--------')
+
+            
+#            if xTag == tag:
+#                print('tag ok')
+#                correctedTagSent.append(word)
+#            else:
+#                print("Replacing tag: {} with simpDict tag: {} For word: {}".format(tag, xTag, word))
+#                correctedTagSent.append([word, xTag])
+
+
+    return correctedTagSent
+    
+
+
+def removeHyphens(expandedSentence):
+
+    noHyphens = []
+
+    for word in expandedSentence:
+        cnt = word.count('-')
+        index = -1
+
+        if len(word) > 1:
+            if cnt > 1:
+                try:
+                    index = word.index('-')
+                except ValueError:
+                    index = 0
+                
+                if index >= 1: # Not looking for: -H  
+                    # Pretty sure we have a hyphenated word, so remove hyphens...
+                    uWord = ''
+                    for char in word:
+                        if char != '-':
+                            uWord = uWord + char
+
+                    noHyphens.append(uWord)
+            else:
+                noHyphens.append(word)
+        else:
+            noHyphens.append(word)
+            
+    return noHyphens
 
 
 def buildLex():
@@ -185,33 +514,57 @@ def buildLex():
 
     rawCorpora = getRawCorpus()
 
-    for corpus in rawCorpora:
-        bookName = corpus[0]
-        bookText = corpus[1]
-
-        print('bookName: ', bookName)
-        print('bookText::')
-        print(bookText)
+#    for corpus in rawCorpora:
+#        bookName = corpus[0]
+#        bookText = corpus[1]
+#
+#        print('bookName: ', bookName)
+#        print('bookText::')
+#        print(bookText)
+#    
+#        print("---")
     
-        print("---")
+    processedCorpora = processRawCorporaStrings(rawCorpora)
 
-        tokens = word_tokenize(bookText)
-        print(type(tokens))
-        print(len(tokens))
-        print("---:")
-        print(tokens)
+#    print('after processRawCorporaStrings')
+#    print(type(processedCorpora))
+#    print(len(processedCorpora))
+#
+#    for corpus in processedCorpora:
+#        for c in corpus:
+#            bookName = corpus[0]
+#            bookText = corpus[1]
+#
+#            print('bookName: ', bookName)
+#            print('bookText: ')
+#            print(type(bookText))
+#            print(len(bookText))
+#
+#            for s in bookText:
+#                print(s)
 
-        processedCorpora.append((bookName, tokens))
 
-    print("---")
-    print(type(processedCorpora))
-    print(len(processedCorpora))
-    print(processedCorpora)
-    
+    expandedCorpora = expandAndTag(processedCorpora)
 
-    sys.exit("TEMP EXIT")
-    
-    ##processedCorpora = processRawCorporaStrings(rawCorpora)
+    print('after expandContractions...')
+    print(type(expandedCorpora))
+    print(len(expandedCorpora))
+    for corpus in expandedCorpora:
+        for c in corpus:
+            bookName = corpus[0]
+            bookText = corpus[1]
+#
+            print('bookName: ', bookName)
+            print('bookText: ')
+            print(type(bookText))
+            print(len(bookText))
+            for s in bookText:
+                print(s)
+#
+            print('---')
+#            print(bookText)
+
+#    sys.exit("TEMP EXIT")
 
     # Change don't to do not and tag
     #
@@ -246,7 +599,7 @@ def buildLex():
     for corpus in processedCorpora: 
         untaggedCorpora.insert_one({"bookName": corpus[0], "untaggedSentences": corpus[1]})
 
-    for corpus in taggedCorporaLst: # Make string to save space?
+    for corpus in expandedCorpora: # Make string to save space?
         # Storing as a string saves space by about 50%
         ##sentsLst = []
         ##for sent in corpus[1]:

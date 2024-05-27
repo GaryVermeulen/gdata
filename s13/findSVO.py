@@ -7,7 +7,8 @@
 #
 
 
-from commonConfig import *
+#from commonConfig import *
+from commonConfig import Sentence, nnx, prpx, vbx
 
 
 
