@@ -9,7 +9,7 @@ import string
 
 import spacy # spacy is a pig
 
-from commonConfig import nnp, prp
+from commonConfig import nnp, prp, nnx, vbx, FANBOYS, Determiners, subordinatingConjunctions, Prepositions
 from commonConfig import very_simple_contractions
 from commonConfig import validTags
 from commonUtils import connectMongo
@@ -446,10 +446,81 @@ def correctTagSent(tagSent):
                     if i == word:
                         print('word found in inflections: ', i)
                         print('inflection base word tag: ', iTag)
-        else:
-            tagOK = True # Free pass
+                        
+                        if tag == iTag: # Exact match
+                            tagOK = True
+                            break
+                        
+                        if tag in nnx:
+                            if iTag in nnx:
+                                tagOK = True
+                                break
+                        elif tag in vbx:
+                            if iTag in vbx:
+                                tagOK = True
+                                break
 
-        
+            # The word is not a base word, so let's search all inflection arrays
+            # i.e. In this file there is no "got" as a base word, but there is
+            # an inflection got for the base word "get".
+            if not tagOK:
+                print("searching all inflection arrays within inflectionCol...")
+                lowWord = word.lower()
+                myBigQuery = {"inflections": {"$in": [lowWord]}}
+                bigInflecDoc = []
+                allInflecs = ''
+                myBigDoc = inflectionsCol.find(myBigQuery)
+                for i in myBigDoc:
+                    iWord = i["word"]
+                    iTag = i["tag"]
+                    allInflecs = i["inflections"]
+            
+                    print("Found inflection-base word: ", iWord)
+                    print("Found inflection-tag: ", iTag)
+                    print("Found inflections: ", allInflecs)
+
+                    if tag == iTag: # Exact match
+                        tagOK = True
+                        break
+                        
+                    if tag in nnx:
+                        if iTag in nnx:
+                            tagOK = True
+                            break
+                    elif tag in vbx:
+                        if iTag in vbx:
+                            tagOK = True
+                            break
+
+            # Are we dealing with a CC?
+            if not tagOK:
+                if word in FANBOYS:
+                    if tag == "CC":
+                        print("FANBOY/CC", taggedWord)
+                        tagOK = True
+                    
+            # Are we dealing with a DT?
+            # Just a simple check for "ordinary" DTs now...
+            # Not checking for DT vs JJ(x), definite and indefinite articles,
+            # demonstrative determiners, or possessive determiners.
+            if not tagOK:
+                if word in Determiners:
+                    if tag == "DT":
+                        print("Determiner: ", taggedWord)
+                        tagOK = True
+
+            # Checking for INs and like the above DT check this is a very simple check
+            if not tagOK:
+                if (word in subordinatingConjunctions) or (word in Prepositions):
+                    if tag == "IN":
+                        print("Preposition/subordinating conjunction (IN): ", taggedWord)
+                        tagOK = True
+                
+            
+                
+        else:
+            print("Funky tag: ", taggedWord)
+            tagOK = True # Free pass
 
         if tagOK:
             print('OK')
@@ -472,6 +543,40 @@ def correctTagSent(tagSent):
 
 
     return correctedTagSent
+
+
+def buildTempKB(expandedCorpora):
+
+    print("Building temp KB...")
+
+    corporaDB = {}
+
+    # Check for tagging errors
+    # Tagging errors: ['Moebus', 'NNP'] and '['Moebus', 'NN']
+
+    for corpus in expandedCorpora:
+        bookName = corpus[0]
+        bookSents = corpus[1]
+        bookNNx = set(())
+
+        print('bookName: ', bookName)
+        for sent in bookSents:
+            for taggedWord in sent:
+                word = taggedWord[0]
+                tag = taggedWord[1]
+                if tag in nnx:
+                    print("Found nnx:")
+                    print(taggedWord)
+                    bookNNx.add(taggedWord)
+        corporaDB[bookName] = bookNNx
+            
+
+
+    print("Built temp KB, now what...~?")
+    print(corporaDB)
+    print('----------------------------')
+    
+    return # Nothing
     
 
 
@@ -546,23 +651,25 @@ def buildLex():
 
     expandedCorpora = expandAndTag(processedCorpora)
 
-    print('after expandContractions...')
-    print(type(expandedCorpora))
-    print(len(expandedCorpora))
-    for corpus in expandedCorpora:
-        for c in corpus:
-            bookName = corpus[0]
-            bookText = corpus[1]
+#    print('after expandContractions...')
+#    print(type(expandedCorpora))
+#    print(len(expandedCorpora))
+#    for corpus in expandedCorpora:
+#        for c in corpus:
+#            bookName = corpus[0]
+#            bookText = corpus[1]
 #
-            print('bookName: ', bookName)
-            print('bookText: ')
-            print(type(bookText))
-            print(len(bookText))
-            for s in bookText:
-                print(s)
+#            print('bookName: ', bookName)
+#            print('bookText: ')
+#            print(type(bookText))
+#            print(len(bookText))
+#            for s in bookText:
+#                print(s)
 #
-            print('---')
+#            print('---')
 #            print(bookText)
+
+    buildTempKB(expandedCorpora)
 
 #    sys.exit("TEMP EXIT")
 

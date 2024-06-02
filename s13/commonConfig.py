@@ -148,6 +148,16 @@ validClassVars = [
 
 FANBOYS = ['for', 'and', 'not', 'but', 'or', 'yet', 'so']
 
+Determiners = ['a', 'an', 'the', 'this', 'which', 'any', 'all', 'some', 'no']
+
+Prepositions = ['in', 'at', 'for', 'to', 'from', 'around', 'before', 'with',
+                'about', 'across', 'after', 'by', 'onto', 'through', 'up',
+                'above', 'below', 'between', 'inside', 'location']
+
+subordinatingConjunctions = ['after', 'although', 'as', 'because', 'before',
+                            'if', 'once', 'unless', 'since', 'so', 'that', 'though',
+                            'until', 'when', 'whenever', 'where']
+
 # Need to figure a better way
 commandWords = ['No', 'no', 'Stop', 'stop', 'Do', 'do', 'Go', 'go', 'See', 'see', 'Look', 'look']
 
