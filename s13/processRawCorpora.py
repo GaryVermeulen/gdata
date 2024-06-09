@@ -14,6 +14,9 @@ from commonConfig import very_simple_contractions
 from commonConfig import validTags
 from commonUtils import connectMongo
 
+import pickle
+pickleFile = 'data/processedCorpora.p'
+
 nlp = spacy.load("en_core_web_sm") # lg has best accuracy
 
 def getRawCorpus():
@@ -651,25 +654,35 @@ def buildLex():
 
     expandedCorpora = expandAndTag(processedCorpora)
 
-#    print('after expandContractions...')
-#    print(type(expandedCorpora))
-#    print(len(expandedCorpora))
-#    for corpus in expandedCorpora:
-#        for c in corpus:
-#            bookName = corpus[0]
-#            bookText = corpus[1]
-#
-#            print('bookName: ', bookName)
-#            print('bookText: ')
-#            print(type(bookText))
-#            print(len(bookText))
-#            for s in bookText:
-#                print(s)
-#
+    print('after expandAndTag...')
+    print(type(expandedCorpora))
+
+    print('dumping expandedCorpora to pickle...')
+    pickle.dump(expandedCorpora, open(pickleFile, "wb"))
+    print('---')
+    tmpCnt = 0
+    for corpus in expandedCorpora:
+        for c in corpus:
+            bookName = corpus[0]
+            bookText = corpus[1]
+
+            print('bookName: ', bookName)
+            print('bookText: ')
+            print(type(bookText))
+            print(len(bookText))
+            for s in bookText:
+                tmpCnt += 1
+                print(s)
+                if tmpCnt > 10:
+                    print("Only dispalying {} sentences...".format(tmpCnt))
+                    sys.exit("TEMP EXIT")
+                
 #            print('---')
 #            print(bookText)
 
-    buildTempKB(expandedCorpora)
+
+    # Premature
+    #buildTempKB(expandedCorpora)
 
 #    sys.exit("TEMP EXIT")
 

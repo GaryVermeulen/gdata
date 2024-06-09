@@ -730,6 +730,10 @@ class Sentence:
         self.verb      = sVerb
         self.object    = sObj
 
+    # How instances of the class are serialized and deserialized
+    def __reduce__(self):
+        return (self.__class__, (self.inputSent, self.type, self.subject, self.verb, self.object))
+
     def printAll(self):
         print('inputSent: ', self.inputSent)
         print('type     : ', self.type)
@@ -742,7 +746,6 @@ class Sentence:
                 x = 'self.' + i
                 print('{}   : {}'.format(i, eval(x)))
                 
-
     def isVar(self, var):
         if var in self.__dir__():
             return True

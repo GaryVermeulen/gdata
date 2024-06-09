@@ -1,19 +1,16 @@
 #
 # findSVO.py
 #
-#   Determine Subject, Verb, Objects of simple senteneces.
+#   Determine Subject, Verb, Objects of somple senteneces.
 #   This follows strict SVO, and fails if the input
 #   is other than SVO (EX: SOV or VSO).
 #
 
-import sys
 
 #from commonConfig import *
 from commonConfig import Sentence, nnx, prpx, vbx
 
-import pickle
-pickleFileIn = 'data/processedCorpora.p'
-pickleFileOut = 'data/objArr.p'
+
 
 def getSubjectWords(sent):
     # Just return a list of just the subject(s) words (no tags)
@@ -202,7 +199,7 @@ if __name__ == "__main__":
 #    tagged_uI = [('who', 'WP'), ('can', 'MD'), ('help', 'VB'), ('me', 'PRP')]
 #!!    tagged_uI = [('Where', 'WRB'), ('do', 'VBP'), ('we', 'PRP'), ('go', 'VB'), ('from', 'IN'), ('here', 'RB')] # Watch for tagging errors
 #should be:
-#    tagged_uI = [('Where', 'WRB'), ('do', 'VBP'), ('we', 'PRP'), ('go', 'VB'), ('from', 'IN'), ('here', 'NN')]
+    tagged_uI = [('Where', 'WRB'), ('do', 'VBP'), ('we', 'PRP'), ('go', 'VB'), ('from', 'IN'), ('here', 'NN')]
 #    tagged_uI = [('they', 'PRP'), ('went', 'VBD'), ('to', 'IN'), ('the', 'DT'), ('park', 'NN')]
 #    tagged_uI = [('stop', 'VB'), ('what', 'WP'), ('you', 'PRP'), ('are', 'VBP'), ('doing', 'VBG')]
 #    tagged_uI = [('here', 'RB'), ('we', 'PRP'), ('go', 'VBP'), ('again', 'RB')]
@@ -217,68 +214,14 @@ if __name__ == "__main__":
     #tagged_uI = [{'word': 'I', 'tag': 'PRP'}, {'word': 'am', 'tag': 'VBP'}, {'word': 'not', 'tag': 'RB'}, {'word': 'going', 'tag': 'VBG'}, {'word': 'to', 'tag': 'TO'}, {'word': 'talk', 'tag': 'VB'}, {'word': 'to', 'tag': 'IN'}, {'word': 'you', 'tag': 'PRP'}, {'word': 'like', 'tag': 'IN'}, {'word': 'a', 'tag': 'DT'}, {'word': 'big', 'tag': 'JJ'}, {'word': 'person', 'tag': 'NN'}, {'word': '.', 'tag': '.'}]
     #tagged_uI = [{'word': 'I', 'tag': 'PRP'}, {'word': 'am', 'tag': 'VBP'}, {'word': 'going', 'tag': 'VBG'}, {'word': 'to', 'tag': 'TO'}, {'word': 'let', 'tag': 'VB'}, {'word': 'my', 'tag': 'PRP$'}, {'word': 'imagination', 'tag': 'NN'}, {'word': 'take', 'tag': 'VB'}, {'word': 'me', 'tag': 'PRP'}, {'word': 'back', 'tag': 'RB'}, {'word': 'in', 'tag': 'IN'}, {'word': 'time', 'tag': 'NN'}, {'word': 'to', 'tag': 'IN'}, {'word': 'when', 'tag': 'WRB'}, {'word': 'I', 'tag': 'PRP'}, {'word': 'was', 'tag': 'VBD'}, {'word': '7', 'tag': 'CD'}, {'word': 'years', 'tag': 'NNS'}, {'word': 'old', 'tag': 'JJ'}, {'word': '.', 'tag': '.'}]
     #tagged_uI = [{'word': 'The', 'tag': 'DT'}, {'word': 'best', 'tag': 'JJS'}, {'word': 'part', 'tag': 'NN'}, {'word': 'is', 'tag': 'VBZ'}, {'word': 'that', 'tag': 'IN'}, {'word': 'I', 'tag': 'PRP'}, {'word': 'do', 'tag': 'VBP'}, {'word': 'not', 'tag': 'RB'}, {'word': 'have', 'tag': 'VB'}, {'word': 'to', 'tag': 'TO'}, {'word': 'try', 'tag': 'VB'}, {'word': 'to', 'tag': 'TO'}, {'word': 'remember', 'tag': 'VB'}, {'word': 'everything', 'tag': 'NN'}, {'word': '.', 'tag': '.'}]
-
-    expandedCorpora = pickle.load( open(pickleFileIn, "rb" ) )
-
-    print('len expandedCorpora: ', len(expandedCorpora))
-    print('type expandedCorpora: ', type(expandedCorpora))
-
     
-    objArr = []
-    exitNow = False
 
-    for corpus in expandedCorpora:
-        for c in corpus:
-            bookName = corpus[0]
-            bookText = corpus[1]
-
-            print('bookName: ', bookName)
-            print('bookText: ')
-            print(type(bookText))
-            print(len(bookText))
-            tmpCnt = 0
-            for s in bookText:
-                tmpCnt += 1
-                print('=========: ', tmpCnt)
-                print(s)
-                print('---------')
-                svoObj = findSVO(s)
-                svoObj.printAll()
-                print('---------')
-                print('Save to an array...')
-                objArr.append(svoObj)
-                if tmpCnt > 10:
-                    print("Only processing {} sentences...".format(tmpCnt))
-                    exitNow = True
-                    break
-            if exitNow:
-                break
-            
-    print('*********')
-    print('Check objArr...')
-    print('len objArr: ', len(objArr))
-    print('type objArr: ', type(objArr))
-    objCnt = 0
-    for obj in objArr:
-        objCnt += 1
-        print('---: ', objCnt)
-        obj.printAll()
-
-        
-    print('*********')
-    print('dump objArr to pickle...')
-    pickle.dump(objArr, open(pickleFileOut, "wb" ) )
-
-        
-                    #sys.exit("TEMP EXIT")
-
-#    svoObj = findSVO(tagged_uI)
-
-
+    svoObj = findSVO(tagged_uI)
 
     print('---')
-   
-#    svoObj.printAll()
+
+    
+    svoObj.printAll()
  
  
     print('\nEND: --- findSVO main ---')    
