@@ -16,8 +16,10 @@ from commonUtils import connectMongo
 
 import pickle
 pickleFile = 'data/processedCorpora.p'
+pf = 'data/untaggedCorpora.p'
 
-nlp = spacy.load("en_core_web_sm") # lg has best accuracy
+#nlp = spacy.load("en_core_web_sm") # lg has best accuracy
+nlp = spacy.load("en_core_web_lg")
 
 def getRawCorpus():
     # Read the raw corpus file(s)
@@ -248,6 +250,7 @@ def expandAndTag(processedCorpora):
         print('bookName: ', bookName)
 
         newBookSents = []
+        untaggedBook = []
 
         # Split into word tokens and isolate punctuation except "'"
         for sent in bookSents:
@@ -328,6 +331,9 @@ def expandAndTag(processedCorpora):
             # Remove (for now) hyphens    
             noHyphens = removeHyphens(expandedSentence)
 
+            # For use latter after pickling
+            untaggedBook.append(noHyphens)
+
             # Tag expanded sentence
             #doc = nlp(' '.join(expandedSentence))
             doc = nlp(' '.join(noHyphens))
@@ -371,6 +377,9 @@ def expandAndTag(processedCorpora):
 #            print(w)
 #
 #        print('---')
+
+        print('* dumping untaggedBook to pickle...')
+        pickle.dump(untaggedBook, open(pf, "wb"))
 
         expandedCorpora.append((bookName, newBookSents))
 

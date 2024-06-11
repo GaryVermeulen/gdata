@@ -54,7 +54,6 @@ if __name__ == "__main__":
     print(newDict.get("pookie_1"))
     print(newDict.get("jimmy_1"))
 
-    """
 
     objArr = pickle.load( open("data/objArr.p", "rb" ) )
 
@@ -68,4 +67,15 @@ if __name__ == "__main__":
         #print(obj)
         obj.printAll()
     
-    
+    """
+
+    untaggedBook = pickle.load(open('data/untaggedCorpora.p', 'rb'))
+
+    print('len untaggedBook: ', len(untaggedBook))
+    print('type untaggedBook: ', type(untaggedBook))
+
+    for sent in untaggedBook:
+        print('-----')
+        print(sent)
+        
+        
