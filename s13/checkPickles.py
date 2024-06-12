@@ -67,7 +67,7 @@ if __name__ == "__main__":
         #print(obj)
         obj.printAll()
     
-    """
+    
 
     untaggedBook = pickle.load(open('data/untaggedCorpora.p', 'rb'))
 
@@ -78,4 +78,23 @@ if __name__ == "__main__":
         print('-----')
         print(sent)
         
+        
+    """
+
+    nlpDocs = pickle.load(open('data/nlpDocs.p', 'rb'))
+
+    print('len untaggedBook: ', len(nlpDocs))
+    print('type untaggedBook: ', type(nlpDocs))
+
+    docCnt = 0
+    for doc in nlpDocs:
+        docCnt += 1
+        
+        print('-----')
+        print(docCnt)
+        print(type(doc))
+        print(doc)
+
+        for word in doc:
+            print(word, word.tag_, word.dep_)
         

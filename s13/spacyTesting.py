@@ -4,16 +4,18 @@ import spacy
 import pickle
 ##import neuralcoref
 
+print('-----')
 nlp = spacy.load('en_core_web_lg')
 
 untaggedBook = pickle.load(open('data/untaggedCorpora.p', 'rb'))
 
 nlpDocs = []
+sentCnt = 0
 
 ##neuralcoref.add_to_pipe(nlp,greedyness=0.52)
 
 #doc = nlp('First, I wrote some sentences. Then spaCy parsed them. Hooray! Tom and Jerry ran in the park on Tuesday. They found Mark\'s baseball, and played with it.')
-
+print('.....')
 for sent in untaggedBook:
     doc = nlp(' '.join(sent))
     nlpDocs.append(doc)
@@ -36,8 +38,15 @@ print('=====')
 #        print(word, word.tag_, word.dep_)
 #        print(spacy.explain(word.dep_))
 for doc in nlpDocs:
+    sentCnt += 1
+    print(sentCnt)
     print(type(doc))
     print(doc)
     print('-----')
     for word in doc:
         print(word, word.tag_, word.dep_)
+        print('     ', spacy.explain(word.dep_))
+
+pickle.dump(nlpDocs, open('data/nlpDocs.p', 'wb'))
+
+
