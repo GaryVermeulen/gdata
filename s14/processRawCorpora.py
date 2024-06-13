@@ -6,6 +6,8 @@
 import os
 import sys
 import string
+import warnings
+
 
 import spacy # spacy is a pig
 
@@ -15,6 +17,9 @@ from commonConfig import validTags
 from commonUtils import connectMongo
 
 import pickle
+
+
+
 pickleFile = 'data/processedCorpora.p'
 pf = 'data/untaggedCorpora.p'
 
@@ -314,8 +319,22 @@ def tagCorpora(expandedCorpora):
 
             # Remove (for now) hyphens e.g. D-E-L-I-C-I-O-U-S to DELICIOUS  
             noHyphens = removeHyphens(sent)
+
+            doc = nlp(' '.join(noHyphens))
+
             
-            print(noHyphens)
+            # Extract info from Spacy doc, or keep all of it?
+            #for token in doc:
+            #    tmpToken = ((str(token.text)), (str(token.tag_)))
+            #    tagSent.append(tmpToken)
+
+            # Keep it all, and see it we run out of memory...~?
+            taggedBookSents.append(doc)
+            #taggedBookSents.append(tagSent)
+        #expandedCorpora.append((bookName, newBookSents))
+        taggedCorpora.append((bookName, taggedBookSents))
+            
+            #print(noHyphens)
 
     print('completed: tagCorpora.')
     return taggedCorpora
@@ -649,6 +668,7 @@ def removeHyphens(expandedSentence):
 
         if len(word) > 1:
             if cnt > 1:
+                
                 try:
                     index = word.index('-')
                 except ValueError:
@@ -720,13 +740,23 @@ def buildLex():
     print(type(expandedCorpora))
 
     taggedCorpora = tagCorpora(expandedCorpora)
+    print('after tagCorpora...')
+    print(type(taggedCorpora))
+    print(len(taggedCorpora))
+
 
     print('dumping taggedCorpora to pickle...')
     pickle.dump(taggedCorpora, open(pickleFile, "wb"))
-    print('---')
-    tmpCnt = 0
+    print('------------')
+    
     for corpus in taggedCorpora:
+        print('corpus type: ', type(corpus))
+        print('corpus len: ', len(corpus))
+        print('corpus:')
+        #print(corpus)
+        print('------')
         for c in corpus:
+            tmpCnt = 0
             bookName = corpus[0]
             bookText = corpus[1]
 
@@ -737,9 +767,18 @@ def buildLex():
             for s in bookText:
                 tmpCnt += 1
                 print(s)
+                for word in s:
+                    print(word, word.tag_, word.dep_)
+                    warnings.filterwarnings("error")
+                    try:
+                        print(spacy.explain(word.dep_))
+                    except UserWarning as w:
+                        print('*** Something is wrong: ', w)
+                    warnings.resetwarnings()
                 if tmpCnt > 10:
                     print("Only dispalying {} sentences...".format(tmpCnt))
-                    sys.exit("TEMP EXIT")
+                    break
+                    #sys.exit("TEMP EXIT")
                 
 #            print('---')
 #            print(bookText)
