@@ -1,0 +1,26 @@
+S14 -- Rewrite of S13
+
+June 2024; Current iteration of Simple-Ton -- Don't blink for it will have changed.
+Highly volative.
+
+Current process order:
+      
+   1) processRawKB.py           -!- Builds starter MongoDb KB collection from started KB text file. Too broard--break into small ontologies.
+   2) processRawinflections.py  -.- Builds a MongoDB inflection collection from text file. May not need due to Spacy?
+   3) processRawCorpora.py      -.- Tokenize, tag w/Spacy, build pickle output.
+
+   
+
+Utilities:
+   commonUtils.py    -- Common functions
+   checkPickles.py   -- Read pickle files
+   
+Configuration:
+   commonConfig.py   -- Global variables
+
+Sub-Folders:
+   Corpus    -- Input docs
+   data      -- Starter data and test input
+   kb        -- Starter KB data
+
+
