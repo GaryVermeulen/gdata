@@ -1,0 +1,15 @@
+# NNX Rules:
+# ----------
+# Format:
+#  rule number;condition;result
+#
+#  rule number;n,condition;result
+#
+# Where r;n,condition is for rule r; else rule n (above), if condition; result
+#
+# If result = next rule number then result dependent on next rule
+# 
+1;currentWordPosition==1;subject=inputWord,verb=NONE,object=NONE
+2;1,processedSentence[-1]['tag']=='NNP';3
+3;1,2,newSentObj.verb==None;newSentObj.subject.append(inputWord)
+4;1,2,3;
