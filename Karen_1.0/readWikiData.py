@@ -55,10 +55,48 @@ def getTopic(topic, option):
     return records
 
 
+def verifyTopic(topics, option):
+
+    # Context?!
+
+    if len(topics) <= 0 and option == 'w':
+        print("No topics found with wildcard option (1st)")
+        return None
+    elif len(topics) == 0 and option == 'x':
+        # Run getTopic again but with wildcard option
+        topics = getTopic(topic, 'w')
+        if len(topics) == 0:
+            print("No topics found with wildcard option (2nd)")
+            return None
+    elif len(topics) > 1 and option == 'w':
+        # Run getTopic again but with exact option
+        topics = getTopic(topic, 'x')
+        
+    if len(topics) > 1:
+        print('More than one topic found...')
+        print('...List the first 10:')
+        tCount = 0
+        for t in topics:
+            tCount += 1
+            print(t["title"])
+            if tCount > 10:
+                break
+    else:
+        print('One topic found...')
+        for t in topics:
+            print(t["title"])
+            print(t["text"])
+        
+
+
+    return "something"
+
+
 
 if __name__ == "__main__":
 
     start = time.time()
+    option = 'x' # Exact match, where w = wildcard
     
     print("Starting at:")
     print(datetime.datetime.now())
@@ -69,8 +107,13 @@ if __name__ == "__main__":
         sys.exit("Nothing entered, exiting...")
 
     connectMongo()
-    r = getTopic(topic, "w")
+    t = getTopic(topic, option)
 
+    v = verifyTopic(t, option)
+
+    print('v: ', v)
+
+    """
     if len(r) == 0:
         print("getTopic could not find topic: ", topic)
     else:
@@ -94,7 +137,8 @@ if __name__ == "__main__":
             for t in r:
                 print(t["title"])
                 print(t["text"])
-
+    """
+    
     print("----------")
     end = time.time()
     print("\nET: ", end - start)
