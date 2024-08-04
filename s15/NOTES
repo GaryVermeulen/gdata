@@ -1,0 +1,75 @@
+S15 -- August 2024; Current iteration of Simple-Ton
+       Don't blink for it will have changed--Highly volative.
+       
+       
+Pre-process:
+----------------------
+
+1) 
+ buildDictionary.py
+ Builds local MongoDB dictionary.
+
+2) 
+ processRawKB.py
+ Builds starterKB and simpVocabulary Mongo collections from text file. 
+                                    
+3) 
+ processRawInflections.py
+ Builds a MongoDB inflection collection from text file. 
+ 
+ 
+Current process order:
+----------------------
+                                    
+1) 
+ processRawCorpora.py
+ Read books (corpora )...
+ Tokenize (non-Spacy), tag and identify SVO's using Spacy, save ouput to pickle 
+ Spacy is not perfect, so more is needed to handle errors/inconsistencies.
+                                    
+2)
+ processSVOs.py
+ Supplement to Spacy--Find missing SVOs, merge, and save to pickle.
+ 
+3)
+ processBooks.py
+ Process each book, start comprehension processing.
+ What words are unknown, get def's 
+ 
+ 
+
+ #Extract subjects and ojects and compare/add to simple KBs?????
+ #Will help identify pronouns in next step (he/she, etc.).
+ #Adding home-grown SVO extraction to compare with Spacy...
+                                    
+#5) resolvePronouns.py
+# Map pronouns to nouns.
+# Much work ahead.
+                                    
+6) ...
+
+   
+Utilities:
+----------
+
+commonUtils.py    -- Common functions
+checkPickles.py   -- Read pickle files
+findSVO.py        -- Find SVOs for processSVOs.py 
+processNNXs.py    -- Process NNXs for findSVO.py
+
+   
+Configuration:
+--------------
+
+commonConfig.py   -- Global variables
+
+
+Sub-Folders:
+------------
+
+books        -- Pickles of processed book(s)
+inputCorpora -- Book(s) to read
+inputData    -- Starter data
+pickleJar    -- Pickles of processed data
+
+
