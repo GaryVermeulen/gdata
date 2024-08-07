@@ -9,11 +9,13 @@
 #   ]
 #
 
-#from commonConfig import nn, vb, rb, jj, prp
+from commonUtils import connectMongo
+from commonConfig import nn, vb, rb, jj, prp
 
 # Build pos as we go...
 #
 noun = 'noun'
+pronoun = 'pronoun'
 verb = 'verb'
 transitiveVerb = 'transitive verb'
 intransitiveVerb = 'intransitive verb'
@@ -23,7 +25,7 @@ preposition = 'preposition'
 conjunction = 'conjunction'
 interjection = 'interjection'
 
-posList = [noun, verb, transitiveVerb, intransitiveVerb, adjective, adverb, preposition, conjunction, interjection]
+posList = [noun, pronoun, verb, transitiveVerb, intransitiveVerb, adjective, adverb, preposition, conjunction, interjection]
 
 
 def seleniumSoup(taggedWord):
@@ -73,7 +75,7 @@ def seleniumSoup(taggedWord):
     print('*** Past element')
 
     if element == None:
-        print('dictionary retuned NONE...')
+        print('soup.find retuned NONE...')
         return None
         
     page_text = element.get_text()
@@ -83,114 +85,20 @@ def seleniumSoup(taggedWord):
     return page_text
 
 
-def parseAndPackage(taggedWord, text):
-
-    word = taggedWord[0]
-    tag = taggedWord[1]
-    cleanedList = []
-    defs = []
-    pos = []
-    nextLineIsPOS = False
-    tmp = []
-
-    saveNextLine = True
-    lastLine = []
-
-    # First item is what we can glean without web scrape
-#    tmp.append([word])
-#    tmp.append([tag])
-#    
-#    defs.append(tmp)
-
-    if text == None:
-        return defs # Web scrapping retunred nothing
-
-#    tmp = [] # reset tmp
-
-    textList = text.split('\n')
-
-    for line in textList:   # Remove blanks lines
-        l = line.strip()
-        if len(l) > 0:
-            cleanedList.append(l)
-
-    for i in range(len(cleanedList)):
-        word = taggedWord[0]
-        curLine = cleanedList[i]
-        curLineLst = curLine.split()
-        curFirstWord = curLineLst[0]
-        if len(curLineLst) > 1:
-            curSecondWord = curLineLst[1]
-        else:
-            curSecondWord = 'UNK'
-        
-        if nextLineIsPOS:
-            pos = curLineLst[0]
-            nextLineIsPOS = False
-            continue
-
-        # '1 of 2' of '4 of 4'
-        if len(curLineLst) == 3: 
-            if curLineLst[0].isnumeric() and (curLineLst[1] == 'of') and curLineLst[2].isnumeric():
-                nextLineIsPOS = True
-                continue
-
-        # No '1 of 2'
-        if curLineLst[0] in ['noun', 'pronoun', 'adjective', 'adverb', 'verb', 'preposition', 'conjunction', 'interjection']:
-            pos = curLineLst[0]
-            continue
-
-        # Gathering easy definitions
-        if curLineLst[0] == ':':
-            tmp = []
-            tmp.append([word])
-            tmp.append([pos])
-            tmpW = []
-            for w in curLineLst:
-                if w != ':':
-                    tmpW.append(w)
-            tmp.append(tmpW)
-            defs.append(tmp)
-            
-            continue
-
-        print('bottom: curLineLst:')
-        print(curLineLst)
-        print('-----')
-        if "past" == curLineLst[0] and "of" == curLineLst[1]:
-            print('Past of found')
-            print('curLine: ', curLineLst)
-            nextLine = cleanedList[i + 1]
-            curLineLst.append(nextLine)
-
-            if len(defs) == 0:
-                tmpDefs = []
-                tmpDefs.append([word])
-                tmpDefs.append([tag])
-                tmpDefs.append([' '.join(curLineLst)])
-                defs.append(tmpDefs)
-            
-        print('defs:')
-        print(defs)
-
-        # No need to continue once we reach the Synonyms or Phrases
-        #if len(curLineLst) == 1:
-        #    if curLineLst[0] == 'Synonyms' or curLineLst[0] == 'Phrases':
-        #        break
-
-#    for d in defs:
-#        print(d)
-        
-    return defs
-
-
-##############################################################
 def parseRawText(taggedWord, rawText):
 
     print("Start parseRawText:")
     print('taggedWord: ', taggedWord)
     print('type rawText: ', type(rawText))
-    print('len rawText: ', len(rawText))
+
+    if rawText != None:
+        print('len rawText: ', len(rawText))
+    else:
+        return None
+    
+    print('----')
+    #print(rawText)
+    #print('----')
 
     if len(rawText) <= 0:
         print('Nothing to parse...exiting...')
@@ -199,8 +107,11 @@ def parseRawText(taggedWord, rawText):
     pos = ''
     inflections = ''
     plural = ''
+    past = ''
+    adjectiveLine = ''
     definition = ''
     defList = []
+    getNextLine = False
 
     rawTextList = rawText.split('\n')
 
@@ -218,88 +129,127 @@ def parseRawText(taggedWord, rawText):
     
     for line in tmpLst:
         lineCount += 1
+        #print(lineCount, line)
         # Typically the first line is the returned word.
         # Beware for searching for "walked" returns "walk"
         if lineCount == 1:
-            print("Line: {}; Search for: {} Returned: {}.".format(lineCount, taggedWord[0], line))
+            #print("Line: {}; Search for: {} Returned: {}.".format(lineCount, taggedWord[0], line))
             searchedReturnPair = (taggedWord[0], line)
-            print('searchedReturnPair: ', searchedReturnPair)
+            #print('searchedReturnPair: ', searchedReturnPair)
         else:
-            print("Line: {}; {}".format(lineCount, line))
+            #print("Line: {}; {}".format(lineCount, line))
+
+            line = line.lstrip() # Hopefully this won't break other things
 
             # Looking for "verb", "noun", etc.
             if line in posList:
-                print('pos found: ', line)
+                #print('pos found: ', line)
                 pos = line
-                print('pos: ', pos)
+                #print('pos: ', pos)
 
             # Looking for "verb (1)" "or noun (1)"
             parenFoundAt = line.find("(")
             if parenFoundAt > -1:
-                print('paren found at postion: ', parenFoundAt)
+                #print('paren found at postion: ', parenFoundAt)
                 if parenFoundAt == 5: # noun and verb are same length; verb (1), etc.
                     lineLst = line.split('(')
-                    print('lineLst: ', lineLst)
+                    #print('lineLst: ', lineLst)
                     if lineLst[0].rstrip() in posList:
                         pos = lineLst[0].rstrip()
-                        print('lineLst[0]: ', lineLst[0])
-                        print('pos: ', pos)
+                        #print('lineLst[0]: ', lineLst[0])
+                        #print('pos: ', pos)
 
             # Looking for inflections
             semicolonFoundAt = line.find(";")
             if semicolonFoundAt > -1:
-                print('semicolon (inflections) found at postion: ', semicolonFoundAt)
+                #print('semicolon (inflections) found at postion: ', semicolonFoundAt)
                 inflections = line
-                print(inflections)
+                #print(inflections)
 
             # Looking for plural
             pluralFoundAt = line.find("plural")
             if pluralFoundAt > -1:
-                print('plural found at position: ', pluralFoundAt)
+                #print('plural found at position: ', pluralFoundAt)
                 if pluralFoundAt == 0:
                     plural = line
-                    print(pluralFoundAt)
-                    print(plural)
+                    #print(pluralFoundAt)
+                    #print(plural)
+
+            # Looking for past tense (past tense and past participle)
+            pastFoundAt = line.find("past")
+            if pastFoundAt > -1:
+                #print('past found at position: ', pastFoundAt)
+                if pastFoundAt == 0:
+                    past = line
+
+            # Looking for adjective
+            adjectiveFoundAt = line.find("adjective")
+            #print('adjectiveFoundAt: ', adjectiveFoundAt)
+            if adjectiveFoundAt > -1:
+                #print('adjective found at position: ', adjectiveFoundAt)
+                if adjectiveFoundAt == 0:
+                    adjectiveLine = line
+                    #print('adjectiveLine: ', lineCount, adjectiveLine)
 
             # Looking for definitions
             definitionFoundAt = line.find(":")
             if definitionFoundAt == 0:
-                print('Definition Found:')
+                #print('Definition Found:')
                 definition = line.replace(":", "")
                 definition = definition.lstrip()
-                print(definition)
+                if len(adjectiveLine) > 0:
+                    definition = adjectiveLine + ' ' + taggedWord[0] + ','+ definition
+                    adjectiveLine = ''
+                #print(definition)
 
             if len(definition) > 0:
-                print('BOTTOM LINE:')
-                print('searchedReturnPair: ', searchedReturnPair)
-                print('pos: ', pos)
-                print('inflections: ', inflections)
-                print('plural: ', plural)
-                print('definition: ', definition)
-                tmpDef = {"word": searchedReturnPair[1], "tag": pos, "definition": inflections + ',' + plural + ',' + definition}
+                #print('BOTTOM LINE:')
+                #print('searchedReturnPair: ', searchedReturnPair)
+                #print('pos: ', pos)
+                #print('inflections: ', inflections)
+                #print('plural: ', plural)
+                #print('definition: ', definition)
+                tmpDef = {"word": searchedReturnPair[1], "tag": pos, "definition": inflections + ',' + plural + ',' + ',' + past + ',' + definition}
                 defList.append(tmpDef)
                 definition = ''
+                continue
 
             # Stop parsing condiction...~?
-            if line == 'Phrases' or line == 'Synonyms':
-                print("Stop at: ", lineCount, line)
+            if line == 'Phrases': # or line == 'Synonyms':
+                print("Stop at (Phrases): ", lineCount, line)
                 break
+
+            if taggedWord[1] != 'VBD' and line == 'Synonyms':
+                print("Stop at(VBD & Synonyms): ", lineCount, line)
+                break
+
+            # Past tense?
+            if len(past) > 0:
+                if getNextLine:
+                    past = past + ' ' + line
+                    # Hopefully a verb
+                    if len(pos) <= 0:
+                        pos = "VBD"
+                    tmpDef = {"word": searchedReturnPair[1], "tag": pos, "definition": inflections + ',' + plural + ',' + ',' + past + ',' + definition}
+                    defList.append(tmpDef)
+                    break
+                else:
+                    getNextLine = True
                 
+    #print('--------')
+    #print('len defList: ', len(defList))
+    #for d in defList:
+    #    print(d)
 
-    print('--------')
-    for d in defList:
-        print(d)
-
-
-    return None
+    return defList
 
 
 def scrapeAndProcess(taggedWord):
 
     rawText = seleniumSoup(taggedWord)
 
-    print('rawText:')
-    print(rawText)
+    #print('rawText:')
+    #print(rawText)
 
     #return parseAndPackage(taggedWord, rawText)
     #parseAndPackaged = parseAndPackage(taggedWord, rawText)
@@ -314,46 +264,52 @@ def scrapeAndProcess(taggedWord):
         print('parseRawText returned None')
         return None
 
-    return parsedText
+    retagged = updateTags(parsedText)
+
+    #print('len retagged: ', len(retagged))
+    #for r in retagged:
+    #    print('r: ', r)
+
+    return retagged
 
 
-def packageDefs(taggedWord, newWordDef):
+def updateTags(parsedText):
 
     wordDefs = []
     defCnt = 0
 
-    print('newWordDef:')
-    print(newWordDef)
+    #print('parsedText:')
+    #print(parsedText)
 
-    for wordDef in newWordDef:
+    for wordDef in parsedText:
 
-        print('wordDef:')
-        print(wordDef)
+        #print('wordDef:')
+        #print(wordDef)
         
-        word = wordDef[0][0]
-        pos = wordDef[1][0]
-        wordDefStr = ' '.join(wordDef[2])
+        word = wordDef["word"]
+        pos = wordDef["tag"]
+        wordDefStr = wordDef["definition"]
         
-        if pos == 'noun':
+        if pos == noun:
             tag = nn
-        elif pos == 'verb':
+        elif pos in [verb, transitiveVerb, intransitiveVerb]:
             tag = vb
-        elif pos == 'adverb':
+        elif pos == adverb:
             tag = rb
-        elif pos == 'adjective':
+        elif pos == adjective:
             tag = jj
-        elif pos == 'pronoun':
+        elif pos == pronoun:
             tag = prp
-        elif pos == 'preposition':
+        elif pos == preposition:
             tag = 'IN' 
-        elif pos == 'conjunction':
+        elif pos == conjunction:
             tag = 'CC'
-        elif pos == 'interjection':
+        elif pos == interjection:
             tag = 'UH'
         else:
             tag = pos # Pass-along UNK tag to see what it is
           
-        tmpDict = {"word": word, "tag": tag, "definition": wordDefStr}            
+        tmpDict = {"word": word.capitalize(), "tag": tag, "definition": wordDefStr}            
         wordDefs.append(tmpDict)
         defCnt += 1
         
@@ -373,26 +329,26 @@ def scrapeWord(taggedWord):
     if newWordDef == None:
         print("scrapeAndProcess returned None")
         return None
-    else:
-        print('Scraped the following from the web:')
-        print(len(newWordDef))
-        print(newWordDef)
+    #else:
+        #print('Scraped the following from the web:')
+        #print(len(newWordDef))
+        #print(newWordDef)
         #
-        for d in newWordDef:
-            print('-' * 5)
-            print('d: ', d)
+        #for d in newWordDef:
+        #    print('-' * 5)
+        #    print('d: ', d)
         
-        print('-' * 10)
+        #print('-' * 10)
 
     #wordDefs = packageDefs(taggedWord, newWordDef)
     #print('packageDefs returned:')
     #    
-    #print(len(wordDefs))
+    print('scrapeWord returning {} defs...'.format(len(newWordDef)))
     #print(wordDefs)
     #for d in wordDefs:
     #    print(d)
 
-    return wordDefs
+    return newWordDef
 
 
 if __name__ == "__main__":
@@ -402,10 +358,13 @@ if __name__ == "__main__":
 #    taggedWord = ('bus', 'NN')
 #    taggedWord = ('tickle', 'NN') # But is also a verb
 #    taggedWord = ('stinky', 'JJ')
-#    taggedWord = ('fart', 'NN')
+#    taggedWord = ('runny', 'JJ')
+#    taggedWord = ('sunny', 'JJ')
+    taggedWord = ('fart', 'NN')
 #    taggedWord = ('run', 'VB')
 #    taggedWord = ('ran', 'VBD') # Build in inflection check
-    taggedWord = ('walked', 'VBD')
+#    taggedWord = ('walked', 'VBD')
+#    taggedWord = ('had', 'VBD')
 #    taggedWord = ('boat', 'NN')
 #    taggedWord = ('boating', 'VBG')
 #    taggedWord = ('wind', 'NN')
@@ -416,6 +375,12 @@ if __name__ == "__main__":
 
     print('-- scrapeWord.py __main__ scrapping for : ', taggedWord)
 
+    mdb = connectMongo()
+    simpDB = mdb["simp"]
+    webDictionary = simpDB["webDictionary"]
+
+    webDictionary.drop()
+
 
     results = scrapeWord(taggedWord)
 
@@ -425,6 +390,13 @@ if __name__ == "__main__":
         print('results:')
         for r in results:
             print(r)
+            webDictionary.insert_one(r)
+
+
+#for line in taggedDict:
+#        if line[2] != 'UNK':
+#            simpDictionary.insert_one({"index": line[0], "word": line[1], "tag": line[2], "definition": line[3]})
+        
 
     print('-- scrapeWord.py __main__ scrapping completed --')
 

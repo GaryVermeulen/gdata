@@ -57,7 +57,7 @@ if __name__ == "__main__":
             sent.printAll()
 
 
-            
+    """        
     # processedCorporaSVO
     #
     processedCorporaSVO = pickle.load(open('pickleJar/processedCorporaSVO.p', 'rb'))
@@ -93,4 +93,4 @@ if __name__ == "__main__":
         print('.....')
         print(type(sent))
         sent.printAll()
-    
+    """

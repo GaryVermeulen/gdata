@@ -8,12 +8,16 @@ Pre-process:
 1) 
  buildDictionary.py
  Builds local MongoDB dictionary.
+ 
+2)
+ w2m.py
+ Build Mongo wiki from local data.
 
-2) 
+3) 
  processRawKB.py
  Builds starterKB and simpVocabulary Mongo collections from text file. 
                                     
-3) 
+4) 
  processRawInflections.py
  Builds a MongoDB inflection collection from text file. 
  

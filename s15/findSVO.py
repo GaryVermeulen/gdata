@@ -150,16 +150,17 @@ def findSVO(inputSentence, taggedSentence):
             elif (newSentObj.verb != None) and (newSentObj.object == None):
 
                 # Filter out: "He did his..."
-                if newSentObj.subject[0]['tag'] in prpx:
-#                    print('prpx found in subject--is there a subject possesive match?')
-                    if pronounMatch(newSentObj.subject[0], inputWord):
-#                        print('pronoun match!')
-                        newSentObj.subject.append(inputWord) # Just to record it
-                    else:
-#                        print('no pronoun match...')
-                        # This my not be the best...~?
-                        newSentObj.object = []
-                        newSentObj.object.append(inputWord)
+                if newSentObj.subject != None:
+                    if newSentObj.subject[0]['tag'] in prpx:
+#                 print('prpx found in subject--is there a subject possesive match?')
+                        if pronounMatch(newSentObj.subject[0], inputWord):
+#                           print('pronoun match!')
+                            newSentObj.subject.append(inputWord) # Just to record it
+                        else:
+#                            print('no pronoun match...')
+                            # This my not be the best...~?
+                            newSentObj.object = []
+                            newSentObj.object.append(inputWord)
                 
             elif (newSentObj.verb != None) and (newSentObj.object != None):
                 
