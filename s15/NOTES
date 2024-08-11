@@ -15,7 +15,15 @@ Pre-process:
 
 3) 
  processRawKB.py
- Builds starterKB and simpVocabulary Mongo collections from text file. 
+ Builds starterKB and simpVocabulary Mongo collections from text file.
+ * For now simpVocabulary is dictionary entries of KB.
+ ** TODO:
+ ** Break into smaller KBs/ontologies?
+ ** How to add/modify or delete KB entries?
+ ** What about tags other than NN/NNP?
+ ** A dog vs Dog the Bounty Hunter?
+ ** Did you park yourself at the park?
+ ** Handling of first, middle, and last name(s). 
                                     
 4) 
  processRawInflections.py
@@ -38,7 +46,10 @@ Current process order:
 3)
  processBooks.py
  Process each book, start comprehension processing.
- What words are unknown, get def's 
+  Process each sentence
+   Pronoun resolution
+   SVO validation
+   What words are unknown, get def's 
  
  
 
