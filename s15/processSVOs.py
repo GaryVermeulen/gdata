@@ -35,7 +35,7 @@ def findSVOs(corpora):
         tmpCnt = 0
         for s in bookText:
             tmpCnt += 1
-            svoObj = findSVO(s.inputSent, s.taggedSent)
+            svoObj = findSVO(s.inputSent, s.taggedSentLong)
             objArr.append(svoObj)
             
         newCorpora.append((bookName, objArr))
@@ -71,9 +71,10 @@ def mergeCorpora(corpora, foundSVOs):
                     for f_sentObj in f_bookSentObjs:
                         if c_sentObj.inputSent == f_sentObj.inputSent:
                             #print('c_sentObj.inputSent == f_sentObj.inputSent')
-                            inputSent  = c_sentObj.inputSent
-                            taggedSent = c_sentObj.taggedSent
-                            sType      = f_sentObj.type # Spacy does not provide basic sentence type
+                            inputSent       = c_sentObj.inputSent
+                            taggedSentShort = c_sentObj.taggedSentShort
+                            taggedSentLong  = c_sentObj.taggedSentLong
+                            sType           = f_sentObj.type # Spacy does not provide basic sentence type
 
                             # Check for subjects
                             if len(c_sentObj.subject) == 0 and isinstance(f_sentObj.subject, type(None)):
@@ -201,7 +202,7 @@ def mergeCorpora(corpora, foundSVOs):
                                         sObj.append(of)
                             #print('end object')
 
-                            new_bookSent = Sentence(inputSent, taggedSent, sType, sSubj, sVerb, sObj)
+                            new_bookSent = Sentence(inputSent, taggedSentShort, taggedSentLong, sType, sSubj, sVerb, sObj)
                             new_bookSent.printAll()
 
                             new_bookSentObjs.append(new_bookSent)

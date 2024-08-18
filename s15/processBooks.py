@@ -8,6 +8,8 @@ import pickle
 from commonConfig import punctuationMarks, nnx
 from commonUtils import connectMongo
 from scrapeWord import scrapeWord
+from resolvePronouns import resolvePronouns
+from resolvePronouns import resolvePronounsV2
 
 from collections import Counter
 
@@ -24,42 +26,114 @@ def loadPickleData():
     return corpora
 
 
-def createBookBOW(bookName, bookSents):
 
-    bow = []
-    tmpWords = []
+#def reduceFields(bookSents):
+#
+#    bookSentsReduced = []
+#
+#    for s in bookSents:
+#        print(s.taggedSent)
+#        newSent = []
+#        for word in s.taggedSent:
+#            print(word)
+#            newWord = {'word': word['word'], 'pos': word['pos'], 'tag': word['tag']}
+#            print(newWord)
+#            newSent.append(newWord)
+#        print(newSent)
+#
+#        bookSentsReduced.append(newSent)
+#    
+#    return bookSentsReduced
+
     
-    for s in bookSents:
-        #print(bookName)
-        #print(s)
-        #for w in s.inputSent:
-        #    if w not in punctuationMarks:
-        #        print(w.lower())
-        #        if w.lower() not in tmpWords:
-        #            tmpWords.append(w.lower())
+#def resolvePronouns(bookSents):
+#
+#    epistropheSents = []
+#
+#    for s in bookSents:
+#        print(s.inputSent)
+#        print(s.taggedSent)
+#        print('=====================')
+#
+#
+#    return epistropheSents
 
-        for i in s.taggedSent:
-            #print(i)
-            word = i["word"]
-            tag = i["tag"]
 
-            #print(word, tag)
 
-            if word not in punctuationMarks:
-                if (word.lower(), tag) not in tmpWords:
-                    tmpWords.append((word.lower(), tag))
-                    #print(tmpWords)
+def search(searchValue, listOfDicts):
+    return [element for element in listOfDicts if element['word'] == searchValue]
 
-               
-        #print('---')
 
-    bow.append((bookName, tmpWords))
 
-    #for b in bow:
-    #    print(b[0])
-    #    print(b[1])
+# Come to find out--must resolve pronouns first :-(
+def processBookSubjects(inputList):
 
-    return bow
+    global resList
+
+    if len(inputList) <= 0:
+        print("NO INPUT")
+        return
+    else:
+        print("INPUT: ", inputList)
+
+    workList = inputList.copy()
+
+    for i in workList:
+        print('i: ', i)
+        
+        searchItem = i["word"]
+        tmpList = search(searchItem, workList)
+
+        tmpListLen = len(tmpList)
+
+        if tmpListLen > 0:
+            resList.append((tmpListLen, i))
+
+        for j in tmpList:
+            tIndex = workList.index(j)
+            popped = workList.pop(tIndex)
+
+        processBookSubjects(workList)
+        
+    return
+
+
+
+#def createBookBOW(bookName, bookSents):
+#
+#    bow = []
+#    tmpWords = []
+#    
+#    for s in bookSents:
+#        #print(bookName)
+#        #print(s)
+#        #for w in s.inputSent:
+#        #    if w not in punctuationMarks:
+#        #        print(w.lower())
+#        #        if w.lower() not in tmpWords:
+#        #            tmpWords.append(w.lower())
+#
+#        for i in s.taggedSent:
+#            #print(i)
+#            word = i["word"]
+#            tag = i["tag"]
+#
+#            #print(word, tag)
+#
+#            if word not in punctuationMarks:
+#                if (word.lower(), tag) not in tmpWords:
+#                    tmpWords.append((word.lower(), tag))
+#                    #print(tmpWords)
+#
+#        #print('---')
+#
+#    bow.append((bookName, tmpWords))
+#
+#    #for b in bow:
+#    #    print(b[0])
+#    #    print(b[1])
+#
+#    return bow
 
 
 
@@ -92,59 +166,105 @@ if __name__ == "__main__":
     # Rev 2: Not sure a BOW will buy us what we really need i.e. context and comprehension.
     # So now let's try working on one sentence at a time... Still checking if we know the word
     #
+    # Rev 3: Looks like we need to resolve pronouns first :-(
+    #
 
-    books = []
+#    inputBooks = []
+#    outputBooks = []
     
     for corpus in corpora:
         #print(corpus[0])
         bookName = corpus[0]
-        bookList.append(bookName)
-
-        bookSub = []
-        
-
-        # sub = {"subject": word, "tag": tag, "count": +=1}
-
-        print('bookName:')
+        bookSents = corpus[1]
         print(bookName)
+        print(bookSents)
 
-        # Reduce dictionay to two keys
+#        for s in bookSents:
+#            s.printAll()
+#            print('..........')
+
         
-        for ss in corpus[1]:
-            for s in ss.taggedSent:
-                print(s)
-            print('type: ', ss.type)
-            print('subjects: ', ss.subject)
-            reducedSS = []
-            for sub in ss.subject:
-                print('sub: ', sub)
+        print('..........')
 
-                
-                reducedSub = {"word": sub["word"], "tag": sub["tag"]}
-                reducedSS.append(reducedSub)
+        epistropheSents = resolvePronouns(bookSents)
+#
+#        for s in epistropheSents:
+#            print(s)
+#
+        print('..........')
 
-            for rs in reducedSS:
-                print('rs: ', rs)
+#        epistropheSents = resolvePronounsV2(bookSents)
+
+        print('..........')
+#        for s in epistropheSents:
+#            print(s)
+
         
-                bookSub.append(rs)
-
-        books.append((bookName, bookSub))
-
-    print('..........')
-
-    for b in books:
-
-        counter = Counter(b[1])
-
-
-        duplicates = list(filter(lambda x: x[1]>1, counter.items()))
-        if duplicates:
-            for item in duplicates:
-                print(f'{item[0]} - {item[1]}')
-        else:
-            print('No duplicates')
-
-        print('---')
+        
+        #for sentence in co
+#        bookList.append((bookName)
+#
+#        bookSub = []       
+#
+#        # sub = {"subject": word, "tag": tag, "count": +=1}
+#
+#        print('bookName:')
+#        print(bookName)
+#
+#        # Reduce dictionay to two keys
+#        
+#        for ss in corpus[1]:
+#            #for s in ss.taggedSent:
+#            #    print(s)
+#            print('inputSent:')
+#            print(ss.inputSent)
+#            print('taggedSent:')
+#            print(ss.taggedSent)
+#            print('type: ', ss.type)
+#            print('subjects: ', ss.subject)
+#            reducedSS = []
+#            for sub in ss.subject:
+#                print('sub: ', sub)
+#                
+#                reducedSub = {"word": sub["word"], "tag": sub["tag"]}
+#                reducedSS.append(reducedSub)
+#
+#            for rs in reducedSS:
+#                print('rs: ', rs)
+#        
+#                bookSub.append(rs)
+#
+#        inputBooks.append((bookName, bookSub))
+#
+#    print('..........')
+#
+#    for b in inputBooks:
+#        print(b)
+#        resList = []
+#        bookName = b[0]
+#        workingList = b[1].copy()
+#        processBookSubjects(workingList)
+#
+#        outputBooks.append((bookName, resList))
+#        resList = []
+#                             
+#
+#    print('..........')
+#
+#    for o in outputBooks:
+#        print(o)
+#    
+#
+#        counter = Counter(b[1])
+#
+#        duplicates = list(filter(lambda x: x[1]>1, counter.items()))
+#        if duplicates:
+#            for item in duplicates:
+#                print(f'{item[0]} - {item[1]}')
+#        else:
+#            print('No duplicates')
+#
+#        print('---')
     #my_dict = {i:MyList.count(i) for i in MyList}
 
 #    for b in books:
@@ -313,5 +433,5 @@ if __name__ == "__main__":
         with open('books/' + bookName + '.p', "wb") as f:
             pickle.dump(corpus[1], f)
     """    
-
-    print("Completed: processBooks.")
+    print('----------')
+    print("\nCompleted: processBooks.")

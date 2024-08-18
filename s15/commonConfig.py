@@ -768,34 +768,44 @@ class Sentence:
     def __init__(
         self,
         inputSent = None,
-        taggedSent = None,
+        taggedSentShort = None,
+        taggedSentLong = None,
         sType = None,
         sSubj = None,
         sVerb = None,
         sObj = None
         ):
         
-        self.inputSent  = inputSent
-        self.taggedSent = taggedSent
-        self.type       = sType
-        self.subject    = sSubj
-        self.verb       = sVerb
-        self.object     = sObj
+        self.inputSent       = inputSent
+        self.taggedSentShort = taggedSentShort
+        self.taggedSentLong  = taggedSentLong
+        self.type            = sType
+        self.subject         = sSubj
+        self.verb            = sVerb
+        self.object          = sObj
 
     # How instances of the class are serialized and deserialized
     def __reduce__(self):
-        return (self.__class__, (self.inputSent, self.taggedSent, self.type, self.subject, self.verb, self.object))
+        return (self.__class__, (self.inputSent, self.taggedSentShort, self.taggedSentLong, self.type, self.subject, self.verb, self.object))
 
     def printAll(self):
         print('inputSent: ', self.inputSent)
-        print('taggedSent: ')
-        for sent in self.taggedSent:
+        print('taggedSentShort: ')
+        for sent in self.taggedSentShort:
+            print(sent)
+        print('taggedSentLong: ')
+        for sent in self.taggedSentLong:
             print(sent)
         print('type     : ', self.type)
-        print('subject  : ', self.subject)
-        print('verb     : ', self.verb)
-        print('object   : ', self.object)
-
+        print('subject  : ')
+        for s in self.subject:
+            print(s)
+        print('verb     : ')
+        for v in self.verb:
+            print(v)
+        print('object   : ')
+        for o in self.object:
+            print(o)
         for i in validClassVars:
             if self.isVar(i):
                 x = 'self.' + i

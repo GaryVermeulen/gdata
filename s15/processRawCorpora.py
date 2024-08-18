@@ -321,7 +321,8 @@ def tagCorpora(expandedCorpora):
         taggedBookSents = []
 
         for sent in bookSents:
-            taggedSent = []
+            taggedSentLong = []
+            taggedSentShort = []
             sub = []
             obj = []
             verb = []
@@ -350,7 +351,7 @@ def tagCorpora(expandedCorpora):
                     dep_exp = "UNKNOWN"
                 warnings.resetwarnings()
 
-                taggedWord = {
+                taggedWordLong = {
                     "word": word,
                     "lemma": lemma,
                     "pos": pos,
@@ -361,14 +362,20 @@ def tagCorpora(expandedCorpora):
                     "dep_exp": dep_exp
                 }
 
+                taggedWordShort = {
+                    "word": word,
+                    "pos": pos,
+                    "tag": tag
+                }
+
                 # grab the verbs
                 if token.pos_ == "VERB":
                     #verb.append(token.text)
-                    verb.append(taggedWord)
+                    verb.append(taggedWordLong)
                     
                 # is this the object?
                 if token.dep_ in OBJECT_DEPS or token.head.dep_ in OBJECT_DEPS:
-                    obj.append(taggedWord)
+                    obj.append(taggedWordLong)
                 
                     #obj.append(token.text)
                     #print('token.text?: ', token.text)
@@ -378,7 +385,7 @@ def tagCorpora(expandedCorpora):
                     
                 # is this the subject?
                 if token.dep_ in SUBJECT_DEPS or token.head.dep_ in SUBJECT_DEPS:
-                    sub.append(taggedWord)
+                    sub.append(taggedWordLong)
                 
                     #sub.append(token.text)
                     #print('token.text?: ', token.text)
@@ -395,9 +402,10 @@ def tagCorpora(expandedCorpora):
                 #    "dep_exp": dep_exp
                 #}
 
-                taggedSent.append(taggedWord)
+                taggedSentLong.append(taggedWordLong)
+                taggedSentShort.append(taggedWordShort)
 
-                sentObj = Sentence(noHyphens, taggedSent, "TYPE UNK", sub, verb, obj)
+                sentObj = Sentence(noHyphens, taggedSentShort, taggedSentLong, "TYPE UNK", sub, verb, obj)
 
             taggedBookSents.append(sentObj)
 
