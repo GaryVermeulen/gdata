@@ -770,6 +770,7 @@ class Sentence:
         inputSent = None,
         taggedSentShort = None,
         taggedSentLong = None,
+        epistropheSent = None,
         sType = None,
         sSubj = None,
         sVerb = None,
@@ -779,6 +780,7 @@ class Sentence:
         self.inputSent       = inputSent
         self.taggedSentShort = taggedSentShort
         self.taggedSentLong  = taggedSentLong
+        self.epistropheSent  = epistropheSent
         self.type            = sType
         self.subject         = sSubj
         self.verb            = sVerb
@@ -786,7 +788,7 @@ class Sentence:
 
     # How instances of the class are serialized and deserialized
     def __reduce__(self):
-        return (self.__class__, (self.inputSent, self.taggedSentShort, self.taggedSentLong, self.type, self.subject, self.verb, self.object))
+        return (self.__class__, (self.inputSent, self.taggedSentShort, self.taggedSentLong, self.epistropheSent, self.type, self.subject, self.verb, self.object))
 
     def printAll(self):
         print('inputSent: ', self.inputSent)
@@ -795,6 +797,9 @@ class Sentence:
             print(sent)
         print('taggedSentLong: ')
         for sent in self.taggedSentLong:
+            print(sent)
+        print('epistropheSent: ')
+        for sent in self.epistropheSent:
             print(sent)
         print('type     : ', self.type)
         print('subject  : ')

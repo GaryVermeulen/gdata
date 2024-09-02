@@ -19,9 +19,16 @@ import pickle
 
 pickleFile = 'pickleJar/processedCorpora.p'
 booksRead = 'pickleJar/booksRead.p'
+pf = 'pickleJar/untaggedCorpora.p'
 
 #nlp = spacy.load("en_core_web_sm") # lg has best accuracy
 nlp = spacy.load("en_core_web_lg")
+
+
+def find_root(docu):
+    for token in docu:
+        if token.head is token:
+            return token
 
 
 def getRawCorpus():
@@ -29,7 +36,8 @@ def getRawCorpus():
     corpora = []
     corpusStr = ''
     progPath = os.getcwd()
-    dataPath = progPath + '/inputCorpora'
+    #dataPath = progPath + '/inputCorpora'
+    dataPath = progPath + '/treeTest'
     dirList = os.listdir(dataPath)
 
     print('Reading input file(s)...')
@@ -331,6 +339,11 @@ def tagCorpora(expandedCorpora):
 
             doc = nlp(' '.join(noHyphens))
 
+            root = find_root(doc)
+
+            print("ROOT: ", doc)
+            #print(root)
+
             # Extract minimal info to keep size down
             # This is most likely change
             # word.pos_, word.tag_, word.dep_, word.shape_, word.is_alpha, word.is_stop            
@@ -405,7 +418,7 @@ def tagCorpora(expandedCorpora):
                 taggedSentLong.append(taggedWordLong)
                 taggedSentShort.append(taggedWordShort)
 
-                sentObj = Sentence(noHyphens, taggedSentShort, taggedSentLong, [], "TYPE UNK", sub, verb, obj)
+                sentObj = Sentence(noHyphens, taggedSentShort, taggedSentLong, "TYPE UNK", sub, verb, obj)
 
             taggedBookSents.append(sentObj)
 

@@ -8,13 +8,15 @@ import pickle
 from collections import Counter
 from findSVO import findSVO
 from commonConfig import Sentence
+from resolvePronouns import resolvePronouns
 
-PCP = 'pickleJar/processedCorpora.p'
+
+pickleInputFile = 'pickleJar/processedCorpora.p'
 pickleFileOut = 'pickleJar/processedCorporaSVO.p'
 
 def loadPickleData():
 
-    with open(PCP, 'rb') as fp:
+    with open(pickleInputFile, 'rb') as fp:
         corpora = pickle.load(fp)
 #        print('Aunt Bee loaded corpora pickle.')
     fp.close()
@@ -35,7 +37,8 @@ def findSVOs(corpora):
         tmpCnt = 0
         for s in bookText:
             tmpCnt += 1
-            svoObj = findSVO(s.inputSent, s.taggedSentLong)
+            #svoObj = findSVO(s.inputSent, s.taggedSentLong)
+            svoObj = findSVO(s.inputSent, s.epistropheSent)
             objArr.append(svoObj)
             
         newCorpora.append((bookName, objArr))
@@ -74,6 +77,7 @@ def mergeCorpora(corpora, foundSVOs):
                             inputSent       = c_sentObj.inputSent
                             taggedSentShort = c_sentObj.taggedSentShort
                             taggedSentLong  = c_sentObj.taggedSentLong
+                            epistropheSent  = c_sentObj.epistropheSent
                             sType           = f_sentObj.type # Spacy does not provide basic sentence type
 
                             # Check for subjects
@@ -202,7 +206,7 @@ def mergeCorpora(corpora, foundSVOs):
                                         sObj.append(of)
                             #print('end object')
 
-                            new_bookSent = Sentence(inputSent, taggedSentShort, taggedSentLong, sType, sSubj, sVerb, sObj)
+                            new_bookSent = Sentence(inputSent, taggedSentShort, taggedSentLong, epistropheSent, sType, sSubj, sVerb, sObj)
                             new_bookSent.printAll()
 
                             new_bookSentObjs.append(new_bookSent)
@@ -225,10 +229,13 @@ if __name__ == "__main__":
 
     corpora = loadPickleData()
 
-    # First determine any missing subjects or objects
+    # Resolve pronouns
+    resolvedCorpora = resolvePronouns(corpora)
+
+    # Determine any missing subjects or objects
     # from both Spacy and findSVO, and merge.
 
-    newCorpora = findSVOs(corpora)
+    newCorpora = findSVOs(resolvedCorpora)
 
 #    for corpus in newCorpora:
 #        print(corpus[0])

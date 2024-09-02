@@ -34,11 +34,10 @@ def resolvePronouns(processedCorpora):
 
     for corpus in processedCorpora:
 
-        paragraphSubjectQueueMax = 5
-        # mappedSubjectQueue = (PRON, NNP)
-        mappedSubjectQueue = []
+        paragraphNounQueueMax = 5
+        mappedPronouns = []
     
-        paragraphSubjectQueue = []
+        paragraphNounQueue = []
         epistropheSents = []
 
         bookName = corpus[0]
@@ -60,17 +59,15 @@ def resolvePronouns(processedCorpora):
             #print('-----')
             #for taggedWord in sentObj.taggedSentShort:
 
-            print('+++++-----Top: ', sentCount)
+            print('-----Top: ', sentCount)
             print('taggedSentLong:')
             #print(sentObj.taggedSentLong)
             for w in sentObj.taggedSentLong:
                 print(w)
-            print('sentSubjectQueue:')
-            print(sentSubjectQueue)
-            print('mappedSubjectQueue:')
-            print(mappedSubjectQueue)
-            print('paragraphSubjectQueue:')
-            print(paragraphSubjectQueue)
+            print('mappedPronouns:')
+            print(mappedPronouns)
+            print('paragraphNounQueue:')
+            print(paragraphNounQueue)
 
             for taggedWord in sentObj.taggedSentLong:
                 #print('*** tagged word:')
@@ -84,27 +81,12 @@ def resolvePronouns(processedCorpora):
                 if (taggedWord['tag'] == 'NNP') and (taggedWord['dep'] == 'nsubj'):
                     currentSent_nsubj = taggedWord
                     sentSubjectQueue.append(taggedWord)
-                    paragraphSubjectQueue.append(taggedWord)
                     
                 # Pronoun found--can we replace it?
-                if (taggedWord['tag'] == 'PRP') and (taggedWord['dep'] == 'nsubj'):
-                    
+                if (taggedWord['tag'] == PRP) and (taggedWord['dep'] == 'nsubj'):
                     if len(sentSubjectQueue) > 0:
                         newWord = sentSubjectQueue.pop(0) # Blindly pop off the 1st in sent que
-                        mappedSubjectQueue.append((taggedWord, newWord))
-                        if newWord not in paragraphSubjectQueue:
-                            paragraphSubjectQueue.append(newWord)
-                    elif len(paragraphSubjectQueue) > 0:
-                        
-                        if len(paragraphSubjectQueue) > paragraphSubjectQueueMax:
-                            numToPop = range(len(paragraphSubjectQueue) - paragraphSubjectQueueMax)
-                            newWord = paragraphSubjectQueue(numToPop)
-                            mappedSubjectQueue.append((taggedWord, newWord))
-                        else:
-                            for i in range(len(paragraphSubjectQueue)):
-                                if paragraphSubjectQueue[i] == taggedWord:
-                                    
-                                
+                        mappedSubjectQueue.append(newWord)
 
 
                 """
@@ -258,10 +240,10 @@ def resolvePronouns(processedCorpora):
             print(sentObj.epistropheSent)
             print('sentObj.subject:')
             print(sentObj.subject)
-            print('sentSubjectQueue:')
-            print(sentSubjectQueue)
-            print('mappedSubjectQueue:')
-            print(mappedSubjectQueue)
+            print('sentNounQueue:')
+            print(sentNounQueue)
+            print('mappedPronouns:')
+            print(mappedPronouns)
             print('paragraphNounQueue:')
             print(paragraphNounQueue)
 

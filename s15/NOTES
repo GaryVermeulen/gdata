@@ -41,15 +41,15 @@ Current process order:
                                     
 2)
  processSVOs.py
- Supplement to Spacy--Find missing SVOs, merge, and save to pickle.
+ Resolves (attempts) to resolve pronouns to epistrophe sentences. 
+ Find missing SVOs (supplement to Spacy), merge, and save to pickle.
  
 3)
  processBooks.py
  Process each book, start comprehension processing.
   Process each sentence
-   Pronoun resolution
-   SVO validation
-   What words are unknown, get def's 
+   ?SVO validation
+   ?What words are unknown, get def's 
  
  
 

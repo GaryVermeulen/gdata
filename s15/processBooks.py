@@ -1,7 +1,5 @@
-# processSVOs.py
+# processBooks.py
 #
-# Supplement to Space; Find missing SVOs, and
-# check for consistency.
 
 
 import pickle
@@ -10,6 +8,7 @@ from commonUtils import connectMongo
 from scrapeWord import scrapeWord
 from resolvePronouns import resolvePronouns
 from resolvePronouns import resolvePronounsV2
+from tallyBookSubjects import tallyBookSubjects
 
 from collections import Counter
 
@@ -63,6 +62,8 @@ def loadPickleData():
 def search(searchValue, listOfDicts):
     return [element for element in listOfDicts if element['word'] == searchValue]
 
+def searchList(searchValue, workList):
+    return [element for element in workList if element[0] == searchValue]
 
 
 # Come to find out--must resolve pronouns first :-(
@@ -81,8 +82,9 @@ def processBookSubjects(inputList):
     for i in workList:
         print('i: ', i)
         
-        searchItem = i["word"]
-        tmpList = search(searchItem, workList)
+        searchItem = i[0]
+        #tmpList = search(searchItem, workList)
+        tmpList = searchList(searchItem, workList)
 
         tmpListLen = len(tmpList)
 
@@ -146,7 +148,11 @@ if __name__ == "__main__":
     bookList = []
     unknownWords = []
     knownWords = []
+    eBooks = []
+    oBooks = []
 
+    resList = []
+    
     mdb = connectMongo()
     simpDB = mdb["simp"]
     starterKB = simpDB["starterKB"]
@@ -176,6 +182,7 @@ if __name__ == "__main__":
         #print(corpus[0])
         bookName = corpus[0]
         bookSents = corpus[1]
+        workList = []
         print(bookName)
         print(bookSents)
 
@@ -187,251 +194,56 @@ if __name__ == "__main__":
         print('..........')
 
         epistropheSents = resolvePronouns(bookSents)
+        
+        print('len booksSents     : ', len(bookSents))
+        print('len epistropheSents: ', len(epistropheSents))
 #
-#        for s in epistropheSents:
-#            print(s)
-#
-        print('..........')
+        for s in epistropheSents:
+            #print(s.taggedSentShort)
+            print(s.epistropheSent)
+            #print("---")
+            for w in s.taggedSentShort:
+                print(w["word"], end =" ")
+
+            print("\n")
+            for w in s.epistropheSent:
+                print(w[0], end =" ")
+
+
+            print('\nSubjects:')
+            print(s.subject)
+                
+            #print(s.epistropheSent)
+            #workList.append(s.epistropheSent)
+            print('\n..........')
 
 #        epistropheSents = resolvePronounsV2(bookSents)
-
-        print('..........')
+#        print('..........')
 #        for s in epistropheSents:
 #            print(s)
-
-        
-        
-        #for sentence in co
-#        bookList.append((bookName)
-#
-#        bookSub = []       
-#
-#        # sub = {"subject": word, "tag": tag, "count": +=1}
-#
-#        print('bookName:')
-#        print(bookName)
-#
-#        # Reduce dictionay to two keys
-#        
-#        for ss in corpus[1]:
-#            #for s in ss.taggedSent:
-#            #    print(s)
-#            print('inputSent:')
-#            print(ss.inputSent)
-#            print('taggedSent:')
-#            print(ss.taggedSent)
-#            print('type: ', ss.type)
-#            print('subjects: ', ss.subject)
-#            reducedSS = []
-#            for sub in ss.subject:
-#                print('sub: ', sub)
-#                
-#                reducedSub = {"word": sub["word"], "tag": sub["tag"]}
-#                reducedSS.append(reducedSub)
-#
-#            for rs in reducedSS:
-#                print('rs: ', rs)
-#        
-#                bookSub.append(rs)
-#
-#        inputBooks.append((bookName, bookSub))
-#
-#    print('..........')
-#
-#    for b in inputBooks:
-#        print(b)
-#        resList = []
-#        bookName = b[0]
-#        workingList = b[1].copy()
-#        processBookSubjects(workingList)
-#
-#        outputBooks.append((bookName, resList))
-#        resList = []
-#                             
-#
-#    print('..........')
-#
-#    for o in outputBooks:
-#        print(o)
-#    
-#
-#        counter = Counter(b[1])
-#
-#        duplicates = list(filter(lambda x: x[1]>1, counter.items()))
-#        if duplicates:
-#            for item in duplicates:
-#                print(f'{item[0]} - {item[1]}')
-#        else:
-#            print('No duplicates')
-#
-#        print('---')
-    #my_dict = {i:MyList.count(i) for i in MyList}
-
-#    for b in books:
-#        print('b[0]: ', b[0])
-#        
-#        subCntDict = {i:b.count(i) for i in b}
-#
-#        print(subCntDict)
-
-
-
-    """
-    cleanBooks = []
-    for bs in books:
-        bn = bs[0]
-        tmpS = []
-        print('bs[0]: ', bs[0])
-        cnt = 0
-        for b in bs[1]:
-            cnt += 1
-            print('cnt b: ', cnt, b)
-            if b not in tmpS:
-                tmpS.append(b)
-        cleanBooks.append((bn, tmpS))
-
-    print('..........')
-
-    
-    for cb in cleanBooks:
-        print('cb[0]: ', cb[0])
-        cnt = 0
-        for c in cb[1]:
-            cnt += 1
-            print('cnt c: ', cnt, c)
-
-    """
-
-#                if sub not in bookSubjects:
-#                    bookSubjects.append(sub)
-#                    print("*** ADD: ", sub)
-#                else:
-#                    print("*** IN: ", sub)
-                    
-            #print('verb: ', ss.verb)
-            #print('object: ', ss.object)
-#            print()
-
-#        books.append((bookName, bookSubjects))
-
-#        print('-----')
-
-#    print("==========")
-#    for x in books:
-#        print(x[0])
-#        for y in x[1]:
-#            print(y)
-
-    """
-        bookBOW = createBookBOW(corpus[0], corpus[1])
-
-        print('-----')
-        
-        for i in bookBOW:
-            print(i[0])
-            print(i[1])
-        
-            for w in i[1]:
-                print('w: ', w)
-                wCap = w[0].capitalize()
-                tag = w[1]
-                print(wCap, tag)
-                query = {"word": wCap}
-
-                if tag in nnx:
-                    # starterKB words are mixed case i.e. NNPs are upper case while NNs are lower
-                    if tag in ['NN', 'NNS']: # Search for lower case
-                        query = {"word": w[0]}
-
-                    doc = list(starterKB.find(query))
-                    if len(doc) > 0:
-                        #for d in doc:
-                        #    print('d: ')
-                        #    print(d)
-                        print('{} found in starterKB using: {}'.format(w, query))
-                        knownWords.append(w)
-                    else:
-                        print('{} not found in starterKB using: {}'.format(w, query))
-                        unknownWords.append(w)
-
-                else:         
-                    doc = list(simpVocabulary.find(query))
-                    if len(doc) > 0:
-                        #for d in doc:
-                        #    print('d: ')
-                        #    print(d)
-                        print('{} found in simpVocabulary using: {}'.format(w, query))
-                        knownWords.append(w)
-                    else:
-                        print('{} not in simpVocabulary using: {}, searching simpDictionary'.format(w, query))
-                        dictDoc = list(simpDictionary.find(query))
-                        if len(dictDoc) > 0:
-                            #for d in dictDoc:
-                            #    print('d: ')
-                            #    print(d)
-                            #    x = simpVocabulary.insert_one(d)
-                            #    print('x: ', x)
-                            print('{} found in simpDictionary using: {}'.format(w, query))
-                            knownWords.append(w)
-                        else:
-                            print('{} not in simpDictionary using: {}, searching webDictionary'.format(w, query))
-                            webDictDoc = list(simpDictionary.find(query))
-                            if len(webDictDoc) > 0:
-                                #for d in webDictDoc:
-                                #    print('d: ')
-                                #    print(d)
-                                #    x = simpVocabulary.insert_one(d)
-                                #    print('x: ', x)
-                                print('{} found in webDictionary using: {}'.format(w, query))
-                                knownWords.append(w)
-                            else:
-                                print('{} not in webDictionary using: {}, searching web (scrapeWord)'.format(w, query))
-                                results = scrapeWord(w)
-                                if results == None:
-                                    print('scrapeWord retunred: None for:', w)
-                                    unknownWords.append(w)
-                                else:
-                                    print('scrapeWord retunred: {} for: {}'.format(len(results), w))
-                                    
-                                    #print('results:')
-                                    #for r in results:
-                                    #    print(r)
-                                    #    webDictionary.insert_one(r)
-                                    #    x = simpVocabulary.insert_one(r)
-                                    #    print('x: ', x)
-                                    knownWords.append(w)
-                        
-                        ###unknownWords.append(w)
-
-        print('-----')
-        for u in unknownWords:
-            print('unknown: ', u)
-
-        for k in knownWords:
-            print('known: ', k)
-            
-                
-    """    
-    """
-        print('-----')
-        # Inflections just do not have what we need...
+ 
+        # Both versions of resolvePronouns need work...
+        # Contiuning with what we have:
         #
-        print("Searching inflectionsCol:")
-        for u in unknownWords:
-            print('u: ', u)
-            query = {"word": u}
-            doc = list(inflectionsCol.find(query))
-            if len(doc) > 0:
-                for d in doc:
-                    print('d: ')
-                    print(d)
-            else:
-                print('Not in inflectionsCol')
 
-        print('-----')
-        # Save book
-        with open('books/' + bookName + '.p', "wb") as f:
-            pickle.dump(corpus[1], f)
-    """    
+        #for s in epistropheSents:
+        #    s.printAll()
+
+        if bookName == 'JimmysFirstDayOfSchool':
+            print('*** Before tally...********************************')
+            #tallyBookSubjects(epistropheSents)
+
+            #processBookSubjects(workList)
+
+            #for r in resList:
+            #    print('r: ', r)
+            
+            print('*** After tally...********************************')
+        else:
+            print('bookName: ', bookName)
+        
+            
+    
+        
     print('----------')
     print("\nCompleted: processBooks.")

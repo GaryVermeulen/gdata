@@ -58,9 +58,10 @@ if __name__ == "__main__":
 
 
     """        
-    # processedCorporaSVO
+    # processedCorporaSVO: processedCorporaSVO.p
+    # outputCorpora (resolved pronouns: resolvedPronuons.p)
     #
-    processedCorporaSVO = pickle.load(open('pickleJar/processedCorporaSVO.p', 'rb'))
+    processedCorporaSVO = pickle.load(open('pickleJar/resolvedPronuons.p', 'rb'))
 
     print('len processedCorporaSVO: ', len(processedCorporaSVO))
     print('type processedCorporaSVO: ', type(processedCorporaSVO))
