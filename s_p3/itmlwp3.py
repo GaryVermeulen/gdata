@@ -122,6 +122,7 @@ plt.ylabel("Second principal component")
 plt.show()
 """
 
+
 # In[21]:
 from sklearn.datasets import fetch_lfw_people
 
@@ -137,18 +138,18 @@ for target, image, ax in zip(people.target, people.images, axes.ravel()):
     ax.set_title(people.target_names[target])
 
 # In[22]:
-print("people.images.shape: {}".format(people.images.shape))
-print("Number of classes: {}".format(len(people.target_names)))
+#print("people.images.shape: {}".format(people.images.shape))
+#print("Number of classes: {}".format(len(people.target_names)))
     
 # In[23]:
 # count how often each target appears
 counts = np.bincount(people.target)
 
 # print counts next to target names
-for i, (count, name) in enumerate(zip(counts, people.target_names)):
-    print("{0:25} {1:3}".format(name, count), end='    ')
-    if (i + 1) % 3 == 0:
-        print()
+#for i, (count, name) in enumerate(zip(counts, people.target_names)):
+#    print("{0:25} {1:3}".format(name, count), end='    ')
+#    if (i + 1) % 3 == 0:
+#        print()
 
 # In[24]:
 ##mask = np.zeros(people.target.shape, dtype=np.bool)
@@ -172,7 +173,7 @@ from sklearn.model_selection import train_test_split
 
 X_train, X_test, y_train, y_test = train_test_split(
     X_people, y_people, stratify=y_people, random_state=0)
-
+"""
 # build a KNeighborsClassifier using one neighbor
 knn = KNeighborsClassifier(n_neighbors=1)
 knn.fit(X_train, y_train)
@@ -208,4 +209,14 @@ for i, (component, ax) in enumerate(zip(pca.components_, axes.ravel())):
               cmap='viridis')
     ax.set_title("{}. component".format((i + 1)))
 
+plt.show()
+"""
+
+# In[34]:
+#mglearn.plots.plot_nmf_illustration()
+#plt.show()
+
+
+# In[35]:
+mglearn.plots.plot_nmf_faces(X_train, X_test, image_shape)
 plt.show()
