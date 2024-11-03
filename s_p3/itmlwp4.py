@@ -100,7 +100,7 @@ demo_df['Integer Feature'] = demo_df['Integer Feature'].astype(str)
 
 print(pd.get_dummies(demo_df, columns=['Integer Feature', 'Categorical Feature']))
 """
-
+"""
 # In[11]:
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
@@ -110,7 +110,7 @@ X, y = mglearn.datasets.make_wave(n_samples=100)
 line = np.linspace(-3, 3, 1000, endpoint=False).reshape(-1, 1)
 
 reg = DecisionTreeRegressor(min_samples_split=3).fit(X, y)
-
+"""
 """
 plt.plot(line, reg.predict(line), label="decision tree")
 reg = LinearRegression().fit(X, y)
@@ -368,7 +368,7 @@ plt.xlabel("Value")
 score = Ridge().fit(X_train_log, y_train).score(X_test_log, y_test)
 print("Test score: {:.3f}".format(score))
 """
-
+"""
 # In[39]:
 from sklearn.datasets import load_breast_cancer
 from sklearn.feature_selection import SelectPercentile
@@ -384,7 +384,8 @@ noise = rng.normal(size=(len(cancer.data), 50))
 # the first 30 features are from the dataset, the next 50 are noise
 X_w_noise = np.hstack([cancer.data, noise])
 X_train, X_test, y_train, y_test = train_test_split(X_w_noise, cancer.target, random_state=0, test_size=.5)
-
+"""
+"""
 # use f_classif (the default) and SelectPercentile to select 50% of features
 select = SelectPercentile(percentile=50)
 select.fit(X_train, y_train)
@@ -418,3 +419,137 @@ print("Score with all features: {:.3f}".format(lr.score(X_test, y_test)))
 lr.fit(X_train_selected, y_train)
 
 print("Score with only selected features: {:.3f}".format(lr.score(X_test_selected, y_test)))
+"""
+"""
+# In[42]:
+from sklearn.feature_selection import SelectFromModel
+from sklearn.ensemble import RandomForestClassifier
+
+select = SelectFromModel(RandomForestClassifier(n_estimators=100, random_state=42), threshold="median")
+
+# In[43]:
+select.fit(X_train, y_train)
+
+X_train_l1 = select.transform(X_train)
+
+print("X_train.shape: {}".format(X_train.shape))
+print("X_train_l1.shape: {}".format(X_train_l1.shape))
+"""
+"""
+# In[44]:
+mask = select.get_support()
+
+# visualize the mask -- black is True, white is False
+plt.matshow(mask.reshape(1, -1), cmap='gray_r')
+plt.xlabel("Sample index")
+
+#plt.show()
+
+from sklearn.linear_model import LogisticRegression
+# In[45]:
+X_test_l1 = select.transform(X_test)
+score = LogisticRegression().fit(X_train_l1, y_train).score(X_test_l1, y_test)
+print("Test score: {:.3f}".format(score)) # Was 0.930
+"""
+"""
+# In[46]:
+from sklearn.feature_selection import RFE
+
+select = RFE(RandomForestClassifier(n_estimators=100, random_state=42), n_features_to_select=40)
+select.fit(X_train, y_train)
+
+# visualize the selected features:
+mask = select.get_support()
+plt.matshow(mask.reshape(1, -1), cmap='gray_r')
+plt.xlabel("Sample index")
+
+#plt.show()
+
+from sklearn.linear_model import LogisticRegression
+# In[47]:
+X_train_rfe= select.transform(X_train)
+X_test_rfe= select.transform(X_test)
+score = LogisticRegression().fit(X_train_rfe, y_train).score(X_test_rfe, y_test)
+print("Test score: {:.3f}".format(score)) # Got same (from above) 0.930
+
+# In[48]:
+print("Test score: {:.3f}".format(select.score(X_test, y_test))) # 0.951 ???
+"""
+"""
+# In[49]:
+citibike = mglearn.datasets.load_citibike()
+
+# In[50]:
+print("Citi Bike data:\n{}".format(citibike.head()))
+
+# In[51]:
+plt.figure(figsize=(10, 3))
+xticks = pd.date_range(start=citibike.index.min(), end=citibike.index.max(), freq='D')
+"""
+"""
+plt.xticks(xticks, xticks.strftime("%a %m-%d"), rotation=90, ha="left")
+plt.plot(citibike, linewidth=1)
+plt.xlabel("Date")
+plt.ylabel("Rentals")
+
+plt.show()
+"""
+"""
+# In[52]:
+# extract the target values (number of rentals)
+y = citibike.values
+# convert the time to POSIX time using "%s"
+# X = citibike.index.strftime("%s").astype("int").reshape(-1, 1)
+X = citibike.index.strftime("%s").astype("int").values.reshape(-1, 1)
+
+# In[54]:
+# use the first 184 data points for training, and the rest for testing
+n_train = 184
+
+# function to evaluate and plot a regressor on a given feature set
+def eval_on_features(features, target, regressor):
+    # split the given features into a training and a test set
+    X_train, X_test = features[:n_train], features[n_train:]
+    # also split the target array
+    y_train, y_test = target[:n_train], target[n_train:]
+    regressor.fit(X_train, y_train)
+    
+    print("Test-set R^2: {:.2f}".format(regressor.score(X_test, y_test)))
+    
+    y_pred = regressor.predict(X_test)
+    y_pred_train = regressor.predict(X_train)
+    
+    plt.figure(figsize=(10, 3))
+    plt.xticks(range(0, len(X), 8), xticks.strftime("%a %m-%d"), rotation=90, ha="left")
+    plt.plot(range(n_train), y_train, label="train")
+    plt.plot(range(n_train, len(y_test) + n_train), y_test, '-', label="test")
+    plt.plot(range(n_train), y_pred_train, '--', label="prediction train")
+    plt.plot(range(n_train, len(y_test) + n_train), y_pred, '--',
+    label="prediction test")
+    plt.legend(loc=(1.01, 0))
+    plt.xlabel("Date")
+    plt.ylabel("Rentals")
+
+# In[55]:
+from sklearn.ensemble import RandomForestRegressor
+
+regressor = RandomForestRegressor(n_estimators=100, random_state=0)
+plt.figure()
+eval_on_features(X, y, regressor)
+
+#plt.show()
+
+# In[56]:
+X_hour = citibike.index.hour.values.reshape(-1, 1)
+eval_on_features(X_hour, y, regressor)
+
+#plt.show()
+
+# In[57]:
+X_hour_week = np.hstack([citibike.index.dayofweek.values.reshape(-1, 1),
+citibike.index.hour.values.reshape(-1, 1)])
+eval_on_features(X_hour_week, y, regressor)
+
+plt.show()
+"""
+
