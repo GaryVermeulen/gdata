@@ -82,8 +82,12 @@ if __name__ == "__main__":
     for key, val in newDict.items():
         print('key: ', key)
         print('val: ', val)
+
+
         
     with open("upDownLevel.p", "wb") as f:
         pickle.dump(newDict, f)
     f.close()
+
+    
 
