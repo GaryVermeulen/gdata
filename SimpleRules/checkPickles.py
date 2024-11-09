@@ -24,15 +24,18 @@ if __name__ == "__main__":
 
         p = pickle.load(open(pFile, 'rb'))
 
-        print('p: ', p)
-
         print('len p: ', len(p))
         print('type p: ', type(p))
 
-        #for i in p:
-        #    print(p)
-            
+        if type(p) is dict:
+            for k, v in p.items():
+                print("Key: {}; Value: {}".format(k, v))
+        elif type(p) is list:
+            for item in p:
+                print(item)
+        else:
+            print(p)
     else:
-        print("Current directory is empty.")
+        print("Current directory is empty (No pickles found).")
 
     

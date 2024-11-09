@@ -7,10 +7,11 @@ import pickle
 import sys
 
 class accumulateFacts:
-    def __init__(self, name, limitName, limit, units, descriptor, value, result):
+    def __init__(self, name, limitName, limitMin, limitMax, units, descriptor, value, result):
         self.name = name
         self.limitName = limitName
-        self.limit = limit
+        self.limitMin = limitMin
+        self.limitMax = limitMax
         self.units = units
         self.descriptor = descriptor
         self.value = value
@@ -18,13 +19,13 @@ class accumulateFacts:
              
     def isGreater(self):
         if isinstance(self.value, float):
-            if self.value > self.limit:
+            if self.value > self.limitMax:
                 return True
         return False
 
     def isLess(self):
         if isinstance(self.value, float):
-            if self.value < self.limit:
+            if self.value < self.limitMin:
                 return True
         return False
 
@@ -36,22 +37,23 @@ class accumulateFacts:
 
     def whatIsValue(self):
         if self.isGreater():
-            print('value: {} isGreater than limit: {}'.format(self.value, self.limit))
+            print('value: {} isGreater than limitMax: {}'.format(self.value, self.limitMax))
             self.result = "Greater"
         elif self.isLess():
-            print('value: {} isLess than limit: {}'.format(self.value, self.limit))
+            print('value: {} isLess than limitMin: {}'.format(self.value, self.limitMin))
             self.result = "Less"
         elif self.isEqual():
             print('value: {} isEqual to limit: {}'.format(self.value, self.limit))
             self.result = "Equal"
         else:
-            print('value: {} is unknown; limit {}'.format(self.value, self.limit))
+            print('value: {} is unknown; limitMin: {}; limitMax: {}'.format(self.value, self.limitMin, self.limitMax))
         return
 
     def printAll(self):
         print('name: ', self.name)
         print('limitName: ', self.limitName)
-        print('limit: ', self.limit)
+        print('limitMin: ', self.limitMin)
+        print('limitMax: ', self.limitMax)
         print('units: ', self.units)
         print('descriptor: ', self.descriptor)
         print('value: ', self.value)
@@ -71,18 +73,28 @@ def findLimit(descriptor):
     for l in limits:
         if l["descriptor"] == descriptor:
             return l
+        elif descriptor in l["descriptor"]:
+            return l
 
     return limit
 
 
 if __name__ == "__main__":
 
-    #seaLevel = 0
+    """
     thingName = "Mount Hood"
     thingValue = 11249.0
-    thingDescriptor = 'height'
-    #grave = -6
-    #nan = "not a number"
+    thingDescriptor = 'elevation'
+    """
+    """
+    thingName = "grave"
+    thingValue = -6.0
+    thingDescriptor = 'depth'
+    """
+
+    thingName = "ice"
+    thingValue = 30.0
+    thingDescriptor = 'temperature'
 
     limit = findLimit(thingDescriptor)
 
@@ -90,11 +102,13 @@ if __name__ == "__main__":
         sys.exit("limit for: {} Not found.".format(thingDescriptor))
     else:
         print("descriptor limit found: ", limit)
-        first_key = next(iter(limit))
-        val = limit[first_key]
-        print('first key: {}; value: {}'.format(first_key, val))
+        limitMin = limit["min"]
+        limitMax = limit["max"]
+        #first_key = next(iter(limit))
+        #val = limit[first_key]
+        #print('first key: {}; value: {}'.format(first_key, val))
 
-    factObj = accumulateFacts(None, None, None, None, None, None, None)
+    factObj = accumulateFacts(None, None, None, None, None, None, None, None)
     
     factObj.printAll()
     factObj.whatIsValue()
@@ -102,8 +116,9 @@ if __name__ == "__main__":
     print('------------')
 
     factObj.name = thingName
-    factObj.limitName = first_key
-    factObj.limit = val
+    factObj.limitName = limit["name"]
+    factObj.limitMin = limitMin
+    factObj.limitMax = limitMax
     factObj.units = limit["units"]
     factObj.descriptor = thingDescriptor
     factObj.value = thingValue
