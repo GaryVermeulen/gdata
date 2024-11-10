@@ -1,0 +1,6 @@
+﻿# s16 variant 
+# Yet another approach to the Simple-Ton project
+# New: November 10, 2024
+#
+ 
+
