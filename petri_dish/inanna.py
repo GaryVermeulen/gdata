@@ -49,8 +49,12 @@ def replicate():
         repFile.close()
 
         print("Starting replicated file: ", repName)
+
+        callStr = "gnome-terminal", "-x", "sh", "-c", "python3 " + repName + "; bash"
         
-        call(["gnome-terminal", "-x", "sh", "-c", "python3 ", repName, "; bash"])
+        #call(["gnome-terminal", "-x", "sh", "-c", "python3 ", repName, "; bash"])
+
+        call(callStr)
         
     else:
         print("Unknown input value, replicate file not changed.")
