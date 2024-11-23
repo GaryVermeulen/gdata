@@ -1,0 +1,157 @@
+# cellAdd.py
+#
+# New: Cell program test, just add by 2 for 2 minutes
+# Ver2: Isolate add into a function module that can be modified while running
+#
+
+import os
+import sys
+import time
+import shutil
+import random
+import importlib
+from subprocess import call
+
+cwd = os.getcwd()
+if cwd == "/home/gary/src/petri_dish":
+    from cellFunction import cellFunction
+else:
+    from .. import cellFunction
+
+
+def readFile():
+
+    inFile = open("myInputFile.txt", "r")
+    inNum = int(inFile.read())
+    inFile.close()
+
+    return inNum
+
+
+def writeLog(outNum):
+
+    whoami = __file__
+    baseStr = whoami[:-3] # remove the .py
+    newStr = baseStr + ".log"
+    outFile = open(newStr, "a")
+    outFile.writelines(str(outNum))
+    outFile.close()
+
+    return
+
+
+def readRepFile():
+    # Read current value
+    repFile = open("repFile.txt", "r")
+    repValue = int(repFile.read())
+    repFile.close()
+
+    if repValue != 0:
+        # Reset to non-zero, so as not to replicate forever
+        repFile = open("repFile.txt", "w")
+        repFile.writelines(str(0))
+        repFile.close()
+    
+    return repValue
+
+
+def replicate(num):
+
+    pid = os.getpid()
+    whoami = __file__
+    testChar = "/"
+    testStr = "replicants"
+
+    if testStr in whoami:
+        res = [i for i in range(len(whoami)) if whoami.startswith(testChar, i)]
+        newStr = whoami[:res[-1]]
+        newFile = newStr + "/rep" + str(pid) + "-" + str(num) + ".py"
+        print("newFile (is replicant): ", newFile)
+    else:
+        res = [i for i in range(len(whoami)) if whoami.startswith(testChar, i)]
+        newStr = whoami[:res[-1]]
+        newFile = newStr + "/replicants/rep" + str(pid) + "-" + str(num) + ".py"
+        print("newFile (to replicants): ", newFile)
+
+    # Create file and place in replicants folder
+    shutil.copyfile(whoami, newFile)
+
+    print("Starting replicated file: ", newFile)
+
+    callStr = "gnome-terminal", "-x", "sh", "-c", "python3 " + newFile + "; bash"
+    call(callStr)
+    
+    return
+
+
+if __name__ == "__main__":
+
+    MAXPOP = 50
+
+    newNum = 0
+    myInput = 0
+    newInput = 0
+    
+    start_time = time.time()
+    end_time = start_time + 120  # 2 minutes in seconds
+
+    # cellFunction.py modified time
+    mTimeStart = os.path.getmtime("cellFunction.py")
+    print("cellFunction.py modified time: ", mTimeStart)
+    
+    # Starting point
+    myInput = readFile()
+    newNum = myInput
+
+    while time.time() < end_time:
+        # Has inputFile been mutated?
+        newInput = readFile()
+        if newInput != myInput:
+            myInput = newInput
+            newNum = newInput
+
+        # Trying self-replication (typical max loop count is 240)
+        random_int = random.randint(1, 240)
+        if (random_int == newNum) or (newNum == 200): # One free replication at 300
+            if (newNum == 200): # Reduce odds with "coin flip"
+                random_coin = random.randint(0, 1)
+                if random_coin == 1:
+                    print("Won 200 coin toss, replicate. ", random_coin)
+                    replicate(newNum)
+                else:
+                    print("Lost 200 coin toss, no replication. ", random_coin)
+            else:
+                print("Replicating randomly at: ", random_int)
+                replicate(newNum)
+        else:
+            print("Random int: ", random_int)
+        
+        # Has the timestamp changed?
+        mTimeNow = os.path.getmtime("cellFunction.py")
+
+        if mTimeStart < mTimeNow:
+            print("Start time < time now")
+            #importlib.reload(cellFunction) # For some unkonwn reason throws an error
+            # Hack
+            del sys.modules['cellFunction']
+            from cellFunction import cellFunction
+            print("!Re-imported cellFunction")
+            mTimeStart = mTimeNow
+            
+        print('Running: myInput: {}  newInput: {}  newNum: {}'.format(myInput, newInput, newNum))
+
+        # Principal cell function
+        newNum = cellFunction(newNum)
+        #newNum = myFunction(newNum)
+        #newNum = newNum + 2
+
+        # Write to log
+        writeLog('myInput: ' + str(myInput) +  ' newInput: ' + str(newInput) + ' newNum: ' + str(newNum) + "\n")
+        
+        time.sleep(1) # Small delay to reduce excessive CPU usage
+
+        # Over population?
+        directory = "/home/gary/src/petri_dish/replicants"
+        population = len([f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))])
+        if population > MAXPOP:
+            sys.exit("Max Population Exceeded: " + str(population))
