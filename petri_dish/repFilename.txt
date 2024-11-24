@@ -1,1 +1,0 @@
-/home/gary/src/petri_dish/replicants/rep160.py
