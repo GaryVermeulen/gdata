@@ -36,8 +36,8 @@ if __name__ == "__main__":
 
     for f in fileList:
         if f[-3:] == "log":
-            print('-----')
-            print(f)
+            #print('-----')
+            #print(f)
 
             contents = getFile(f)
 
@@ -48,10 +48,7 @@ if __name__ == "__main__":
             reducedLines = []
             for l in contents:
                 #print(l)
-
                 lineList = l.split(',')
-                
-                
                 
                 if lineList[-1] == "True":
                     #print("TRUE")
@@ -67,7 +64,7 @@ if __name__ == "__main__":
 
                 lineList.append(round(P))
 
-                print(lineList)
+                #print(lineList)
 
                 listOfLines.append(lineList)
 
@@ -76,8 +73,8 @@ if __name__ == "__main__":
     print('---------')
     print(len(files))
 
-    print(files[-1][0])
-    print(files[-1][1][-1])
+   # print(files[-1][0])
+    #print(files[-1][1][-1])
 
     # Save this gen's log files
     print('Saving this generation\'s logs to pickle...')
@@ -88,46 +85,17 @@ if __name__ == "__main__":
     print('Pickle saved.')
 
     print('---------')
-    #print(len(filesBrief))
 
-    #print(filesBrief[0])
-    #highestP = 0
-    #for f in filesBrief:
-    #    print('---')
-    #    print(f)
-    #    print(f[0])
-    #    print(f[1])
-    #    print('---')
+    for f in files:
+        print(f[0])
+        print(f[1][-1])
+        filesBrief.append((f[0], f[1][-1]))
+        #for l in f[1]:
+        #    print(l)
 
-        # Keep if over 40%
-        #if f[1][-1] > 40:
-        #    print("KEEP: ", f[1][2], f[1][-1])
-        #    keepers.append((f[1][2], f[1][-1]))
-        #    print(keepers)
-        #else:
-        #    print("DROP")
 
-        # Keep the highest %
-        #if f[1][-1] > highestP:
-        #    highestP = f[1][-1]
-        #    keeper = [(f[1][3], f[1][-1])]
+    print('---------')
+    print(len(filesBrief))
 
-    #print("Keeper: ", keeper)
-    #print(keeper[0][0])
-
-    #ans = input("Mutate & set DNA1 to keeper <Y/n>? ")
-    #if ans in ['Y', 'y']:
-        # Set keeper to cell1DNA.py
-        #shutil.copyfile(keeper[0][0], 'cell1DNA.py')
-        #print("file copied...")
-
-        # Mutate newCodeFile.txt 
-        #mutate(keeper[0][0]) # Send the highestP for enhancement
-    
-    #print("last keeper: ", keepers[-1])
-    #        
-    #mutate(keepers[-1][0])
-
-    #for k in keepers:
-    #    tmp = k
-    
+    for f in filesBrief:
+        print(f)
